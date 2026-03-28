@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_Make__scenarios_update"
+    ]
+  }
+}

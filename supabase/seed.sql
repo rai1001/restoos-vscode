@@ -1,0 +1,3 @@
+-- RestoOS seed.sql
+-- Demo data se carga con: supabase db execute --file supabase/seeds/culuca_demo.sql
+-- (después de crear el usuario: supabase auth admin create-user --email chisco@culuca.com --password culuca2026)

@@ -1,0 +1,125 @@
+import { createClient } from "@/lib/db/client";
+import type {
+  InviteMemberInput,
+  ActiveHotel,
+  Membership,
+  Profile,
+} from "@/contracts/schemas/identity.schema";
+
+const supabase = createClient();
+
+export const authService = {
+  async signInWithEmail(email: string, password: string) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) throw error;
+    return data;
+  },
+
+  async signUp(email: string, password: string, fullName: string) {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { full_name: fullName } },
+    });
+    if (error) throw error;
+    return data;
+  },
+
+  async signOut() {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+  },
+
+  async getProfile(): Promise<Profile | null> {
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .single();
+    if (error) return null;
+    return data;
+  },
+
+  async updateProfile(input: { full_name?: string; phone?: string }) {
+    const { data, error } = await supabase
+      .from("profiles")
+      .update(input)
+      .eq("id", (await supabase.auth.getUser()).data.user?.id ?? "")
+      .select()
+      .single();
+    if (error) throw error;
+    return data;
+  },
+
+  async getActiveHotel(userId: string): Promise<ActiveHotel | null> {
+    const { data, error } = await supabase.rpc("get_active_hotel", {
+      p_user_id: userId,
+    });
+    if (error) throw error;
+    if (!data || Object.keys(data).length === 0) return null;
+    return data as ActiveHotel;
+  },
+
+  async switchHotel(userId: string, hotelId: string) {
+    const { data, error } = await supabase.rpc("switch_active_hotel", {
+      p_user_id: userId,
+      p_hotel_id: hotelId,
+    });
+    if (error) throw error;
+    return data;
+  },
+
+  async getMyMemberships(): Promise<Membership[]> {
+    const { data, error } = await supabase
+      .from("memberships")
+      .select("*")
+      .eq("is_active", true);
+    if (error) throw error;
+    return data ?? [];
+  },
+
+  async getHotelMembers(hotelId: string) {
+    const { data, error } = await supabase
+      .from("memberships")
+      .select("*, profiles(full_name, avatar_url)")
+      .eq("hotel_id", hotelId)
+      .eq("is_active", true);
+    if (error) throw error;
+    return data ?? [];
+  },
+
+  async inviteMember(hotelId: string, input: InviteMemberInput) {
+    const { data, error } = await supabase.rpc("invite_member", {
+      p_hotel_id: hotelId,
+      p_email: input.email,
+      p_role: input.role,
+    });
+    if (error) throw error;
+    return data;
+  },
+
+  async updateMemberRole(
+    hotelId: string,
+    targetUserId: string,
+    newRole: string
+  ) {
+    const { data, error } = await supabase.rpc("update_member_role", {
+      p_hotel_id: hotelId,
+      p_target_user_id: targetUserId,
+      p_new_role: newRole,
+    });
+    if (error) throw error;
+    return data;
+  },
+
+  async deactivateMember(hotelId: string, targetUserId: string) {
+    const { data, error } = await supabase.rpc("deactivate_member", {
+      p_hotel_id: hotelId,
+      p_target_user_id: targetUserId,
+    });
+    if (error) throw error;
+    return data;
+  },
+};

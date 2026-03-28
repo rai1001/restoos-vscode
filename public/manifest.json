@@ -1,0 +1,48 @@
+{
+  "name": "RestoOS",
+  "short_name": "RestoOS",
+  "description": "Sistema de gestión integral para restaurantes independientes",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food", "business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Nueva receta",
+      "url": "/recipes/new",
+      "description": "Crear una nueva receta"
+    },
+    {
+      "name": "Reservas",
+      "url": "/reservations",
+      "description": "Ver reservas del día"
+    },
+    {
+      "name": "APPCC",
+      "url": "/appcc",
+      "description": "Registros de seguridad alimentaria"
+    }
+  ]
+}

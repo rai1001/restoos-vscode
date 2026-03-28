@@ -1,0 +1,32 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "next-dev",
+      "runtimeExecutable": "node.exe",
+      "runtimeArgs": ["C:/RestoOsvscode/node_modules/next/dist/bin/next", "dev"],
+      "port": 3002,
+      "autoPort": true,
+      "env": {
+        "SKIP_AUTH": "true",
+        "NEXT_PUBLIC_SKIP_AUTH": "true",
+        "NEXT_PUBLIC_SUPABASE_URL": "http://127.0.0.1:54321",
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY": "sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH",
+        "NEXT_PUBLIC_APP_URL": "http://localhost:3002"
+      }
+    },
+    {
+      "name": "next-start",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["node_modules/.bin/next", "start"],
+      "port": 3000
+    },
+    {
+      "name": "remotion-studio",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["node_modules/.bin/remotion", "studio", "src/remotion/index.ts"],
+      "port": 3100,
+      "autoPort": true
+    }
+  ]
+}

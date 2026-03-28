@@ -1,0 +1,179 @@
+# ChefOS — Changelog
+
+> Historial completo de cambios para el equipo de desarrollo.
+> Formato: [Tipo] Descripción | Archivos clave
+
+---
+
+## Sprint G3 — IA & Automatización (2026-03-17)
+
+### ✨ OCR Albaranes (`feat: OCR albaranes — Mistral Vision`)
+Escanea albaranes de proveedor con IA y auto-rellena órdenes de compra.
+
+| Archivo | Descripción |
+|---------|-------------|
+| `src/app/api/ocr-albaran/route.ts` | Endpoint POST — Mistral pixtral-12b-2409, mock si no hay API key |
+| `src/features/procurement/components/ocr-albaran-dialog.tsx` | Dialog drag&drop, preview imagen, tabla de resultados |
+| `src/app/(dashboard)/procurement/orders/page.tsx` | Botón "OCR Albarán" añadido al header |
+
+**Uso:** Botón "OCR Albarán" en `/procurement/orders` → arrastra foto del albarán → IA extrae proveedor, productos, cantidades, precios → "Aplicar al pedido".
+**API key requerida:** `MISTRAL_API_KEY` en `.env.local`. Sin ella, usa datos de demo.
+
+### ✨ Briefing Diario IA (`feat: briefing diario IA — Gemini`)
+Genera un resumen ejecutivo de cocina bajo demanda.
+
+| Archivo | Descripción |
+|---------|-------------|
+| `src/app/api/briefing/route.ts` | Endpoint POST — Gemini 1.5 Flash, mock si no hay API key |
+| `src/features/dashboard/components/briefing-widget.tsx` | Widget con botón "Generar briefing" |
+| `src/app/(dashboard)/page.tsx` | BriefingWidget añadido al dashboard |
+
+**Uso:** Dashboard → "Generar briefing" → análisis de eventos, tareas, stock, food cost del día.
+**API key requerida:** `GEMINI_API_KEY` en `.env.local`.
+
+---
+
+## Sprint G2 — PWA + Tablet UX (2026-03-17)
+
+### ✨ Reports PDF/CSV (`feat: reports PDF/CSV`)
+4 tipos de informes exportables como CSV o imprimibles como PDF.
+
+| Archivo | Descripción |
+|---------|-------------|
+| `src/app/(dashboard)/reports/page.tsx` | Página con 4 tabs de informes |
+| `src/features/reporting/report-mock-data.ts` | Datos mock tipados (sustituir por Supabase) |
+| `src/lib/reports.ts` | `exportCSV()`, `printReport()`, `formatCurrency()` |
+
+**Informes disponibles:**
+- **Food Cost** — por período, con % color-coded (verde ≤30%, amarillo ≤35%, rojo >35%)
+- **Compras** — por proveedor y categoría
+- **Rentabilidad eventos** — coste teórico vs real, margen
+- **Mermas** — por producto y motivo
+
+### ✨ Tablet UX (`feat: tablet UX`)
+Sidebar colapsable, FAB y header móvil.
+
+| Archivo | Descripción |
+|---------|-------------|
+| `src/lib/sidebar-context.tsx` | Context `collapsed` + `mobileOpen`, persiste en localStorage |
+| `src/components/sidebar.tsx` | Modo icon-only (w-16) con tooltips, overlay móvil |
+| `src/components/dashboard-shell.tsx` | Shell cliente que ajusta `pl-64↔pl-16` dinámicamente |
+| `src/components/mobile-header.tsx` | Header hamburger para móvil/tablet (`lg:hidden`) |
+| `src/components/fab.tsx` | FAB naranja con 3 acciones rápidas (`lg:hidden`) |
+| `src/app/(dashboard)/layout.tsx` | Envuelve con `SidebarProvider` |
+
+**Comportamiento:**
+- **Desktop (lg+):** Sidebar fijo, botón ChevronLeft para colapsar a iconos
+- **Tablet (md-lg):** Sidebar colapsado por defecto, hover expande
+- **Móvil (<md):** Sidebar oculto, hamburger lo abre como overlay
+
+### ✨ PWA (`feat: command palette + PWA`)
+ChefOS instalable como app nativa en iPad/Android.
+
+| Archivo | Descripción |
+|---------|-------------|
+| `public/manifest.json` | Web App Manifest con shortcuts |
+| `public/sw.js` | Service Worker — network-first nav, cache-first assets |
+| `public/icons/icon.svg` | Icono SVG (chef hat naranja sobre fondo oscuro) |
+| `src/components/pwa-register.tsx` | Registra SW, toast de actualización disponible |
+| `src/components/pwa-install-prompt.tsx` | Banner "Instalar ChefOS" en móvil/tablet |
+| `src/app/layout.tsx` | Metadata manifest + appleWebApp, PWA components |
+
+**Nota:** Genera `public/icons/icon-192.png` y `icon-512.png` con squoosh.app o sharp para máxima compatibilidad.
+
+### ✨ Command Palette ⌘K (`feat: command palette`)
+Búsqueda y navegación global por teclado.
+
+| Archivo | Descripción |
+|---------|-------------|
+| `src/components/command-palette.tsx` | Overlay con búsqueda fuzzy, 8 resultados |
+| `src/components/command-palette-provider.tsx` | Context + shortcut global `Ctrl+K`/`Cmd+K` |
+| `src/lib/command-palette-data.ts` | 23 rutas de navegación + 5 recetas mock |
+| `src/lib/providers.tsx` | `CommandPaletteProvider` añadido |
+| `src/components/sidebar.tsx` | Botón "Buscar..." con hint `⌘K` |
+
+**Atajos:** `Ctrl+K` / `Cmd+K` abre · `↑↓` navega · `Enter` abre · `Esc` cierra
+
+---
+
+## Sprint G1 completado (2026-03-17)
+
+### ✨ Voz en formularios (`feat: voice input`)
+Web Speech API para dictado en español sin API key.
+
+| Archivo | Descripción |
+|---------|-------------|
+| `src/hooks/use-voice-input.ts` | Hook SpeechRecognition, es-ES, tipos inline |
+| `src/lib/voice-parser.ts` | Parser NLP español: recetas, ingredientes, inventario |
+| `src/components/voice-mic-button.tsx` | Botón micrófono animado, graceful degradation |
+| `src/app/(dashboard)/recipes/new/page.tsx` | Panel de dictado → rellena campos del form |
+| `src/app/(dashboard)/escandallo/page.tsx` | "Dictar ingrediente" en DetailDialog |
+| `src/features/inventory/components/waste-record-form.tsx` | "Dictar merma" en dialog |
+
+**Ejemplos de dictado:**
+- Recetas: *"Risotto de setas, principal, cuatro raciones, 20 minutos de preparación"*
+- Ingredientes: *"300 gramos de harina de trigo"*
+- Mermas: *"2 kilos de ternera por caducidad"*
+
+### ✨ E2E Tests + CI/CD (`feat: Playwright + GitHub Actions`)
+
+| Archivo | Descripción |
+|---------|-------------|
+| `e2e/*.spec.ts` | 5 specs: auth, navigation, dashboard, recipes, events |
+| `playwright.config.ts` | Config Chromium, port 3001, CI retries |
+| `.github/workflows/ci.yml` | 4 jobs: typecheck → build → vitest → playwright |
+
+**CI Pipeline:**
+1. `TypeScript` — `tsc --noEmit`
+2. `Lint + Build` — `next build` con env vars placeholder
+3. `Unit Tests` — `vitest --run`
+4. `E2E Tests` — Playwright Chromium (depende de build)
+
+### ✨ Mermas + Reservas de stock + Alérgenos + Aliases
+
+| Archivo | Descripción |
+|---------|-------------|
+| `src/features/inventory/components/waste-record-form.tsx` | Dialog mermas con cálculo de pérdida |
+| `src/features/inventory/components/stock-reservations.tsx` | Vista reservas agrupadas por evento |
+| `src/features/inventory/waste-types.ts` | `WasteReason`, `WasteRecord`, `StockReservation` types |
+| `src/features/catalog/components/allergen-editor.tsx` | Grid 14 alérgenos EU (Reg. 1169/2011) |
+| `src/features/catalog/components/product-aliases.tsx` | Aliases por proveedor con referencia |
+| `src/app/(dashboard)/catalog/products/page.tsx` | Sheet lateral al clicar fila → alérgenos + aliases |
+| `src/app/(dashboard)/inventory/page.tsx` | Tabs: Niveles stock / Reservas, botón merma en header |
+
+### ✨ RBAC + Event FSM + PO FSM
+
+| Archivo | Descripción |
+|---------|-------------|
+| `src/lib/rbac.ts` | 19 permisos, 6 roles, `hasPermission()` |
+| `src/hooks/use-role.ts` | Hook `useRole()` — lee de auth metadata |
+| `src/components/role-gate.tsx` | `<RoleGate permission="...">` wrapper |
+| `src/features/events/event-fsm.ts` | FSM eventos: pendiente→confirmado→en_preparacion→completado/cancelado |
+| `src/features/events/components/event-status-bar.tsx` | Barra de progreso visual por pasos |
+| `src/features/events/components/event-status-actions.tsx` | Botones de transición + Dialog confirmación |
+| `src/features/procurement/po-fsm.ts` | FSM POs: borrador→enviada→recibida/cancelada |
+| `src/features/procurement/components/po-status-badge.tsx` | Badge color-coded por estado |
+| `src/features/procurement/components/po-status-actions.tsx` | Botones send/receive/cancel |
+
+**Permisos aplicados:** `recipe:create/approve`, `event:create`, `po:create`, `inventory:adjust`
+
+### ✨ Dark Mode + Datos sintéticos
+
+| Archivo | Descripción |
+|---------|-------------|
+| `src/components/theme-provider.tsx` | `ThemeProvider` de next-themes |
+| `src/components/theme-toggle.tsx` | Botón Sol/Luna en sidebar |
+| `src/lib/mock-data.ts` | 10 recetas, 8 clientes, 15 productos, 8 cats, 6 proveedores, 6 POs, 10 lotes, 12 movimientos, 10 tareas |
+
+### ✨ Módulos del análisis competitivo
+
+| Módulo | Ruta | Archivo |
+|--------|------|---------|
+| APPCC/HACCP | `/appcc` | `src/app/(dashboard)/appcc/page.tsx` |
+| Ingeniería de menú | `/menu-engineering` | `src/app/(dashboard)/menu-engineering/page.tsx` |
+| Escandallo dinámico | `/escandallo` | `src/app/(dashboard)/escandallo/page.tsx` |
+| Planificación personal | `/staffing` | `src/app/(dashboard)/staffing/page.tsx` |
+| Calendario eventos | `/events` | `src/features/events/components/events-calendar.tsx` |
+
+### ✨ UI Polish (EmptyState + TableSkeleton)
+`TableSkeleton` y `EmptyState` aplicados en las 12 páginas de listado.

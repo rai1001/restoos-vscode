@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "stitch": {
+      "command": "npx",
+      "args": ["@_davideast/stitch-mcp", "proxy"],
+      "env": {
+        "STITCH_PROJECT_ID": "culinaryos-stitch",
+        "STITCH_API_KEY": "AIzaSyADizAou42EY4QxRAjShUm5vzbi1NP4WXI"
+      }
+    }
+  }
+}

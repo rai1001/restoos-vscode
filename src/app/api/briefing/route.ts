@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     }
 
     // Real Gemini call
-    const prompt = `Eres el asistente de gestión de un restaurante de hotel de alta gama.
+    const prompt = `Eres el asistente de gestión de un restaurante independiente.
 Genera un briefing diario conciso y accionable para el jefe de cocina en español.
 
 Datos del día:

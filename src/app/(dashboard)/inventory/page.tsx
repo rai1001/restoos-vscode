@@ -212,7 +212,7 @@ export default function InventoryPage() {
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold text-[#E5E2E1]">8.4x</span>
           </div>
-          <p className="text-xs text-emerald-400 mt-1">Optimo para Hotel Elite</p>
+          <p className="text-xs text-emerald-400 mt-1">Óptimo para restaurante</p>
         </div>
 
         {/* Gestion de Mermas */}

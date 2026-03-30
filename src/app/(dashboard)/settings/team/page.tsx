@@ -140,7 +140,7 @@ export default function TeamPage() {
         <div>
           <h1 className="text-2xl font-bold">Equipo</h1>
           <p className="text-muted-foreground mt-1">
-            Gestiona los miembros de tu hotel.
+            Gestiona los miembros de tu restaurante.
           </p>
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -152,7 +152,7 @@ export default function TeamPage() {
             <DialogHeader>
               <DialogTitle>Invitar miembro</DialogTitle>
               <DialogDescription>
-                Añade un nuevo miembro al equipo del hotel.
+                Añade un nuevo miembro al equipo del restaurante.
               </DialogDescription>
             </DialogHeader>
             <form

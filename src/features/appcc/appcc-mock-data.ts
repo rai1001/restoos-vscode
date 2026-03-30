@@ -107,6 +107,113 @@ export const MOCK_TEMPLATES: CheckTemplate[] = [
     is_active: true,
     created_at: new Date().toISOString(),
   },
+  // --- Limpiezas diarias ---
+  {
+    id: "t9",
+    hotel_id: "h1",
+    name: "Limpieza tablas de corte",
+    check_type: "limpieza",
+    frequency: "diario",
+    description: "Desinfección tablas de corte por colores",
+    min_value: null,
+    max_value: null,
+    unit: null,
+    is_active: true,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "t10",
+    hotel_id: "h1",
+    name: "Limpieza suelos cocina",
+    check_type: "limpieza",
+    frequency: "diario",
+    description: "Fregado y desinfección de suelos",
+    min_value: null,
+    max_value: null,
+    unit: null,
+    is_active: true,
+    created_at: new Date().toISOString(),
+  },
+  // --- Limpiezas semanales ---
+  {
+    id: "t11",
+    hotel_id: "h1",
+    name: "Limpieza interior cámaras",
+    check_type: "limpieza",
+    frequency: "semanal",
+    description: "Limpieza profunda interior de cámaras frigoríficas y estanterías",
+    min_value: null,
+    max_value: null,
+    unit: null,
+    is_active: true,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "t12",
+    hotel_id: "h1",
+    name: "Limpieza freidoras",
+    check_type: "limpieza",
+    frequency: "semanal",
+    description: "Vaciado, limpieza profunda y cambio de aceite si necesario",
+    min_value: null,
+    max_value: null,
+    unit: null,
+    is_active: true,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "t13",
+    hotel_id: "h1",
+    name: "Limpieza hornos",
+    check_type: "limpieza",
+    frequency: "semanal",
+    description: "Limpieza interior horno, bandejas y rejillas",
+    min_value: null,
+    max_value: null,
+    unit: null,
+    is_active: true,
+    created_at: new Date().toISOString(),
+  },
+  // --- Mensuales ---
+  {
+    id: "t14",
+    hotel_id: "h1",
+    name: "Filtros campana extractora",
+    check_type: "limpieza",
+    frequency: "mensual",
+    description: "Desmontaje y limpieza de filtros de campana",
+    min_value: null,
+    max_value: null,
+    unit: null,
+    is_active: true,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "t15",
+    hotel_id: "h1",
+    name: "Calibración termómetros",
+    check_type: "otro",
+    frequency: "mensual",
+    description: "Verificar calibración de termómetros digitales con agua helada (0°C) y ebullición (100°C)",
+    min_value: null,
+    max_value: null,
+    unit: null,
+    is_active: true,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "t16",
+    hotel_id: "h1",
+    name: "Revisión trampas control plagas",
+    check_type: "control_plagas",
+    frequency: "mensual",
+    description: "Inspección visual de trampas y cebos, registro de incidencias",
+    min_value: null,
+    max_value: null,
+    unit: null,
+    is_active: true,
+    created_at: new Date().toISOString(),
+  },
 ]
 
 function randomBetween(min: number, max: number): number {
@@ -121,7 +228,16 @@ function getStatus(template: CheckTemplate, value: number): CheckRecord["status"
 
 export function generateMockRecordsForDate(date: string): CheckRecord[] {
   const records: CheckRecord[] = []
+  const d = new Date(date)
+  const dayOfWeek = d.getDay() // 0=dom, 1=lun
+  const dayOfMonth = d.getDate()
+
   for (const t of MOCK_TEMPLATES) {
+    // Filter by frequency
+    if (t.frequency === "semanal" && dayOfWeek !== 1) continue // solo lunes
+    if (t.frequency === "mensual" && dayOfMonth !== 1) continue // solo día 1
+    if (t.frequency === "por_recepcion") continue // solo cuando hay entrega
+
     if (t.unit === null) {
       // Boolean checks (limpieza, higiene_personal, etc.) — always OK in mock
       records.push({

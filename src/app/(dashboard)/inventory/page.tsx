@@ -37,6 +37,7 @@ import {
 import { TableSkeleton } from "@/components/page-skeleton";
 import { EmptyState } from "@/components/empty-state";
 import { WasteRecordForm } from "@/features/inventory/components/waste-record-form";
+import { StockEntryForm } from "@/features/inventory/components/stock-entry-form";
 import { StockReservations } from "@/features/inventory/components/stock-reservations";
 import {
   BarChart,
@@ -161,12 +162,7 @@ export default function InventoryPage() {
               Ajuste de Stock
             </Button>
           </Link>
-          <Link href="/procurement/orders">
-            <Button className="bg-[#F97316] hover:bg-[#EA680C] text-white border-0">
-              <Package className="mr-2 h-4 w-4" />
-              Nuevo Pedido
-            </Button>
-          </Link>
+          <StockEntryForm />
         </div>
       </div>
 

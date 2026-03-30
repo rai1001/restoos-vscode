@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, Fragment } from "react"
 import { toast } from "sonner"
 import { ShieldCheck, ChevronLeft, ChevronRight, Plus, CheckCircle2, AlertTriangle, XCircle, BarChart3, ThermometerSun, Droplets, Truck, User, Bug, FlameKindling, HelpCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -332,9 +332,8 @@ function RecordsTab({ date }: { date: string }) {
           const hasDetails = record.notes !== null || record.corrective_action !== null
 
           return (
-            <>
+            <Fragment key={record.id}>
               <TableRow
-                key={record.id}
                 className={cn(
                   "border-white/5 hover:bg-white/5",
                   hasDetails && "cursor-pointer select-none",
@@ -405,7 +404,7 @@ function RecordsTab({ date }: { date: string }) {
                   </TableCell>
                 </TableRow>
               )}
-            </>
+            </Fragment>
           )
         })}
       </TableBody>

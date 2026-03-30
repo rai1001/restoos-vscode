@@ -216,8 +216,19 @@ export const MOCK_TEMPLATES: CheckTemplate[] = [
   },
 ]
 
-function randomBetween(min: number, max: number): number {
-  return Math.round((Math.random() * (max - min) + min) * 10) / 10
+// Deterministic pseudo-random to avoid hydration mismatch (server vs client)
+function seededRandom(seed: string): number {
+  let hash = 0
+  for (let i = 0; i < seed.length; i++) {
+    const char = seed.charCodeAt(i)
+    hash = ((hash << 5) - hash) + char
+    hash |= 0
+  }
+  return ((hash & 0x7fffffff) % 1000) / 1000
+}
+
+function randomBetween(min: number, max: number, seed: string): number {
+  return Math.round((seededRandom(seed) * (max - min) + min) * 10) / 10
 }
 
 function getStatus(template: CheckTemplate, value: number): CheckRecord["status"] {
@@ -259,7 +270,8 @@ export function generateMockRecordsForDate(date: string): CheckRecord[] {
       const maxV = t.max_value ?? minV + 20
       const mid = (minV + maxV) / 2
       const spread = (maxV - minV) * 0.6
-      const value = randomBetween(mid - spread / 2, mid + spread / 2)
+      const seed = `${t.id}-${date}`
+      const value = randomBetween(mid - spread / 2, mid + spread / 2, seed)
       const status = getStatus(t, value)
       records.push({
         id: `r-${t.id}-${date}`,

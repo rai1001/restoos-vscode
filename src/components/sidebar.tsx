@@ -50,6 +50,7 @@ const navigation = [
   { name: "Informes", href: "/reports", icon: BarChart3 },
   { name: "Mis tickets", href: "/my-tickets", icon: MessageSquare },
   { name: "Tickets", href: "/admin/tickets", icon: MessageSquarePlus },
+  { name: "Pilotos", href: "/admin/setup-status", icon: BarChart3 },
   { name: "Configuración", href: "/settings/hotel", icon: Settings },
 ];
 

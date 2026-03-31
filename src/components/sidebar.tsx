@@ -47,6 +47,7 @@ const navigation = [
   { name: "Inventario", href: "/inventory", icon: Warehouse },
   { name: "Etiquetado", href: "/labeling", icon: Tag },
   { name: "APPCC", href: "/appcc", icon: ShieldCheck },
+  { name: "Cumplimiento", href: "/compliance", icon: ShieldCheck },
   { name: "Personal", href: "/staffing", icon: Users2 },
   { name: "Informes", href: "/reports", icon: BarChart3 },
   { name: "Mis tickets", href: "/my-tickets", icon: MessageSquare },

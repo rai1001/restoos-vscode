@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Building2, Users2, ChevronRight } from "lucide-react";
+import { Building2, Users2, Bell, ChevronRight } from "lucide-react";
 
 const SETTINGS_SECTIONS = [
   {
@@ -15,6 +15,12 @@ const SETTINGS_SECTIONS = [
     description: "Gestiona los miembros, roles y permisos del equipo.",
     href: "/settings/team",
     icon: Users2,
+  },
+  {
+    title: "Notificaciones",
+    description: "Resumen diario por email o WhatsApp con alertas, caducidades y pedidos sugeridos.",
+    href: "/settings/notifications",
+    icon: Bell,
   },
 ] as const;
 

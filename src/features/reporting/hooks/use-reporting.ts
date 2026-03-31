@@ -11,6 +11,7 @@ export function useDashboardData() {
     queryKey: ["dashboard", hotelId],
     queryFn: () => reportingService.getDashboardData(hotelId!),
     enabled: !!hotelId,
+    staleTime: 10 * 60_000,
   });
 }
 
@@ -61,5 +62,6 @@ export function useAlerts(dismissed?: boolean) {
     queryKey: ["alerts", hotelId, dismissed],
     queryFn: () => reportingService.listAlerts(hotelId!, dismissed),
     enabled: !!hotelId,
+    staleTime: 10 * 60_000,
   });
 }

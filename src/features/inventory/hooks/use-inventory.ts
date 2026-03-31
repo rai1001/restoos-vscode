@@ -12,6 +12,7 @@ export function useStockLevels() {
     queryKey: ["stock-levels", hotelId],
     queryFn: () => inventoryService.getStockLevels(hotelId!),
     enabled: !!hotelId,
+    staleTime: 5 * 60_000,
   });
 }
 
@@ -31,6 +32,7 @@ export function useStockLots(productId?: string) {
       return inventoryService.listLots(hotelId!, productId);
     },
     enabled: isDev ? true : !!hotelId,
+    staleTime: 5 * 60_000,
   });
 }
 
@@ -50,6 +52,7 @@ export function useStockMovements(productId?: string) {
       return inventoryService.listMovements(hotelId!, productId);
     },
     enabled: isDev ? true : !!hotelId,
+    staleTime: 5 * 60_000,
   });
 }
 
@@ -59,6 +62,7 @@ export function useStockReservations(eventId?: string) {
     queryKey: ["stock-reservations", hotelId, eventId],
     queryFn: () => inventoryService.listReservations(hotelId!, eventId),
     enabled: !!hotelId,
+    staleTime: 5 * 60_000,
   });
 }
 
@@ -115,6 +119,7 @@ export function useRealCost(eventId: string) {
     queryKey: ["real-cost", hotelId, eventId],
     queryFn: () => inventoryService.calculateRealCost(hotelId!, eventId),
     enabled: !!hotelId && !!eventId,
+    staleTime: 5 * 60_000,
   });
 }
 
@@ -124,5 +129,6 @@ export function useStockAlerts() {
     queryKey: ["stock-alerts", hotelId],
     queryFn: () => inventoryService.checkAlerts(hotelId!),
     enabled: !!hotelId,
+    staleTime: 5 * 60_000,
   });
 }

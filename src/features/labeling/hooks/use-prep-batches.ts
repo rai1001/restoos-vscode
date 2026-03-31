@@ -155,6 +155,7 @@ export function usePrepBatches() {
       return Promise.resolve([] as PrepBatch[]);
     },
     enabled: isDev ? true : !!hotelId,
+    staleTime: 5 * 60_000,
   });
 
   // --- Query: alerts ---
@@ -166,6 +167,7 @@ export function usePrepBatches() {
       return Promise.resolve([] as PrepAlert[]);
     },
     enabled: isDev ? true : !!hotelId,
+    staleTime: 5 * 60_000,
   });
 
   // --- Filtered batches ---

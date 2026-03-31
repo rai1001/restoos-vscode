@@ -53,6 +53,7 @@ export function useFeedbackTickets(filters?: {
       return [] as FeedbackTicket[];
     },
     enabled: isDev ? true : !!hotelId,
+    staleTime: 5 * 60_000,
   });
 }
 
@@ -81,6 +82,7 @@ export function useMyTickets() {
       return [] as FeedbackTicket[];
     },
     enabled: isDev ? true : !!hotelId,
+    staleTime: 5 * 60_000,
   });
 }
 
@@ -101,6 +103,7 @@ export function useOpenTicketCount() {
       return 0;
     },
     enabled: isDev ? true : !!hotelId,
+    staleTime: 5 * 60_000,
   });
 }
 

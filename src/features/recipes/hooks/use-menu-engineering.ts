@@ -124,6 +124,7 @@ export function useMenuEngineering(menuId: string | null) {
     queryKey: ["menu-engineering", menuId],
     queryFn: () => recipeService.getMenuSectionsWithRecipes(menuId!),
     enabled: !!menuId,
+    staleTime: 10 * 60_000,
   });
 
   const items: EngineeringItem[] = query.data

@@ -1,6 +1,12 @@
 // Digest engine — generates daily/weekly summary for a restaurant
 // In real mode: queries Supabase. In mock mode: returns demo data.
 
+/** Escape HTML to prevent XSS when injecting user data into email templates */
+function escapeHtml(text: string): string {
+  const map: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }
+  return text.replace(/[&<>"']/g, char => map[char] ?? char)
+}
+
 export interface DigestItem {
   icon: string // emoji
   category: "precio" | "caducidad" | "stock" | "appcc" | "margen" | "pedido"
@@ -143,9 +149,9 @@ export function formatDigestHTML(d: DigestSummary): string {
 
   let html = `<div style="font-family:system-ui,sans-serif;max-width:600px;margin:0 auto;color:#333">`
   html += `<div style="background:#F97316;color:white;padding:20px;border-radius:8px 8px 0 0">`
-  html += `<h1 style="margin:0;font-size:20px">${d.greeting}, Chef 👋</h1>`
-  html += `<p style="margin:4px 0 0;opacity:0.9;font-size:14px">Resumen diario — ${d.restaurantName}</p>`
-  html += `<p style="margin:2px 0 0;opacity:0.7;font-size:12px">${d.date}</p>`
+  html += `<h1 style="margin:0;font-size:20px">${escapeHtml(d.greeting)}, Chef 👋</h1>`
+  html += `<p style="margin:4px 0 0;opacity:0.9;font-size:14px">Resumen diario — ${escapeHtml(d.restaurantName)}</p>`
+  html += `<p style="margin:2px 0 0;opacity:0.7;font-size:12px">${escapeHtml(d.date)}</p>`
   html += `</div>`
 
   // KPIs bar
@@ -161,8 +167,8 @@ export function formatDigestHTML(d: DigestSummary): string {
   d.items.forEach(item => {
     const color = severityColor[item.severity]
     html += `<div style="border-left:3px solid ${color};padding:8px 12px;margin:8px 0;background:#fafafa;border-radius:0 4px 4px 0">`
-    html += `<strong>${item.icon} ${item.title}</strong><br>`
-    html += `<span style="color:#666;font-size:13px">${item.detail}</span>`
+    html += `<strong>${item.icon} ${escapeHtml(item.title)}</strong><br>`
+    html += `<span style="color:#666;font-size:13px">${escapeHtml(item.detail)}</span>`
     html += `</div>`
   })
 
@@ -171,7 +177,7 @@ export function formatDigestHTML(d: DigestSummary): string {
     html += `<div style="margin-top:16px;padding:12px;background:#f0fdf4;border-radius:4px">`
     html += `<strong>🛒 Pedido sugerido</strong><ul style="margin:8px 0;padding-left:20px">`
     d.suggestedOrder.forEach(o => {
-      html += `<li>${o.product}: ${o.quantity} <span style="color:#888">(${o.supplier})</span></li>`
+      html += `<li>${escapeHtml(o.product)}: ${escapeHtml(o.quantity)} <span style="color:#888">(${escapeHtml(o.supplier)})</span></li>`
     })
     html += `</ul></div>`
   }

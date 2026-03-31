@@ -18,6 +18,7 @@ export function useClients() {
       return clientService.listClients(hotelId!);
     },
     enabled: isDev ? true : !!hotelId,
+    staleTime: 30 * 60_000,
   });
 }
 

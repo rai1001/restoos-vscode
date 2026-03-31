@@ -14,6 +14,7 @@ export function usePurchaseRequests() {
     queryKey: ["purchase-requests", hotelId],
     queryFn: () => procurementService.listRequests(hotelId!),
     enabled: !!hotelId,
+    staleTime: 10 * 60_000,
   });
 }
 
@@ -56,6 +57,7 @@ export function usePurchaseOrders() {
       return procurementService.listOrders(hotelId!);
     },
     enabled: isDev ? true : !!hotelId,
+    staleTime: 10 * 60_000,
   });
 }
 
@@ -64,6 +66,7 @@ export function usePurchaseOrder(orderId: string) {
     queryKey: ["purchase-order", orderId],
     queryFn: () => procurementService.getOrder(orderId),
     enabled: !!orderId,
+    staleTime: 10 * 60_000,
   });
 }
 
@@ -102,6 +105,7 @@ export function useOrderLines(orderId: string) {
     queryKey: ["order-lines", orderId],
     queryFn: () => procurementService.getOrderLines(orderId),
     enabled: !!orderId,
+    staleTime: 10 * 60_000,
   });
 }
 
@@ -146,5 +150,6 @@ export function useGoodsReceipts(orderId?: string) {
     queryKey: ["goods-receipts", hotelId, orderId],
     queryFn: () => procurementService.listReceipts(hotelId!, orderId),
     enabled: !!hotelId,
+    staleTime: 10 * 60_000,
   });
 }

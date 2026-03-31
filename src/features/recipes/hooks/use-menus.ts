@@ -12,6 +12,7 @@ export function useMenus() {
     queryKey: ["menus", hotelId],
     queryFn: () => recipeService.listMenus(hotelId!),
     enabled: !!hotelId,
+    staleTime: 30 * 60_000,
   });
 }
 
@@ -20,6 +21,7 @@ export function useMenu(menuId: string) {
     queryKey: ["menu", menuId],
     queryFn: () => recipeService.getMenuById(menuId),
     enabled: !!menuId,
+    staleTime: 30 * 60_000,
   });
 }
 
@@ -55,6 +57,7 @@ export function useMenuSections(menuId: string) {
     queryKey: ["menu-sections", menuId],
     queryFn: () => recipeService.listSections(menuId),
     enabled: !!menuId,
+    staleTime: 30 * 60_000,
   });
 }
 

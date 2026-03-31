@@ -18,6 +18,7 @@ export function useRecipes() {
       return recipeService.list(hotelId!);
     },
     enabled: isDev ? true : !!hotelId,
+    staleTime: 30 * 60_000,
   });
 }
 
@@ -35,6 +36,7 @@ export function useRecipe(recipeId: string) {
       return recipeService.getById(recipeId);
     },
     enabled: isDev ? !!recipeId : !!recipeId,
+    staleTime: 30 * 60_000,
   });
 }
 
@@ -140,6 +142,7 @@ export function useTechSheet(recipeId: string) {
     queryKey: ["tech-sheet", recipeId, hotelId],
     queryFn: () => recipeService.getTechSheet(hotelId!, recipeId),
     enabled: !!hotelId && !!recipeId,
+    staleTime: 30 * 60_000,
   });
 }
 
@@ -159,6 +162,7 @@ export function useRecipeIngredients(recipeId: string) {
       return recipeService.listIngredients(recipeId);
     },
     enabled: !!recipeId,
+    staleTime: 30 * 60_000,
   });
 }
 
@@ -231,6 +235,7 @@ export function useRecipeSteps(recipeId: string) {
       return recipeService.listSteps(recipeId);
     },
     enabled: !!recipeId,
+    staleTime: 30 * 60_000,
   });
 }
 

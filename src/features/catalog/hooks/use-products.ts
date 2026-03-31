@@ -47,5 +47,6 @@ export function useSearchProducts(query: string, categoryId?: string) {
     queryKey: ["products", "search", hotelId, query, categoryId],
     queryFn: () => catalogService.searchProducts(hotelId!, query, categoryId),
     enabled: !!hotelId && query.length >= 2,
+    staleTime: 5 * 60_000,
   });
 }

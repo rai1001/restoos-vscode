@@ -1,4 +1,6 @@
 import { createClient } from "@/lib/db/client";
+import { RecipeSchema } from "../schemas/recipe.schema";
+import { safeParse } from "@/lib/validation/safe-parse";
 import type {
   Recipe,
   CreateRecipeInput,
@@ -25,7 +27,7 @@ export const recipeService = {
       .eq("hotel_id", hotelId)
       .order("updated_at", { ascending: false });
     if (error) throw error;
-    return data ?? [];
+    return (data ?? []).map(r => safeParse(RecipeSchema, r, "recipeService.list"));
   },
 
   async getById(id: string): Promise<Recipe> {
@@ -305,6 +307,8 @@ export const recipeService = {
       .eq("menu_id", menuId)
       .order("sort_order");
     if (error) throw error;
-    return (data ?? []) as unknown as MenuSectionWithRecipes[];
+    // TODO: Add Zod schema validation when MenuSectionWithRecipesSchema is defined
+    // return MenuSectionWithRecipesSchema.array().parse(data ?? []);
+    return (data ?? []) as MenuSectionWithRecipes[];
   },
 };

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { createClient } from "@/lib/db/server"
+import { createServerSupabaseClient } from "@/lib/db/server"
 
 // Escapa HTML para prevenir XSS en emails generados con datos del usuario
 function escapeHtml(str: string): string {
@@ -142,7 +142,7 @@ function buildEmailHtml(ticket: TicketPayload): string {
 export async function POST(request: NextRequest) {
   try {
     // Verificar que el usuario está autenticado antes de enviar emails
-    const supabase = await createClient()
+    const supabase = await createServerSupabaseClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 })
@@ -166,7 +166,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         from: "CulinaryOS Feedback <feedback@culinaryos.com>",
         to,
-        subject: `[CulinaryOS Feedback] ${safeType} · ${safePriority} — ${safeTitle}`,
+        subject: `[CulinaryOS Feedback] ${escapeHtml(ticket.type)} · ${escapeHtml(ticket.priority)} — ${escapeHtml(ticket.title)}`,
         html: buildEmailHtml(ticket),
       }),
     })

@@ -170,19 +170,19 @@ export default function SetupStatusPage() {
               <TableHead className="text-[#A78B7D]">Restaurante</TableHead>
               <TableHead className="text-[#A78B7D]">Estado</TableHead>
               <TableHead className="text-[#A78B7D] text-center">
-                <ChefHat className="h-3.5 w-3.5 inline" title="Datos restaurante" />
+                <span title="Datos restaurante"><ChefHat className="h-3.5 w-3.5 inline" /></span>
               </TableHead>
               <TableHead className="text-[#A78B7D] text-center">
-                <FileText className="h-3.5 w-3.5 inline" title="Carta importada" />
+                <span title="Carta importada"><FileText className="h-3.5 w-3.5 inline" /></span>
               </TableHead>
               <TableHead className="text-[#A78B7D] text-center">
-                <Package className="h-3.5 w-3.5 inline" title="Proveedores" />
+                <span title="Proveedores"><Package className="h-3.5 w-3.5 inline" /></span>
               </TableHead>
               <TableHead className="text-[#A78B7D] text-center">
-                <ShieldCheck className="h-3.5 w-3.5 inline" title="APPCC" />
+                <span title="APPCC"><ShieldCheck className="h-3.5 w-3.5 inline" /></span>
               </TableHead>
               <TableHead className="text-[#A78B7D] text-center">
-                <Users className="h-3.5 w-3.5 inline" title="Primer pedido" />
+                <span title="Primer pedido"><Users className="h-3.5 w-3.5 inline" /></span>
               </TableHead>
               <TableHead className="text-[#A78B7D]">Setup</TableHead>
               <TableHead className="text-[#A78B7D]"></TableHead>

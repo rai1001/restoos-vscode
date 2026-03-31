@@ -103,8 +103,8 @@ export function StockEntryForm({ onSuccess }: { onSuccess?: () => void }) {
         // Fill supplier
         if (r.supplier_name) {
           const match = MOCK_SUPPLIERS.find(s =>
-            s.name.toLowerCase().includes(r.supplier_name.toLowerCase().split(" ")[0]) ||
-            r.supplier_name.toLowerCase().includes(s.name.toLowerCase().split(" ")[0])
+            s.name.toLowerCase().includes(r.supplier_name.toLowerCase().split(" ")[0] ?? "") ||
+            r.supplier_name.toLowerCase().includes(s.name.toLowerCase().split(" ")[0] ?? "")
           )
           if (match) setSupplierId(match.id)
         }
@@ -116,8 +116,8 @@ export function StockEntryForm({ onSuccess }: { onSuccess?: () => void }) {
           const newLines: EntryLine[] = r.items.map((item: { description: string; quantity: number; unit_price: number }) => {
             // Try to match product by name
             const productMatch = MOCK_PRODUCTS.find(p =>
-              p.name.toLowerCase().includes(item.description.toLowerCase().split(" ")[0]) ||
-              item.description.toLowerCase().includes(p.name.toLowerCase().split(" ")[0])
+              p.name.toLowerCase().includes(item.description.toLowerCase().split(" ")[0] ?? "") ||
+              item.description.toLowerCase().includes(p.name.toLowerCase().split(" ")[0] ?? "")
             )
             const pid = productMatch?.id ?? ""
             const price = item.unit_price
@@ -135,8 +135,8 @@ export function StockEntryForm({ onSuccess }: { onSuccess?: () => void }) {
 
         const matchedCount = r.items?.filter((item: { description: string }) =>
           MOCK_PRODUCTS.some(p =>
-            p.name.toLowerCase().includes(item.description.toLowerCase().split(" ")[0]) ||
-            item.description.toLowerCase().includes(p.name.toLowerCase().split(" ")[0])
+            p.name.toLowerCase().includes(item.description.toLowerCase().split(" ")[0] ?? "") ||
+            item.description.toLowerCase().includes(p.name.toLowerCase().split(" ")[0] ?? "")
           )
         ).length ?? 0
 

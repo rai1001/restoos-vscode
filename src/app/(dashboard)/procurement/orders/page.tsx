@@ -170,7 +170,7 @@ function buildCatalogMap(): CatalogMap {
 }
 
 /** Get confirmed services within the next N days from today */
-function getUpcomingConfirmedServices(days: number): ServiceWithMenu[] {
+function getUpcomingConfirmedServices(days: number): EventWithMenu[] {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const cutoff = new Date(today);
@@ -189,7 +189,7 @@ function getUpcomingConfirmedServices(days: number): ServiceWithMenu[] {
         (id) => (recipeMap[id]?.ingredients.length ?? 0) > 0,
       );
       return {
-        service_id: svc.id,
+        event_id: svc.id,
         name: svc.name,
         date: svc.date,
         pax: svc.guests,

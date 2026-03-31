@@ -130,8 +130,8 @@ function buildFutureEvents(): FutureEventDemand[] {
   const todayStr = today.toISOString().split("T")[0]!
 
   // Filter for upcoming confirmed/en_preparacion events
-  const upcoming = MOCK_EVENTS.filter(
-    (e) =>
+  const upcoming = MOCK_SERVICES.filter(
+    (e: { date: string; status: string }) =>
       e.date >= todayStr &&
       (e.status === "confirmado" || e.status === "en_preparacion"),
   )
@@ -191,8 +191,8 @@ function buildFutureEvents(): FutureEventDemand[] {
 
   const productNameMap = new Map(MOCK_PRODUCTS.map((p) => [p.id, p]))
 
-  return upcoming.map((event) => {
-    const demandPerGuest = perGuestDemand[event.event_type] ?? perGuestDemand["otro"]!
+  return upcoming.map((event: { id: string; name: string; date: string; guests: number; service_type: string }) => {
+    const demandPerGuest = perGuestDemand[event.service_type] ?? perGuestDemand["otro"]!
     return {
       event_id: event.id,
       event_name: event.name,

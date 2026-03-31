@@ -308,7 +308,6 @@ export const recipeService = {
       .order("sort_order");
     if (error) throw error;
     // TODO: Add Zod schema validation when MenuSectionWithRecipesSchema is defined
-    // return MenuSectionWithRecipesSchema.array().parse(data ?? []);
-    return (data ?? []) as MenuSectionWithRecipes[];
+    return (data ?? []) as unknown as MenuSectionWithRecipes[];
   },
 };

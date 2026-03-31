@@ -10,6 +10,8 @@ import {
   type MatrixQuadrant,
   type MenuDishAnalysis,
 } from "@/features/menu-engineering/types"
+import { generateRecommendations } from "@/features/menu-engineering/recommendation-engine"
+import { RecommendationsTab } from "@/features/menu-engineering/components/recommendations-tab"
 import {
   ScatterChart,
   Scatter,
@@ -666,7 +668,7 @@ export default function MenuEngineeringPage() {
   const [selectedCategory, setSelectedCategory] = useState<
     MenuCategory | undefined
   >(undefined)
-  const [viewMode, setViewMode] = useState<"matriz" | "tabla">("matriz")
+  const [viewMode, setViewMode] = useState<"matriz" | "tabla" | "recomendaciones">("matriz")
 
   const { report } = useMenuEngineering(selectedCategory)
 
@@ -759,12 +761,25 @@ export default function MenuEngineeringPage() {
           >
             Tabla
           </button>
+          <button
+            onClick={() => setViewMode("recomendaciones")}
+            className={cn(
+              "px-4 py-2 text-sm font-medium transition-colors",
+              viewMode === "recomendaciones"
+                ? "bg-[#F97316] text-white"
+                : "text-[#A78B7D] hover:bg-[#222222] hover:text-[#E5E2E1]",
+            )}
+          >
+            Recomendaciones
+          </button>
         </div>
       </div>
 
       {/* Main content */}
       {viewMode === "matriz" ? (
         <MatrixView dishes={report.dishes} />
+      ) : viewMode === "recomendaciones" ? (
+        <RecommendationsTab recommendations={generateRecommendations(report.dishes)} />
       ) : (
         <TableView dishes={report.dishes} />
       )}

@@ -19,6 +19,10 @@ export interface MenuDish {
   is_active: boolean
   description: string | null
   created_at: string
+  // Margin/hour fields
+  prep_time_min?: number      // tiempo elaboración batch (minutos)
+  batch_size?: number         // raciones por batch
+  service_time_min?: number   // tiempo ejecución por comanda (minutos)
 }
 
 export interface MenuDishAnalysis extends MenuDish {
@@ -28,6 +32,17 @@ export interface MenuDishAnalysis extends MenuDish {
   quadrant: MatrixQuadrant
   popularity_index: number            // units_sold / avg_units_sold (>1 = popular)
   profitability_index: number         // contribution_margin / avg_contribution_margin (>1 = profitable)
+  // Margin/hour
+  time_per_serving_min?: number       // (prep_time / batch_size) + service_time
+  margin_per_hour?: number            // contribution_margin * (60 / time_per_serving)
+}
+
+export interface Recommendation {
+  dish: string
+  type: "price_up" | "price_down" | "reduce_cost" | "move_position" | "batch_optimize" | "remove" | "promote"
+  action: string
+  impact: string
+  severity: "high" | "medium" | "low"
 }
 
 export interface MenuEngineeringReport {

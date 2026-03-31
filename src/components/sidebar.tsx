@@ -52,6 +52,7 @@ const navigation = [
   { name: "Mis tickets", href: "/my-tickets", icon: MessageSquare },
   { name: "Tickets", href: "/admin/tickets", icon: MessageSquarePlus },
   { name: "Pilotos", href: "/admin/setup-status", icon: BarChart3 },
+  { name: "Registro cambios", href: "/admin/audit-log", icon: Search },
   { name: "Configuración", href: "/settings/hotel", icon: Settings },
 ];
 

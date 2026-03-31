@@ -39,6 +39,7 @@ import { EmptyState } from "@/components/empty-state";
 import { WasteRecordForm } from "@/features/inventory/components/waste-record-form";
 import { StockEntryForm } from "@/features/inventory/components/stock-entry-form";
 import { StockReservations } from "@/features/inventory/components/stock-reservations";
+import { CSVImportSales } from "@/features/sales/components/csv-import-sales";
 import {
   BarChart,
   Bar,
@@ -154,12 +155,13 @@ export default function InventoryPage() {
         </div>
         <div className="flex items-center gap-3">
           <WasteRecordForm />
-          <Link href="/inventory/lots">
+          <CSVImportSales />
+          <Link href="/inventory/theoretical">
             <Button
               variant="outline"
               className="border-[#333] bg-transparent text-[#E5E2E1] hover:bg-[#1A1A1A]"
             >
-              Ajuste de Stock
+              Teórico vs Real
             </Button>
           </Link>
           <StockEntryForm />

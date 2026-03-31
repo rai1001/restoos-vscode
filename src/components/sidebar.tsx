@@ -34,6 +34,7 @@ import { AssistantPanel } from "@/features/assistant/components/AssistantPanel";
 
 const navigation = [
   { name: "Setup inicial", href: "/onboarding", icon: Rocket },
+  { name: "Modo Cocina", href: "/kitchen-mode", icon: ChefHat },
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
   { name: "Reservas", href: "/reservations", icon: CalendarDays },
   { name: "Clientes", href: "/clients", icon: Users },

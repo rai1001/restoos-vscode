@@ -38,6 +38,10 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-hover: var(--border-hover);
+  --color-surface-elevated: var(--surface-elevated);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -116,6 +120,11 @@
   --sidebar-accent-foreground: #E5E2E1;
   --sidebar-border: rgba(88, 66, 55, 0.15);
   --sidebar-ring: #F97316;
+  /* Extra tokens for hardcoded colors used across pages */
+  --card-hover: #222222;
+  --border-subtle: #333333;
+  --border-hover: #555555;
+  --surface-elevated: #353534;
 }
 
 @layer base {

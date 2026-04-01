@@ -27,7 +27,6 @@ import {
   AlertTriangle,
   Lightbulb,
   ArrowUpRight,
-  ArrowDownRight,
 } from "lucide-react"
 import { exportCSV, printReport, formatCurrency, formatPercent } from "@/lib/reports"
 import {
@@ -58,7 +57,6 @@ import {
 import {
   SERIES_COLORS,
   CHART_COLORS,
-  CHART_THEME,
   CHART_MARGINS,
   formatCurrency as fmtCurrency,
   formatPercent as fmtPercent,
@@ -79,8 +77,6 @@ const T = {
 } as const
 
 // ─── Chart mock data ──────────────────────────────────────────────────────────
-
-const months = ["Oct", "Nov", "Dic", "Ene", "Feb", "Mar"]
 
 const foodCostMonthly = [
   { month: "Oct", Carnes: 4200, Pescados: 3100, Verduras: 1800, Lacteos: 1200, Otros: 900, foodCostPct: 31.2 },

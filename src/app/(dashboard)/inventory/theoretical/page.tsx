@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { ArrowLeft, AlertTriangle, TrendingDown, FileSpreadsheet } from "lucide-react"
+import { ArrowLeft, AlertTriangle, TrendingDown } from "lucide-react"
 import { CSVImportSales } from "@/features/sales/components/csv-import-sales"
 import { cn } from "@/lib/utils"
 

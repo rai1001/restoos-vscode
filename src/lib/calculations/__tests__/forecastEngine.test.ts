@@ -28,7 +28,7 @@ function buildWeekHistory(
     records.push({
       product_id: productId,
       product_name: productName,
-      date: date.toISOString().split("T")[0],
+      date: date.toISOString().split("T")[0]!,
       quantity: dailyQty,
       unit: "kg",
     });
@@ -88,7 +88,7 @@ describe("generateForecast", () => {
     const julyStart = new Date("2025-07-07T00:00:00");
     const { daily: julyDaily } = generateForecast(history, [], stock, 1, julyStart);
 
-    const julyProduct = julyDaily[0].products.find((p) => p.product_id === "prod-a");
+    const julyProduct = julyDaily[0]!.products.find((p) => p.product_id === "prod-a");
     // base_demand=10, seasonal=1.20 => total=12
     expect(julyProduct!.seasonal_factor).toBe(1.2);
     expect(julyProduct!.total_demand).toBe(12);
@@ -97,7 +97,7 @@ describe("generateForecast", () => {
     const janStart = new Date("2025-01-06T12:00:00Z");
     const { daily: janDaily } = generateForecast(history, [], stock, 1, janStart);
 
-    const janProduct = janDaily[0].products.find((p) => p.product_id === "prod-a");
+    const janProduct = janDaily[0]!.products.find((p) => p.product_id === "prod-a");
     expect(janProduct!.seasonal_factor).toBe(0.8);
     expect(janProduct!.total_demand).toBe(8); // 10 * 0.80
   });
@@ -112,7 +112,7 @@ describe("generateForecast", () => {
 
     const { daily } = generateForecast(history, [event], stock, 1, FIXED_START);
 
-    const product = daily[0].products.find((p) => p.product_id === "prod-a");
+    const product = daily[0]!.products.find((p) => p.product_id === "prod-a");
     // base=10, seasonal=1.00, event=50 => total = 10*1 + 50 = 60
     expect(product!.base_demand).toBe(10);
     expect(product!.event_demand).toBe(50);
@@ -125,7 +125,7 @@ describe("generateForecast", () => {
 
     const { daily } = generateForecast(history, [], stock, 1, FIXED_START);
 
-    const product = daily[0].products.find((p) => p.product_id === "prod-a");
+    const product = daily[0]!.products.find((p) => p.product_id === "prod-a");
     // demand=10, stock=5 => deficit=5
     expect(product!.total_demand).toBe(10);
     expect(product!.current_stock).toBe(5);
@@ -185,7 +185,7 @@ describe("generateForecast", () => {
     const { daily, summary } = generateForecast([], [event], stock, 7, FIXED_START);
 
     // Only day 1 (2025-04-07) should have demand
-    const day1 = daily[0];
+    const day1 = daily[0]!;
     const product = day1.products.find((p) => p.product_id === "prod-new");
     expect(product).toBeDefined();
     expect(product!.base_demand).toBe(0);
@@ -194,7 +194,7 @@ describe("generateForecast", () => {
 
     // Remaining days have no demand for this product (no history, no events)
     for (let d = 1; d < 7; d++) {
-      const prod = daily[d].products.find((p) => p.product_id === "prod-new");
+      const prod = daily[d]!.products.find((p) => p.product_id === "prod-new");
       expect(prod).toBeUndefined();
     }
 
@@ -237,9 +237,9 @@ describe("generateForecast", () => {
 
     const { summary } = generateForecast(history, [], stock, 14, FIXED_START);
 
-    expect(summary[0].urgency).toBe("critical");
-    expect(summary[1].urgency).toBe("warning");
-    expect(summary[2].urgency).toBe("ok");
+    expect(summary[0]!.urgency).toBe("critical");
+    expect(summary[1]!.urgency).toBe("warning");
+    expect(summary[2]!.urgency).toBe("ok");
   });
 
   it("multiple events on the same day aggregate demand", () => {
@@ -260,7 +260,7 @@ describe("generateForecast", () => {
 
     const { daily } = generateForecast([], events, stock, 1, FIXED_START);
 
-    const product = daily[0].products.find((p) => p.product_id === "prod-a");
+    const product = daily[0]!.products.find((p) => p.product_id === "prod-a");
     expect(product!.event_demand).toBe(50); // 30 + 20
   });
 
@@ -271,9 +271,9 @@ describe("generateForecast", () => {
     const { daily } = generateForecast(history, [], stock, 7, FIXED_START);
 
     // 2025-04-07 is Monday
-    expect(daily[0].day_label).toBe("Lun");
-    expect(daily[1].day_label).toBe("Mar");
-    expect(daily[6].day_label).toBe("Dom");
+    expect(daily[0]!.day_label).toBe("Lun");
+    expect(daily[1]!.day_label).toBe("Mar");
+    expect(daily[6]!.day_label).toBe("Dom");
   });
 
   it("products with zero total_demand are excluded from daily output", () => {

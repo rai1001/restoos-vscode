@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCreateRecipe } from "@/features/recipes/hooks/use-recipes";
@@ -22,7 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowLeft, Mic, Plus, Trash2, Camera, ImageIcon } from "lucide-react";
+import { ArrowLeft, Mic, Plus, Trash2, ImageIcon } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useVoiceInput } from "@/hooks/use-voice-input";
@@ -575,9 +576,12 @@ export default function NewRecipePage() {
 
               {photoUrl ? (
                 <div className="rounded-lg bg-[#111] overflow-hidden">
-                  <img
+                  <Image
                     src={photoUrl}
                     alt="Vista previa"
+                    width={1024}
+                    height={512}
+                    unoptimized
                     className="max-h-64 w-full object-contain bg-[#0A0A0A]"
                   />
                   <div className="p-2 text-center">

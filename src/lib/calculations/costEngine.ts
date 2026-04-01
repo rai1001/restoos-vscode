@@ -18,11 +18,18 @@ import type {
   RecipeCostResult,
   IngredientCostLine,
   AllergenCode,
+  MeasurementUnit,
   PricingConfig,
   RecipeMap,
   ProductMap,
   CatalogMap,
 } from "./types";
+
+function resolveMeasurementUnit(
+  ingredient: Pick<RecipeIngredientCalc, "unit" | "unit_id">,
+): MeasurementUnit {
+  return ingredient.unit ?? { id: ingredient.unit_id, name: "", abbreviation: "" };
+}
 
 /**
  * Calculates the full cost breakdown for a recipe, including sub-recipes.
@@ -156,7 +163,7 @@ function calculateIngredientLine(
       product_name: ingredient.product_name || "Desconocido",
       quantity_recipe: ingredient.quantity,
       quantity_with_waste: round4(qtyWithWaste),
-      unit: ingredient.unit || ({ id: ingredient.unit_id, name: "", abbreviation: "" } as any),
+      unit: resolveMeasurementUnit(ingredient),
       unit_cost: round4(subCostPerUnit),
       line_cost: round2(lineCost),
       waste_pct: ingredient.waste_percent,
@@ -181,7 +188,7 @@ function calculateIngredientLine(
     product_name: ingredient.product_name || "Desconocido",
     quantity_recipe: ingredient.quantity,
     quantity_with_waste: round4(qtyWithWaste),
-    unit: ingredient.unit || ({ id: ingredient.unit_id, name: "", abbreviation: "" } as any),
+    unit: resolveMeasurementUnit(ingredient),
     unit_cost: round4(unitCost),
     line_cost: round2(lineCost),
     waste_pct: wastePct,

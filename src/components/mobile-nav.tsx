@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { usePathname } from "next/navigation";
 import {
   Sheet,
   SheetTrigger,
@@ -17,14 +16,6 @@ import { Menu } from "lucide-react";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
-  const pathname = usePathname();
-
-  // Close sheet on navigation
-  // biome-ignore lint: pathname change closes the sheet
-  const _ = pathname;
-  if (open && typeof window !== "undefined") {
-    // We rely on the pathname changing to close via effect below
-  }
 
   return (
     <Sheet open={open} onOpenChange={setOpen}>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useStockLots } from "@/features/inventory/hooks/use-inventory";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import Link from "next/link";
 
 export default function LotsPage() {
   const { data: lots, isLoading } = useStockLots();
+  const [expiringThreshold] = useState(() => Date.now() + 3 * 86400000);
 
   return (
     <div className="space-y-6">
@@ -53,7 +55,7 @@ export default function LotsPage() {
               {lots?.map((lot) => {
                 const isLow = lot.current_quantity <= 0;
                 const isExpiring = lot.expiry_date
-                  ? new Date(lot.expiry_date) <= new Date(Date.now() + 3 * 86400000)
+                  ? new Date(lot.expiry_date) <= new Date(expiringThreshold)
                   : false;
                 return (
                   <TableRow key={lot.id}>

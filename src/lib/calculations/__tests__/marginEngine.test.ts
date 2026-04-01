@@ -36,7 +36,7 @@ describe("calculatePricingByChannel", () => {
     const results = calculatePricingByChannel(3.0, config);
 
     expect(results).toHaveLength(1);
-    const sala = results[0];
+    const sala = results[0]!;
     expect(sala.channel).toBe("sala");
 
     // pvp_by_food_cost = 3.0 / 0.3 = 10.00
@@ -98,7 +98,7 @@ describe("calculatePricingByChannel", () => {
     });
 
     const results = calculatePricingByChannel(3.2, config);
-    const sala = results[0];
+    const sala = results[0]!;
     // pvp_by_food_cost = 3.2 / 0.3 = 10.6667
     // pvp_by_margin = 3.2 / 0.35 = 9.1429
     // max = 10.6667, ceil(10.6667 / 0.5) * 0.5 = ceil(21.333) * 0.5 = 22 * 0.5 = 11.00
@@ -113,12 +113,12 @@ describe("calculatePricingByChannel", () => {
     const results = calculatePricingByChannel(3.0, config);
     const channels = results.map((r) => r.channel);
 
-    expect(channels[0]).toBe("sala");
+    expect(channels[0]!).toBe("sala");
     expect(channels).toContain("delivery_glovo");
     expect(results).toHaveLength(2);
 
     // sala should use 0 commission (default from ?? 0)
-    const sala = results[0];
+    const sala = results[0]!;
     expect(sala.pvp_by_food_cost).toBe(10.0); // 3.0 / 0.3
   });
 
@@ -131,7 +131,7 @@ describe("calculatePricingByChannel", () => {
     });
 
     const results = calculatePricingByChannel(3.0, config);
-    const sala = results[0];
+    const sala = results[0]!;
     // pvp_recommended = 10.00, netRevenue = 10.00 * 1 = 10.00
     // effective_margin = (10.00 - 3.00) / 10.00 = 0.7
     expect(sala.effective_margin_pct).toBe(0.7);
@@ -146,7 +146,7 @@ describe("calculatePricingByChannel", () => {
     });
 
     const results = calculatePricingByChannel(3.2, config);
-    const sala = results[0];
+    const sala = results[0]!;
     // pvp_by_food_cost = 3.2 / 0.3 = 10.6667 -> round2 = 10.67
     // pvp_by_margin = 3.2 / 0.35 = 9.1429 -> round2 = 9.14
     // max = 10.67, commercialRound with 0 increment = round2(10.6667) = 10.67
@@ -205,20 +205,20 @@ describe("analyzeMenu", () => {
     // margins: [11, 6, 8, 3], avgMargin = 28/4 = 7
 
     // Paella: units 120 >= 80, margin 11 >= 7 -> star
-    expect(result[0].category).toBe("star");
-    expect(result[0].recipe_name).toBe("Paella");
+    expect(result[0]!.category).toBe("star");
+    expect(result[0]!.recipe_name).toBe("Paella");
 
     // Gazpacho: units 100 >= 80, margin 6 < 7 -> workhorse
-    expect(result[1].category).toBe("workhorse");
-    expect(result[1].recipe_name).toBe("Gazpacho");
+    expect(result[1]!.category).toBe("workhorse");
+    expect(result[1]!.recipe_name).toBe("Gazpacho");
 
     // Croquetas: units 60 < 80, margin 8 >= 7 -> puzzle
-    expect(result[2].category).toBe("puzzle");
-    expect(result[2].recipe_name).toBe("Croquetas");
+    expect(result[2]!.category).toBe("puzzle");
+    expect(result[2]!.recipe_name).toBe("Croquetas");
 
     // Ensalada: units 40 < 80, margin 3 < 7 -> dog
-    expect(result[3].category).toBe("dog");
-    expect(result[3].recipe_name).toBe("Ensalada");
+    expect(result[3]!.category).toBe("dog");
+    expect(result[3]!.recipe_name).toBe("Ensalada");
   });
 
   it("returns empty array for empty input", () => {
@@ -241,25 +241,25 @@ describe("analyzeMenu", () => {
     const result = analyzeMenu(baseDishes);
 
     // Paella: food_cost_pct = 4.0 / 15.0 = 0.2667
-    expect(result[0].food_cost_pct).toBe(0.2667);
+    expect(result[0]!.food_cost_pct).toBe(0.2667);
     // Paella: margin_per_unit = 15.0 - 4.0 = 11.0
-    expect(result[0].margin_per_unit).toBe(11.0);
+    expect(result[0]!.margin_per_unit).toBe(11.0);
 
     // Ensalada: food_cost_pct = 5.0 / 8.0 = 0.625
-    expect(result[3].food_cost_pct).toBe(0.625);
+    expect(result[3]!.food_cost_pct).toBe(0.625);
   });
 
   it("includes recommendation text for each category", () => {
     const result = analyzeMenu(baseDishes);
 
     // star recommendation
-    expect(result[0].recommendation).toContain("Mantener");
+    expect(result[0]!.recommendation).toContain("Mantener");
     // workhorse
-    expect(result[1].recommendation).toContain("escandallo");
+    expect(result[1]!.recommendation).toContain("escandallo");
     // puzzle
-    expect(result[2].recommendation).toContain("visibilidad");
+    expect(result[2]!.recommendation).toContain("visibilidad");
     // dog
-    expect(result[3].recommendation).toContain("retirar");
+    expect(result[3]!.recommendation).toContain("retirar");
   });
 
   it("handles single-dish menu (dish is always a star)", () => {
@@ -270,7 +270,7 @@ describe("analyzeMenu", () => {
     const result = analyzeMenu(dishes);
     expect(result).toHaveLength(1);
     // avg = itself, so units >= avg and margin >= avg -> star
-    expect(result[0].category).toBe("star");
+    expect(result[0]!.category).toBe("star");
   });
 });
 
@@ -298,7 +298,7 @@ describe("calculatePriceImpact", () => {
     // price_change_pct = ((3 - 2) / 2) * 100 = 50%
     expect(result.price_change_pct).toBe(50.0);
 
-    const affected = result.affected_recipes[0];
+    const affected = result.affected_recipes[0]!;
     expect(affected.old_cost).toBe(4.0);
     // new_cost = 4.0 + (0.5 * 1.0) = 4.5
     expect(affected.new_cost).toBe(4.5);
@@ -319,7 +319,7 @@ describe("calculatePriceImpact", () => {
 
     expect(result.price_change_pct).toBe(-33.33);
 
-    const affected = result.affected_recipes[0];
+    const affected = result.affected_recipes[0]!;
     // new_cost = 4.0 + (0.5 * -1.0) = 3.5
     expect(affected.new_cost).toBe(3.5);
     expect(affected.new_cost).toBeLessThan(affected.old_cost);
@@ -336,7 +336,7 @@ describe("calculatePriceImpact", () => {
       0.3,
     );
 
-    const affected = result.affected_recipes[0];
+    const affected = result.affected_recipes[0]!;
     // new_cost = 4.0 + (0.5 * 4.0) = 6.0
     // new_food_cost = 6.0 / 15.0 = 0.4 > 0.3
     expect(affected.new_food_cost_pct).toBe(0.4);
@@ -352,7 +352,7 @@ describe("calculatePriceImpact", () => {
       0.3,
     );
 
-    const affected = result.affected_recipes[0];
+    const affected = result.affected_recipes[0]!;
     // new_cost = 4.0 + (0.5 * 0.1) = 4.05
     // new_food_cost = 4.05 / 15.0 = 0.27 < 0.3
     expect(affected.exceeds_target).toBe(false);
@@ -376,9 +376,9 @@ describe("calculatePriceImpact", () => {
 
     // priceDiff = 1.0
     // r1: new_cost = 4.0 + (0.5 * 1.0) = 4.5
-    expect(result.affected_recipes[0].new_cost).toBe(4.5);
+    expect(result.affected_recipes[0]!.new_cost).toBe(4.5);
     // r2: new_cost = 2.0 + (0.3 * 1.0) = 2.3
-    expect(result.affected_recipes[1].new_cost).toBe(2.3);
+    expect(result.affected_recipes[1]!.new_cost).toBe(2.3);
   });
 
   it("handles oldPrice of zero (price_change_pct = 0)", () => {
@@ -392,6 +392,6 @@ describe("calculatePriceImpact", () => {
 
     expect(result.price_change_pct).toBe(0);
     // cost still changes: 4.0 + (0.5 * 5.0) = 6.5
-    expect(result.affected_recipes[0].new_cost).toBe(6.5);
+    expect(result.affected_recipes[0]!.new_cost).toBe(6.5);
   });
 });

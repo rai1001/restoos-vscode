@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays, format } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -64,8 +64,7 @@ export function LabelForm({ onBatchCreated, createBatch }: LabelFormProps) {
     reset,
     formState: { errors },
   } = useForm<LabelFormData>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: zodResolver(LabelFormSchema) as any,
+    resolver: zodResolver(LabelFormSchema) as Resolver<LabelFormData>,
     defaultValues: {
       prep_name: "",
       quantity: undefined,
@@ -145,7 +144,7 @@ export function LabelForm({ onBatchCreated, createBatch }: LabelFormProps) {
         <CardTitle className="text-lg">Nueva etiqueta de prep</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit as any)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {/* Prep name with recipe search */}
           <div className="space-y-1.5">
             <Label>Nombre de preparacion *</Label>

@@ -6,13 +6,6 @@ import { useStockLevels, useStockAlerts } from "@/features/inventory/hooks/use-i
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Table,
   TableBody,
   TableCell,
@@ -27,7 +20,6 @@ import {
   CalendarCheck,
   TrendingUp,
   TrendingDown,
-  Package,
   MoreHorizontal,
   LayoutGrid,
   List,
@@ -49,7 +41,6 @@ import {
   Tooltip,
   ResponsiveContainer,
   Cell,
-  Legend,
 } from "recharts";
 import {
   CHART_COLORS,

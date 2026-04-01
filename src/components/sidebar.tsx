@@ -25,36 +25,76 @@ import {
   Rocket,
   Warehouse,
 } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { useCommandPalette } from "@/components/command-palette-provider";
 import { HotelSwitcher } from "@/components/hotel-switcher";
 import { useSidebar } from "@/lib/sidebar-context";
 import { AssistantButton } from "@/features/assistant/components/AssistantButton";
 import { AssistantPanel } from "@/features/assistant/components/AssistantPanel";
 
-const navigation = [
-  { name: "Setup inicial", href: "/onboarding", icon: Rocket },
-  { name: "Modo Cocina", href: "/kitchen-mode", icon: ChefHat },
-  { name: "Dashboard", href: "/", icon: LayoutDashboard },
-  { name: "Reservas", href: "/reservations", icon: CalendarDays },
-  { name: "Clientes", href: "/clients", icon: Users },
-  { name: "Recetas", href: "/recipes", icon: ChefHat },
-  { name: "Menús", href: "/menus", icon: UtensilsCrossed },
-  { name: "Ingeniería de Menú", href: "/menu-engineering", icon: BarChart3 },
-  { name: "Escandallo", href: "/escandallo", icon: Calculator },
-  { name: "Catálogo", href: "/catalog/products", icon: Package },
-  { name: "Compras", href: "/procurement/orders", icon: ShoppingCart },
-  { name: "Inventario", href: "/inventory", icon: Warehouse },
-  { name: "Etiquetado", href: "/labeling", icon: Tag },
-  { name: "APPCC", href: "/appcc", icon: ShieldCheck },
-  { name: "Cumplimiento", href: "/compliance", icon: ShieldCheck },
-  { name: "Personal", href: "/staffing", icon: Users2 },
-  { name: "Informes", href: "/reports", icon: BarChart3 },
-  { name: "Mis tickets", href: "/my-tickets", icon: MessageSquare },
-  { name: "Tickets", href: "/admin/tickets", icon: MessageSquarePlus },
-  { name: "Pilotos", href: "/admin/setup-status", icon: BarChart3 },
-  { name: "Registro cambios", href: "/admin/audit-log", icon: Search },
-  { name: "Configuración", href: "/settings/hotel", icon: Settings },
+interface NavItem {
+  name: string;
+  href: string;
+  icon: typeof LayoutDashboard;
+}
+
+interface NavGroup {
+  label: string;
+  items: NavItem[];
+}
+
+const navigationGroups: NavGroup[] = [
+  {
+    label: "",
+    items: [
+      { name: "Modo Cocina", href: "/kitchen-mode", icon: ChefHat },
+      { name: "Dashboard", href: "/", icon: LayoutDashboard },
+    ],
+  },
+  {
+    label: "Cocina",
+    items: [
+      { name: "Recetas", href: "/recipes", icon: ChefHat },
+      { name: "Menús", href: "/menus", icon: UtensilsCrossed },
+      { name: "Ingeniería de Menú", href: "/menu-engineering", icon: BarChart3 },
+      { name: "Escandallo", href: "/escandallo", icon: Calculator },
+    ],
+  },
+  {
+    label: "Operaciones",
+    items: [
+      { name: "Catálogo", href: "/catalog/products", icon: Package },
+      { name: "Compras", href: "/procurement/orders", icon: ShoppingCart },
+      { name: "Inventario", href: "/inventory", icon: Warehouse },
+      { name: "APPCC", href: "/appcc", icon: ShieldCheck },
+      { name: "Cumplimiento", href: "/compliance", icon: ShieldCheck },
+      { name: "Etiquetado", href: "/labeling", icon: Tag },
+    ],
+  },
+  {
+    label: "Sala",
+    items: [
+      { name: "Reservas", href: "/reservations", icon: CalendarDays },
+      { name: "Clientes", href: "/clients", icon: Users },
+    ],
+  },
+  {
+    label: "Gestión",
+    items: [
+      { name: "Informes", href: "/reports", icon: BarChart3 },
+      { name: "Personal", href: "/staffing", icon: Users2 },
+      { name: "Configuración", href: "/settings/hotel", icon: Settings },
+    ],
+  },
+  {
+    label: "Admin",
+    items: [
+      { name: "Setup inicial", href: "/onboarding", icon: Rocket },
+      { name: "Pilotos", href: "/admin/setup-status", icon: BarChart3 },
+      { name: "Tickets", href: "/admin/tickets", icon: MessageSquarePlus },
+      { name: "Mis tickets", href: "/my-tickets", icon: MessageSquare },
+      { name: "Registro cambios", href: "/admin/audit-log", icon: Search },
+    ],
+  },
 ];
 
 export function Sidebar() {
@@ -151,32 +191,41 @@ export function Sidebar() {
             collapsed={collapsed}
           />
 
-          {navigation.map((item) => {
-            const isActive =
-              pathname === item.href ||
-              (item.href !== "/" && pathname.startsWith(item.href));
+          {navigationGroups.map((group) => (
+            <div key={group.label || "top"} className={group.label ? "mt-3 pt-3 border-t border-border/50" : ""}>
+              {group.label && !collapsed && (
+                <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/60">
+                  {group.label}
+                </p>
+              )}
+              {group.items.map((item) => {
+                const isActive =
+                  pathname === item.href ||
+                  (item.href !== "/" && pathname.startsWith(item.href));
 
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                title={collapsed ? item.name : undefined}
-                onClick={() => setMobileOpen(false)}
-                className={cn(
-                  "flex items-center gap-3 rounded-md py-2 text-sm font-medium transition-colors",
-                  collapsed
-                    ? "justify-center px-0 w-10 mx-auto"
-                    : "px-3",
-                  isActive
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                )}
-              >
-                <item.icon className="h-4 w-4 shrink-0" />
-                {!collapsed && <span>{item.name}</span>}
-              </Link>
-            );
-          })}
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    title={collapsed ? item.name : undefined}
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "flex items-center gap-3 rounded-md py-2 text-sm font-medium transition-colors",
+                      collapsed
+                        ? "justify-center px-0 w-10 mx-auto"
+                        : "px-3",
+                      isActive
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    )}
+                  >
+                    <item.icon className="h-4 w-4 shrink-0" />
+                    {!collapsed && <span>{item.name}</span>}
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
         {/* Bottom: theme toggle */}

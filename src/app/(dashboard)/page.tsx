@@ -28,9 +28,7 @@ import {
   Loader2,
 } from "lucide-react";
 import {
-  AreaChart,
   ComposedChart,
-  Area,
   LineChart,
   Line,
   BarChart,
@@ -46,8 +44,6 @@ import {
 } from "recharts";
 import {
   DASHBOARD_KPIS,
-  REVENUE_WEEK,
-  FOOD_COST_TREND,
   DASHBOARD_ALERTS,
   MODULE_STATUS,
   UPCOMING_EVENTS,
@@ -62,9 +58,7 @@ import { BriefingWidget } from "@/features/dashboard/components/briefing-widget"
 import { PrepAlertsWidget } from "@/features/labeling/components/prep-alerts-widget";
 import {
   CHART_COLORS,
-  CHART_THEME,
   CHART_MARGINS,
-  SERIES_COLORS,
   formatCurrency,
   formatPercent,
 } from "@/lib/chart-config";

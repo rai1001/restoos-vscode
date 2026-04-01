@@ -7,14 +7,12 @@ import {
   FileText,
   Download,
   ShieldCheck,
-  AlertTriangle,
   ChefHat,
   Loader2,
   CheckCircle2,
   Wheat,
 } from "lucide-react"
 import { toast } from "sonner"
-import { cn } from "@/lib/utils"
 
 // ── 14 alérgenos oficiales EU ───────────────────────────────────────────────
 

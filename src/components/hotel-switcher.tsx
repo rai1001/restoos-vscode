@@ -75,8 +75,16 @@ export function HotelSwitcher() {
   const activeHotel = hotels.find((h) => h.hotel_id === activeHotelId);
 
   if (hotels.length === 0) {
+    const isDemo = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
     return (
-      <div className="text-muted-foreground px-3 py-2 text-sm">Sin restaurante</div>
+      <div className="px-3 py-2 text-sm font-medium flex items-center gap-2">
+        <span className="text-foreground">{isDemo ? "Culuca Cociña-Bar" : "Sin restaurante"}</span>
+        {isDemo && (
+          <span className="text-[10px] font-semibold uppercase tracking-wider bg-primary/15 text-primary px-1.5 py-0.5 rounded">
+            Demo
+          </span>
+        )}
+      </div>
     );
   }
 

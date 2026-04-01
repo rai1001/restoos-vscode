@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useRef, useCallback } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, useWatch, Controller, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { MessageSquarePlus, Loader2, ImageIcon, X } from "lucide-react";
 import { toast } from "sonner";
@@ -49,11 +50,9 @@ export function FeedbackButton() {
     handleSubmit,
     control,
     reset,
-    watch,
     formState: { errors },
   } = useForm<CreateTicketInput>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: zodResolver(CreateTicketSchema) as any,
+    resolver: zodResolver(CreateTicketSchema) as Resolver<CreateTicketInput>,
     defaultValues: {
       type: "bug",
       priority: "medium",
@@ -62,8 +61,10 @@ export function FeedbackButton() {
     },
   });
 
-  const titleValue = watch("title");
-  const descValue = watch("description");
+  const [titleValue = "", descValue = ""] = useWatch({
+    control,
+    name: ["title", "description"],
+  });
 
   const handleFileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,30 +96,40 @@ export function FeedbackButton() {
     clearScreenshot();
   }, [reset, clearScreenshot]);
 
-  const onSubmit = async (data: CreateTicketInput) => {
-    try {
-      await createTicket.mutateAsync({
-        input: data,
-        screenshot: screenshotFile ?? undefined,
-      });
-      toast.success("Ticket enviado");
-      resetAll();
-      setOpen(false);
+  const onSubmit = useCallback(
+    async (data: CreateTicketInput) => {
+      try {
+        await createTicket.mutateAsync({
+          input: data,
+          screenshot: screenshotFile ?? undefined,
+        });
+        toast.success("Ticket enviado");
+        resetAll();
+        setOpen(false);
 
-      // Non-blocking notification
-      fetch("/api/notify-ticket", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: data.title, type: data.type }),
-      }).catch(() => {
-        // Silently ignore notification errors
-      });
-    } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Error al enviar ticket";
-      toast.error(message);
-    }
-  };
+        // Non-blocking notification
+        fetch("/api/notify-ticket", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title: data.title, type: data.type }),
+        }).catch(() => {
+          // Silently ignore notification errors
+        });
+      } catch (err) {
+        const message =
+          err instanceof Error ? err.message : "Error al enviar ticket";
+        toast.error(message);
+      }
+    },
+    [createTicket, screenshotFile, resetAll]
+  );
+
+  const handleFormSubmit = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      void handleSubmit(onSubmit)(event);
+    },
+    [handleSubmit, onSubmit]
+  );
 
   return (
     <>
@@ -142,7 +153,7 @@ export function FeedbackButton() {
           </DialogHeader>
 
           <form
-            onSubmit={handleSubmit(onSubmit as any)}
+            onSubmit={handleFormSubmit}
             className="flex flex-col gap-4"
           >
             {/* Type */}
@@ -271,9 +282,12 @@ export function FeedbackButton() {
               </div>
               {screenshotPreview && (
                 <div className="relative mt-1 w-fit">
-                  <img
+                  <Image
                     src={screenshotPreview}
                     alt="Vista previa"
+                    width={160}
+                    height={160}
+                    unoptimized
                     className="h-20 rounded-md border object-cover"
                   />
                   <button

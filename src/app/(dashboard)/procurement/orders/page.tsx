@@ -7,7 +7,6 @@ import { POStatusBadge } from "@/features/procurement/components/po-status-badge
 import { POStatusActions } from "@/features/procurement/components/po-status-actions";
 import { OCRAlbaranDialog } from "@/features/procurement/components/ocr-albaran-dialog";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   Plus,
   ShoppingCart,
@@ -17,15 +16,9 @@ import {
   ChevronUp,
   Loader2,
   PackagePlus,
-  ClipboardList,
   Send,
   Minus,
   Trash2,
-  Star,
-  Leaf,
-  Truck,
-  Globe,
-  ShieldCheck,
 } from "lucide-react";
 import { TableSkeleton } from "@/components/page-skeleton";
 import { EmptyState } from "@/components/empty-state";
@@ -64,15 +57,6 @@ const MOCK_SERVICES_PROCUREMENT = [
 ];
 
 // ── Design tokens (Stitch Matte Kitchen) ────────────────────────────────────
-
-const T = {
-  bg: "#0A0A0A",
-  card: "#1A1A1A",
-  cardHover: "#222222",
-  primary: "#F97316",
-  text: "#E5E2E1",
-  secondary: "#A78B7D",
-} as const;
 
 // ─── Helpers to bridge mock data into engine types ──────────────────────────
 

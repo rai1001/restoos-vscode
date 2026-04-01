@@ -31,7 +31,6 @@ import type {
 
 import type {
   HistoricalConsumption,
-  FutureEventDemand,
   StockLevel,
 } from "@/lib/calculations/forecastEngine";
 
@@ -267,7 +266,7 @@ function handleCost(message: string): ChatResponse {
   }
 }
 
-function handleDemand(message: string): ChatResponse {
+function handleDemand(): ChatResponse {
   const recipeMap = getRecipeMap();
   const productMap = getProductMap();
 
@@ -310,7 +309,7 @@ function handleDemand(message: string): ChatResponse {
   }
 }
 
-function handleProcurement(message: string): ChatResponse {
+function handleProcurement(): ChatResponse {
   const recipeMap = getRecipeMap();
   const productMap = getProductMap();
 
@@ -364,7 +363,7 @@ function handleProcurement(message: string): ChatResponse {
   }
 }
 
-function handleMargin(_message: string): ChatResponse {
+function handleMargin(): ChatResponse {
   // Simulate menu engineering with realistic sales data
   const dishes = [
     { recipe_id: MOCK_RECIPES[0]!.id, recipe_name: "Gazpacho andaluz", units_sold: 180, revenue: 1440, cost_per_unit: 1.85, pvp: 8.00 },
@@ -466,7 +465,7 @@ function handleScaling(message: string): ChatResponse {
   }
 }
 
-function handleForecast(_message: string): ChatResponse {
+function handleForecast(): ChatResponse {
   // Build mock historical consumption (last 4 weeks)
   const history: HistoricalConsumption[] = [];
   const products = [
@@ -616,15 +615,15 @@ export async function processMessage(message: string): Promise<ChatResponse> {
     case "cost":
       return handleCost(message);
     case "demand":
-      return handleDemand(message);
+      return handleDemand();
     case "procurement":
-      return handleProcurement(message);
+      return handleProcurement();
     case "margin":
-      return handleMargin(message);
+      return handleMargin();
     case "scaling":
       return handleScaling(message);
     case "forecast":
-      return handleForecast(message);
+      return handleForecast();
     default:
       return handleGeneral(message);
   }

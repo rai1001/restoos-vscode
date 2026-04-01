@@ -59,37 +59,23 @@ export function ProductCombobox({
 
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<{
-    id: string;
-    name: string;
-    category: string;
-    unit: string;
-    allergens: string[];
-  } | null>(null);
-
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const blurTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
-
-  // Sync selected product from external value prop
-  useEffect(() => {
-    if (!value) {
-      setSelectedProduct(null);
-      setQuery("");
-      return;
-    }
+  const selectedProduct = useMemo(() => {
+    if (!value) return null;
     const found = products.find((p) => p.id === value);
-    if (found) {
-      setSelectedProduct({
-        id: found.id,
-        name: found.name,
-        category: found.category_id
-          ? categoryMap.get(found.category_id) ?? ""
-          : "",
-        unit: found.default_unit_id ?? "",
-        allergens: found.allergens,
-      });
-    }
+    if (!found) return null;
+
+    return {
+      id: found.id,
+      name: found.name,
+      category: found.category_id
+        ? categoryMap.get(found.category_id) ?? ""
+        : "",
+      unit: found.default_unit_id ?? "",
+      allergens: found.allergens,
+    };
   }, [value, products, categoryMap]);
 
   // Filtered list
@@ -115,7 +101,6 @@ export function ProductCombobox({
         unit: product.default_unit_id ?? "",
         allergens: product.allergens,
       };
-      setSelectedProduct(result);
       setQuery("");
       setOpen(false);
       onSelect(result);
@@ -124,7 +109,6 @@ export function ProductCombobox({
   );
 
   const handleClear = useCallback(() => {
-    setSelectedProduct(null);
     setQuery("");
     onSelect(null);
     inputRef.current?.focus();

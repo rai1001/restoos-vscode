@@ -1,7 +1,6 @@
 import { calculateDemand } from "../demandEngine";
 import type {
   EventWithMenu,
-  ForecastDay,
   RecipeMap,
   ProductMap,
   MeasurementUnit,
@@ -298,8 +297,8 @@ describe("calculateDemand", () => {
 
     const result = calculateDemand(events, [], recipes, products);
     const arroz = result.find((d) => d.product_id === "p-arroz");
-    expect(arroz!.breakdown[0].source).toContain("Fiesta");
-    expect(arroz!.breakdown[0].source).toContain("4 pax");
+    expect(arroz!.breakdown[0]!.source).toContain("Fiesta");
+    expect(arroz!.breakdown[0]!.source).toContain("4 pax");
   });
 
   it("handles circular sub-recipe references without infinite loop", () => {

@@ -1,6 +1,6 @@
-"use client"
+﻿"use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, type ReactNode } from "react"
 import { cn } from "@/lib/utils"
 import { useMenuEngineering } from "@/features/menu-engineering/use-menu-engineering"
 import {
@@ -30,7 +30,7 @@ import {
   CHART_THEME,
 } from "@/lib/chart-config"
 
-// ─── KPI Card ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ KPI Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function KpiCard({
   label,
@@ -55,7 +55,7 @@ function KpiCard({
   )
 }
 
-// ─── Quadrant Card ───────────────────────────────────────────────────────────
+// â”€â”€â”€ Quadrant Card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function QuadrantCard({
   quadrant,
@@ -116,7 +116,7 @@ function QuadrantCard({
             >
               <span className="font-medium leading-snug text-[#E5E2E1]">{dish.name}</span>
               <span className="shrink-0 text-[#A78B7D]">
-                {dish.contribution_margin.toFixed(2)}€ · {dish.units_sold} uds
+                {dish.contribution_margin.toFixed(2)}â‚¬ Â· {dish.units_sold} uds
               </span>
             </div>
           ))
@@ -126,7 +126,7 @@ function QuadrantCard({
   )
 }
 
-// ─── Table View ──────────────────────────────────────────────────────────────
+// â”€â”€â”€ Table View â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 type SortColumn =
   | "name"
@@ -149,6 +149,49 @@ function QuadrantBadge({ quadrant }: { quadrant: MatrixQuadrant }) {
     >
       {cfg.emoji} {cfg.label}
     </span>
+  )
+}
+
+function SortIndicator({
+  active,
+  direction,
+}: {
+  active: boolean
+  direction: "asc" | "desc"
+}) {
+  return active ? (
+    <span className="ml-1 text-xs">{direction === "asc" ? "Ã¢â€ â€˜" : "Ã¢â€ â€œ"}</span>
+  ) : (
+    <span className="ml-1 text-xs text-[#A78B7D]/40">Ã¢â€ â€¢</span>
+  )
+}
+
+function SortableTh({
+  col,
+  children,
+  right,
+  sortCol,
+  sortDir,
+  onSort,
+}: {
+  col: SortColumn
+  children: ReactNode
+  right?: boolean
+  sortCol: SortColumn
+  sortDir: "asc" | "desc"
+  onSort: (col: SortColumn) => void
+}) {
+  return (
+    <th
+      onClick={() => onSort(col)}
+      className={cn(
+        "cursor-pointer select-none whitespace-nowrap px-3 py-2 text-xs font-medium uppercase tracking-widest text-[#A78B7D] hover:text-[#E5E2E1] transition-colors",
+        right ? "text-right" : "text-left",
+      )}
+    >
+      {children}
+      <SortIndicator active={sortCol === col} direction={sortDir} />
+    </th>
   )
 }
 
@@ -182,47 +225,20 @@ function TableView({ dishes }: { dishes: MenuDishAnalysis[] }) {
   const totalContrib = dishes.reduce((a, d) => a + d.total_contribution, 0)
   const totalUnits = dishes.reduce((a, d) => a + d.units_sold, 0)
 
-  const SortIcon = ({ col }: { col: SortColumn }) =>
-    sortCol === col ? (
-      <span className="ml-1 text-xs">{sortDir === "asc" ? "↑" : "↓"}</span>
-    ) : (
-      <span className="ml-1 text-xs text-[#A78B7D]/40">↕</span>
-    )
-
-  const Th = ({
-    col,
-    children,
-    right,
-  }: {
-    col: SortColumn
-    children: React.ReactNode
-    right?: boolean
-  }) => (
-    <th
-      onClick={() => handleSort(col)}
-      className={cn(
-        "cursor-pointer select-none whitespace-nowrap px-3 py-2 text-xs font-medium uppercase tracking-widest text-[#A78B7D] hover:text-[#E5E2E1] transition-colors",
-        right ? "text-right" : "text-left",
-      )}
-    >
-      {children}
-      <SortIcon col={col} />
-    </th>
-  )
 
   return (
     <div className="overflow-x-auto rounded-lg bg-[#1A1A1A]">
       <table className="w-full text-sm">
         <thead className="bg-[#111111]">
           <tr>
-            <Th col="name">Plato</Th>
-            <Th col="category">Categoria</Th>
-            <Th col="selling_price" right>Precio</Th>
-            <Th col="cost_price" right>Coste</Th>
-            <Th col="contribution_margin" right>Margen €</Th>
-            <Th col="contribution_margin_pct" right>Margen %</Th>
-            <Th col="units_sold" right>Uds vendidas</Th>
-            <Th col="quadrant">Cuadrante</Th>
+            <SortableTh col="name" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Plato</SortableTh>
+            <SortableTh col="category" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Categoria</SortableTh>
+            <SortableTh col="selling_price" right sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Precio</SortableTh>
+            <SortableTh col="cost_price" right sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Coste</SortableTh>
+            <SortableTh col="contribution_margin" right sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Margen â‚¬</SortableTh>
+            <SortableTh col="contribution_margin_pct" right sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Margen %</SortableTh>
+            <SortableTh col="units_sold" right sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Uds vendidas</SortableTh>
+            <SortableTh col="quadrant" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Cuadrante</SortableTh>
           </tr>
         </thead>
         <tbody className="divide-y divide-[#A78B7D]/10">
@@ -232,12 +248,12 @@ function TableView({ dishes }: { dishes: MenuDishAnalysis[] }) {
               <td className="px-3 py-2 text-[#A78B7D]">
                 {CATEGORY_LABELS[dish.category]}
               </td>
-              <td className="px-3 py-2 text-right text-[#E5E2E1]">{dish.selling_price.toFixed(2)} €</td>
+              <td className="px-3 py-2 text-right text-[#E5E2E1]">{dish.selling_price.toFixed(2)} â‚¬</td>
               <td className="px-3 py-2 text-right text-[#A78B7D]">
-                {dish.cost_price.toFixed(2)} €
+                {dish.cost_price.toFixed(2)} â‚¬
               </td>
               <td className="px-3 py-2 text-right font-medium text-[#E5E2E1]">
-                {dish.contribution_margin.toFixed(2)} €
+                {dish.contribution_margin.toFixed(2)} â‚¬
               </td>
               <td className="px-3 py-2 text-right text-[#E5E2E1]">
                 {dish.contribution_margin_pct.toFixed(1)}%
@@ -255,13 +271,13 @@ function TableView({ dishes }: { dishes: MenuDishAnalysis[] }) {
               Totales ({dishes.length} platos)
             </td>
             <td className="px-3 py-2 text-right text-[#E5E2E1]">
-              {totalRevenue.toFixed(0)} €
+              {totalRevenue.toFixed(0)} â‚¬
             </td>
             <td className="px-3 py-2 text-right text-[#A78B7D]">
-              {totalCost.toFixed(0)} €
+              {totalCost.toFixed(0)} â‚¬
             </td>
             <td className="px-3 py-2 text-right text-[#E5E2E1]">
-              {totalContrib.toFixed(0)} €
+              {totalContrib.toFixed(0)} â‚¬
             </td>
             <td className="px-3 py-2 text-right text-[#E5E2E1]">
               {totalRevenue > 0
@@ -278,7 +294,7 @@ function TableView({ dishes }: { dishes: MenuDishAnalysis[] }) {
   )
 }
 
-// ─── Recommendations ─────────────────────────────────────────────────────────
+// â”€â”€â”€ Recommendations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
   const stars = dishes.filter((d) => d.quadrant === "estrella")
@@ -306,16 +322,16 @@ function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
 
   if (topStar) {
     insights.push({
-      emoji: "⭐",
-      text: `"${topStar.name}" es tu mejor plato — ponlo en lugar destacado de la carta.`,
+      emoji: "â­",
+      text: `"${topStar.name}" es tu mejor plato â€” ponlo en lugar destacado de la carta.`,
       borderColor: "border-l-yellow-500",
     })
   }
 
   if (dogs.length > 0) {
     insights.push({
-      emoji: "🐕",
-      text: `${dogs.length} plato${dogs.length > 1 ? "s" : ""} con baja rentabilidad y baja popularidad${worstDog ? ` — "${worstDog.name}" es el candidato principal para retirar` : ""}.`,
+      emoji: "ðŸ•",
+      text: `${dogs.length} plato${dogs.length > 1 ? "s" : ""} con baja rentabilidad y baja popularidad${worstDog ? ` â€” "${worstDog.name}" es el candidato principal para retirar` : ""}.`,
       borderColor: "border-l-red-500",
     })
   }
@@ -323,16 +339,16 @@ function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
   if (worstPlow) {
     const suggestedPrice = (worstPlow.selling_price * 1.1).toFixed(2)
     insights.push({
-      emoji: "🐄",
-      text: `"${worstPlow.name}" se vende mucho pero su margen es bajo (${worstPlow.contribution_margin_pct.toFixed(1)}%) — considera subir el precio a ${suggestedPrice} €.`,
+      emoji: "ðŸ„",
+      text: `"${worstPlow.name}" se vende mucho pero su margen es bajo (${worstPlow.contribution_margin_pct.toFixed(1)}%) â€” considera subir el precio a ${suggestedPrice} â‚¬.`,
       borderColor: "border-l-blue-500",
     })
   }
 
   if (topPuzzle) {
     insights.push({
-      emoji: "❓",
-      text: `"${topPuzzle.name}" tiene buen margen (${topPuzzle.contribution_margin.toFixed(2)} €) pero pocas ventas — mejora su visibilidad en la carta.`,
+      emoji: "â“",
+      text: `"${topPuzzle.name}" tiene buen margen (${topPuzzle.contribution_margin.toFixed(2)} â‚¬) pero pocas ventas â€” mejora su visibilidad en la carta.`,
       borderColor: "border-l-purple-500",
     })
   }
@@ -360,7 +376,7 @@ function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
   )
 }
 
-// ─── Matrix View ─────────────────────────────────────────────────────────────
+// â”€â”€â”€ Matrix View â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function MatrixView({ dishes }: { dishes: MenuDishAnalysis[] }) {
   const byQuadrant = (q: MatrixQuadrant) => dishes.filter((d) => d.quadrant === q)
@@ -373,12 +389,12 @@ function MatrixView({ dishes }: { dishes: MenuDishAnalysis[] }) {
           className="whitespace-nowrap text-xs font-medium text-[#A78B7D]"
           style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
         >
-          Rentabilidad ↑
+          Rentabilidad â†‘
         </span>
       </div>
 
       <div className="flex flex-1 flex-col gap-3">
-        {/* 2×2 Grid: top-left=ENIGMA, top-right=ESTRELLA, bottom-left=PERRO, bottom-right=VACA */}
+        {/* 2Ã—2 Grid: top-left=ENIGMA, top-right=ESTRELLA, bottom-left=PERRO, bottom-right=VACA */}
         <div
           className="grid grid-cols-1 gap-3 sm:grid-cols-2"
         >
@@ -394,21 +410,21 @@ function MatrixView({ dishes }: { dishes: MenuDishAnalysis[] }) {
         {/* X-axis label */}
         <div className="flex items-center justify-center">
           <span className="text-xs font-medium text-[#A78B7D]">
-            Popularidad →
+            Popularidad â†’
           </span>
         </div>
 
         {/* Axis legend */}
         <div className="flex items-center justify-between text-xs text-[#A78B7D]">
-          <span>← Baja popularidad</span>
-          <span>Alta popularidad →</span>
+          <span>â† Baja popularidad</span>
+          <span>Alta popularidad â†’</span>
         </div>
       </div>
     </div>
   )
 }
 
-// ─── Scatter / Bubble Chart ──────────────────────────────────────────────────
+// â”€â”€â”€ Scatter / Bubble Chart â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 type QuadrantKey = "star" | "workhorse" | "puzzle" | "dog"
 
@@ -471,7 +487,7 @@ function ScatterTooltipContent({ active, payload }: { active?: boolean; payload?
       <p className="mb-1 font-semibold">{d.plato}</p>
       <p>Popularidad: {d.popularidad} uds</p>
       <p>Margen: {d.margen}%</p>
-      <p>Revenue: {d.revenue.toLocaleString("es-ES")} €</p>
+      <p>Revenue: {d.revenue.toLocaleString("es-ES")} â‚¬</p>
       <p className="mt-1 font-medium" style={{ color: QUADRANT_COLORS[d.quadrant] }}>
         {QUADRANT_LABELS_SCATTER[d.quadrant]}
       </p>
@@ -499,15 +515,13 @@ function ScatterLegend() {
 
 function RentabilidadScatterChart() {
   const theme = CHART_THEME.dark
-  const minRev = Math.min(...dishScatterData.map((d) => d.revenue))
-  const maxRev = Math.max(...dishScatterData.map((d) => d.revenue))
 
   return (
     <div className="rounded-lg bg-[#1A1A1A] p-4">
       <div className="mb-4">
         <h2 className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Mapa de Rentabilidad</h2>
         <p className="text-sm text-[#A78B7D] mt-1">
-          Margen vs popularidad — tamano = contribucion a ingresos
+          Margen vs popularidad â€” tamano = contribucion a ingresos
         </p>
       </div>
 
@@ -637,20 +651,20 @@ function RentabilidadScatterChart() {
       {/* Quadrant corner labels */}
       <div className="mt-1 grid grid-cols-2 gap-x-4 text-[10px] text-[#A78B7D]">
         <div className="flex justify-between">
-          <span style={{ color: CHART_COLORS.red }}>🐕 Perro (bajo/bajo)</span>
+          <span style={{ color: CHART_COLORS.red }}>ðŸ• Perro (bajo/bajo)</span>
           <span />
         </div>
         <div className="flex justify-between">
           <span />
-          <span style={{ color: CHART_COLORS.blue }}>🐄 Vaca (alto pop/bajo margen)</span>
+          <span style={{ color: CHART_COLORS.blue }}>ðŸ„ Vaca (alto pop/bajo margen)</span>
         </div>
         <div className="flex justify-between">
-          <span style={{ color: CHART_COLORS.amber }}>❓ Enigma (bajo pop/alto margen)</span>
+          <span style={{ color: CHART_COLORS.amber }}>â“ Enigma (bajo pop/alto margen)</span>
           <span />
         </div>
         <div className="flex justify-between">
           <span />
-          <span style={{ color: CHART_COLORS.green }}>⭐ Estrella (alto/alto)</span>
+          <span style={{ color: CHART_COLORS.green }}>â­ Estrella (alto/alto)</span>
         </div>
       </div>
 
@@ -662,7 +676,7 @@ function RentabilidadScatterChart() {
   )
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Page â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export default function MenuEngineeringPage() {
   const [selectedCategory, setSelectedCategory] = useState<
@@ -686,33 +700,33 @@ export default function MenuEngineeringPage() {
         </p>
         <h1 className="text-xl font-bold sm:text-2xl text-[#E5E2E1]">Ingenieria de Menu</h1>
         <p className="mt-1 text-[#A78B7D]">
-          Analisis de rentabilidad y popularidad de platos · {report.period_label}
+          Analisis de rentabilidad y popularidad de platos Â· {report.period_label}
         </p>
       </div>
 
       {/* KPI row */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <KpiCard
-          emoji="💰"
+          emoji="ðŸ’°"
           label="Ingresos totales"
-          value={`${report.total_revenue.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} €`}
+          value={`${report.total_revenue.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} â‚¬`}
         />
         <KpiCard
-          emoji="📉"
+          emoji="ðŸ“‰"
           label="Coste total"
-          value={`${report.total_cost.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} €`}
+          value={`${report.total_cost.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} â‚¬`}
         />
         <KpiCard
-          emoji="📈"
+          emoji="ðŸ“ˆ"
           label="Margen total"
-          value={`${report.total_contribution.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} €`}
+          value={`${report.total_contribution.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} â‚¬`}
           sub={`${marginPct}% sobre ingresos`}
         />
         <KpiCard
-          emoji="🍽️"
+          emoji="ðŸ½ï¸"
           label="Platos analizados"
           value={String(report.dishes.length)}
-          sub={`⭐ ${report.stars.length} · 🐄 ${report.plow_horses.length} · ❓ ${report.puzzles.length} · 🐕 ${report.dogs.length}`}
+          sub={`â­ ${report.stars.length} Â· ðŸ„ ${report.plow_horses.length} Â· â“ ${report.puzzles.length} Â· ðŸ• ${report.dogs.length}`}
         />
       </div>
 

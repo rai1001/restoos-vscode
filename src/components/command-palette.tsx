@@ -55,38 +55,45 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
         .slice(0, 8)
     : NAVIGATION_COMMANDS.slice(0, 8)
 
+  const resetPalette = useCallback(() => {
+    setQuery("")
+    setSelectedIndex(0)
+  }, [])
+
+  const handleClose = useCallback(() => {
+    resetPalette()
+    onClose()
+  }, [onClose, resetPalette])
+
   const handleSelect = useCallback((item: CommandItem) => {
     if (item.href) {
       router.push(item.href)
     }
-    onClose()
-    setQuery("")
-    setSelectedIndex(0)
-  }, [router, onClose])
+    handleClose()
+  }, [router, handleClose])
 
   useEffect(() => {
     if (open) {
-      setQuery("")
-      setSelectedIndex(0)
-      setTimeout(() => inputRef.current?.focus(), 50)
+      const focusTimeout = window.setTimeout(() => inputRef.current?.focus(), 50)
+      return () => window.clearTimeout(focusTimeout)
     }
   }, [open])
-
-  useEffect(() => {
-    setSelectedIndex(0)
-  }, [query])
 
   useEffect(() => {
     if (!open) return
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        onClose()
+        handleClose()
       } else if (e.key === "ArrowDown") {
         e.preventDefault()
-        setSelectedIndex(i => Math.min(i + 1, filtered.length - 1))
+        if (filtered.length > 0) {
+          setSelectedIndex(i => Math.min(i + 1, filtered.length - 1))
+        }
       } else if (e.key === "ArrowUp") {
         e.preventDefault()
-        setSelectedIndex(i => Math.max(i - 1, 0))
+        if (filtered.length > 0) {
+          setSelectedIndex(i => Math.max(i - 1, 0))
+        }
       } else if (e.key === "Enter") {
         e.preventDefault()
         const item = filtered[selectedIndex]
@@ -95,7 +102,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
     }
     window.addEventListener("keydown", handler)
     return () => window.removeEventListener("keydown", handler)
-  }, [open, filtered, selectedIndex, handleSelect, onClose])
+  }, [open, filtered, selectedIndex, handleSelect, handleClose])
 
   // Scroll selected item into view
   useEffect(() => {
@@ -126,7 +133,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
       {/* Backdrop */}
       <div
         className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm"
-        onClick={onClose}
+        onClick={handleClose}
       />
 
       {/* Palette */}
@@ -139,7 +146,10 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
             className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
             placeholder="Buscar páginas, recetas, eventos..."
             value={query}
-            onChange={e => setQuery(e.target.value)}
+            onChange={e => {
+              setQuery(e.target.value)
+              setSelectedIndex(0)
+            }}
           />
           <kbd className="hidden sm:inline-flex h-5 items-center gap-1 rounded border bg-muted px-1.5 text-[10px] font-medium text-muted-foreground">
             ESC

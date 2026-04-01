@@ -12,7 +12,6 @@ interface AllergenEditorProps {
 }
 
 export function AllergenEditor({
-  productId: _productId,
   initialAllergens = [],
   readOnly = false,
   onChange,

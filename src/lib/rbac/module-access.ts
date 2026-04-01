@@ -54,19 +54,19 @@ export const MODULE_ACCESS: ModuleAccess[] = [
  * Check if a role can access a given module/path.
  */
 export function canAccessModule(role: Role, href: string): boolean {
-  const module = MODULE_ACCESS.find(m => href.startsWith(m.href))
-  if (!module) return true // if not in the list, allow by default
-  return module.roles.includes(role)
+  const matchedModule = MODULE_ACCESS.find(m => href.startsWith(m.href))
+  if (!matchedModule) return true // if not in the list, allow by default
+  return matchedModule.roles.includes(role)
 }
 
 /**
  * Check if a role can edit (vs view-only) in a module.
  */
 export function canEditModule(role: Role, href: string): boolean {
-  const module = MODULE_ACCESS.find(m => href.startsWith(m.href))
-  if (!module) return true
-  if (!module.canEdit) return module.roles.includes(role) // if no canEdit, all viewers can edit
-  return module.canEdit.includes(role)
+  const matchedModule = MODULE_ACCESS.find(m => href.startsWith(m.href))
+  if (!matchedModule) return true
+  if (!matchedModule.canEdit) return matchedModule.roles.includes(role) // if no canEdit, all viewers can edit
+  return matchedModule.canEdit.includes(role)
 }
 
 /**

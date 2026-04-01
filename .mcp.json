@@ -5,7 +5,14 @@
       "args": ["@_davideast/stitch-mcp", "proxy"],
       "env": {
         "STITCH_PROJECT_ID": "culinaryos-stitch",
-        "STITCH_API_KEY": "AIzaSyADizAou42EY4QxRAjShUm5vzbi1NP4WXI"
+        "GOOGLE_APPLICATION_CREDENTIALS": "C:\\Users\\Israel\\.stitch-mcp\\config\\application_default_credentials.json"
+      }
+    },
+    "magic": {
+      "command": "npx",
+      "args": ["-y", "@21st-dev/magic@latest"],
+      "env": {
+        "API_KEY": "08d1795f317bf573cb1bedb27f25c948a1322eb4445e430d2e54919effe419a2"
       }
     }
   }

@@ -5,6 +5,32 @@
 
 ---
 
+## Sprint G4 - Stabilization pass (2026-03-31)
+
+### fix: repo stabilization, strict TS, Next 16 proxy migration
+Pasada de estabilizacion tecnica sobre el repo activo `C:\RestoOsvscode`.
+
+| Archivo | Descripcion |
+|---------|-------------|
+| `src/components/command-palette.tsx` | Se quitan resets de estado desde effects y se simplifica cierre/reset |
+| `src/components/theme-toggle.tsx` | Se reemplaza init por effect con `useSyncExternalStore` |
+| `src/components/pwa-install-prompt.tsx` | Se mueve la deteccion inicial fuera de effect |
+| `src/components/product-combobox.tsx` | Se elimina estado derivado sincronizado por effect |
+| `src/lib/sidebar-context.tsx` | Se inicializa desde `localStorage` con lazy init |
+| `src/lib/auth/hooks.ts` | Se endurece el manejo de cliente Supabase y loading state |
+| `src/app/(dashboard)/inventory/lots/page.tsx` | Se elimina `Date.now()` desde render |
+| `src/app/(dashboard)/menu-engineering/page.tsx` | Se extraen helpers para evitar componentes inline en render |
+| `src/lib/rbac/module-access.ts` | Se corrige naming reservado |
+| `src/lib/calculations/costEngine.ts` | Se elimina fallback inseguro con `any` |
+| `src/lib/calculations/demandEngine.ts` | Se elimina fallback inseguro con `any` |
+| `src/lib/calculations/__tests__/*.test.ts` | Se ajustan tests para `noUncheckedIndexedAccess` |
+| `src/proxy.ts` | Nueva convencion de Next 16 en lugar de `src/middleware.ts` |
+| `eslint.config.mjs` | Se retiran overrides temporales que ocultaban errores |
+
+**Verificacion:** `npm run lint` OK sin errores, `npx tsc --noEmit` OK, `npm run build` OK, `npx vitest run` OK (`149/149`).
+**Pendiente:** quedan warnings no bloqueantes por imports muertos, `img` sin `next/image` y un warning del compilador React en feedback.
+
+---
 ## Sprint G3 — IA & Automatización (2026-03-17)
 
 ### ✨ OCR Albaranes (`feat: OCR albaranes — Mistral Vision`)
@@ -177,3 +203,4 @@ Web Speech API para dictado en español sin API key.
 
 ### ✨ UI Polish (EmptyState + TableSkeleton)
 `TableSkeleton` y `EmptyState` aplicados en las 12 páginas de listado.
+

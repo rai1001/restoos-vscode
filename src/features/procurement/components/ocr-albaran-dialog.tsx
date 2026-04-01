@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useState, useRef } from "react"
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle,
@@ -128,7 +129,14 @@ export function OCRAlbaranDialog({ open, onClose, onApply }: OCRAlbaranDialogPro
                 onChange={e => { const f = e.target.files?.[0]; if (f) handleFile(f) }}
               />
               {preview ? (
-                <img src={preview} alt="Preview" className="max-h-48 mx-auto rounded-md object-contain" />
+                <Image
+                  src={preview}
+                  alt="Preview"
+                  width={960}
+                  height={480}
+                  unoptimized
+                  className="max-h-48 mx-auto rounded-md object-contain"
+                />
               ) : (
                 <>
                   <Upload className="h-10 w-10 mx-auto text-muted-foreground mb-3" />

@@ -15,7 +15,6 @@ import type {
   RecipeCostResult,
   MeasurementUnit,
   RecipeIngredientCalc,
-  AllergenCode,
 } from "../types";
 
 // ─── Shared helpers & fixtures ──────────────────────────────
@@ -133,8 +132,8 @@ describe("calculateRecipeCost", () => {
     expect(result.servings).toBe(4);
     expect(result.cost_per_serving).toBeCloseTo(1.19, 2);
     expect(result.lines).toHaveLength(2);
-    expect(result.lines[0].line_cost).toBe(4.0);
-    expect(result.lines[1].line_cost).toBe(0.75);
+    expect(result.lines[0]!.line_cost).toBe(4.0);
+    expect(result.lines[1]!.line_cost).toBe(0.75);
     expect(result.recipe_id).toBe("recipe-salsa");
     expect(result.recipe_name).toBe("Salsa de Tomate");
   });
@@ -188,7 +187,7 @@ describe("calculateRecipeCost", () => {
       DEFAULT_PRICING,
     );
 
-    const line = result.lines[0];
+    const line = result.lines[0]!;
     // qty_with_waste = 1 * (1 + 0.15) = 1.15
     expect(line.quantity_with_waste).toBeCloseTo(1.15, 4);
     // line_cost = 1.15 * 12 = 13.80
@@ -252,8 +251,8 @@ describe("calculateRecipeCost", () => {
     );
 
     // waste_percent is 0 (explicit), so qty_with_waste = 0.5 * 1.0 = 0.5
-    expect(result.lines[0].quantity_with_waste).toBe(0.5);
-    expect(result.lines[0].line_cost).toBe(10.0);
+    expect(result.lines[0]!.quantity_with_waste).toBe(0.5);
+    expect(result.lines[0]!.line_cost).toBe(10.0);
   });
 
   it("recursively costs a sub-recipe ingredient", () => {
@@ -377,7 +376,7 @@ describe("calculateRecipeCost", () => {
 
     // Bechamel total_cost = 0.16 + 4.00 = 4.16, cost per serving = 4.16 / 4 = 1.04
     // Bechamel line: qty=2, waste=0, so line_cost = 2 * 1.04 = 2.08
-    const bechamelLine = result.lines[0];
+    const bechamelLine = result.lines[0]!;
     expect(bechamelLine.is_sub_recipe).toBe(true);
     expect(bechamelLine.unit_cost).toBeCloseTo(1.04, 2);
     expect(bechamelLine.line_cost).toBe(2.08);
@@ -385,7 +384,7 @@ describe("calculateRecipeCost", () => {
     expect(bechamelLine.sub_recipe_cost!.total_cost).toBe(4.16);
 
     // Egg line: 3 * 3.0 = 9.00
-    const eggLine = result.lines[1];
+    const eggLine = result.lines[1]!;
     expect(eggLine.line_cost).toBe(9.0);
 
     // Total: 2.08 + 9.00 = 11.08
@@ -483,8 +482,8 @@ describe("calculateRecipeCost", () => {
       DEFAULT_PRICING,
     );
 
-    expect(result.lines[0].unit_cost).toBe(0);
-    expect(result.lines[0].line_cost).toBe(0);
+    expect(result.lines[0]!.unit_cost).toBe(0);
+    expect(result.lines[0]!.line_cost).toBe(0);
     expect(result.total_cost).toBe(0);
   });
 
@@ -513,8 +512,8 @@ describe("calculateRecipeCost", () => {
       DEFAULT_PRICING,
     );
 
-    expect(result.lines[0].unit_cost).toBe(0);
-    expect(result.lines[0].line_cost).toBe(0);
+    expect(result.lines[0]!.unit_cost).toBe(0);
+    expect(result.lines[0]!.line_cost).toBe(0);
   });
 
   it("applies volume discounts from catalog entries", () => {
@@ -600,7 +599,7 @@ describe("calculateRecipeCost", () => {
       catalog,
       DEFAULT_PRICING,
     );
-    expect(small.lines[0].unit_cost).toBe(6.0);
+    expect(small.lines[0]!.unit_cost).toBe(6.0);
     expect(small.total_cost).toBe(12.0);
 
     // Medium: 10L at 5.00 = 50.00 (5L tier)
@@ -611,7 +610,7 @@ describe("calculateRecipeCost", () => {
       catalog,
       DEFAULT_PRICING,
     );
-    expect(medium.lines[0].unit_cost).toBe(5.0);
+    expect(medium.lines[0]!.unit_cost).toBe(5.0);
     expect(medium.total_cost).toBe(50.0);
 
     // Large: 25L at 4.00 = 100.00 (20L tier)
@@ -622,7 +621,7 @@ describe("calculateRecipeCost", () => {
       catalog,
       DEFAULT_PRICING,
     );
-    expect(large.lines[0].unit_cost).toBe(4.0);
+    expect(large.lines[0]!.unit_cost).toBe(4.0);
     expect(large.total_cost).toBe(100.0);
   });
 
@@ -686,7 +685,7 @@ describe("calculateRecipeCost", () => {
     );
 
     // Should pick 1.5 (cheapest)
-    expect(result.lines[0].unit_cost).toBe(1.5);
+    expect(result.lines[0]!.unit_cost).toBe(1.5);
     expect(result.total_cost).toBe(0.75);
   });
 
@@ -750,7 +749,7 @@ describe("calculateRecipeCost", () => {
       DEFAULT_PRICING,
     );
 
-    expect(result.lines[0].unit_cost).toBe(3.0);
+    expect(result.lines[0]!.unit_cost).toBe(3.0);
     expect(result.total_cost).toBe(3.0);
   });
 

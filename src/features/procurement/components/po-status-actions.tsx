@@ -26,7 +26,7 @@ interface POStatusActionsProps {
   onStatusChange?: (newStatus: POStatus) => void
 }
 
-export function POStatusActions({ poId: _poId, currentStatus, onStatusChange }: POStatusActionsProps) {
+export function POStatusActions({ currentStatus, onStatusChange }: POStatusActionsProps) {
   const [loading, setLoading] = useState<string | null>(null)
   const [confirmOpen, setConfirmOpen] = useState(false)
 

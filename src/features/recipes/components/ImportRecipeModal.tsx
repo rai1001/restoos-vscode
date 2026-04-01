@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useCreateRecipe } from "@/features/recipes/hooks/use-recipes"
@@ -393,9 +394,12 @@ export function ImportRecipeModal({ open, onOpenChange }: ImportRecipeModalProps
 
               {ocrPreviewUrl && (
                 <div className="rounded-md border overflow-hidden">
-                  <img
+                  <Image
                     src={ocrPreviewUrl}
                     alt="Vista previa"
+                    width={960}
+                    height={320}
+                    unoptimized
                     className="max-h-40 w-full object-contain bg-muted"
                   />
                 </div>

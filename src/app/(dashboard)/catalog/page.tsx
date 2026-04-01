@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useProducts } from "@/features/catalog/hooks/use-products";
 import { useSuppliers } from "@/features/catalog/hooks/use-suppliers";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   ShoppingCart,
   ClipboardList,
@@ -13,28 +12,10 @@ import {
   Minus,
   Trash2,
   Send,
-  Package,
-  Star,
-  Leaf,
-  Truck,
-  Globe,
-  ShieldCheck,
-  TrendingDown,
-  TrendingUp,
 } from "lucide-react";
 import { toast } from "sonner";
-import { MOCK_SUPPLIER_OFFERS } from "@/lib/mock-data";
 
 // ── Design tokens (Stitch Matte Kitchen) ────────────────────────────────────
-
-const T = {
-  bg: "#0A0A0A",
-  card: "#1A1A1A",
-  cardHover: "#222222",
-  primary: "#F97316",
-  text: "#E5E2E1",
-  secondary: "#A78B7D",
-} as const;
 
 // ── Cart types ──────────────────────────────────────────────────────────────
 

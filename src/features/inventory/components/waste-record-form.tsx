@@ -148,9 +148,9 @@ export function WasteRecordForm({ onSuccess }: WasteRecordFormProps) {
               <div className="flex items-center justify-between gap-3">
                 <div className="flex-1">
                   <p className="text-xs font-medium">Dictar merma</p>
-                  <p className="text-xs text-muted-foreground">Ej: "2 kilos de ternera por caducidad"</p>
+                  <p className="text-xs text-muted-foreground">Ej: &ldquo;2 kilos de ternera por caducidad&rdquo;</p>
                   {voice.transcript && (
-                    <p className="text-xs italic mt-1 text-muted-foreground">"{voice.transcript}"</p>
+                    <p className="text-xs italic mt-1 text-muted-foreground">&ldquo;{voice.transcript}&rdquo;</p>
                   )}
                 </div>
                 <VoiceMicButton

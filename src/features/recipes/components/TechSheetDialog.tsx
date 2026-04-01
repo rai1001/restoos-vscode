@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table"
 import { ChefHat, FileText } from "lucide-react"
 import { toast } from "sonner"
-import { useRecipe, useRecipeIngredients } from "@/features/recipes/hooks/use-recipes"
+import { useRecipe } from "@/features/recipes/hooks/use-recipes"
 
 interface TechSheetDialogProps {
   recipeId: string
@@ -38,7 +38,7 @@ interface TechSheetLine {
   lineCost: number
 }
 
-function generateMockTechSheet(recipeName: string): {
+function generateMockTechSheet(): {
   ingredients: TechSheetLine[]
   totalCost: number
   servings: number
@@ -79,8 +79,7 @@ function foodCostColor(pct: number): string {
 export function TechSheetDialog({ recipeId, recipeName, open, onOpenChange }: TechSheetDialogProps) {
   const { data: recipe } = useRecipe(recipeId)
 
-  const sheet = generateMockTechSheet(recipeName)
-  const costPerServing = sheet.servings > 0 ? sheet.totalCost / sheet.servings : 0
+  const sheet = generateMockTechSheet()
 
   // Use real recipe data if available, fallback to mock
   const servings = recipe?.servings ?? sheet.servings

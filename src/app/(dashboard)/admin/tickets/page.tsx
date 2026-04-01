@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { format, parseISO } from "date-fns";
 import { es } from "date-fns/locale";
@@ -281,9 +282,12 @@ export default function AdminTicketsPage() {
                       rel="noopener noreferrer"
                       className="block mt-1"
                     >
-                      <img
+                      <Image
                         src={selectedTicket.screenshot_url}
                         alt="Screenshot del ticket"
+                        width={800}
+                        height={480}
+                        unoptimized
                         className="rounded-md border max-h-60 object-contain cursor-pointer hover:opacity-80 transition-opacity"
                       />
                     </a>

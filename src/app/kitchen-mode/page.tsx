@@ -6,8 +6,6 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import {
   PackagePlus,
-  Trash2,
-  ShieldCheck,
   ChefHat,
   ArrowLeft,
   Check,
@@ -62,7 +60,7 @@ export default function KitchenModePage() {
   const [view, setView] = useState<KitchenView>("home")
 
   return (
-    <div className="min-h-screen -m-4 sm:-m-6 lg:-m-8 p-4 bg-[#0A0A0A]">
+    <div className="min-h-screen p-4 sm:p-6 bg-background">
       {/* Compact header */}
       <div className="flex items-center justify-between mb-6">
         {view === "home" ? (

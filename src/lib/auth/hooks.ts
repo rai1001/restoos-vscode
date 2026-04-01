@@ -4,21 +4,31 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/db/client";
 import type { User } from "@supabase/supabase-js";
 
+const EMPTY_ACTIVE_HOTEL = {
+  hotelId: null,
+  hotelName: null,
+  role: null,
+  tenantId: null,
+} as const;
+
 export function useSession() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const [supabase] = useState(() => createClient());
 
   useEffect(() => {
+    let active = true;
+
     const getUser = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
+      if (!active) return;
       setUser(user);
       setLoading(false);
     };
 
-    getUser();
+    void getUser();
 
     const {
       data: { subscription },
@@ -27,7 +37,10 @@ export function useSession() {
       setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
   }, [supabase]);
 
   return { user, loading };
@@ -41,26 +54,29 @@ interface ActiveHotel {
 }
 
 export function useActiveHotel() {
-  const [hotel, setHotel] = useState<ActiveHotel>({
-    hotelId: null,
-    hotelName: null,
-    role: null,
-    tenantId: null,
-  });
-  const [loading, setLoading] = useState(true);
-  const { user } = useSession();
-  const supabase = createClient();
+  const [hotel, setHotel] = useState<ActiveHotel>(EMPTY_ACTIVE_HOTEL);
+  const [hotelLoading, setHotelLoading] = useState(false);
+  const { user, loading: sessionLoading } = useSession();
+  const [supabase] = useState(() => createClient());
 
   useEffect(() => {
-    if (!user) {
-      setLoading(false);
-      return;
-    }
+    let active = true;
 
     const fetchActiveHotel = async () => {
+      if (!user) {
+        if (active) {
+          setHotel(EMPTY_ACTIVE_HOTEL);
+          setHotelLoading(false);
+        }
+        return;
+      }
+
+      setHotelLoading(true);
       const { data, error } = await supabase.rpc("get_active_hotel", {
         p_user_id: user.id,
       });
+
+      if (!active) return;
 
       if (!error && data) {
         setHotel({
@@ -69,12 +85,18 @@ export function useActiveHotel() {
           role: data.role,
           tenantId: data.tenant_id,
         });
+      } else {
+        setHotel(EMPTY_ACTIVE_HOTEL);
       }
-      setLoading(false);
+      setHotelLoading(false);
     };
 
-    fetchActiveHotel();
+    void fetchActiveHotel();
+
+    return () => {
+      active = false;
+    };
   }, [user, supabase]);
 
-  return { ...hotel, loading };
+  return { ...hotel, loading: sessionLoading || hotelLoading };
 }

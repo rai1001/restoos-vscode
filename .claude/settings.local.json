@@ -1,7 +1,38 @@
 {
   "permissions": {
     "allow": [
-      "mcp__claude_ai_Make__scenarios_update"
+      "mcp__claude_ai_Make__scenarios_update",
+      "Bash(gh repo:*)",
+      "Bash(gh api:*)",
+      "Bash(python3 -c \"import json,sys; [print\\(x[''''name'''']\\) for x in json.loads\\(sys.stdin.read\\(\\)\\)]\")",
+      "Bash(npx uipro-cli:*)",
+      "Bash(npx @_davideast/stitch-mcp init)",
+      "Bash(ls C:/Users/Israel/.claude/*.json)",
+      "Bash(ls C:/RestoOsvscode/.claude/*.json)",
+      "Bash(claude mcp:*)",
+      "Bash(find C:UsersIsraelDocumentsRai-claude2 -type f \\\\\\(-iname *precio* -o -iname *pricing* -o -iname *plan* -o -iname *tier* -o -iname *landing* -o -iname *monetiz* -o -iname *suscripcion* -o -iname *subscription* -o -iname *tarifa* -o -iname *revenue* -o -iname *negocio* -o -iname *business*model* \\\\\\))",
+      "Bash(find C:UsersIsraelDocumentsRai-claude2 -type f -name *.md)",
+      "Bash(xargs grep:*)",
+      "Bash(grep -r \"pricing\\\\|€.*mes\\\\|tarifa\\\\|subscription\" C:UsersIsraelDocumentsRai-claude201-Proyectos --include=*.md)",
+      "Skill(stitch-design)",
+      "Skill(stitch-design:*)",
+      "Bash(python3 skills/ui-ux-pro-max/scripts/search.py \"restaurant SaaS culinary management professional warm navy orange\" --design-system --persist -p \"RestoOS Landing\")",
+      "Bash(python skills/ui-ux-pro-max/scripts/search.py \"restaurant SaaS culinary management professional warm navy orange\" --design-system --persist -p \"RestoOS Landing\")",
+      "Bash(\"C:\\\\Users\\\\Israel\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python312\\\\python.exe\" \".claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"restaurant SaaS culinary management professional warm navy orange\" --design-system --persist -p \"RestoOS Landing\")",
+      "Bash(npx @_davideast/stitch-mcp --help)",
+      "Bash(npm info:*)",
+      "Bash(npx @_davideast/stitch-mcp init --help)",
+      "Bash(npx @_davideast/stitch-mcp init --client \"Claude Code\" --transport stdio --yes --defaults)",
+      "Bash(npx @_davideast/stitch-mcp init --client claude-code --transport stdio --yes --defaults)",
+      "Bash(npx @_davideast/stitch-mcp doctor)",
+      "Bash(npx @_davideast/stitch-mcp proxy --help)",
+      "Bash(find /c/RestoOsvscode/src -maxdepth 3 -type f \\\\\\(-name tailwind.config.* -o -name layout.tsx -o -name page.tsx \\\\\\))",
+      "Bash(ls -la /c/RestoOsvscode/src/app/\\\\\\(auth\\\\\\)/)",
+      "Bash(head -30 /c/RestoOsvscode/src/app/\\\\\\(dashboard\\\\\\)/page.tsx)",
+      "Bash(npm install:*)",
+      "mcp__magic__21st_magic_component_inspiration",
+      "Bash(npx next:*)",
+      "mcp__Claude_Preview__preview_start"
     ]
   }
 }

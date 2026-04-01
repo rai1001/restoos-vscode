@@ -1,5 +1,4 @@
 // ChefOS Service Worker — offline support for static assets and API caching
-const CACHE_NAME = "chefos-v1"
 const STATIC_CACHE = "chefos-static-v1"
 const API_CACHE = "chefos-api-v1"
 

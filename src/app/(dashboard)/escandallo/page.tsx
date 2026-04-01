@@ -7,7 +7,6 @@ import type { EscandalloRecipe } from "@/features/escandallo/types"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Dialog,
   DialogContent,
@@ -57,12 +56,6 @@ function foodCostColorLight(pct: number): string {
   if (pct <= 30) return "bg-green-100 text-green-800 border-green-200 dark:bg-green-500/10 dark:text-green-400 dark:border-green-500/20"
   if (pct <= 35) return "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-500/10 dark:text-yellow-400 dark:border-yellow-500/20"
   return "bg-red-100 text-red-800 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20"
-}
-
-function variationColor(pct: number): string {
-  if (pct < 0) return "text-green-600 dark:text-green-400 font-medium"
-  if (pct > 5) return "text-red-600 dark:text-red-400 font-medium"
-  return "text-muted-foreground"
 }
 
 function avg(arr: number[]): number {

@@ -66,7 +66,7 @@ export function useAssistant() {
         };
 
         setMessages((prev) => [...prev, assistantMessage]);
-      } catch (error) {
+      } catch {
         const errorMessage: ChatMessage = {
           id: crypto.randomUUID(),
           role: "assistant",

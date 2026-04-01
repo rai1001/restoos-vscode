@@ -31,6 +31,12 @@ interface DemandAccumulator {
   breakdown: { source: string; qty: number }[];
 }
 
+function resolveMeasurementUnit(
+  ingredient: Pick<RecipeIngredientCalc, "unit" | "unit_id">,
+): MeasurementUnit {
+  return ingredient.unit ?? { id: ingredient.unit_id, name: "", abbreviation: "" };
+}
+
 /**
  * Calculates total ingredient demand from events and forecasts.
  *
@@ -185,7 +191,7 @@ function explodeRecipeIntoDemand(
       accumulator.set(ingredient.product_id, {
         product_id: ingredient.product_id,
         product_name: ingredient.product_name || "Desconocido",
-        unit: ingredient.unit || ({ id: ingredient.unit_id, name: "", abbreviation: "" } as any),
+          unit: resolveMeasurementUnit(ingredient),
         total_qty: qtyNeeded,
         breakdown: [{ source, qty: round2(qtyNeeded) }],
       });

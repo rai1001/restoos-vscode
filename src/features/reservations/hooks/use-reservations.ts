@@ -1,7 +1,7 @@
 "use client"
 import { useMemo, useState, useCallback } from "react"
 import { MOCK_RESERVATIONS, MOCK_TABLES, MOCK_TURNS } from "@/lib/resto-mock-data"
-import type { Reservation, Table, Turn } from "@/features/reservations/schemas/reservation.schema"
+import type { Reservation } from "@/features/reservations/schemas/reservation.schema"
 
 export function useReservations(date?: string) {
   const reservations = useMemo(() => {
@@ -121,7 +121,7 @@ export function useTurns() {
 }
 
 export function useCreateReservation() {
-  const [reservations, setReservations] = useState<Reservation[]>(MOCK_RESERVATIONS)
+  const [, setReservations] = useState<Reservation[]>(MOCK_RESERVATIONS)
 
   const mutate = useCallback(
     (

@@ -1,7 +1,7 @@
 "use client"
 import { useMemo } from "react"
 import { MOCK_ESCANDALLOS, getCostEvolution } from "./escandallo-mock-data"
-import { MOCK_RECIPES, MOCK_SUPPLIER_OFFERS, getPreferredPrice } from "@/lib/mock-data"
+import { MOCK_RECIPES } from "@/lib/mock-data"
 import type { EscandalloRecipe } from "./types"
 
 /**

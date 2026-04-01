@@ -13,7 +13,6 @@ import type {
 // ─── Shared fixtures ────────────────────────────────────────
 
 const unitKg: MeasurementUnit = { id: "u-kg", name: "Kilogramo", abbreviation: "kg" };
-const unitL: MeasurementUnit = { id: "u-l", name: "Litro", abbreviation: "L" };
 
 function makeDemandLine(overrides: Partial<DemandLine> & { product_id: string }): DemandLine {
   return {
@@ -111,10 +110,10 @@ describe("generatePurchaseSuggestions", () => {
     const result = generatePurchaseSuggestions(demand, stock, catalog);
 
     expect(result).toHaveLength(1);
-    expect(result[0].product_id).toBe("p-arroz");
+    expect(result[0]!.product_id).toBe("p-arroz");
     // need = 20 - (5-0) + 0 = 15
-    expect(result[0].qty_to_order).toBe(15);
-    expect(result[0].estimated_cost).toBe(30); // 15 * 2
+    expect(result[0]!.qty_to_order).toBe(15);
+    expect(result[0]!.estimated_cost).toBe(30); // 15 * 2
   });
 
   it("generates no suggestion when demand <= free stock", () => {
@@ -142,7 +141,7 @@ describe("generatePurchaseSuggestions", () => {
 
     expect(result).toHaveLength(1);
     // need = 5 - (10-8) + 0 = 3
-    expect(result[0].qty_to_order).toBe(3);
+    expect(result[0]!.qty_to_order).toBe(3);
   });
 
   it("adds safety stock to the order", () => {
@@ -156,7 +155,7 @@ describe("generatePurchaseSuggestions", () => {
     const result = generatePurchaseSuggestions(demand, stock, catalog);
 
     // need = 10 - 5 + 3 = 8
-    expect(result[0].qty_to_order).toBe(8);
+    expect(result[0]!.qty_to_order).toBe(8);
   });
 
   it("adjusts to MOQ: need 3, MOQ is 5 -> order 5", () => {
@@ -172,7 +171,7 @@ describe("generatePurchaseSuggestions", () => {
     const result = generatePurchaseSuggestions(demand, stock, catalog);
 
     // raw need = 8 - 5 = 3, but MOQ = 5
-    expect(result[0].qty_to_order).toBe(5);
+    expect(result[0]!.qty_to_order).toBe(5);
   });
 
   it("adjusts to pack size: need 7, pack_size=5 -> order 10", () => {
@@ -188,8 +187,8 @@ describe("generatePurchaseSuggestions", () => {
     const result = generatePurchaseSuggestions(demand, stock, catalog);
 
     // raw need = 12 - 5 = 7, pack round to 10
-    expect(result[0].qty_to_order).toBe(10);
-    expect(result[0].estimated_cost).toBe(20); // 10 * 2
+    expect(result[0]!.qty_to_order).toBe(10);
+    expect(result[0]!.estimated_cost).toBe(20); // 10 * 2
   });
 
   it("classifies urgency as critical when stock is 0", () => {
@@ -201,7 +200,7 @@ describe("generatePurchaseSuggestions", () => {
     };
 
     const result = generatePurchaseSuggestions(demand, stock, catalog);
-    expect(result[0].urgency).toBe("critical");
+    expect(result[0]!.urgency).toBe("critical");
   });
 
   it("classifies urgency as critical when available <= committed", () => {
@@ -213,7 +212,7 @@ describe("generatePurchaseSuggestions", () => {
     };
 
     const result = generatePurchaseSuggestions(demand, stock, catalog);
-    expect(result[0].urgency).toBe("critical");
+    expect(result[0]!.urgency).toBe("critical");
   });
 
   it("classifies urgency as urgent when free stock < safety stock", () => {
@@ -226,7 +225,7 @@ describe("generatePurchaseSuggestions", () => {
     };
 
     const result = generatePurchaseSuggestions(demand, stock, catalog);
-    expect(result[0].urgency).toBe("urgent");
+    expect(result[0]!.urgency).toBe("urgent");
   });
 
   it("classifies urgency as normal when stock is healthy", () => {
@@ -239,7 +238,7 @@ describe("generatePurchaseSuggestions", () => {
     };
 
     const result = generatePurchaseSuggestions(demand, stock, catalog);
-    expect(result[0].urgency).toBe("normal");
+    expect(result[0]!.urgency).toBe("normal");
   });
 
   it("sorts results: critical first, then urgent, then normal", () => {
@@ -264,9 +263,9 @@ describe("generatePurchaseSuggestions", () => {
 
     const result = generatePurchaseSuggestions(demand, stock, catalog);
 
-    expect(result[0].urgency).toBe("critical");
-    expect(result[1].urgency).toBe("urgent");
-    expect(result[2].urgency).toBe("normal");
+    expect(result[0]!.urgency).toBe("critical");
+    expect(result[1]!.urgency).toBe("urgent");
+    expect(result[2]!.urgency).toBe("normal");
   });
 
   it("picks preferred supplier when within 5% of cheapest", () => {
@@ -290,8 +289,8 @@ describe("generatePurchaseSuggestions", () => {
 
     const result = generatePurchaseSuggestions(demand, stock, catalog);
 
-    expect(result[0].suggested_supplier_id).toBe("sup-pref");
-    expect(result[0].suggested_supplier_name).toBe("Preferred");
+    expect(result[0]!.suggested_supplier_id).toBe("sup-pref");
+    expect(result[0]!.suggested_supplier_name).toBe("Preferred");
   });
 
   it("picks cheapest supplier when preferred exceeds 5% threshold", () => {
@@ -315,7 +314,7 @@ describe("generatePurchaseSuggestions", () => {
 
     const result = generatePurchaseSuggestions(demand, stock, catalog);
 
-    expect(result[0].suggested_supplier_id).toBe("sup-cheap");
+    expect(result[0]!.suggested_supplier_id).toBe("sup-cheap");
   });
 
   it("applies volume discounts to get better unit price", () => {
@@ -339,7 +338,7 @@ describe("generatePurchaseSuggestions", () => {
     const result = generatePurchaseSuggestions(demand, stock, catalog);
 
     // qty_to_order=50, best volume discount at 50 units = 3.00
-    expect(result[0].estimated_cost).toBe(150); // 50 * 3.00
+    expect(result[0]!.estimated_cost).toBe(150); // 50 * 3.00
   });
 
   it("uses base price when quantity is below all volume discount thresholds", () => {
@@ -359,7 +358,7 @@ describe("generatePurchaseSuggestions", () => {
 
     const result = generatePurchaseSuggestions(demand, stock, catalog);
 
-    expect(result[0].estimated_cost).toBe(25); // 5 * 5.00
+    expect(result[0]!.estimated_cost).toBe(25); // 5 * 5.00
   });
 
   it("returns empty suggestions for empty demand", () => {
@@ -381,8 +380,8 @@ describe("generatePurchaseSuggestions", () => {
 
     expect(result).toHaveLength(1);
     // need = 10 - 0 + 0 = 10
-    expect(result[0].qty_to_order).toBe(10);
-    expect(result[0].qty_in_stock).toBe(0);
+    expect(result[0]!.qty_to_order).toBe(10);
+    expect(result[0]!.qty_in_stock).toBe(0);
   });
 
   it("handles product with no catalog entry (no supplier)", () => {
@@ -394,7 +393,7 @@ describe("generatePurchaseSuggestions", () => {
     const result = generatePurchaseSuggestions(demand, stock, catalog);
 
     expect(result).toHaveLength(1);
-    expect(result[0].suggested_supplier_name).toBe("Sin proveedor");
-    expect(result[0].estimated_cost).toBe(0);
+    expect(result[0]!.suggested_supplier_name).toBe("Sin proveedor");
+    expect(result[0]!.estimated_cost).toBe(0);
   });
 });

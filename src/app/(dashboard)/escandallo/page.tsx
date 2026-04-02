@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import { useEscandallos, useEscandallo } from "@/features/escandallo/use-escandallo"
+import { InvoiceUploader } from "@/features/invoice-ocr/components/InvoiceUploader"
 import type { EscandalloRecipe } from "@/features/escandallo/types"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
@@ -613,6 +614,9 @@ export default function EscandalloPage() {
           </span>
         </div>
       )}
+
+      {/* ── Invoice OCR Upload ── */}
+      <InvoiceUploader />
 
       {/* ── Summary KPI Cards with colored left border ── */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

@@ -133,7 +133,7 @@ export function Sidebar() {
           {/* Collapse toggle — only on desktop (lg+) */}
           <button
             onClick={toggleCollapsed}
-            className="ml-auto hidden lg:flex h-6 w-6 items-center justify-center rounded text-muted-foreground hover:text-foreground"
+            className="ml-auto hidden lg:flex h-8 w-8 items-center justify-center rounded text-muted-foreground hover:text-foreground"
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             <ChevronLeft
@@ -146,7 +146,7 @@ export function Sidebar() {
           {/* Close button — only on mobile */}
           <button
             onClick={() => setMobileOpen(false)}
-            className="ml-auto flex lg:hidden h-6 w-6 items-center justify-center rounded text-muted-foreground hover:text-foreground"
+            className="ml-auto flex lg:hidden h-8 w-8 items-center justify-center rounded text-muted-foreground hover:text-foreground"
             aria-label="Close sidebar"
           >
             <ChevronLeft className="h-4 w-4" />

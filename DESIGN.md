@@ -1,124 +1,124 @@
 # RestoOS Design System
 
-## Theme: Matte Kitchen ("The Tactical Monolith")
+## Theme: Calm Darkness
 
-Dark-first design for professional kitchen environments. Designed for
-low-light conditions, high-contrast readability, and one-handed use on
-greasy screens.
+Negro mate, sin brillos. El color SOLO aparece cuando algo necesita tu
+atencion. Todo lo demas esta en silencio. El ojo del chef va directo a
+lo que importa.
 
-## Color Tokens
+## Product Context
+- **What this is:** SaaS de gestion de restaurante (escandallos, APPCC, inventario, ingenieria de menu)
+- **Who it's for:** Jefes de cocina y gerentes de restaurante medio (2-8 locales) en Espana
+- **Space:** Restaurant management (Apicbase, MarketMan, Toast, Lightspeed)
+- **Project type:** Dark-first web app / dashboard
 
-All colors via CSS variables in `globals.css`. Never hardcode hex values.
-
-### Surfaces (dark mode)
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--background` | `#0A0A0A` | Page background |
-| `--sidebar` | `#111111` | Sidebar background |
-| `--card` | `#1A1A1A` | Card/panel background |
-| `--card-hover` | `#222222` | Card hover state |
-| `--accent` | `#2A2A2A` | Elevated surface, popovers |
-| `--surface-elevated` | `#353534` | Highest elevation |
-
-### Brand & Semantic
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--primary` | `#F97316` | Primary accent (orange), CTAs, active states |
-| `--primary-foreground` | `#0A0A0A` | Text on primary bg |
-| `--foreground` | `#E5E2E1` | Primary text (warm off-white) |
-| `--muted-foreground` | `#A78B7D` | Secondary text (warm terracotta) |
-| `--destructive` | `#E24B4A` | Errors, destructive actions |
-| `--border` | `rgba(88,66,55,0.15)` | Default border (ghost) |
-| `--border-subtle` | `#333333` | Subtle borders |
-| `--border-hover` | `#555555` | Border hover state |
-
-### Semantic Status
-| Color | Token | Usage |
-|-------|-------|-------|
-| Green | `text-green-400` / `bg-green-500/10` | Success, healthy, in-range |
-| Red | `text-red-400` / `bg-red-500/10` | Error, critical, out-of-range |
-| Yellow/Amber | `text-yellow-400` / `bg-yellow-500/10` | Warning, attention needed |
-| Blue | `text-blue-400` / `bg-blue-500/10` | Info, neutral status |
+## Aesthetic Direction
+- **Direction:** Calm Darkness
+- **Decoration level:** Minimal. Sin ornamentos.
+- **Mood:** Taller de relojero, no cockpit de avion. Silencio visual, precision.
+- **Principle:** Si no es una alerta, no tiene color. Los KPIs son numeros claros sobre negro. Las categorias son texto gris. Solo lo critico usa color.
 
 ## Typography
 
-| Element | Class | Size | Weight |
-|---------|-------|------|--------|
-| Page title | `text-2xl font-bold` | 24px | 700 |
-| Section label | `text-sm font-semibold uppercase tracking-widest text-muted-foreground` | 14px | 600 |
-| Body text | `text-sm` | 14px | 400 |
-| Table headers | `text-xs font-semibold uppercase tracking-widest` | 12px | 600 |
-| Caption/meta | `text-xs text-muted-foreground` | 12px | 400 |
-| KPI value | `text-2xl font-bold` or `text-3xl` | 24-30px | 700 |
+Una sola familia: **DM Sans** (Google Fonts). Limpia, geometrica, excelente legibilidad.
 
-Font: system-ui via Tailwind (Next.js Geist Sans when loaded).
-Minimum body text: 14px. Minimum caption: 12px. Never use 10px.
+| Element | Size | Weight | Color | Notes |
+|---------|------|--------|-------|-------|
+| Page title | 28px | 700 | `--fg-strong` | letter-spacing: -0.01em |
+| Section label | 13px | 600 | `--muted` | uppercase, tracking: 0.12em |
+| Body text | 15px | 400 | `--fg` | line-height: 1.6 |
+| Table body | 14px | 400 | `--fg` | |
+| Table headers | 12px | 600 | `--muted` | uppercase, tracking: 0.1em |
+| Caption/meta | 13px | 400 | `--muted` | |
+| KPI value | 24px | 700 | `--fg-strong` | tabular-nums |
+| Button | 14px | 600 | varies | |
+
+**Minimum text size:** 12px (table headers only). Body never below 14px.
+**Font loading:** Google Fonts CDN, `font-display: swap`.
+**No monospace for data.** Los numeros usan DM Sans con `font-variant-numeric: tabular-nums`.
+
+## Color
+
+**Approach:** Ultra-restrained. Color = alerta. Todo lo demas es escala de grises calidos.
+
+### Surfaces
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--background` | `#090909` | Page background (near-black matte) |
+| `--sidebar` | `#0F0F0F` | Sidebar background |
+| `--card` | `#141414` | Card/panel background |
+| `--card-hover` | `#1A1A1A` | Card hover state |
+| `--elevated` | `#1E1E1E` | Popovers, dialogs |
+
+### Text (warm grays, NOT pure white)
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--fg-strong` | `#E0DCDA` | Titles, KPI values, emphasis |
+| `--fg` | `#C8C2BF` | Body text, table data |
+| `--muted-light` | `#8A8078` | Tertiary text |
+| `--muted` | `#706860` | Labels, metadata, section headers |
+
+### Borders (barely visible)
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--border` | `rgba(255,255,255,0.04)` | Default borders |
+| `--border-hover` | `rgba(255,255,255,0.08)` | Hover/focus borders |
+
+### Color: ONLY for alerts and brand accent
+| Token | Value | When to use |
+|-------|-------|-------------|
+| `--alert-critical` | `#DC4A4A` | Accion inmediata requerida |
+| `--alert-warning` | `#D4920A` | Atencion necesaria |
+| `--alert-ok` | `#2D8A56` | Resuelto/confirmado (nunca como estado default) |
+| `--accent` | `#B8906F` | CTAs, nav activa, links. Warm bronze. |
+
+### Color Rules
+1. **KPIs: NO color.** Numeros en `--fg-strong`. Color SOLO si el KPI esta fuera de rango.
+2. **Tablas: NO color.** Filas en gris. Color solo en la columna de alertas.
+3. **Badges status neutral:** `rgba(255,255,255,0.03)` background con texto `--muted-light`. Sin color.
+4. **Verde solo confirma resolucion.** Nunca como estado por defecto.
+5. **Naranja #F97316 se retira.** Reemplazado por bronze #B8906F (mas calido, menos electrico).
 
 ## Spacing
-
-Base: 4px (Tailwind default). Common values:
-- `gap-2` (8px): tight groups
-- `gap-3` (12px): default spacing
-- `gap-4` (16px): section internal
-- `gap-6` (24px): section separation
-- `p-4` / `p-5`: card padding
-
-## Border Radius
-
-Scale defined in CSS:
-- `--radius`: 0.625rem (10px base)
-- Cards: `rounded-lg` (10px)
-- Buttons: `rounded-md` (8px)
-- Pills/badges: `rounded-full`
-
-## Components
-
-### Cards
-- Background: `bg-card`
-- Hover: `hover:bg-card-hover`
-- No colored left borders (AI slop pattern, removed)
-- KPI cards use tinted icon background instead
-
-### Buttons
-- Primary: `bg-primary text-primary-foreground hover:bg-primary/90`
-- All buttons have `cursor: pointer` (global rule)
-- Minimum touch target: 44px
-
-### Section Headers
-Use `SectionLabel` component (`src/app/(dashboard)/page.tsx`):
-`text-sm font-semibold uppercase tracking-widest text-muted-foreground`
-
-### Tables
-- Header: `text-xs font-semibold uppercase tracking-widest text-muted-foreground`
-- Rows: `border-b border-border hover:bg-card-hover transition-colors`
-- Use tabular-nums for number columns
-
-### Status Indicators
-- Use tinted backgrounds (`bg-green-500/10`) not colored borders
-- Always combine color with text label (accessibility)
-- Dot indicators: `h-2 w-2 rounded-full bg-{color}`
-
-## Accessibility
-
-- Focus rings: `outline-ring/50` (auto from base layer)
-- Touch targets: minimum 44px on all interactive elements
-- Icon buttons: always include `aria-label`
-- No `outline: none` without replacement
-- Color never as sole indicator (always add text/icon)
+- **Base unit:** 4px
+- **Density:** Comfortable
+- **Scale:** xs(4) sm(8) md(12) lg(16) xl(24) 2xl(32) 3xl(48)
+- Card padding: 16px-20px
+- Section gap: 24px
+- Page padding: 24px
 
 ## Layout
+- **Approach:** Grid disciplinado
+- **Sidebar:** Fixed left, 64px collapsed / 256px expanded
+- **Content:** Scrollable, max-width fluid
+- **Border radius:** 6px default, 8px cards, 10px dashboard containers
+- **Grid:** Responsive con sm, md, lg breakpoints
 
-- Sidebar: fixed left, 64px collapsed / 256px expanded
-- Content: scrollable main area with max-width
-- Mobile: sidebar hidden, hamburger menu
-- Grid: responsive with `sm:`, `md:`, `lg:` breakpoints
+## Motion
+- **Approach:** Minimal-functional
+- **Easing:** ease-out para entradas, ease-in para salidas
+- **Duration:** 100-200ms transiciones de hover/focus. Nada mas lento.
+- **Rule:** Si no ayuda a entender un cambio de estado, no animes.
 
 ## Anti-Patterns (DO NOT)
 
-1. No colored left-border on cards (`border-l-4 border-l-*`)
-2. No hardcoded hex colors (use CSS tokens)
-3. No text smaller than 12px
-4. No emoji as design elements
-5. No purple/violet gradients
-6. No 3-column icon-in-circle feature grids
-7. No `transition: all` (list properties explicitly)
+1. **No color en KPIs** excepto alertas
+2. **No badges de color** para estados normales (usar gris neutro)
+3. **No naranja electrico** (#F97316 retirado, usar bronze #B8906F)
+4. **No colored left-border** en cards (border-l-4 prohibido)
+5. **No hardcoded hex** (usar CSS tokens siempre)
+6. **No texto menor de 12px** (y body nunca menor de 14px)
+7. **No emojis** como elementos de diseno
+8. **No gradientes decorativos**
+9. **No multiples colores compitiendo** en la misma vista
+10. **No blanco puro** (#FFFFFF) para texto. Usar warm off-whites.
+
+## Decisions Log
+
+| Date | Decision | Rationale |
+|------|----------|-----------|
+| 2026-04-02 | Calm Darkness direction | Chef pidio: negro mate, sin brillos, legible, sin semaforo, solo alertas con color |
+| 2026-04-02 | DM Sans unica familia | Una sola fuente, consistencia total, tabular-nums para datos |
+| 2026-04-02 | Bronze #B8906F accent | Reemplaza naranja electrico. Mas calido, discreto, guia sin gritar |
+| 2026-04-02 | Letras mas grandes | Body 15px, KPIs 24px. Legibilidad en entorno de cocina |
+| 2026-04-02 | Color = alerta only | Si no es critico/warning, no tiene color. Reduce ruido visual |

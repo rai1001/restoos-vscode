@@ -1,5 +1,12 @@
 # RestoOS
 
+## Design System
+Always read DESIGN.md before making any visual or UI decisions.
+Theme: Calm Darkness. Color ONLY for alerts. No semaphore KPIs.
+Accent: bronze #B8906F (not orange #F97316).
+Font: DM Sans only. Body 15px minimum.
+Do not deviate without explicit user approval.
+
 ## Skill routing
 
 When the user's request matches an available skill, ALWAYS invoke it using the Skill

@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/table"
 import {
   AlertTriangle,
+  Building2,
   Calculator,
   ChefHat,
   FileText,
@@ -586,12 +587,20 @@ export default function EscandalloPage() {
             Coste actualizado de recetas · Precios al dia de hoy
           </p>
         </div>
-        <Link href="/recipes/new">
-          <Button className="bg-orange-500 hover:bg-orange-600 text-white border-0">
-            <Plus className="mr-1 h-4 w-4" />
-            Nuevo escandallo
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          <Link href="/escandallo/multi-local">
+            <Button variant="outline" className="border-[#333]">
+              <Building2 className="mr-1 h-4 w-4" />
+              Multi-Local
+            </Button>
+          </Link>
+          <Link href="/recipes/new">
+            <Button className="bg-orange-500 hover:bg-orange-600 text-white border-0">
+              <Plus className="mr-1 h-4 w-4" />
+              Nuevo escandallo
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* ── Price Alert Banner ── */}

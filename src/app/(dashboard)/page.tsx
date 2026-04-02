@@ -151,13 +151,13 @@ function TrendPill({ trend, inverted }: { trend: number; inverted?: boolean }) {
 
 // ── KPI color map ─────────────────────────────────────────────────────────────
 
-const KPI_BORDER: Record<KpiMetric["color"], string> = {
-  green: "border-l-green-500",
-  blue: "border-l-blue-500",
-  orange: "border-l-orange-500",
-  purple: "border-l-purple-500",
-  red: "border-l-red-500",
-  yellow: "border-l-yellow-500",
+const KPI_ACCENT_BG: Record<KpiMetric["color"], string> = {
+  green: "bg-green-500/10",
+  blue: "bg-blue-500/10",
+  orange: "bg-orange-500/10",
+  purple: "bg-purple-500/10",
+  red: "bg-red-500/10",
+  yellow: "bg-yellow-500/10",
 };
 
 const KPI_VALUE_COLOR: Record<KpiMetric["color"], string> = {
@@ -176,13 +176,14 @@ function KpiCard({ kpi, large }: { kpi: KpiMetric; large?: boolean }) {
   return (
     <div
       className={cn(
-        "rounded-lg border-l-4 bg-[#1A1A1A] transition-colors hover:bg-[#222222]",
-        KPI_BORDER[kpi.color],
+        "rounded-lg bg-[#1A1A1A] transition-colors hover:bg-[#222222]",
         large ? "p-5" : "p-4"
       )}
     >
       <div className="mb-2 flex items-start justify-between">
-        <Icon className={cn("h-5 w-5", KPI_VALUE_COLOR[kpi.color])} />
+        <div className={cn("flex h-8 w-8 items-center justify-center rounded-md", KPI_ACCENT_BG[kpi.color])}>
+          <Icon className={cn("h-4 w-4", KPI_VALUE_COLOR[kpi.color])} />
+        </div>
         <TrendPill trend={kpi.trend} inverted={kpi.trendInverted} />
       </div>
       <p

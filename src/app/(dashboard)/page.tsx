@@ -452,20 +452,20 @@ function TopDishesChart() {
 
 const ALERT_STYLES: Record<
   AlertItem["type"],
-  { border: string; dot: string; badge: string }
+  { bg: string; dot: string; badge: string }
 > = {
   critico: {
-    border: "border-l-red-500",
+    bg: "bg-red-500/5",
     dot: "bg-red-500",
     badge: "bg-red-900/30 text-red-400",
   },
   alerta: {
-    border: "border-l-yellow-500",
+    bg: "bg-yellow-500/5",
     dot: "bg-yellow-500",
     badge: "bg-yellow-900/30 text-yellow-400",
   },
   info: {
-    border: "border-l-blue-500",
+    bg: "bg-blue-500/5",
     dot: "bg-blue-400",
     badge: "bg-blue-900/30 text-blue-400",
   },
@@ -477,8 +477,8 @@ function AlertRow({ alert }: { alert: AlertItem }) {
     <Link
       href={alert.href}
       className={cn(
-        "flex items-start gap-3 rounded-md border-l-4 bg-[#111111] px-3 py-2.5 transition-colors hover:bg-[#1F1F1F]",
-        styles.border
+        "flex items-start gap-3 rounded-md bg-[#111111] px-3 py-2.5 transition-colors hover:bg-[#1F1F1F]",
+        styles.bg
       )}
     >
       <span

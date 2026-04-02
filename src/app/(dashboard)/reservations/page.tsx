@@ -27,7 +27,7 @@ import {
   useReservations,
 } from "@/features/reservations/hooks/use-reservations"
 import type { Reservation } from "@/features/reservations/schemas/reservation.schema"
-import { MOCK_TABLES } from "@/lib/resto-mock-data"
+import { useTables } from "@/features/reservations/hooks/use-reservations"
 import { NewReservationDialog } from "@/features/reservations/components/NewReservationDialog"
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -94,9 +94,9 @@ function todayKey(): string {
   return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`
 }
 
-function getTableName(tableId?: string): string {
+function getTableName(tableId: string | undefined, tables: Array<{ id: string; name: string }>): string {
   if (!tableId) return "—"
-  const table = MOCK_TABLES.find((t) => t.id === tableId)
+  const table = tables.find((t) => t.id === tableId)
   return table ? table.name : "—"
 }
 
@@ -155,10 +155,12 @@ function ReservationDetailDialog({
   reservation,
   open,
   onClose,
+  tables,
 }: {
   reservation: Reservation | null
   open: boolean
   onClose: () => void
+  tables: Array<{ id: string; name: string }>
 }) {
   if (!reservation) return null
 
@@ -204,7 +206,7 @@ function ReservationDetailDialog({
           {/* Table */}
           <div className="flex items-start gap-3">
             <CalendarDays className="text-muted-foreground mt-0.5 h-4 w-4 shrink-0" />
-            <p>{getTableName(reservation.table_id)}</p>
+            <p>{getTableName(reservation.table_id, tables)}</p>
           </div>
 
           {/* Notes */}
@@ -236,10 +238,12 @@ function MonthView({
   year,
   month,
   onSelectReservation,
+  tables,
 }: {
   year: number
   month: number
   onSelectReservation: (r: Reservation) => void
+  tables: Array<{ id: string; name: string }>
 }) {
   const { calendarDays, reservationsByDate } = useReservationsCalendar(year, month)
   const [dayPanel, setDayPanel] = useState<string | null>(null)
@@ -348,7 +352,7 @@ function MonthView({
                   <div className="min-w-0 flex-1">
                     <p className="truncate font-medium">{r.customer_name}</p>
                     <p className="text-muted-foreground text-xs">
-                      {r.time} · {r.pax} pax · {getTableName(r.table_id)}
+                      {r.time} · {r.pax} pax · {getTableName(r.table_id, tables)}
                     </p>
                   </div>
                   <div className="flex shrink-0 flex-col items-end gap-1">
@@ -374,9 +378,11 @@ function MonthView({
 function WeekView({
   weekStart,
   onSelectReservation,
+  tables,
 }: {
   weekStart: string
   onSelectReservation: (r: Reservation) => void
+  tables: Array<{ id: string; name: string }>
 }) {
   const { reservationsByDate } = useReservationsWeek(weekStart)
   const today = todayKey()
@@ -448,7 +454,7 @@ function WeekView({
                       <Users className="h-3 w-3" />
                       <span>{r.pax}</span>
                       <span className="mx-0.5">·</span>
-                      <span>{getTableName(r.table_id)}</span>
+                      <span>{getTableName(r.table_id, tables)}</span>
                     </div>
                     <div className="mt-1">
                       <StatusBadge status={r.status} />
@@ -468,8 +474,10 @@ function WeekView({
 
 function ListView({
   onSelectReservation,
+  tables,
 }: {
   onSelectReservation: (r: Reservation) => void
+  tables: Array<{ id: string; name: string }>
 }) {
   const { reservations: allReservations } = useReservations()
   const [search, setSearch] = useState("")
@@ -552,7 +560,7 @@ function ListView({
                   <td className="whitespace-nowrap px-4 py-3">{r.time}</td>
                   <td className="px-4 py-3 text-right">{r.pax}</td>
                   <td className="hidden whitespace-nowrap px-4 py-3 sm:table-cell">
-                    {getTableName(r.table_id)}
+                    {getTableName(r.table_id, tables)}
                   </td>
                   <td className="px-4 py-3">
                     <StatusBadge status={r.status} />
@@ -598,6 +606,7 @@ function ListView({
 // ─── Page ───────────────────────────────────────────────────────────────────
 
 export default function ReservationsPage() {
+  const { tables } = useTables()
   const today = new Date()
 
   const [view, setView] = useState<"mes" | "semana" | "lista">("mes")
@@ -744,12 +753,13 @@ export default function ReservationsPage() {
           year={currentYear}
           month={currentMonth}
           onSelectReservation={openReservation}
+          tables={tables}
         />
       )}
       {view === "semana" && (
-        <WeekView weekStart={weekStart} onSelectReservation={openReservation} />
+        <WeekView weekStart={weekStart} onSelectReservation={openReservation} tables={tables} />
       )}
-      {view === "lista" && <ListView onSelectReservation={openReservation} />}
+      {view === "lista" && <ListView onSelectReservation={openReservation} tables={tables} />}
 
       {/* ── Reservation Detail Dialog ── */}
       <ReservationDetailDialog
@@ -759,6 +769,7 @@ export default function ReservationsPage() {
           setDialogOpen(false)
           setSelectedReservation(null)
         }}
+        tables={tables}
       />
 
       {/* ── New Reservation Dialog ── */}

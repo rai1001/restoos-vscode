@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { useState, useMemo, type ReactNode } from "react"
 import { cn } from "@/lib/utils"
@@ -118,7 +118,7 @@ function QuadrantCard({
             >
               <span className="font-medium leading-snug text-foreground">{dish.name}</span>
               <span className="shrink-0 text-muted-foreground">
-                {dish.contribution_margin.toFixed(2)}€ Â· {dish.units_sold} uds
+                {dish.contribution_margin.toFixed(2)}€ · {dish.units_sold} uds
               </span>
             </div>
           ))
@@ -324,7 +324,7 @@ function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
 
   if (topStar) {
     insights.push({
-      emoji: "â­",
+      emoji: "⭐",
       text: `"${topStar.name}" es tu mejor plato —ponlo en lugar destacado de la carta.`,
       borderColor: "border-l-yellow-500",
     })
@@ -332,7 +332,7 @@ function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
 
   if (dogs.length > 0) {
     insights.push({
-      emoji: "ðŸ•",
+      emoji: "🐕",
       text: `${dogs.length} plato${dogs.length > 1 ? "s" : ""} con baja rentabilidad y baja popularidad${worstDog ? ` —"${worstDog.name}" es el candidato principal para retirar` : ""}.`,
       borderColor: "border-l-red-500",
     })
@@ -341,7 +341,7 @@ function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
   if (worstPlow) {
     const suggestedPrice = (worstPlow.selling_price * 1.1).toFixed(2)
     insights.push({
-      emoji: "ðŸ„",
+      emoji: "🐄",
       text: `"${worstPlow.name}" se vende mucho pero su margen es bajo (${worstPlow.contribution_margin_pct.toFixed(1)}%) —considera subir el precio a ${suggestedPrice} €.`,
       borderColor: "border-l-blue-500",
     })
@@ -349,7 +349,7 @@ function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
 
   if (topPuzzle) {
     insights.push({
-      emoji: "â“",
+      emoji: "❓",
       text: `"${topPuzzle.name}" tiene buen margen (${topPuzzle.contribution_margin.toFixed(2)} €) pero pocas ventas —mejora su visibilidad en la carta.`,
       borderColor: "border-l-purple-500",
     })
@@ -653,20 +653,20 @@ function RentabilidadScatterChart() {
       {/* Quadrant corner labels */}
       <div className="mt-1 grid grid-cols-2 gap-x-4 text-[10px] text-muted-foreground">
         <div className="flex justify-between">
-          <span style={{ color: CHART_COLORS.red }}>ðŸ• Perro (bajo/bajo)</span>
+          <span style={{ color: CHART_COLORS.red }}>🐕 Perro (bajo/bajo)</span>
           <span />
         </div>
         <div className="flex justify-between">
           <span />
-          <span style={{ color: CHART_COLORS.blue }}>ðŸ„ Vaca (alto pop/bajo margen)</span>
+          <span style={{ color: CHART_COLORS.blue }}>🐄 Vaca (alto pop/bajo margen)</span>
         </div>
         <div className="flex justify-between">
-          <span style={{ color: CHART_COLORS.amber }}>â“ Enigma (bajo pop/alto margen)</span>
+          <span style={{ color: CHART_COLORS.amber }}>❓ Enigma (bajo pop/alto margen)</span>
           <span />
         </div>
         <div className="flex justify-between">
           <span />
-          <span style={{ color: CHART_COLORS.green }}>â­ Estrella (alto/alto)</span>
+          <span style={{ color: CHART_COLORS.green }}>⭐ Estrella (alto/alto)</span>
         </div>
       </div>
 
@@ -720,33 +720,33 @@ export default function MenuEngineeringPage() {
         </p>
         <h1 className="text-xl font-bold sm:text-2xl text-foreground">Ingenieria de Menu</h1>
         <p className="mt-1 text-muted-foreground">
-          Analisis de rentabilidad y popularidad de platos Â· {report.period_label}
+          Analisis de rentabilidad y popularidad de platos · {report.period_label}
         </p>
       </div>
 
       {/* KPI row */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <KpiCard
-          emoji="ðŸ’°"
+          emoji="💰"
           label="Ingresos totales"
           value={`${report.total_revenue.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} €`}
         />
         <KpiCard
-          emoji="ðŸ“‰"
+          emoji="📉"
           label="Coste total"
           value={`${report.total_cost.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} €`}
         />
         <KpiCard
-          emoji="ðŸ“ˆ"
+          emoji="📈"
           label="Margen total"
           value={`${report.total_contribution.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} €`}
           sub={`${marginPct}% sobre ingresos`}
         />
         <KpiCard
-          emoji="ðŸ½ï¸"
+          emoji="🍽️"
           label="Platos analizados"
           value={String(report.dishes.length)}
-          sub={`â­ ${report.stars.length} Â· ðŸ„ ${report.plow_horses.length} Â· â“ ${report.puzzles.length} Â· ðŸ• ${report.dogs.length}`}
+          sub={`⭐ ${report.stars.length} · 🐄 ${report.plow_horses.length} · ❓ ${report.puzzles.length} · 🐕 ${report.dogs.length}`}
         />
       </div>
 

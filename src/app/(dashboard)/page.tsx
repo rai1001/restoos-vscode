@@ -96,7 +96,7 @@ function capitalize(s: string) {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+    <h2 className="text-sm font-semibold uppercase tracking-widest text-[#A78B7D]">
       {children}
     </h2>
   );

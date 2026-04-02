@@ -191,7 +191,7 @@ export function StockEntryForm({ onSuccess }: { onSuccess?: () => void }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button className="bg-[#F97316] hover:bg-[#EA680C] text-white border-0" />
+          <Button className="bg-primary hover:bg-primary/90 text-white border-0" />
         }
       >
         <PackagePlus className="h-4 w-4 mr-1.5" />
@@ -206,7 +206,7 @@ export function StockEntryForm({ onSuccess }: { onSuccess?: () => void }) {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* OCR scan button */}
           <div
-            className="border border-dashed border-[#333] rounded-lg p-3 text-center hover:border-[#F97316]/50 transition-colors cursor-pointer"
+            className="border border-dashed border-border-subtle rounded-lg p-3 text-center hover:border-primary/50 transition-colors cursor-pointer"
             onClick={() => fileRef.current?.click()}
           >
             <input
@@ -219,14 +219,14 @@ export function StockEntryForm({ onSuccess }: { onSuccess?: () => void }) {
             />
             {ocrLoading ? (
               <div className="flex items-center justify-center gap-2">
-                <Loader2 className="h-4 w-4 text-[#F97316] animate-spin" />
-                <span className="text-sm text-[#A78B7D]">Analizando albarán...</span>
+                <Loader2 className="h-4 w-4 text-primary animate-spin" />
+                <span className="text-sm text-muted-foreground">Analizando albarán...</span>
               </div>
             ) : (
               <div className="flex items-center justify-center gap-2">
-                <Camera className="h-4 w-4 text-[#F97316]" />
-                <span className="text-sm text-[#E5E2E1]">Escanear albarán con cámara</span>
-                <span className="text-xs text-[#A78B7D]">— rellena todo automáticamente</span>
+                <Camera className="h-4 w-4 text-primary" />
+                <span className="text-sm text-foreground">Escanear albarán con cámara</span>
+                <span className="text-xs text-muted-foreground">— rellena todo automáticamente</span>
               </div>
             )}
           </div>
@@ -289,7 +289,7 @@ export function StockEntryForm({ onSuccess }: { onSuccess?: () => void }) {
                 className={`rounded-md border p-3 space-y-2 ${
                   line.priceVariation !== null && Math.abs(line.priceVariation) > 5
                     ? "border-yellow-700/50 bg-yellow-950/10"
-                    : "border-[#333]"
+                    : "border-border-subtle"
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -350,7 +350,7 @@ export function StockEntryForm({ onSuccess }: { onSuccess?: () => void }) {
                     <Label className="text-xs">
                       €/unidad *
                       {line.product_id && LAST_KNOWN_PRICES[line.product_id] && (
-                        <span className="text-[#A78B7D] font-normal ml-1">
+                        <span className="text-muted-foreground font-normal ml-1">
                           (ant: {LAST_KNOWN_PRICES[line.product_id]!.toFixed(2)}€)
                         </span>
                       )}
@@ -400,7 +400,7 @@ export function StockEntryForm({ onSuccess }: { onSuccess?: () => void }) {
             <Button
               type="submit"
               disabled={loading || validLines.length === 0}
-              className="bg-[#F97316] hover:bg-[#EA680C] text-white"
+              className="bg-primary hover:bg-primary/90 text-white"
             >
               {loading ? "Registrando..." : "Registrar entrada"}
             </Button>

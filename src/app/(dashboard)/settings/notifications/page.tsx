@@ -51,11 +51,11 @@ export default function NotificationsSettingsPage() {
     <div className="max-w-2xl space-y-8">
       {/* Header */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-[#F97316] mb-1">
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
           CONFIGURACIÓN
         </p>
-        <h1 className="text-3xl font-bold text-[#E5E2E1]">Notificaciones</h1>
-        <p className="text-[#A78B7D] text-sm mt-1">
+        <h1 className="text-3xl font-bold text-foreground">Notificaciones</h1>
+        <p className="text-muted-foreground text-sm mt-1">
           Resumen diario con alertas de precio, caducidades, stock bajo, APPCC pendiente y pedido sugerido
         </p>
       </div>
@@ -75,13 +75,13 @@ export default function NotificationsSettingsPage() {
               className={cn(
                 "rounded-lg border p-4 text-left transition-colors",
                 channel === opt.value
-                  ? "border-[#F97316] bg-[#F97316]/10"
-                  : "border-[#333] bg-[#1A1A1A] hover:border-[#555]"
+                  ? "border-primary bg-primary/10"
+                  : "border-border-subtle bg-card hover:border-border-hover"
               )}
             >
-              <opt.icon className={cn("h-5 w-5 mb-2", channel === opt.value ? "text-[#F97316]" : "text-[#A78B7D]")} />
-              <p className="text-sm font-medium text-[#E5E2E1]">{opt.label}</p>
-              <p className="text-xs text-[#A78B7D] mt-0.5">{opt.desc}</p>
+              <opt.icon className={cn("h-5 w-5 mb-2", channel === opt.value ? "text-primary" : "text-muted-foreground")} />
+              <p className="text-sm font-medium text-foreground">{opt.label}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{opt.desc}</p>
             </button>
           ))}
         </div>
@@ -89,16 +89,16 @@ export default function NotificationsSettingsPage() {
 
       {/* Channel config */}
       {channel === "email" && (
-        <div className="space-y-3 rounded-lg bg-[#1A1A1A] border border-[#333] p-4">
+        <div className="space-y-3 rounded-lg bg-card border border-border-subtle p-4">
           <Label>Email de envío</Label>
           <Input value={email} onChange={e => setEmail(e.target.value)} placeholder="tu@email.com" />
         </div>
       )}
       {channel === "whatsapp" && (
-        <div className="space-y-3 rounded-lg bg-[#1A1A1A] border border-[#333] p-4">
+        <div className="space-y-3 rounded-lg bg-card border border-border-subtle p-4">
           <Label>Número WhatsApp</Label>
           <Input value={phone} onChange={e => setPhone(e.target.value)} placeholder="+34 600 000 000" />
-          <p className="text-xs text-[#A78B7D]">Requiere UltraMsg o WhatsApp Business API configurado</p>
+          <p className="text-xs text-muted-foreground">Requiere UltraMsg o WhatsApp Business API configurado</p>
         </div>
       )}
 
@@ -110,7 +110,7 @@ export default function NotificationsSettingsPage() {
             onClick={() => setFrequency("daily")}
             className={cn(
               "rounded-lg border px-4 py-2 text-sm transition-colors",
-              frequency === "daily" ? "border-[#F97316] bg-[#F97316]/10 text-[#F97316]" : "border-[#333] text-[#A78B7D]"
+              frequency === "daily" ? "border-primary bg-primary/10 text-primary" : "border-border-subtle text-muted-foreground"
             )}
           >
             Diario (7:00)
@@ -119,7 +119,7 @@ export default function NotificationsSettingsPage() {
             onClick={() => setFrequency("weekly")}
             className={cn(
               "rounded-lg border px-4 py-2 text-sm transition-colors",
-              frequency === "weekly" ? "border-[#F97316] bg-[#F97316]/10 text-[#F97316]" : "border-[#333] text-[#A78B7D]"
+              frequency === "weekly" ? "border-primary bg-primary/10 text-primary" : "border-border-subtle text-muted-foreground"
             )}
           >
             Semanal (lunes)
@@ -135,15 +135,15 @@ export default function NotificationsSettingsPage() {
 
       {/* Actions */}
       <div className="flex gap-3">
-        <Button onClick={previewDigest} variant="outline" className="border-[#333]">
+        <Button onClick={previewDigest} variant="outline" className="border-border-subtle">
           <Eye className="h-4 w-4 mr-1.5" />
           Ver preview
         </Button>
-        <Button onClick={sendTestDigest} disabled={sending || channel === "none"} className="bg-[#F97316] hover:bg-[#EA680C] text-white">
+        <Button onClick={sendTestDigest} disabled={sending || channel === "none"} className="bg-primary hover:bg-primary/90 text-white">
           {sending ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <Send className="h-4 w-4 mr-1.5" />}
           Enviar digest de prueba
         </Button>
-        <Button variant="outline" className="border-[#333] ml-auto" onClick={() => toast.success("Configuración guardada")}>
+        <Button variant="outline" className="border-border-subtle ml-auto" onClick={() => toast.success("Configuración guardada")}>
           <CheckCircle2 className="h-4 w-4 mr-1.5" />
           Guardar
         </Button>
@@ -154,42 +154,42 @@ export default function NotificationsSettingsPage() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label className="text-sm font-semibold">Preview del digest</Label>
-            <Button variant="ghost" size="sm" onClick={() => setPreviewHtml(null)} className="text-xs text-[#A78B7D]">
+            <Button variant="ghost" size="sm" onClick={() => setPreviewHtml(null)} className="text-xs text-muted-foreground">
               Cerrar
             </Button>
           </div>
           <div
-            className="rounded-lg border border-[#333] overflow-hidden bg-white"
+            className="rounded-lg border border-border-subtle overflow-hidden bg-white"
             dangerouslySetInnerHTML={{ __html: previewHtml }}
           />
         </div>
       )}
 
       {/* What's included */}
-      <div className="rounded-lg bg-[#1A1A1A] border border-[#333] p-4 space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Qué incluye el digest</p>
+      <div className="rounded-lg bg-card border border-border-subtle p-4 space-y-2">
+        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Qué incluye el digest</p>
         <div className="grid grid-cols-2 gap-2 text-sm">
-          <div className="flex items-center gap-2 text-[#E5E2E1]">
+          <div className="flex items-center gap-2 text-foreground">
             <Badge className="bg-red-500/15 text-red-400 border-0 text-xs">Precio</Badge>
             Subidas de precio &gt;5%
           </div>
-          <div className="flex items-center gap-2 text-[#E5E2E1]">
+          <div className="flex items-center gap-2 text-foreground">
             <Badge className="bg-yellow-500/15 text-yellow-400 border-0 text-xs">Caducidad</Badge>
             Productos próximos a caducar
           </div>
-          <div className="flex items-center gap-2 text-[#E5E2E1]">
+          <div className="flex items-center gap-2 text-foreground">
             <Badge className="bg-orange-500/15 text-orange-400 border-0 text-xs">Stock</Badge>
             Productos bajo mínimo
           </div>
-          <div className="flex items-center gap-2 text-[#E5E2E1]">
+          <div className="flex items-center gap-2 text-foreground">
             <Badge className="bg-blue-500/15 text-blue-400 border-0 text-xs">APPCC</Badge>
             Controles pendientes
           </div>
-          <div className="flex items-center gap-2 text-[#E5E2E1]">
+          <div className="flex items-center gap-2 text-foreground">
             <Badge className="bg-purple-500/15 text-purple-400 border-0 text-xs">Margen</Badge>
             Plato con peor margen/hora
           </div>
-          <div className="flex items-center gap-2 text-[#E5E2E1]">
+          <div className="flex items-center gap-2 text-foreground">
             <Badge className="bg-emerald-500/15 text-emerald-400 border-0 text-xs">Pedido</Badge>
             Propuesta de pedido automática
           </div>

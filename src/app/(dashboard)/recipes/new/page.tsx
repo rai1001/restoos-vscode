@@ -196,38 +196,38 @@ export default function NewRecipePage() {
       {/* Header */}
       <div className="flex items-center gap-3">
         <Link href="/recipes">
-          <Button variant="ghost" size="sm" className="text-[#A78B7D] hover:text-[#E5E2E1] hover:bg-[#1A1A1A]">
+          <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground hover:bg-card">
             <ArrowLeft className="mr-1 h-4 w-4" />
             Volver
           </Button>
         </Link>
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#F97316] mb-0.5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-0.5">
             RECETARIO
           </p>
-          <h1 className="text-2xl font-bold text-[#E5E2E1]">Nueva receta</h1>
+          <h1 className="text-2xl font-bold text-foreground">Nueva receta</h1>
         </div>
       </div>
 
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Tabs defaultValue="basicos">
-          <TabsList className="mb-4 bg-[#111] border border-[#333]">
-            <TabsTrigger value="basicos" className="data-[state=active]:bg-[#1A1A1A] data-[state=active]:text-[#F97316] text-[#A78B7D]">Datos basicos</TabsTrigger>
-            <TabsTrigger value="ingredientes" className="data-[state=active]:bg-[#1A1A1A] data-[state=active]:text-[#F97316] text-[#A78B7D]">
+          <TabsList className="mb-4 bg-sidebar border border-border-subtle">
+            <TabsTrigger value="basicos" className="data-[state=active]:bg-card data-[state=active]:text-primary text-muted-foreground">Datos basicos</TabsTrigger>
+            <TabsTrigger value="ingredientes" className="data-[state=active]:bg-card data-[state=active]:text-primary text-muted-foreground">
               Ingredientes {ingredients.length > 0 && `(${ingredients.length})`}
             </TabsTrigger>
-            <TabsTrigger value="pasos" className="data-[state=active]:bg-[#1A1A1A] data-[state=active]:text-[#F97316] text-[#A78B7D]">
+            <TabsTrigger value="pasos" className="data-[state=active]:bg-card data-[state=active]:text-primary text-muted-foreground">
               Pasos {steps.length > 0 && `(${steps.length})`}
             </TabsTrigger>
-            <TabsTrigger value="foto" className="data-[state=active]:bg-[#1A1A1A] data-[state=active]:text-[#F97316] text-[#A78B7D]">Foto</TabsTrigger>
+            <TabsTrigger value="foto" className="data-[state=active]:bg-card data-[state=active]:text-primary text-muted-foreground">Foto</TabsTrigger>
           </TabsList>
 
           {/* -- Tab 1: Datos basicos -- */}
           <TabsContent value="basicos">
-            <div className="rounded-lg bg-[#1A1A1A] p-6 space-y-5">
+            <div className="rounded-lg bg-card p-6 space-y-5">
               <div>
-                <h2 className="text-lg font-semibold text-[#E5E2E1]">Datos de la receta</h2>
-                <p className="text-sm text-[#A78B7D] mt-0.5">Informacion general de la receta</p>
+                <h2 className="text-lg font-semibold text-foreground">Datos de la receta</h2>
+                <p className="text-sm text-muted-foreground mt-0.5">Informacion general de la receta</p>
               </div>
 
               {/* Voice panel */}
@@ -236,15 +236,15 @@ export default function NewRecipePage() {
                   "rounded-lg p-4 transition-all",
                   voice.status === "listening"
                     ? "bg-red-500/10 border border-red-500/30"
-                    : "bg-[#111] border border-[#333]"
+                    : "bg-sidebar border border-border-subtle"
                 )}>
                   <div className="flex items-start gap-3">
                     <div className="flex-1">
-                      <p className="text-sm font-medium flex items-center gap-1.5 text-[#E5E2E1]">
+                      <p className="text-sm font-medium flex items-center gap-1.5 text-foreground">
                         <Mic className="h-4 w-4" />
                         Dictado por voz
                       </p>
-                      <p className="text-xs text-[#A78B7D] mt-0.5">
+                      <p className="text-xs text-muted-foreground mt-0.5">
                         Ej: <em>&quot;Risotto de setas, principal, cuatro raciones, 20 minutos de preparacion&quot;</em>
                       </p>
                       {voice.transcript && (
@@ -252,7 +252,7 @@ export default function NewRecipePage() {
                           "mt-2 text-sm rounded px-2 py-1 italic",
                           voice.status === "listening"
                             ? "bg-red-500/10 text-red-400"
-                            : "bg-[#111] text-[#A78B7D]"
+                            : "bg-sidebar text-muted-foreground"
                         )}>
                           &quot;{voice.transcript}&quot;
                         </p>
@@ -270,8 +270,8 @@ export default function NewRecipePage() {
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Nombre de la receta</Label>
-                <Input id="name" {...form.register("name")} placeholder="Risotto de setas" className="bg-[#111] border-[#333] text-[#E5E2E1] placeholder:text-[#A78B7D]/50" />
+                <Label htmlFor="name" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Nombre de la receta</Label>
+                <Input id="name" {...form.register("name")} placeholder="Risotto de setas" className="bg-sidebar border-border-subtle text-foreground placeholder:text-muted-foreground/50" />
                 {form.formState.errors.name && (
                   <p className="text-red-400 text-sm">{form.formState.errors.name.message}</p>
                 )}
@@ -279,11 +279,11 @@ export default function NewRecipePage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="category" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Categoria</Label>
+                  <Label htmlFor="category" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Categoria</Label>
                   <select
                     id="category"
                     {...form.register("category")}
-                    className="flex h-9 w-full rounded-md bg-[#111] border border-[#333] text-[#E5E2E1] px-3 py-1 text-sm"
+                    className="flex h-9 w-full rounded-md bg-sidebar border border-border-subtle text-foreground px-3 py-1 text-sm"
                   >
                     <option value="">Sin categoria</option>
                     {CATEGORIES.map((c) => (
@@ -292,12 +292,12 @@ export default function NewRecipePage() {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="servings" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Raciones</Label>
+                  <Label htmlFor="servings" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Raciones</Label>
                   <Input
                     id="servings"
                     type="number"
                     {...form.register("servings", { valueAsNumber: true })}
-                    className="bg-[#111] border-[#333] text-[#E5E2E1]"
+                    className="bg-sidebar border-border-subtle text-foreground"
                   />
                   {form.formState.errors.servings && (
                     <p className="text-red-400 text-sm">{form.formState.errors.servings.message}</p>
@@ -307,44 +307,44 @@ export default function NewRecipePage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="prep_time_min" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Tiempo prep. (min)</Label>
+                  <Label htmlFor="prep_time_min" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Tiempo prep. (min)</Label>
                   <Input
                     id="prep_time_min"
                     type="number"
                     {...form.register("prep_time_min", { valueAsNumber: true })}
-                    className="bg-[#111] border-[#333] text-[#E5E2E1]"
+                    className="bg-sidebar border-border-subtle text-foreground"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="cook_time_min" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Tiempo coccion (min)</Label>
+                  <Label htmlFor="cook_time_min" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Tiempo coccion (min)</Label>
                   <Input
                     id="cook_time_min"
                     type="number"
                     {...form.register("cook_time_min", { valueAsNumber: true })}
-                    className="bg-[#111] border-[#333] text-[#E5E2E1]"
+                    className="bg-sidebar border-border-subtle text-foreground"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Descripcion</Label>
-                <Input id="description" {...form.register("description")} placeholder="Breve descripcion de la receta" className="bg-[#111] border-[#333] text-[#E5E2E1] placeholder:text-[#A78B7D]/50" />
+                <Label htmlFor="description" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Descripcion</Label>
+                <Input id="description" {...form.register("description")} placeholder="Breve descripcion de la receta" className="bg-sidebar border-border-subtle text-foreground placeholder:text-muted-foreground/50" />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="notes" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Notas</Label>
-                <Input id="notes" {...form.register("notes")} placeholder="Notas adicionales" className="bg-[#111] border-[#333] text-[#E5E2E1] placeholder:text-[#A78B7D]/50" />
+                <Label htmlFor="notes" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Notas</Label>
+                <Input id="notes" {...form.register("notes")} placeholder="Notas adicionales" className="bg-sidebar border-border-subtle text-foreground placeholder:text-muted-foreground/50" />
               </div>
             </div>
           </TabsContent>
 
           {/* -- Tab 2: Ingredientes -- */}
           <TabsContent value="ingredientes">
-            <div className="rounded-lg bg-[#1A1A1A] p-6 space-y-5">
+            <div className="rounded-lg bg-card p-6 space-y-5">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-semibold text-[#E5E2E1]">Ingredientes</h2>
-                  <p className="text-sm text-[#A78B7D]">{ingredients.length} ingredientes anadidos</p>
+                  <h2 className="text-lg font-semibold text-foreground">Ingredientes</h2>
+                  <p className="text-sm text-muted-foreground">{ingredients.length} ingredientes anadidos</p>
                 </div>
                 {ingredientVoice.isSupported && (
                   <VoiceMicButton
@@ -363,22 +363,22 @@ export default function NewRecipePage() {
                   "text-sm rounded px-2 py-1 italic",
                   ingredientVoice.status === "listening"
                     ? "bg-red-500/10 text-red-400"
-                    : "bg-[#111] text-[#A78B7D]"
+                    : "bg-sidebar text-muted-foreground"
                 )}>
                   &quot;{ingredientVoice.transcript}&quot;
                 </p>
               )}
 
               {ingredients.length > 0 && (
-                <div className="rounded-lg bg-[#111] overflow-hidden">
+                <div className="rounded-lg bg-sidebar overflow-hidden">
                   <Table>
                     <TableHeader>
-                      <TableRow className="border-b border-[#333] hover:bg-transparent">
-                        <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Ingrediente</TableHead>
-                        <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D] text-right">Cantidad</TableHead>
-                        <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Unidad</TableHead>
-                        <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Notas</TableHead>
-                        <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D] text-right">Coste</TableHead>
+                      <TableRow className="border-b border-border-subtle hover:bg-transparent">
+                        <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Ingrediente</TableHead>
+                        <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground text-right">Cantidad</TableHead>
+                        <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Unidad</TableHead>
+                        <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Notas</TableHead>
+                        <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground text-right">Coste</TableHead>
                         <TableHead className="w-12" />
                       </TableRow>
                     </TableHeader>
@@ -387,17 +387,17 @@ export default function NewRecipePage() {
                         const price = ing.product_id ? getPreferredPrice(ing.product_id) : null;
                         const cost = price != null ? (ing.quantity * price) : null;
                         return (
-                          <TableRow key={ing.id} className="border-b border-[#222] hover:bg-[#222]/50">
-                            <TableCell className="font-medium text-[#E5E2E1]">
+                          <TableRow key={ing.id} className="border-b border-card-hover hover:bg-card-hover/50">
+                            <TableCell className="font-medium text-foreground">
                               {ing.name}
                               {ing.product_id && (
                                 <span className="ml-1.5 inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" title="Vinculado al catalogo" />
                               )}
                             </TableCell>
-                            <TableCell className="text-right text-[#E5E2E1]">{ing.quantity}</TableCell>
-                            <TableCell className="text-[#A78B7D]">{ing.unit}</TableCell>
-                            <TableCell className="text-[#A78B7D]">{ing.notes ?? "\u2014"}</TableCell>
-                            <TableCell className="text-right tabular-nums text-[#E5E2E1]">
+                            <TableCell className="text-right text-foreground">{ing.quantity}</TableCell>
+                            <TableCell className="text-muted-foreground">{ing.unit}</TableCell>
+                            <TableCell className="text-muted-foreground">{ing.notes ?? "\u2014"}</TableCell>
+                            <TableCell className="text-right tabular-nums text-foreground">
                               {cost != null ? `${cost.toFixed(2)} \u20AC` : "\u2014"}
                             </TableCell>
                             <TableCell>
@@ -406,7 +406,7 @@ export default function NewRecipePage() {
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => removeIngredient(ing.id)}
-                                className="text-[#A78B7D] hover:text-red-400 hover:bg-red-500/10"
+                                className="text-muted-foreground hover:text-red-400 hover:bg-red-500/10"
                               >
                                 <Trash2 className="h-4 w-4" />
                               </Button>
@@ -428,9 +428,9 @@ export default function NewRecipePage() {
                 }, 0);
                 return ingredientTotal > 0 ? (
                   <div className="flex justify-end">
-                    <p className="text-sm font-medium text-[#A78B7D]">
+                    <p className="text-sm font-medium text-muted-foreground">
                       Coste estimado:{" "}
-                      <span className="text-[#E5E2E1] font-semibold tabular-nums">
+                      <span className="text-foreground font-semibold tabular-nums">
                         {ingredientTotal.toFixed(2)} {"\u20AC"}
                       </span>
                     </p>
@@ -439,8 +439,8 @@ export default function NewRecipePage() {
               })()}
 
               {/* Add ingredient row */}
-              <div className="rounded-lg bg-[#111] p-4 space-y-3 border border-[#333]">
-                <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Anadir ingrediente</p>
+              <div className="rounded-lg bg-sidebar p-4 space-y-3 border border-border-subtle">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Anadir ingrediente</p>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                   <div className="col-span-2 sm:col-span-1">
                     <ProductCombobox
@@ -460,14 +460,14 @@ export default function NewRecipePage() {
                       value={newIngQty}
                       onChange={(e) => setNewIngQty(e.target.value)}
                       placeholder="Cantidad"
-                      className="bg-[#0A0A0A] border-[#333] text-[#E5E2E1] placeholder:text-[#A78B7D]/50"
+                      className="bg-background border-border-subtle text-foreground placeholder:text-muted-foreground/50"
                     />
                   </div>
                   <div>
                     <select
                       value={newIngUnit}
                       onChange={(e) => setNewIngUnit(e.target.value)}
-                      className="flex h-9 w-full rounded-md bg-[#0A0A0A] border border-[#333] text-[#E5E2E1] px-3 py-1 text-sm"
+                      className="flex h-9 w-full rounded-md bg-background border border-border-subtle text-foreground px-3 py-1 text-sm"
                     >
                       {UNITS.map((u) => (
                         <option key={u} value={u}>{u}</option>
@@ -480,9 +480,9 @@ export default function NewRecipePage() {
                     value={newIngNotes}
                     onChange={(e) => setNewIngNotes(e.target.value)}
                     placeholder="Notas (opcional)"
-                    className="flex-1 bg-[#0A0A0A] border-[#333] text-[#E5E2E1] placeholder:text-[#A78B7D]/50"
+                    className="flex-1 bg-background border-border-subtle text-foreground placeholder:text-muted-foreground/50"
                   />
-                  <Button type="button" variant="outline" onClick={addIngredient} className="border-[#333] bg-transparent text-[#E5E2E1] hover:bg-[#222]">
+                  <Button type="button" variant="outline" onClick={addIngredient} className="border-border-subtle bg-transparent text-foreground hover:bg-card-hover">
                     <Plus className="mr-1 h-4 w-4" />
                     Anadir
                   </Button>
@@ -493,23 +493,23 @@ export default function NewRecipePage() {
 
           {/* -- Tab 3: Pasos -- */}
           <TabsContent value="pasos">
-            <div className="rounded-lg bg-[#1A1A1A] p-6 space-y-5">
+            <div className="rounded-lg bg-card p-6 space-y-5">
               <div>
-                <h2 className="text-lg font-semibold text-[#E5E2E1]">Pasos de preparacion</h2>
-                <p className="text-sm text-[#A78B7D]">{steps.length} pasos anadidos</p>
+                <h2 className="text-lg font-semibold text-foreground">Pasos de preparacion</h2>
+                <p className="text-sm text-muted-foreground">{steps.length} pasos anadidos</p>
               </div>
 
               {steps.length > 0 && (
                 <div className="space-y-2">
                   {steps.map((step, idx) => (
-                    <div key={step.id} className="flex items-start gap-3 rounded-lg bg-[#111] p-3">
-                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#F97316] text-white text-xs font-medium">
+                    <div key={step.id} className="flex items-start gap-3 rounded-lg bg-sidebar p-3">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-white text-xs font-medium">
                         {idx + 1}
                       </span>
                       <div className="flex-1">
-                        <p className="text-sm text-[#E5E2E1]">{step.instruction}</p>
+                        <p className="text-sm text-foreground">{step.instruction}</p>
                         {step.duration_min && (
-                          <p className="text-[#A78B7D] mt-1 text-xs">{step.duration_min} min</p>
+                          <p className="text-muted-foreground mt-1 text-xs">{step.duration_min} min</p>
                         )}
                       </div>
                       <Button
@@ -517,7 +517,7 @@ export default function NewRecipePage() {
                         variant="ghost"
                         size="sm"
                         onClick={() => removeStep(step.id)}
-                        className="text-[#A78B7D] hover:text-red-400 hover:bg-red-500/10"
+                        className="text-muted-foreground hover:text-red-400 hover:bg-red-500/10"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -527,26 +527,26 @@ export default function NewRecipePage() {
               )}
 
               {/* Add step */}
-              <div className="rounded-lg bg-[#111] p-4 space-y-3 border border-[#333]">
-                <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Anadir paso</p>
+              <div className="rounded-lg bg-sidebar p-4 space-y-3 border border-border-subtle">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Anadir paso</p>
                 <textarea
-                  className="flex min-h-[80px] w-full rounded-md bg-[#0A0A0A] border border-[#333] text-[#E5E2E1] px-3 py-2 text-sm placeholder:text-[#A78B7D]/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#F97316] resize-none"
+                  className="flex min-h-[80px] w-full rounded-md bg-background border border-border-subtle text-foreground px-3 py-2 text-sm placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary resize-none"
                   value={newStepInstruction}
                   onChange={(e) => setNewStepInstruction(e.target.value)}
                   placeholder="Describe el paso de preparacion..."
                 />
                 <div className="flex gap-3 items-end">
                   <div className="space-y-1">
-                    <Label className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Duracion (min)</Label>
+                    <Label className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Duracion (min)</Label>
                     <Input
                       type="number"
                       value={newStepDuration}
                       onChange={(e) => setNewStepDuration(e.target.value)}
                       placeholder="Opcional"
-                      className="w-32 bg-[#0A0A0A] border-[#333] text-[#E5E2E1] placeholder:text-[#A78B7D]/50"
+                      className="w-32 bg-background border-border-subtle text-foreground placeholder:text-muted-foreground/50"
                     />
                   </div>
-                  <Button type="button" variant="outline" onClick={addStep} className="border-[#333] bg-transparent text-[#E5E2E1] hover:bg-[#222]">
+                  <Button type="button" variant="outline" onClick={addStep} className="border-border-subtle bg-transparent text-foreground hover:bg-card-hover">
                     <Plus className="mr-1 h-4 w-4" />
                     Anadir paso
                   </Button>
@@ -557,32 +557,32 @@ export default function NewRecipePage() {
 
           {/* -- Tab 4: Foto -- */}
           <TabsContent value="foto">
-            <div className="rounded-lg bg-[#1A1A1A] p-6 space-y-5">
+            <div className="rounded-lg bg-card p-6 space-y-5">
               <div>
-                <h2 className="text-lg font-semibold text-[#E5E2E1]">Foto de la receta</h2>
-                <p className="text-sm text-[#A78B7D]">Sube una foto del plato terminado</p>
+                <h2 className="text-lg font-semibold text-foreground">Foto de la receta</h2>
+                <p className="text-sm text-muted-foreground">Sube una foto del plato terminado</p>
               </div>
 
               <div className="space-y-2">
-                <Label className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Imagen</Label>
+                <Label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Imagen</Label>
                 <Input
                   type="file"
                   accept="image/*"
                   capture="environment"
                   onChange={handlePhotoChange}
-                  className="bg-[#111] border-[#333] text-[#E5E2E1]"
+                  className="bg-sidebar border-border-subtle text-foreground"
                 />
               </div>
 
               {photoUrl ? (
-                <div className="rounded-lg bg-[#111] overflow-hidden">
+                <div className="rounded-lg bg-sidebar overflow-hidden">
                   <Image
                     src={photoUrl}
                     alt="Vista previa"
                     width={1024}
                     height={512}
                     unoptimized
-                    className="max-h-64 w-full object-contain bg-[#0A0A0A]"
+                    className="max-h-64 w-full object-contain bg-background"
                   />
                   <div className="p-2 text-center">
                     <Button
@@ -590,7 +590,7 @@ export default function NewRecipePage() {
                       variant="ghost"
                       size="sm"
                       onClick={() => setPhotoUrl(null)}
-                      className="text-[#A78B7D] hover:text-red-400 hover:bg-red-500/10"
+                      className="text-muted-foreground hover:text-red-400 hover:bg-red-500/10"
                     >
                       <Trash2 className="mr-1 h-4 w-4" />
                       Eliminar foto
@@ -598,9 +598,9 @@ export default function NewRecipePage() {
                   </div>
                 </div>
               ) : (
-                <div className="rounded-lg border border-dashed border-[#333] p-12 text-center bg-[#111]">
-                  <ImageIcon className="mx-auto h-10 w-10 text-[#A78B7D]/50" />
-                  <p className="mt-2 text-sm text-[#A78B7D]">
+                <div className="rounded-lg border border-dashed border-border-subtle p-12 text-center bg-sidebar">
+                  <ImageIcon className="mx-auto h-10 w-10 text-muted-foreground/50" />
+                  <p className="mt-2 text-sm text-muted-foreground">
                     Sin foto seleccionada
                   </p>
                 </div>
@@ -611,11 +611,11 @@ export default function NewRecipePage() {
 
         {/* Submit button (outside tabs) */}
         <div className="mt-6 flex gap-3">
-          <Button type="submit" disabled={createRecipe.isPending} className="bg-[#F97316] hover:bg-[#EA680C] text-white border-0">
+          <Button type="submit" disabled={createRecipe.isPending} className="bg-primary hover:bg-primary/90 text-white border-0">
             {createRecipe.isPending ? "Creando..." : "Crear receta"}
           </Button>
           <Link href="/recipes">
-            <Button type="button" variant="outline" className="border-[#333] bg-transparent text-[#E5E2E1] hover:bg-[#1A1A1A]">Cancelar</Button>
+            <Button type="button" variant="outline" className="border-border-subtle bg-transparent text-foreground hover:bg-card">Cancelar</Button>
           </Link>
         </div>
       </form>

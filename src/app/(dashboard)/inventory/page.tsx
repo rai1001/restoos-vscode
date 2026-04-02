@@ -132,13 +132,13 @@ export default function InventoryPage() {
       {/* ---- Header ---- */}
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#F97316] mb-1">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
             Operaciones
           </p>
-          <h1 className="text-3xl font-bold text-[#E5E2E1]">
+          <h1 className="text-3xl font-bold text-foreground">
             Inventario Real-Time
           </h1>
-          <p className="text-[#A78B7D] text-sm mt-1">
+          <p className="text-muted-foreground text-sm mt-1">
             {stockItems.length > 0
               ? `${stockItems.length} productos en stock`
               : `${inventoryTableData.length} productos en stock`}
@@ -150,7 +150,7 @@ export default function InventoryPage() {
           <Link href="/inventory/theoretical">
             <Button
               variant="outline"
-              className="border-[#333] bg-transparent text-[#E5E2E1] hover:bg-[#1A1A1A]"
+              className="border-border-subtle bg-transparent text-foreground hover:bg-card"
             >
               Teórico vs Real
             </Button>
@@ -162,12 +162,12 @@ export default function InventoryPage() {
       {/* ---- KPI Cards ---- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Valor Total Stock */}
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-[#F97316] p-5">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D] mb-1">
+        <div className="rounded-lg bg-card border-l-4 border-l-primary p-5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
             Valor Total Stock
           </p>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-[#E5E2E1]">
+            <span className="text-2xl font-bold text-foreground">
               42.850,20&euro;
             </span>
             <span className="flex items-center gap-0.5 text-xs text-emerald-400">
@@ -175,16 +175,16 @@ export default function InventoryPage() {
               +2.4%
             </span>
           </div>
-          <p className="text-xs text-[#A78B7D] mt-1">vs mes anterior</p>
+          <p className="text-xs text-muted-foreground mt-1">vs mes anterior</p>
         </div>
 
         {/* Bajo Minimo */}
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-red-500 p-5">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D] mb-1">
+        <div className="rounded-lg bg-card border-l-4 border-l-red-500 p-5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
             Bajo Minimo
           </p>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-[#E5E2E1]">12</span>
+            <span className="text-2xl font-bold text-foreground">12</span>
             <span className="flex items-center gap-0.5 text-xs text-red-400">
               <TrendingDown className="h-3 w-3" />
               +3
@@ -194,27 +194,27 @@ export default function InventoryPage() {
         </div>
 
         {/* Rotacion de Stock */}
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-emerald-500 p-5">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D] mb-1">
+        <div className="rounded-lg bg-card border-l-4 border-l-emerald-500 p-5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
             Rotacion de Stock
           </p>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-[#E5E2E1]">8.4x</span>
+            <span className="text-2xl font-bold text-foreground">8.4x</span>
           </div>
           <p className="text-xs text-emerald-400 mt-1">Óptimo para restaurante</p>
         </div>
 
         {/* Gestion de Mermas */}
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-emerald-500 p-5">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D] mb-1">
+        <div className="rounded-lg bg-card border-l-4 border-l-emerald-500 p-5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
             Gestion de Mermas
           </p>
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-[#E5E2E1]">1.2%</span>
+            <span className="text-2xl font-bold text-foreground">1.2%</span>
             <span className="text-xs text-emerald-400">Objetivo &lt;2%</span>
           </div>
           {/* Mini progress bar */}
-          <div className="mt-2 h-1.5 w-full rounded-full bg-[#333]">
+          <div className="mt-2 h-1.5 w-full rounded-full bg-border-subtle">
             <div
               className="h-1.5 rounded-full bg-emerald-500"
               style={{ width: "60%" }}
@@ -225,10 +225,10 @@ export default function InventoryPage() {
 
       {/* ---- Expiry alert (existing functionality preserved) ---- */}
       {expiring.length > 0 && (
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-[#F97316] p-5">
+        <div className="rounded-lg bg-card border-l-4 border-l-primary p-5">
           <div className="flex items-center gap-2 mb-3">
-            <AlertTriangle className="h-5 w-5 text-[#F97316]" />
-            <span className="text-sm font-semibold uppercase tracking-widest text-[#F97316]">
+            <AlertTriangle className="h-5 w-5 text-primary" />
+            <span className="text-sm font-semibold uppercase tracking-widest text-primary">
               Productos proximos a caducar
             </span>
           </div>
@@ -244,7 +244,7 @@ export default function InventoryPage() {
                   key={item.lot_id}
                   className="flex items-center justify-between text-sm"
                 >
-                  <span className="text-[#E5E2E1]">
+                  <span className="text-foreground">
                     {item.product_name} &mdash; {item.quantity} uds.
                   </span>
                   <Badge className={
@@ -274,8 +274,8 @@ export default function InventoryPage() {
               onClick={() => setCategoryFilter(tab)}
               className={`px-4 py-2 text-xs font-semibold uppercase tracking-widest rounded-md transition-colors ${
                 categoryFilter === tab
-                  ? "bg-[#F97316] text-white"
-                  : "text-[#A78B7D] hover:text-[#E5E2E1] hover:bg-[#1A1A1A]"
+                  ? "bg-primary text-white"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card"
               }`}
             >
               {tab}
@@ -283,21 +283,21 @@ export default function InventoryPage() {
           ))}
         </div>
         <div className="flex items-center gap-3">
-          <select className="bg-[#1A1A1A] border border-[#333] rounded-md px-3 py-1.5 text-sm text-[#E5E2E1] focus:outline-none focus:border-[#F97316]">
+          <select className="bg-card border border-border-subtle rounded-md px-3 py-1.5 text-sm text-foreground focus:outline-none focus:border-primary">
             <option>Almacen Central</option>
             <option>Bodega Principal</option>
             <option>Camara Fria</option>
           </select>
-          <div className="flex items-center border border-[#333] rounded-md overflow-hidden">
+          <div className="flex items-center border border-border-subtle rounded-md overflow-hidden">
             <button
               onClick={() => setViewMode("list")}
-              className={`p-2 ${viewMode === "list" ? "bg-[#F97316] text-white" : "text-[#A78B7D] hover:bg-[#1A1A1A]"}`}
+              className={`p-2 ${viewMode === "list" ? "bg-primary text-white" : "text-muted-foreground hover:bg-card"}`}
             >
               <List className="h-4 w-4" />
             </button>
             <button
               onClick={() => setViewMode("grid")}
-              className={`p-2 ${viewMode === "grid" ? "bg-[#F97316] text-white" : "text-[#A78B7D] hover:bg-[#1A1A1A]"}`}
+              className={`p-2 ${viewMode === "grid" ? "bg-primary text-white" : "text-muted-foreground hover:bg-card"}`}
             >
               <LayoutGrid className="h-4 w-4" />
             </button>
@@ -306,26 +306,26 @@ export default function InventoryPage() {
       </div>
 
       {/* ---- Main Inventory Table (Stitch style) ---- */}
-      <div className="rounded-lg bg-[#1A1A1A] overflow-hidden">
+      <div className="rounded-lg bg-card overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="border-b border-[#333] hover:bg-transparent">
-              <TableHead className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+            <TableRow className="border-b border-border-subtle hover:bg-transparent">
+              <TableHead className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Producto
               </TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+              <TableHead className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Categoria
               </TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+              <TableHead className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Existencias
               </TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+              <TableHead className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Precio Unit.
               </TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+              <TableHead className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Estado
               </TableHead>
-              <TableHead className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D] text-right">
+              <TableHead className="text-xs font-semibold uppercase tracking-widest text-muted-foreground text-right">
                 Accion
               </TableHead>
             </TableRow>
@@ -337,7 +337,7 @@ export default function InventoryPage() {
               return (
                 <TableRow
                   key={item.id}
-                  className="border-b border-[#222] hover:bg-[#222]/50 transition-colors"
+                  className="border-b border-card-hover hover:bg-card-hover/50 transition-colors"
                 >
                   {/* Producto with thumbnail */}
                   <TableCell>
@@ -345,24 +345,24 @@ export default function InventoryPage() {
                       <div
                         className={`h-9 w-9 rounded-full bg-gradient-to-br ${item.thumb} flex-shrink-0`}
                       />
-                      <span className="font-medium text-[#E5E2E1]">
+                      <span className="font-medium text-foreground">
                         {item.producto}
                       </span>
                     </div>
                   </TableCell>
                   {/* Categoria badge */}
                   <TableCell>
-                    <span className="inline-block px-2.5 py-0.5 rounded text-xs bg-[#333] text-[#A78B7D]">
+                    <span className="inline-block px-2.5 py-0.5 rounded text-xs bg-border-subtle text-muted-foreground">
                       {item.categoria}
                     </span>
                   </TableCell>
                   {/* Existencias */}
-                  <TableCell className="text-[#E5E2E1]">
+                  <TableCell className="text-foreground">
                     {item.existencias}{" "}
-                    <span className="text-[#A78B7D] text-xs">{item.unidad}</span>
+                    <span className="text-muted-foreground text-xs">{item.unidad}</span>
                   </TableCell>
                   {/* Precio */}
-                  <TableCell className="text-[#E5E2E1]">
+                  <TableCell className="text-foreground">
                     {item.precio.toLocaleString("es-ES", {
                       minimumFractionDigits: 2,
                     })}
@@ -376,7 +376,7 @@ export default function InventoryPage() {
                   </TableCell>
                   {/* Accion */}
                   <TableCell className="text-right">
-                    <button className="p-1.5 rounded hover:bg-[#333] text-[#A78B7D] hover:text-[#E5E2E1] transition-colors">
+                    <button className="p-1.5 rounded hover:bg-border-subtle text-muted-foreground hover:text-foreground transition-colors">
                       <MoreHorizontal className="h-4 w-4" />
                     </button>
                   </TableCell>
@@ -391,31 +391,31 @@ export default function InventoryPage() {
       {isLoading ? (
         <TableSkeleton cols={4} />
       ) : stockItems.length > 0 ? (
-        <div className="rounded-lg bg-[#1A1A1A] overflow-hidden">
-          <div className="p-5 border-b border-[#333]">
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D] mb-1">
+        <div className="rounded-lg bg-card overflow-hidden">
+          <div className="p-5 border-b border-border-subtle">
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
               Datos en vivo
             </p>
-            <h3 className="text-lg font-bold text-[#E5E2E1]">
+            <h3 className="text-lg font-bold text-foreground">
               Niveles de stock
             </h3>
-            <p className="text-sm text-[#A78B7D]">
+            <p className="text-sm text-muted-foreground">
               Stock actual derivado de lotes activos
             </p>
           </div>
           <Table>
             <TableHeader>
-              <TableRow className="border-b border-[#333] hover:bg-transparent">
-                <TableHead className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+              <TableRow className="border-b border-border-subtle hover:bg-transparent">
+                <TableHead className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   Producto
                 </TableHead>
-                <TableHead className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+                <TableHead className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   Cantidad total
                 </TableHead>
-                <TableHead className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+                <TableHead className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   Lotes
                 </TableHead>
-                <TableHead className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+                <TableHead className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   Caducidad proxima
                 </TableHead>
               </TableRow>
@@ -431,18 +431,18 @@ export default function InventoryPage() {
                 }) => (
                   <TableRow
                     key={item.product_id}
-                    className="border-b border-[#222] hover:bg-[#222]/50 transition-colors"
+                    className="border-b border-card-hover hover:bg-card-hover/50 transition-colors"
                   >
-                    <TableCell className="font-medium text-[#E5E2E1]">
+                    <TableCell className="font-medium text-foreground">
                       {item.product_name}
                     </TableCell>
-                    <TableCell className="text-[#E5E2E1]">
+                    <TableCell className="text-foreground">
                       {item.total_quantity}
                     </TableCell>
-                    <TableCell className="text-[#E5E2E1]">
+                    <TableCell className="text-foreground">
                       {item.lot_count}
                     </TableCell>
-                    <TableCell className="text-[#A78B7D]">
+                    <TableCell className="text-muted-foreground">
                       {item.earliest_expiry ?? "\u2014"}
                     </TableCell>
                   </TableRow>
@@ -456,17 +456,17 @@ export default function InventoryPage() {
       {/* ---- Charts + Entregas Programadas row ---- */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Chart 1: Stock Levels by Category */}
-        <div className="lg:col-span-2 rounded-lg bg-[#1A1A1A] p-5">
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D] mb-1">
+        <div className="lg:col-span-2 rounded-lg bg-card p-5">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
             Analisis
           </p>
-          <h3 className="text-lg font-bold text-[#E5E2E1] mb-4">
+          <h3 className="text-lg font-bold text-foreground mb-4">
             Rendimiento de Inventario
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Stock por categoria */}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D] mb-3">
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
                 Stock por categoria
               </p>
               <ResponsiveContainer width="100%" height={220}>
@@ -525,7 +525,7 @@ export default function InventoryPage() {
 
             {/* Proximos a caducar */}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D] mb-3">
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-3">
                 Proximos a caducar
               </p>
               <ResponsiveContainer width="100%" height={220}>
@@ -582,34 +582,34 @@ export default function InventoryPage() {
         </div>
 
         {/* Entregas Programadas */}
-        <div className="rounded-lg bg-[#1A1A1A] p-5">
+        <div className="rounded-lg bg-card p-5">
           <div className="flex items-center gap-2 mb-4">
-            <Truck className="h-4 w-4 text-[#F97316]" />
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+            <Truck className="h-4 w-4 text-primary" />
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
               Entregas Programadas
             </p>
           </div>
-          <p className="text-sm text-[#A78B7D] mb-4">Hoy, 24 Mar 2026</p>
+          <p className="text-sm text-muted-foreground mb-4">Hoy, 24 Mar 2026</p>
           <div className="space-y-4">
             {entregas.map((e, i) => (
               <div
                 key={i}
-                className="flex items-start gap-3 pb-4 border-b border-[#222] last:border-0 last:pb-0"
+                className="flex items-start gap-3 pb-4 border-b border-card-hover last:border-0 last:pb-0"
               >
                 <div className="flex-shrink-0 mt-0.5">
-                  <Clock className="h-4 w-4 text-[#A78B7D]" />
+                  <Clock className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-[#E5E2E1] truncate">
+                    <span className="text-sm font-medium text-foreground truncate">
                       {e.proveedor}
                     </span>
-                    <span className="text-xs text-[#A78B7D] ml-2 flex-shrink-0">
+                    <span className="text-xs text-muted-foreground ml-2 flex-shrink-0">
                       {e.hora}
                     </span>
                   </div>
                   <div className="flex items-center justify-between mt-1">
-                    <span className="text-xs text-[#A78B7D]">
+                    <span className="text-xs text-muted-foreground">
                       {e.items} productos
                     </span>
                     <Badge
@@ -632,14 +632,14 @@ export default function InventoryPage() {
       </div>
 
       {/* ---- Tabs: Reservas de stock (existing functionality) ---- */}
-      <div className="rounded-lg bg-[#1A1A1A] overflow-hidden">
-        <div className="flex items-center gap-1 p-4 border-b border-[#333]">
+      <div className="rounded-lg bg-card overflow-hidden">
+        <div className="flex items-center gap-1 p-4 border-b border-border-subtle">
           <button
             onClick={() => setActiveTab("stock")}
             className={`px-4 py-2 text-xs font-semibold uppercase tracking-widest rounded-md transition-colors ${
               activeTab === "stock"
-                ? "bg-[#F97316] text-white"
-                : "text-[#A78B7D] hover:text-[#E5E2E1] hover:bg-[#222]"
+                ? "bg-primary text-white"
+                : "text-muted-foreground hover:text-foreground hover:bg-card-hover"
             }`}
           >
             Movimientos
@@ -648,8 +648,8 @@ export default function InventoryPage() {
             onClick={() => setActiveTab("reservas")}
             className={`px-4 py-2 text-xs font-semibold uppercase tracking-widest rounded-md transition-colors flex items-center gap-1.5 ${
               activeTab === "reservas"
-                ? "bg-[#F97316] text-white"
-                : "text-[#A78B7D] hover:text-[#E5E2E1] hover:bg-[#222]"
+                ? "bg-primary text-white"
+                : "text-muted-foreground hover:text-foreground hover:bg-card-hover"
             }`}
           >
             <CalendarCheck className="h-3.5 w-3.5" />
@@ -662,7 +662,7 @@ export default function InventoryPage() {
               <Link href="/inventory/movements">
                 <Button
                   variant="outline"
-                  className="border-[#333] bg-transparent text-[#E5E2E1] hover:bg-[#222]"
+                  className="border-border-subtle bg-transparent text-foreground hover:bg-card-hover"
                 >
                   <ArrowRight className="mr-2 h-4 w-4" />
                   Ver todos los movimientos
@@ -671,7 +671,7 @@ export default function InventoryPage() {
               <Link href="/inventory/lots">
                 <Button
                   variant="outline"
-                  className="border-[#333] bg-transparent text-[#E5E2E1] hover:bg-[#222]"
+                  className="border-border-subtle bg-transparent text-foreground hover:bg-card-hover"
                 >
                   <Warehouse className="mr-2 h-4 w-4" />
                   Ver lotes
@@ -686,7 +686,7 @@ export default function InventoryPage() {
 
       {/* ---- Empty state (only when no data at all) ---- */}
       {!isLoading && stockItems.length === 0 && inventoryTableData.length === 0 && (
-        <div className="rounded-lg bg-[#1A1A1A] p-8">
+        <div className="rounded-lg bg-card p-8">
           <EmptyState
             icon={Warehouse}
             title="Sin stock"

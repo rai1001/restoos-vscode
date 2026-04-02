@@ -110,7 +110,7 @@ const MOCK_PILOTS: PilotRestaurant[] = [
 function StepIcon({ done }: { done: boolean | "pending_review" }) {
   if (done === "pending_review") return <AlertTriangle className="h-4 w-4 text-yellow-400" />
   if (done) return <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-  return <Clock className="h-4 w-4 text-[#A78B7D]" />
+  return <Clock className="h-4 w-4 text-muted-foreground" />
 }
 
 const STATUS_CONFIG = {
@@ -133,59 +133,59 @@ export default function SetupStatusPage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-[#F97316] mb-1">
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
           PANEL FOUNDER
         </p>
-        <h1 className="text-3xl font-bold text-[#E5E2E1]">Estado de pilotos</h1>
-        <p className="text-[#A78B7D] text-sm mt-1">
+        <h1 className="text-3xl font-bold text-foreground">Estado de pilotos</h1>
+        <p className="text-muted-foreground text-sm mt-1">
           Seguimiento de restaurantes en piloto gratuito
         </p>
       </div>
 
       {/* KPIs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-emerald-500 p-4">
-          <p className="text-xs text-[#A78B7D] uppercase tracking-wide">Activos</p>
+        <div className="rounded-lg bg-card border-l-4 border-l-emerald-500 p-4">
+          <p className="text-xs text-muted-foreground uppercase tracking-wide">Activos</p>
           <p className="text-2xl font-bold text-emerald-400">{activeCount}</p>
         </div>
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-yellow-500 p-4">
-          <p className="text-xs text-[#A78B7D] uppercase tracking-wide">En setup</p>
+        <div className="rounded-lg bg-card border-l-4 border-l-yellow-500 p-4">
+          <p className="text-xs text-muted-foreground uppercase tracking-wide">En setup</p>
           <p className="text-2xl font-bold text-yellow-400">{onboardingCount}</p>
         </div>
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-[#F97316] p-4">
-          <p className="text-xs text-[#A78B7D] uppercase tracking-wide">Pendiente revisar</p>
-          <p className="text-2xl font-bold text-[#F97316]">{pendingReview}</p>
+        <div className="rounded-lg bg-card border-l-4 border-l-primary p-4">
+          <p className="text-xs text-muted-foreground uppercase tracking-wide">Pendiente revisar</p>
+          <p className="text-2xl font-bold text-primary">{pendingReview}</p>
         </div>
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-blue-500 p-4">
-          <p className="text-xs text-[#A78B7D] uppercase tracking-wide">% Setup medio</p>
+        <div className="rounded-lg bg-card border-l-4 border-l-blue-500 p-4">
+          <p className="text-xs text-muted-foreground uppercase tracking-wide">% Setup medio</p>
           <p className="text-2xl font-bold text-blue-400">{avgCompletion}%</p>
         </div>
       </div>
 
       {/* Table */}
-      <div className="rounded-lg bg-[#1A1A1A] overflow-hidden">
+      <div className="rounded-lg bg-card overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="border-[#333] hover:bg-transparent">
-              <TableHead className="text-[#A78B7D]">Restaurante</TableHead>
-              <TableHead className="text-[#A78B7D]">Estado</TableHead>
-              <TableHead className="text-[#A78B7D] text-center">
+            <TableRow className="border-border-subtle hover:bg-transparent">
+              <TableHead className="text-muted-foreground">Restaurante</TableHead>
+              <TableHead className="text-muted-foreground">Estado</TableHead>
+              <TableHead className="text-muted-foreground text-center">
                 <span title="Datos restaurante"><ChefHat className="h-3.5 w-3.5 inline" /></span>
               </TableHead>
-              <TableHead className="text-[#A78B7D] text-center">
+              <TableHead className="text-muted-foreground text-center">
                 <span title="Carta importada"><FileText className="h-3.5 w-3.5 inline" /></span>
               </TableHead>
-              <TableHead className="text-[#A78B7D] text-center">
+              <TableHead className="text-muted-foreground text-center">
                 <span title="Proveedores"><Package className="h-3.5 w-3.5 inline" /></span>
               </TableHead>
-              <TableHead className="text-[#A78B7D] text-center">
+              <TableHead className="text-muted-foreground text-center">
                 <span title="APPCC"><ShieldCheck className="h-3.5 w-3.5 inline" /></span>
               </TableHead>
-              <TableHead className="text-[#A78B7D] text-center">
+              <TableHead className="text-muted-foreground text-center">
                 <span title="Primer pedido"><Users className="h-3.5 w-3.5 inline" /></span>
               </TableHead>
-              <TableHead className="text-[#A78B7D]">Setup</TableHead>
-              <TableHead className="text-[#A78B7D]"></TableHead>
+              <TableHead className="text-muted-foreground">Setup</TableHead>
+              <TableHead className="text-muted-foreground"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -194,13 +194,13 @@ export default function SetupStatusPage() {
               return (
                 <TableRow
                   key={pilot.id}
-                  className="border-[#333] hover:bg-[#222] cursor-pointer"
+                  className="border-border-subtle hover:bg-card-hover cursor-pointer"
                   onClick={() => setSelectedPilot(pilot)}
                 >
                   <TableCell>
                     <div>
-                      <p className="font-medium text-[#E5E2E1]">{pilot.name}</p>
-                      <p className="text-xs text-[#A78B7D]">{pilot.owner}</p>
+                      <p className="font-medium text-foreground">{pilot.name}</p>
+                      <p className="text-xs text-muted-foreground">{pilot.owner}</p>
                     </div>
                   </TableCell>
                   <TableCell>
@@ -213,21 +213,21 @@ export default function SetupStatusPage() {
                   <TableCell className="text-center"><StepIcon done={pilot.steps.firstOrder} /></TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
-                      <div className="h-1.5 w-16 bg-[#2A2A2A] rounded-full overflow-hidden">
+                      <div className="h-1.5 w-16 bg-accent rounded-full overflow-hidden">
                         <div
                           className={cn(
                             "h-full rounded-full",
                             pilot.completionPct >= 80 ? "bg-emerald-500" :
-                            pilot.completionPct >= 50 ? "bg-yellow-500" : "bg-[#F97316]"
+                            pilot.completionPct >= 50 ? "bg-yellow-500" : "bg-primary"
                           )}
                           style={{ width: `${pilot.completionPct}%` }}
                         />
                       </div>
-                      <span className="text-xs text-[#A78B7D]">{pilot.completionPct}%</span>
+                      <span className="text-xs text-muted-foreground">{pilot.completionPct}%</span>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-[#A78B7D]">
+                    <Button variant="ghost" size="sm" className="h-7 w-7 p-0 text-muted-foreground">
                       <Eye className="h-3.5 w-3.5" />
                     </Button>
                   </TableCell>
@@ -248,25 +248,25 @@ export default function SetupStatusPage() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div>
-                  <p className="text-[#A78B7D]">Propietario</p>
-                  <p className="text-[#E5E2E1]">{selectedPilot.owner}</p>
+                  <p className="text-muted-foreground">Propietario</p>
+                  <p className="text-foreground">{selectedPilot.owner}</p>
                 </div>
                 <div>
-                  <p className="text-[#A78B7D]">Teléfono</p>
-                  <p className="text-[#E5E2E1]">{selectedPilot.phone}</p>
+                  <p className="text-muted-foreground">Teléfono</p>
+                  <p className="text-foreground">{selectedPilot.phone}</p>
                 </div>
                 <div>
-                  <p className="text-[#A78B7D]">Inicio piloto</p>
-                  <p className="text-[#E5E2E1]">{selectedPilot.startDate}</p>
+                  <p className="text-muted-foreground">Inicio piloto</p>
+                  <p className="text-foreground">{selectedPilot.startDate}</p>
                 </div>
                 <div>
-                  <p className="text-[#A78B7D]">Setup</p>
-                  <p className="text-[#E5E2E1]">{selectedPilot.completionPct}%</p>
+                  <p className="text-muted-foreground">Setup</p>
+                  <p className="text-foreground">{selectedPilot.completionPct}%</p>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <p className="text-xs text-[#A78B7D] font-medium uppercase">Pasos de onboarding</p>
+                <p className="text-xs text-muted-foreground font-medium uppercase">Pasos de onboarding</p>
                 {([
                   ["restaurant", "Datos restaurante"],
                   ["menu", "Carta importada"],
@@ -276,8 +276,8 @@ export default function SetupStatusPage() {
                 ] as const).map(([key, label]) => {
                   const val = selectedPilot.steps[key]
                   return (
-                    <div key={key} className="flex items-center justify-between py-1 border-b border-[#333] last:border-0">
-                      <span className="text-sm text-[#E5E2E1]">{label}</span>
+                    <div key={key} className="flex items-center justify-between py-1 border-b border-border-subtle last:border-0">
+                      <span className="text-sm text-foreground">{label}</span>
                       <div className="flex items-center gap-2">
                         <StepIcon done={val} />
                         {val === "pending_review" && (
@@ -290,9 +290,9 @@ export default function SetupStatusPage() {
               </div>
 
               {selectedPilot.notes && (
-                <div className="rounded-md bg-[#0A0A0A] p-3">
-                  <p className="text-xs text-[#A78B7D] font-medium mb-1">Notas</p>
-                  <p className="text-sm text-[#E5E2E1]">{selectedPilot.notes}</p>
+                <div className="rounded-md bg-background p-3">
+                  <p className="text-xs text-muted-foreground font-medium mb-1">Notas</p>
+                  <p className="text-sm text-foreground">{selectedPilot.notes}</p>
                 </div>
               )}
             </div>

@@ -121,13 +121,13 @@ function AlertCard({
         cfg.bg
       )}
     >
-      <span className="text-sm text-[#E5E2E1]">
+      <span className="text-sm text-foreground">
         {cfg.emoji} {cfg.label(alert)}
       </span>
       <Button
         variant="ghost"
         size="sm"
-        className="shrink-0 text-xs text-[#A78B7D] hover:text-[#E5E2E1] hover:bg-white/5"
+        className="shrink-0 text-xs text-muted-foreground hover:text-foreground hover:bg-white/5"
         onClick={() => onDismiss(alert.id)}
       >
         Descartar
@@ -145,7 +145,7 @@ const STATUS_STYLE: Record<string, { label: string; cls: string }> = {
   },
   consumed: {
     label: "Consumido",
-    cls: "bg-white/5 text-[#A78B7D]",
+    cls: "bg-white/5 text-muted-foreground",
   },
   expired: {
     label: "Caducado",
@@ -153,12 +153,12 @@ const STATUS_STYLE: Record<string, { label: string; cls: string }> = {
   },
   discarded: {
     label: "Desechado",
-    cls: "bg-white/5 text-[#A78B7D]",
+    cls: "bg-white/5 text-muted-foreground",
   },
 };
 
 function StatusBadge({ status }: { status: string }) {
-  const s = STATUS_STYLE[status] ?? { label: status, cls: "bg-white/5 text-[#A78B7D]" };
+  const s = STATUS_STYLE[status] ?? { label: status, cls: "bg-white/5 text-muted-foreground" };
   return (
     <span className={cn("rounded-full px-2 py-0.5 text-xs font-semibold uppercase tracking-wider", s.cls)}>
       {s.label}
@@ -183,15 +183,15 @@ function ConsumeDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-sm bg-[#1A1A1A] border-white/10">
+      <DialogContent className="sm:max-w-sm bg-card border-white/10">
         <DialogHeader>
-          <DialogTitle className="text-[#E5E2E1]">Consumir: {batch.prep_name}</DialogTitle>
-          <DialogDescription className="text-[#A78B7D]">
+          <DialogTitle className="text-foreground">Consumir: {batch.prep_name}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">
             Disponible: {batch.quantity} {batch.unit}
           </DialogDescription>
         </DialogHeader>
         <div className="py-2">
-          <label className="mb-1.5 block text-xs font-medium uppercase tracking-widest text-[#A78B7D]">
+          <label className="mb-1.5 block text-xs font-medium uppercase tracking-widest text-muted-foreground">
             Cuanto consumes? ({batch.unit})
           </label>
           <Input
@@ -202,15 +202,15 @@ function ConsumeDialog({
             value={qty}
             onChange={(e) => setQty(e.target.value)}
             placeholder={`Max ${batch.quantity}`}
-            className="bg-[#0A0A0A] border-white/10 text-[#E5E2E1]"
+            className="bg-background border-white/10 text-foreground"
           />
         </div>
         <DialogFooter>
-          <DialogClose render={<Button variant="outline" className="border-white/10 text-[#A78B7D] hover:bg-white/5" />}>
+          <DialogClose render={<Button variant="outline" className="border-white/10 text-muted-foreground hover:bg-white/5" />}>
             Cancelar
           </DialogClose>
           <Button
-            className="bg-[#F97316] hover:bg-[#F97316]/90 text-white"
+            className="bg-primary hover:bg-primary/90 text-white"
             onClick={() => {
               const val = parseFloat(qty);
               if (val > 0 && val <= batch.quantity) {
@@ -240,47 +240,47 @@ function DetailDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-[#1A1A1A] border-white/10">
+      <DialogContent className="sm:max-w-md bg-card border-white/10">
         <DialogHeader>
-          <DialogTitle className="text-[#E5E2E1]">{batch.prep_name}</DialogTitle>
-          <DialogDescription className="text-[#A78B7D]">Lote: {batch.batch_code}</DialogDescription>
+          <DialogTitle className="text-foreground">{batch.prep_name}</DialogTitle>
+          <DialogDescription className="text-muted-foreground">Lote: {batch.batch_code}</DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-          <div className="text-[#A78B7D]">Cantidad</div>
-          <div className="text-[#E5E2E1]">
+          <div className="text-muted-foreground">Cantidad</div>
+          <div className="text-foreground">
             {batch.quantity} {batch.unit}
           </div>
-          <div className="text-[#A78B7D]">Consumido</div>
-          <div className="text-[#E5E2E1]">
+          <div className="text-muted-foreground">Consumido</div>
+          <div className="text-foreground">
             {batch.consumed_qty} {batch.unit}
           </div>
-          <div className="text-[#A78B7D]">Elaboracion</div>
-          <div className="text-[#E5E2E1]">{format(parseISO(batch.elaboration_date), "dd/MM/yyyy HH:mm")}</div>
-          <div className="text-[#A78B7D]">Caducidad</div>
-          <div className="text-[#E5E2E1]">{format(parseISO(batch.expiry_date), "dd/MM/yyyy HH:mm")}</div>
-          <div className="text-[#A78B7D]">Vida util</div>
-          <div className="text-[#E5E2E1]">{batch.shelf_life_days} dias</div>
-          <div className="text-[#A78B7D]">Ubicacion</div>
-          <div className="text-[#E5E2E1]">{batch.location ?? "—"}</div>
-          <div className="text-[#A78B7D]">Partida</div>
-          <div className="text-[#E5E2E1]">{batch.station ?? "—"}</div>
-          <div className="text-[#A78B7D]">Chef</div>
-          <div className="text-[#E5E2E1]">{batch.chef_name ?? "—"}</div>
-          <div className="text-[#A78B7D]">Estado</div>
+          <div className="text-muted-foreground">Elaboracion</div>
+          <div className="text-foreground">{format(parseISO(batch.elaboration_date), "dd/MM/yyyy HH:mm")}</div>
+          <div className="text-muted-foreground">Caducidad</div>
+          <div className="text-foreground">{format(parseISO(batch.expiry_date), "dd/MM/yyyy HH:mm")}</div>
+          <div className="text-muted-foreground">Vida util</div>
+          <div className="text-foreground">{batch.shelf_life_days} dias</div>
+          <div className="text-muted-foreground">Ubicacion</div>
+          <div className="text-foreground">{batch.location ?? "—"}</div>
+          <div className="text-muted-foreground">Partida</div>
+          <div className="text-foreground">{batch.station ?? "—"}</div>
+          <div className="text-muted-foreground">Chef</div>
+          <div className="text-foreground">{batch.chef_name ?? "—"}</div>
+          <div className="text-muted-foreground">Estado</div>
           <div>
             <StatusBadge status={batch.status} />
           </div>
-          <div className="text-[#A78B7D]">Alergenos</div>
-          <div className="text-[#E5E2E1]">{batch.allergens.length > 0 ? batch.allergens.join(", ") : "Ninguno"}</div>
+          <div className="text-muted-foreground">Alergenos</div>
+          <div className="text-foreground">{batch.allergens.length > 0 ? batch.allergens.join(", ") : "Ninguno"}</div>
           {batch.notes && (
             <>
-              <div className="text-[#A78B7D]">Notas</div>
-              <div className="text-[#E5E2E1]">{batch.notes}</div>
+              <div className="text-muted-foreground">Notas</div>
+              <div className="text-foreground">{batch.notes}</div>
             </>
           )}
         </div>
         <DialogFooter>
-          <DialogClose render={<Button variant="outline" className="border-white/10 text-[#A78B7D] hover:bg-white/5" />}>
+          <DialogClose render={<Button variant="outline" className="border-white/10 text-muted-foreground hover:bg-white/5" />}>
             Cerrar
           </DialogClose>
         </DialogFooter>
@@ -331,10 +331,10 @@ export default function PrepInventoryPage() {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div>
-            <p className="text-xs font-medium uppercase tracking-widest text-[#F97316]">
+            <p className="text-xs font-medium uppercase tracking-widest text-primary">
               CONTROL DE PREPARACIONES
             </p>
-            <h1 className="text-2xl font-bold text-[#E5E2E1]">
+            <h1 className="text-2xl font-bold text-foreground">
               Control de Preparaciones
             </h1>
           </div>
@@ -345,7 +345,7 @@ export default function PrepInventoryPage() {
           )}
         </div>
         <Link href="/labeling">
-          <Button className="gap-2 bg-[#F97316] hover:bg-[#F97316]/90 text-white">
+          <Button className="gap-2 bg-primary hover:bg-primary/90 text-white">
             <Plus className="h-4 w-4" />
             Nueva etiqueta
           </Button>
@@ -354,21 +354,21 @@ export default function PrepInventoryPage() {
 
       {/* Alert panel */}
       {alerts.length > 0 && (
-        <div className="rounded-lg bg-[#1A1A1A]">
+        <div className="rounded-lg bg-card">
           <button
             onClick={() => setAlertsOpen(!alertsOpen)}
             className="flex w-full items-center justify-between px-4 py-3 text-left"
           >
             <div className="flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-[#F97316]" />
-              <span className="text-xs font-semibold uppercase tracking-widest text-[#E5E2E1]">
+              <AlertTriangle className="h-4 w-4 text-primary" />
+              <span className="text-xs font-semibold uppercase tracking-widest text-foreground">
                 Alertas de caducidad ({alerts.length})
               </span>
             </div>
             {alertsOpen ? (
-              <ChevronUp className="h-4 w-4 text-[#A78B7D]" />
+              <ChevronUp className="h-4 w-4 text-muted-foreground" />
             ) : (
-              <ChevronDown className="h-4 w-4 text-[#A78B7D]" />
+              <ChevronDown className="h-4 w-4 text-muted-foreground" />
             )}
           </button>
           {alertsOpen && (
@@ -391,10 +391,10 @@ export default function PrepInventoryPage() {
           value={statusFilter}
           onValueChange={(v) => setStatusFilter(v as BatchStatus | "all")}
         >
-          <SelectTrigger className="w-36 bg-[#1A1A1A] border-white/10 text-[#E5E2E1]">
+          <SelectTrigger className="w-36 bg-card border-white/10 text-foreground">
             <SelectValue placeholder="Estado" />
           </SelectTrigger>
-          <SelectContent className="bg-[#1A1A1A] border-white/10">
+          <SelectContent className="bg-card border-white/10">
             <SelectItem value="all">Todos</SelectItem>
             <SelectItem value="active">Activo</SelectItem>
             <SelectItem value="consumed">Consumido</SelectItem>
@@ -407,10 +407,10 @@ export default function PrepInventoryPage() {
           value={stationFilter}
           onValueChange={(v) => setStationFilter(v === "__all__" || !v ? "" : v)}
         >
-          <SelectTrigger className="w-40 bg-[#1A1A1A] border-white/10 text-[#E5E2E1]">
+          <SelectTrigger className="w-40 bg-card border-white/10 text-foreground">
             <SelectValue placeholder="Partida" />
           </SelectTrigger>
-          <SelectContent className="bg-[#1A1A1A] border-white/10">
+          <SelectContent className="bg-card border-white/10">
             <SelectItem value="__all__">Todas las partidas</SelectItem>
             {STATIONS.map((s) => (
               <SelectItem key={s} value={s}>
@@ -421,17 +421,17 @@ export default function PrepInventoryPage() {
         </Select>
 
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#A78B7D]" />
+          <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Buscar por nombre o lote..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 bg-[#1A1A1A] border-white/10 text-[#E5E2E1] placeholder:text-[#A78B7D]/50"
+            className="pl-9 bg-card border-white/10 text-foreground placeholder:text-muted-foreground/50"
           />
           {search && (
             <button
               onClick={() => setSearch("")}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#A78B7D] hover:text-[#E5E2E1]"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
             >
               <X className="h-4 w-4" />
             </button>
@@ -440,25 +440,25 @@ export default function PrepInventoryPage() {
       </div>
 
       {/* Table */}
-      <div className="rounded-lg bg-[#1A1A1A]">
+      <div className="rounded-lg bg-card">
         <Table>
           <TableHeader>
             <TableRow className="border-white/5 hover:bg-transparent">
-              <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Lote</TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Preparacion</TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] text-right">Cantidad</TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Elaboracion</TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Caduca</TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Partida</TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Ubicacion</TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Estado</TableHead>
-              <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] text-right">Acciones</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Lote</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Preparacion</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground text-right">Cantidad</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Elaboracion</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Caduca</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Partida</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Ubicacion</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Estado</TableHead>
+              <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground text-right">Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {batches.length === 0 ? (
               <TableRow className="border-white/5">
-                <TableCell colSpan={9} className="h-24 text-center text-[#A78B7D]">
+                <TableCell colSpan={9} className="h-24 text-center text-muted-foreground">
                   No hay preparaciones que coincidan con los filtros.
                 </TableCell>
               </TableRow>
@@ -475,23 +475,23 @@ export default function PrepInventoryPage() {
                     : "";
                 return (
                   <TableRow key={batch.id} className={cn("border-white/5 hover:bg-white/5", rowTint)}>
-                    <TableCell className="font-mono text-xs text-[#E5E2E1]">
+                    <TableCell className="font-mono text-xs text-foreground">
                       {batch.batch_code}
                     </TableCell>
-                    <TableCell className="font-medium text-[#E5E2E1]">
+                    <TableCell className="font-medium text-foreground">
                       {batch.prep_name}
                     </TableCell>
-                    <TableCell className="text-right text-[#E5E2E1]">
+                    <TableCell className="text-right text-foreground">
                       {batch.quantity} {batch.unit}
                     </TableCell>
-                    <TableCell className="text-[#A78B7D]">
+                    <TableCell className="text-muted-foreground">
                       {format(parseISO(batch.elaboration_date), "dd/MM/yy")}
                     </TableCell>
-                    <TableCell className="text-[#A78B7D]">
+                    <TableCell className="text-muted-foreground">
                       {format(parseISO(batch.expiry_date), "dd/MM/yy HH:mm")}
                     </TableCell>
-                    <TableCell className="text-[#E5E2E1]">{batch.station ?? "—"}</TableCell>
-                    <TableCell className="text-[#E5E2E1]">{batch.location ?? "—"}</TableCell>
+                    <TableCell className="text-foreground">{batch.station ?? "—"}</TableCell>
+                    <TableCell className="text-foreground">{batch.location ?? "—"}</TableCell>
                     <TableCell>
                       <StatusBadge status={batch.status} />
                     </TableCell>
@@ -503,7 +503,7 @@ export default function PrepInventoryPage() {
                               variant="ghost"
                               size="sm"
                               title="Consumir"
-                              className="text-[#A78B7D] hover:text-[#E5E2E1] hover:bg-white/5"
+                              className="text-muted-foreground hover:text-foreground hover:bg-white/5"
                               onClick={() => setConsumeBatch(batch)}
                             >
                               <UtensilsCrossed className="h-3.5 w-3.5" />
@@ -523,7 +523,7 @@ export default function PrepInventoryPage() {
                           variant="ghost"
                           size="sm"
                           title="Reimprimir"
-                          className="text-[#A78B7D] hover:text-[#E5E2E1] hover:bg-white/5"
+                          className="text-muted-foreground hover:text-foreground hover:bg-white/5"
                         >
                           <Printer className="h-3.5 w-3.5" />
                         </Button>
@@ -531,7 +531,7 @@ export default function PrepInventoryPage() {
                           variant="ghost"
                           size="sm"
                           title="Ver detalles"
-                          className="text-[#A78B7D] hover:text-[#E5E2E1] hover:bg-white/5"
+                          className="text-muted-foreground hover:text-foreground hover:bg-white/5"
                           onClick={() => setDetailBatch(batch)}
                         >
                           <Eye className="h-3.5 w-3.5" />
@@ -581,18 +581,18 @@ export default function PrepInventoryPage() {
       {/* Discard confirmation dialog */}
       {discardBatch && (
         <AlertDialog open={!!discardBatch} onOpenChange={(v) => { if (!v) setDiscardBatch(null); }}>
-          <AlertDialogContent className="bg-[#1A1A1A] border-white/10">
+          <AlertDialogContent className="bg-card border-white/10">
             <AlertDialogHeader>
-              <AlertDialogTitle className="text-[#E5E2E1]">
+              <AlertDialogTitle className="text-foreground">
                 Desechar {discardBatch.prep_name}?
               </AlertDialogTitle>
-              <AlertDialogDescription className="text-[#A78B7D]">
+              <AlertDialogDescription className="text-muted-foreground">
                 Se marcara el lote {discardBatch.batch_code} como
                 desechado. Esta accion no se puede deshacer.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel onClick={() => setDiscardBatch(null)} className="border-white/10 text-[#A78B7D] hover:bg-white/5">
+              <AlertDialogCancel onClick={() => setDiscardBatch(null)} className="border-white/10 text-muted-foreground hover:bg-white/5">
                 Cancelar
               </AlertDialogCancel>
               <AlertDialogAction

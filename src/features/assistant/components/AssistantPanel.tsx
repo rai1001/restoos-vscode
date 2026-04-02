@@ -42,14 +42,14 @@ function MessageBubble({ message }: { message: ChatMessage }) {
         className={cn(
           "max-w-[85%] rounded-2xl px-4 py-2.5",
           isUser
-            ? "bg-[#F97316]/20 text-[#FBBF7A]"
-            : "bg-[#1A1A1A] text-[#E5E2E1]"
+            ? "bg-primary/20 text-[#FBBF7A]"
+            : "bg-card text-foreground"
         )}
       >
         {!isUser && (
           <div className="flex items-center gap-1.5 mb-1">
-            <Bot className="h-3 w-3 text-[#F97316]" />
-            <span className="text-[10px] uppercase tracking-widest text-[#A78B7D]">
+            <Bot className="h-3 w-3 text-primary" />
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
               RestoOS AI
             </span>
           </div>
@@ -57,7 +57,7 @@ function MessageBubble({ message }: { message: ChatMessage }) {
         <p className="text-sm leading-relaxed whitespace-pre-wrap">
           {message.content}
         </p>
-        <span className="block text-[10px] text-[#A78B7D] mt-1.5 text-right">
+        <span className="block text-[10px] text-muted-foreground mt-1.5 text-right">
           {formatTime(message.timestamp)}
         </span>
       </div>
@@ -68,10 +68,10 @@ function MessageBubble({ message }: { message: ChatMessage }) {
 function LoadingDots() {
   return (
     <div className="flex justify-start mb-3">
-      <div className="bg-[#1A1A1A] rounded-2xl px-4 py-3 flex items-center gap-1.5">
-        <span className="h-2 w-2 rounded-full bg-[#F97316] animate-bounce [animation-delay:0ms]" />
-        <span className="h-2 w-2 rounded-full bg-[#F97316] animate-bounce [animation-delay:150ms]" />
-        <span className="h-2 w-2 rounded-full bg-[#F97316] animate-bounce [animation-delay:300ms]" />
+      <div className="bg-card rounded-2xl px-4 py-3 flex items-center gap-1.5">
+        <span className="h-2 w-2 rounded-full bg-primary animate-bounce [animation-delay:0ms]" />
+        <span className="h-2 w-2 rounded-full bg-primary animate-bounce [animation-delay:150ms]" />
+        <span className="h-2 w-2 rounded-full bg-primary animate-bounce [animation-delay:300ms]" />
       </div>
     </div>
   );
@@ -132,20 +132,20 @@ export function AssistantPanel({ open, onOpenChange }: AssistantPanelProps) {
       <SheetContent
         side="right"
         showCloseButton={false}
-        className="w-full sm:w-[420px] sm:max-w-[420px] bg-[#0A0A0A] p-0 flex flex-col border-l-0"
+        className="w-full sm:w-[420px] sm:max-w-[420px] bg-background p-0 flex flex-col border-l-0"
       >
         {/* Header */}
         <SheetHeader className="px-5 pt-5 pb-3 shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F97316]/15">
-                <Sparkles className="h-4 w-4 text-[#F97316]" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/15">
+                <Sparkles className="h-4 w-4 text-primary" />
               </div>
               <div>
-                <span className="block text-[10px] uppercase tracking-widest text-[#A78B7D] mb-0.5">
+                <span className="block text-[10px] uppercase tracking-widest text-muted-foreground mb-0.5">
                   Asistente IA
                 </span>
-                <SheetTitle className="text-[#E5E2E1] text-base font-medium">
+                <SheetTitle className="text-foreground text-base font-medium">
                   RestoOS Assistant
                 </SheetTitle>
               </div>
@@ -155,7 +155,7 @@ export function AssistantPanel({ open, onOpenChange }: AssistantPanelProps) {
               size="icon"
               onClick={clearHistory}
               title="Limpiar historial"
-              className="text-[#A78B7D] hover:text-[#E5E2E1] hover:bg-[#1A1A1A] h-8 w-8"
+              className="text-muted-foreground hover:text-foreground hover:bg-card h-8 w-8"
             >
               <Trash2 className="h-4 w-4" />
             </Button>
@@ -163,7 +163,7 @@ export function AssistantPanel({ open, onOpenChange }: AssistantPanelProps) {
         </SheetHeader>
 
         {/* Separator line */}
-        <div className="h-px bg-[#1A1A1A] mx-5" />
+        <div className="h-px bg-card mx-5" />
 
         {/* Chat area */}
         <div className="flex-1 overflow-y-auto px-5 py-4 min-h-0">
@@ -176,7 +176,7 @@ export function AssistantPanel({ open, onOpenChange }: AssistantPanelProps) {
           {/* Quick actions */}
           {isOnlyWelcome && !isLoading && (
             <div className="mt-4">
-              <span className="block text-[10px] uppercase tracking-widest text-[#A78B7D] mb-3">
+              <span className="block text-[10px] uppercase tracking-widest text-muted-foreground mb-3">
                 Sugerencias
               </span>
               <div className="flex flex-wrap gap-2">
@@ -184,7 +184,7 @@ export function AssistantPanel({ open, onOpenChange }: AssistantPanelProps) {
                   <button
                     key={action}
                     onClick={() => handleQuickAction(action)}
-                    className="rounded-full bg-[#1A1A1A] px-3.5 py-1.5 text-xs text-[#E5E2E1] hover:bg-[#F97316]/15 hover:text-[#F97316] transition-colors"
+                    className="rounded-full bg-card px-3.5 py-1.5 text-xs text-foreground hover:bg-primary/15 hover:text-primary transition-colors"
                   >
                     {action}
                   </button>
@@ -198,7 +198,7 @@ export function AssistantPanel({ open, onOpenChange }: AssistantPanelProps) {
 
         {/* Input area */}
         <div className="shrink-0 px-5 pb-5 pt-3">
-          <div className="h-px bg-[#1A1A1A] mb-3 -mx-5" />
+          <div className="h-px bg-card mb-3 -mx-5" />
           <div className="flex items-end gap-2">
             <textarea
               ref={textareaRef}
@@ -208,12 +208,12 @@ export function AssistantPanel({ open, onOpenChange }: AssistantPanelProps) {
               placeholder="Pregunta sobre costes, eventos, compras..."
               disabled={isLoading}
               rows={1}
-              className="flex-1 resize-none bg-[#111] text-[#E5E2E1] text-sm placeholder:text-[#A78B7D]/50 rounded-xl px-4 py-2.5 border border-[#333] focus:border-[#F97316]/50 focus:outline-none disabled:opacity-50 max-h-[120px]"
+              className="flex-1 resize-none bg-sidebar text-foreground text-sm placeholder:text-muted-foreground/50 rounded-xl px-4 py-2.5 border border-border-subtle focus:border-primary/50 focus:outline-none disabled:opacity-50 max-h-[120px]"
             />
             <Button
               onClick={handleSend}
               disabled={!input.trim() || isLoading}
-              className="h-10 w-10 shrink-0 rounded-xl bg-[#F97316] hover:bg-[#F97316]/80 text-white disabled:opacity-30 disabled:bg-[#F97316]/30 border-0"
+              className="h-10 w-10 shrink-0 rounded-xl bg-primary hover:bg-primary/80 text-white disabled:opacity-30 disabled:bg-primary/30 border-0"
               size="icon"
             >
               <ArrowUp className="h-4 w-4" />

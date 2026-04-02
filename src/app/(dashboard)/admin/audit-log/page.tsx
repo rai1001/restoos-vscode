@@ -28,7 +28,7 @@ const ACTION_CONFIG: Record<AuditEntry["action"], { label: string; icon: typeof 
   delete: { label: "Eliminado", icon: Trash2, color: "text-red-400" },
   approve: { label: "Aprobado", icon: CheckCircle2, color: "text-yellow-400" },
   send: { label: "Enviado", icon: Send, color: "text-purple-400" },
-  view: { label: "Visto", icon: Eye, color: "text-[#A78B7D]" },
+  view: { label: "Visto", icon: Eye, color: "text-muted-foreground" },
 }
 
 // Deterministic mock data
@@ -51,18 +51,18 @@ export default function AuditLogPage() {
   return (
     <div className="space-y-8">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-[#F97316] mb-1">
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
           ADMINISTRACIÓN
         </p>
-        <h1 className="text-3xl font-bold text-[#E5E2E1]">Registro de cambios</h1>
-        <p className="text-[#A78B7D] text-sm mt-1">
+        <h1 className="text-3xl font-bold text-foreground">Registro de cambios</h1>
+        <p className="text-muted-foreground text-sm mt-1">
           Quién hizo qué, cuándo y qué cambió — trazabilidad completa
         </p>
       </div>
 
       {/* Stats */}
       <div className="flex gap-3 text-sm">
-        <Badge className="bg-[#1A1A1A] text-[#A78B7D] border border-[#333]">
+        <Badge className="bg-card text-muted-foreground border border-border-subtle">
           {MOCK_AUDIT.length} acciones últimas 48h
         </Badge>
         <Badge className="bg-emerald-500/15 text-emerald-400 border-0">
@@ -77,15 +77,15 @@ export default function AuditLogPage() {
       </div>
 
       {/* Table */}
-      <div className="rounded-lg bg-[#1A1A1A] overflow-hidden">
+      <div className="rounded-lg bg-card overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="border-[#333] hover:bg-transparent">
-              <TableHead className="text-[#A78B7D]">Fecha/hora</TableHead>
-              <TableHead className="text-[#A78B7D]">Usuario</TableHead>
-              <TableHead className="text-[#A78B7D]">Acción</TableHead>
-              <TableHead className="text-[#A78B7D]">Entidad</TableHead>
-              <TableHead className="text-[#A78B7D]">Detalle</TableHead>
+            <TableRow className="border-border-subtle hover:bg-transparent">
+              <TableHead className="text-muted-foreground">Fecha/hora</TableHead>
+              <TableHead className="text-muted-foreground">Usuario</TableHead>
+              <TableHead className="text-muted-foreground">Acción</TableHead>
+              <TableHead className="text-muted-foreground">Entidad</TableHead>
+              <TableHead className="text-muted-foreground">Detalle</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -93,12 +93,12 @@ export default function AuditLogPage() {
               const config = ACTION_CONFIG[entry.action]
               const Icon = config.icon
               return (
-                <TableRow key={entry.id} className="border-[#333]">
-                  <TableCell className="text-xs text-[#A78B7D] whitespace-nowrap">{entry.timestamp}</TableCell>
+                <TableRow key={entry.id} className="border-border-subtle">
+                  <TableCell className="text-xs text-muted-foreground whitespace-nowrap">{entry.timestamp}</TableCell>
                   <TableCell>
                     <div>
-                      <p className="text-sm text-[#E5E2E1]">{entry.user}</p>
-                      <p className="text-xs text-[#A78B7D]">{entry.role}</p>
+                      <p className="text-sm text-foreground">{entry.user}</p>
+                      <p className="text-xs text-muted-foreground">{entry.role}</p>
                     </div>
                   </TableCell>
                   <TableCell>
@@ -109,11 +109,11 @@ export default function AuditLogPage() {
                   </TableCell>
                   <TableCell>
                     <div>
-                      <p className="text-sm text-[#E5E2E1]">{entry.entityName}</p>
-                      <p className="text-xs text-[#A78B7D]">{entry.entity}</p>
+                      <p className="text-sm text-foreground">{entry.entityName}</p>
+                      <p className="text-xs text-muted-foreground">{entry.entity}</p>
                     </div>
                   </TableCell>
-                  <TableCell className="text-xs text-[#A78B7D] max-w-[250px] truncate">
+                  <TableCell className="text-xs text-muted-foreground max-w-[250px] truncate">
                     {entry.changes ?? "—"}
                   </TableCell>
                 </TableRow>

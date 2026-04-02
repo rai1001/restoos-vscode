@@ -281,16 +281,16 @@ export default function ForecastingPage() {
       {/* ── Page Header ── */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">
+          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
             PREVISION Y DEMANDA
           </p>
-          <h1 className="text-xl font-bold sm:text-2xl text-[#E5E2E1]">Prevision de demanda</h1>
-          <p className="text-[#A78B7D] mt-1">
+          <h1 className="text-xl font-bold sm:text-2xl text-foreground">Prevision de demanda</h1>
+          <p className="text-muted-foreground mt-1">
             Pronostico de los proximos {FORECAST_DAYS} dias basado en consumo
             historico, estacionalidad y eventos confirmados
           </p>
         </div>
-        <Button onClick={handleGenerate} disabled={loading} className="gap-2 bg-[#F97316] text-white hover:bg-[#F97316]/90">
+        <Button onClick={handleGenerate} disabled={loading} className="gap-2 bg-primary text-white hover:bg-primary/90">
           <Play className="h-4 w-4" />
           {loading ? "Calculando..." : "Generar prevision"}
         </Button>
@@ -298,11 +298,11 @@ export default function ForecastingPage() {
 
       {/* ── Empty state ── */}
       {!forecastResult && !loading && (
-        <div className="rounded-lg bg-[#1A1A1A]">
+        <div className="rounded-lg bg-card">
           <div className="flex flex-col items-center justify-center py-16">
-            <TrendingUp className="text-[#A78B7D] mb-4 h-12 w-12" />
-            <h3 className="text-lg font-semibold text-[#E5E2E1]">Sin prevision generada</h3>
-            <p className="text-[#A78B7D] mt-1 max-w-md text-center text-sm">
+            <TrendingUp className="text-muted-foreground mb-4 h-12 w-12" />
+            <h3 className="text-lg font-semibold text-foreground">Sin prevision generada</h3>
+            <p className="text-muted-foreground mt-1 max-w-md text-center text-sm">
               Pulsa &ldquo;Generar prevision&rdquo; para calcular la demanda
               prevista de los proximos {FORECAST_DAYS} dias combinando datos
               historicos, factores estacionales y eventos confirmados.
@@ -314,57 +314,57 @@ export default function ForecastingPage() {
       {/* ── Stats cards ── */}
       {stats && (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <div className="rounded-lg bg-[#1A1A1A] p-4 border-l-4 border-l-red-500">
-            <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">
+          <div className="rounded-lg bg-card p-4 border-l-4 border-l-red-500">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
               Productos criticos
             </p>
             <p className="mt-1 text-2xl font-bold text-red-400">
               {stats.critical}
             </p>
           </div>
-          <div className="rounded-lg bg-[#1A1A1A] p-4 border-l-4 border-l-orange-500">
-            <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">
+          <div className="rounded-lg bg-card p-4 border-l-4 border-l-orange-500">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
               Atencion
             </p>
             <p className="mt-1 text-2xl font-bold text-orange-400">
               {stats.warning}
             </p>
           </div>
-          <div className="rounded-lg bg-[#1A1A1A] p-4 border-l-4 border-l-green-500">
-            <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">
+          <div className="rounded-lg bg-card p-4 border-l-4 border-l-green-500">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
               Productos OK
             </p>
             <p className="mt-1 text-2xl font-bold text-green-400">
               {stats.ok}
             </p>
           </div>
-          <div className="rounded-lg bg-[#1A1A1A] p-4 border-l-4 border-l-[#F97316]">
-            <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">
+          <div className="rounded-lg bg-card p-4 border-l-4 border-l-primary">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
               Deficit total
             </p>
-            <p className="mt-1 text-2xl font-bold text-[#E5E2E1]">{stats.totalDeficit}</p>
+            <p className="mt-1 text-2xl font-bold text-foreground">{stats.totalDeficit}</p>
           </div>
         </div>
       )}
 
       {/* ── Section 1: Resumen por producto ── */}
       {forecastResult && (
-        <div className="rounded-lg bg-[#1A1A1A]">
+        <div className="rounded-lg bg-card">
           <div className="px-4 py-3 flex items-center gap-2">
-            <Package className="h-5 w-5 text-[#F97316]" />
-            <h2 className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Resumen por producto</h2>
+            <Package className="h-5 w-5 text-primary" />
+            <h2 className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Resumen por producto</h2>
           </div>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="border-b border-[#A78B7D]/10 hover:bg-transparent">
-                  <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Producto</TableHead>
-                  <TableHead className="text-right text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Demanda total</TableHead>
-                  <TableHead className="text-right text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Stock actual</TableHead>
-                  <TableHead className="text-right text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Stock seguridad</TableHead>
-                  <TableHead className="text-right text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Deficit</TableHead>
-                  <TableHead className="text-center text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Urgencia</TableHead>
-                  <TableHead className="text-right text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Cantidad sugerida</TableHead>
+                <TableRow className="border-b border-muted-foreground/10 hover:bg-transparent">
+                  <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Producto</TableHead>
+                  <TableHead className="text-right text-xs font-medium uppercase tracking-widest text-muted-foreground">Demanda total</TableHead>
+                  <TableHead className="text-right text-xs font-medium uppercase tracking-widest text-muted-foreground">Stock actual</TableHead>
+                  <TableHead className="text-right text-xs font-medium uppercase tracking-widest text-muted-foreground">Stock seguridad</TableHead>
+                  <TableHead className="text-right text-xs font-medium uppercase tracking-widest text-muted-foreground">Deficit</TableHead>
+                  <TableHead className="text-center text-xs font-medium uppercase tracking-widest text-muted-foreground">Urgencia</TableHead>
+                  <TableHead className="text-right text-xs font-medium uppercase tracking-widest text-muted-foreground">Cantidad sugerida</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -372,24 +372,24 @@ export default function ForecastingPage() {
                   <TableRow
                     key={row.product_id}
                     className={cn(
-                      "border-b border-[#A78B7D]/10 hover:bg-[#222222] transition-colors",
+                      "border-b border-muted-foreground/10 hover:bg-card-hover transition-colors",
                       row.urgency === "critical" && "bg-red-950/20",
                       row.urgency === "warning" && "bg-orange-950/10",
                     )}
                   >
-                    <TableCell className="font-medium text-[#E5E2E1]">
+                    <TableCell className="font-medium text-foreground">
                       {row.product_name}
-                      <span className="text-[#A78B7D] ml-1 text-xs">
+                      <span className="text-muted-foreground ml-1 text-xs">
                         ({row.unit})
                       </span>
                     </TableCell>
-                    <TableCell className="text-right tabular-nums text-[#E5E2E1]">
+                    <TableCell className="text-right tabular-nums text-foreground">
                       {row.total_forecast_demand.toFixed(1)}
                     </TableCell>
-                    <TableCell className="text-right tabular-nums text-[#E5E2E1]">
+                    <TableCell className="text-right tabular-nums text-foreground">
                       {row.current_stock.toFixed(1)}
                     </TableCell>
-                    <TableCell className="text-right tabular-nums text-[#A78B7D]">
+                    <TableCell className="text-right tabular-nums text-muted-foreground">
                       {row.safety_stock.toFixed(1)}
                     </TableCell>
                     <TableCell
@@ -417,7 +417,7 @@ export default function ForecastingPage() {
                 ))}
                 {forecastResult.summary.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-[#A78B7D] py-8 text-center">
+                    <TableCell colSpan={7} className="text-muted-foreground py-8 text-center">
                       No se generaron resultados de prevision
                     </TableCell>
                   </TableRow>
@@ -430,10 +430,10 @@ export default function ForecastingPage() {
 
       {/* ── Section 2: Detalle diario ── */}
       {forecastResult && forecastResult.daily.length > 0 && (
-        <div className="rounded-lg bg-[#1A1A1A]">
+        <div className="rounded-lg bg-card">
           <div className="px-4 py-3 flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-[#F97316]" />
-            <h2 className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Detalle diario</h2>
+            <TrendingUp className="h-5 w-5 text-primary" />
+            <h2 className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Detalle diario</h2>
           </div>
           <div className="px-4 pb-4">
             <DailyDetailGrid daily={forecastResult.daily} />
@@ -487,17 +487,17 @@ function DailyDetailGrid({ daily }: { daily: DailyForecast[] }) {
     <div className="overflow-x-auto">
       <table className="w-full min-w-[800px] text-sm">
         <thead>
-          <tr className="border-b border-[#A78B7D]/10">
-            <th className="sticky left-0 z-10 bg-[#1A1A1A] px-3 py-2 text-left text-xs font-medium uppercase tracking-widest text-[#A78B7D]">
+          <tr className="border-b border-muted-foreground/10">
+            <th className="sticky left-0 z-10 bg-card px-3 py-2 text-left text-xs font-medium uppercase tracking-widest text-muted-foreground">
               Producto
             </th>
             {daily.map((day) => (
               <th
                 key={day.date}
                 className={cn(
-                  "min-w-[60px] px-2 py-2 text-center text-xs font-medium uppercase tracking-widest text-[#A78B7D]",
+                  "min-w-[60px] px-2 py-2 text-center text-xs font-medium uppercase tracking-widest text-muted-foreground",
                   day.day_of_week === 0 || day.day_of_week === 6
-                    ? "bg-[#111111]"
+                    ? "bg-sidebar"
                     : "",
                 )}
               >
@@ -506,12 +506,12 @@ function DailyDetailGrid({ daily }: { daily: DailyForecast[] }) {
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#A78B7D]/10">
+        <tbody className="divide-y divide-muted-foreground/10">
           {allProducts.map((product) => (
-            <tr key={product.product_id} className="hover:bg-[#222222] transition-colors">
-              <td className="sticky left-0 z-10 bg-[#1A1A1A] px-3 py-1.5 font-medium whitespace-nowrap text-[#E5E2E1]">
+            <tr key={product.product_id} className="hover:bg-card-hover transition-colors">
+              <td className="sticky left-0 z-10 bg-card px-3 py-1.5 font-medium whitespace-nowrap text-foreground">
                 {product.name}
-                <span className="text-[#A78B7D] ml-1 text-xs">
+                <span className="text-muted-foreground ml-1 text-xs">
                   ({product.unit})
                 </span>
               </td>
@@ -524,12 +524,12 @@ function DailyDetailGrid({ daily }: { daily: DailyForecast[] }) {
                   <td
                     key={day.date}
                     className={cn(
-                      "px-2 py-1.5 text-center tabular-nums text-xs text-[#E5E2E1]",
+                      "px-2 py-1.5 text-center tabular-nums text-xs text-foreground",
                       deficit > 0 && "bg-red-950/30 font-semibold text-red-400",
                       day.day_of_week === 0 || day.day_of_week === 6
                         ? deficit > 0
                           ? ""
-                          : "bg-[#111111]"
+                          : "bg-sidebar"
                         : "",
                     )}
                   >
@@ -540,12 +540,12 @@ function DailyDetailGrid({ daily }: { daily: DailyForecast[] }) {
             </tr>
           ))}
           {/* Total row */}
-          <tr className="border-t-2 border-[#A78B7D]/20 font-semibold">
-            <td className="sticky left-0 z-10 bg-[#1A1A1A] px-3 py-2 text-[#E5E2E1]">
+          <tr className="border-t-2 border-muted-foreground/20 font-semibold">
+            <td className="sticky left-0 z-10 bg-card px-3 py-2 text-foreground">
               Total
             </td>
             {daily.map((day) => (
-              <td key={day.date} className="px-2 py-2 text-center tabular-nums text-xs text-[#E5E2E1]">
+              <td key={day.date} className="px-2 py-2 text-center tabular-nums text-xs text-foreground">
                 {day.total_demand.toFixed(1)}
               </td>
             ))}

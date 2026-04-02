@@ -59,14 +59,14 @@ export default function KitchenModePage() {
         {view === "home" ? (
           <>
             <div className="flex items-center gap-3">
-              <ChefHat className="h-7 w-7 text-[#F97316]" />
+              <ChefHat className="h-7 w-7 text-primary" />
               <div>
-                <h1 className="text-xl font-bold text-[#E5E2E1]">Modo Cocina</h1>
-                <p className="text-xs text-[#A78B7D]">Microflujos rápidos — sin formularios</p>
+                <h1 className="text-xl font-bold text-foreground">Modo Cocina</h1>
+                <p className="text-xs text-muted-foreground">Microflujos rápidos — sin formularios</p>
               </div>
             </div>
             <Link href="/">
-              <Button variant="outline" size="sm" className="border-[#333] text-[#A78B7D]">
+              <Button variant="outline" size="sm" className="border-border-subtle text-muted-foreground">
                 <ArrowLeft className="h-3.5 w-3.5 mr-1" />
                 Dashboard
               </Button>
@@ -75,7 +75,7 @@ export default function KitchenModePage() {
         ) : (
           <button
             onClick={() => setView("home")}
-            className="flex items-center gap-2 text-[#A78B7D] hover:text-[#E5E2E1] transition-colors"
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft className="h-5 w-5" />
             <span className="text-sm font-medium">Volver</span>
@@ -110,13 +110,13 @@ function HomeView({ onNavigate }: { onNavigate: (v: KitchenView) => void }) {
           onClick={() => onNavigate(a.id)}
           className={cn(
             "rounded-xl border-2 p-8 text-center transition-colors",
-            "bg-[#1A1A1A]",
+            "bg-card",
             a.color,
           )}
         >
           <span className="text-4xl block mb-3">{a.icon}</span>
-          <p className="text-lg font-bold text-[#E5E2E1]">{a.label}</p>
-          <p className="text-xs text-[#A78B7D] mt-1">{a.desc}</p>
+          <p className="text-lg font-bold text-foreground">{a.label}</p>
+          <p className="text-xs text-muted-foreground mt-1">{a.desc}</p>
         </button>
       ))}
     </div>
@@ -138,21 +138,21 @@ function MermaFlow({ onDone }: { onDone: () => void }) {
 
   return (
     <div className="max-w-md mx-auto">
-      <h2 className="text-lg font-bold text-[#E5E2E1] mb-1">🗑️ Registrar merma</h2>
-      <p className="text-xs text-[#A78B7D] mb-4">Paso {step} de 3</p>
+      <h2 className="text-lg font-bold text-foreground mb-1">🗑️ Registrar merma</h2>
+      <p className="text-xs text-muted-foreground mb-4">Paso {step} de 3</p>
 
       {step === 1 && (
         <div className="space-y-3">
-          <p className="text-sm text-[#E5E2E1] font-medium">¿Qué producto?</p>
+          <p className="text-sm text-foreground font-medium">¿Qué producto?</p>
           <div className="grid grid-cols-3 gap-2">
             {QUICK_PRODUCTS.map(p => (
               <button
                 key={p.id}
                 onClick={() => { setProduct(p); setStep(2) }}
-                className="rounded-lg border border-[#333] bg-[#1A1A1A] p-3 text-center hover:border-[#F97316] transition-colors"
+                className="rounded-lg border border-border-subtle bg-card p-3 text-center hover:border-primary transition-colors"
               >
                 <span className="text-2xl block">{p.icon}</span>
-                <p className="text-xs text-[#E5E2E1] mt-1 truncate">{p.name}</p>
+                <p className="text-xs text-foreground mt-1 truncate">{p.name}</p>
               </button>
             ))}
           </div>
@@ -161,7 +161,7 @@ function MermaFlow({ onDone }: { onDone: () => void }) {
 
       {step === 2 && product && (
         <div className="space-y-4">
-          <p className="text-sm text-[#E5E2E1] font-medium">
+          <p className="text-sm text-foreground font-medium">
             {product.icon} {product.name} — ¿Cuánto?
           </p>
           <div className="flex items-center gap-3">
@@ -175,7 +175,7 @@ function MermaFlow({ onDone }: { onDone: () => void }) {
               className="text-3xl h-16 text-center font-bold"
               autoFocus
             />
-            <span className="text-lg text-[#A78B7D] font-medium">{product.unit}</span>
+            <span className="text-lg text-muted-foreground font-medium">{product.unit}</span>
           </div>
           <div className="grid grid-cols-4 gap-2">
             {["0.5", "1", "2", "5"].map(v => (
@@ -183,7 +183,7 @@ function MermaFlow({ onDone }: { onDone: () => void }) {
                 key={v}
                 variant="outline"
                 onClick={() => setQuantity(v)}
-                className="border-[#333] text-lg h-12"
+                className="border-border-subtle text-lg h-12"
               >
                 {v}
               </Button>
@@ -192,7 +192,7 @@ function MermaFlow({ onDone }: { onDone: () => void }) {
           <Button
             onClick={() => quantity && setStep(3)}
             disabled={!quantity}
-            className="w-full h-14 text-lg bg-[#F97316] hover:bg-[#EA680C] text-white"
+            className="w-full h-14 text-lg bg-primary hover:bg-primary/90 text-white"
           >
             Siguiente
           </Button>
@@ -201,7 +201,7 @@ function MermaFlow({ onDone }: { onDone: () => void }) {
 
       {step === 3 && (
         <div className="space-y-4">
-          <p className="text-sm text-[#E5E2E1] font-medium">
+          <p className="text-sm text-foreground font-medium">
             {product?.icon} {quantity} {product?.unit} de {product?.name} — ¿Motivo?
           </p>
           <div className="grid grid-cols-2 gap-3">
@@ -215,7 +215,7 @@ function MermaFlow({ onDone }: { onDone: () => void }) {
                 )}
               >
                 <span className="text-2xl block mb-1">{r.icon}</span>
-                <p className="text-sm font-medium text-[#E5E2E1]">{r.label}</p>
+                <p className="text-sm font-medium text-foreground">{r.label}</p>
               </button>
             ))}
           </div>
@@ -276,14 +276,14 @@ function AppccFlow({ onDone }: { onDone: () => void }) {
   }
 
   if (isLoading) {
-    return <p className="text-[#A78B7D] text-sm py-8 text-center">Cargando controles...</p>
+    return <p className="text-muted-foreground text-sm py-8 text-center">Cargando controles...</p>
   }
 
   if (dailyChecks.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-[#A78B7D] text-sm">No hay controles diarios configurados.</p>
-        <p className="text-[#A78B7D]/60 text-xs mt-1">Configura plantillas en /appcc.</p>
+        <p className="text-muted-foreground text-sm">No hay controles diarios configurados.</p>
+        <p className="text-muted-foreground/60 text-xs mt-1">Configura plantillas en /appcc.</p>
       </div>
     )
   }
@@ -294,13 +294,13 @@ function AppccFlow({ onDone }: { onDone: () => void }) {
   return (
     <div className="max-w-md mx-auto space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold text-[#E5E2E1]">Control APPCC</h2>
-        <Badge className="bg-[#F97316]/15 text-[#F97316] border-0">
+        <h2 className="text-lg font-bold text-foreground">Control APPCC</h2>
+        <Badge className="bg-primary/15 text-primary border-0">
           {completedCount}/{totalCount}
         </Badge>
       </div>
 
-      <div className="h-2 bg-[#1A1A1A] rounded-full overflow-hidden">
+      <div className="h-2 bg-card rounded-full overflow-hidden">
         <div
           className="h-full bg-emerald-500 rounded-full transition-all"
           style={{ width: `${totalCount > 0 ? (completedCount / totalCount) * 100 : 0}%` }}
@@ -317,15 +317,15 @@ function AppccFlow({ onDone }: { onDone: () => void }) {
               key={check.id}
               className={cn(
                 "rounded-lg border p-4 transition-colors",
-                isDone ? "border-emerald-800 bg-emerald-950/10" : "border-[#333] bg-[#1A1A1A]"
+                isDone ? "border-emerald-800 bg-emerald-950/10" : "border-border-subtle bg-card"
               )}
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className={cn("text-sm font-medium", isDone ? "text-emerald-400" : "text-[#E5E2E1]")}>
+                  <p className={cn("text-sm font-medium", isDone ? "text-emerald-400" : "text-foreground")}>
                     {check.name}
                   </p>
-                  {limit && <p className="text-xs text-[#A78B7D]">{limit}</p>}
+                  {limit && <p className="text-xs text-muted-foreground">{limit}</p>}
                 </div>
 
                 {isDone ? (
@@ -348,7 +348,7 @@ function AppccFlow({ onDone }: { onDone: () => void }) {
                         }
                       }}
                     />
-                    <span className="text-xs text-[#A78B7D]">{check.unit}</span>
+                    <span className="text-xs text-muted-foreground">{check.unit}</span>
                   </div>
                 ) : (
                   <div className="flex gap-2">
@@ -398,17 +398,17 @@ function EntradaFlow({ onDone }: { onDone: () => void }) {
   if (!product) {
     return (
       <div className="max-w-md mx-auto space-y-3">
-        <h2 className="text-lg font-bold text-[#E5E2E1] mb-1">📦 Entrada rápida</h2>
-        <p className="text-xs text-[#A78B7D]">¿Qué producto recibiste?</p>
+        <h2 className="text-lg font-bold text-foreground mb-1">📦 Entrada rápida</h2>
+        <p className="text-xs text-muted-foreground">¿Qué producto recibiste?</p>
         <div className="grid grid-cols-3 gap-2">
           {QUICK_PRODUCTS.map(p => (
             <button
               key={p.id}
               onClick={() => setProduct(p)}
-              className="rounded-lg border border-[#333] bg-[#1A1A1A] p-3 text-center hover:border-[#F97316] transition-colors"
+              className="rounded-lg border border-border-subtle bg-card p-3 text-center hover:border-primary transition-colors"
             >
               <span className="text-2xl block">{p.icon}</span>
-              <p className="text-xs text-[#E5E2E1] mt-1 truncate">{p.name}</p>
+              <p className="text-xs text-foreground mt-1 truncate">{p.name}</p>
             </button>
           ))}
         </div>
@@ -418,12 +418,12 @@ function EntradaFlow({ onDone }: { onDone: () => void }) {
 
   return (
     <div className="max-w-md mx-auto space-y-4">
-      <h2 className="text-lg font-bold text-[#E5E2E1]">
+      <h2 className="text-lg font-bold text-foreground">
         {product.icon} {product.name}
       </h2>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <p className="text-xs text-[#A78B7D] mb-1">Cantidad ({product.unit})</p>
+          <p className="text-xs text-muted-foreground mb-1">Cantidad ({product.unit})</p>
           <Input
             type="number"
             min="0.1"
@@ -435,7 +435,7 @@ function EntradaFlow({ onDone }: { onDone: () => void }) {
           />
         </div>
         <div>
-          <p className="text-xs text-[#A78B7D] mb-1">€/{product.unit}</p>
+          <p className="text-xs text-muted-foreground mb-1">€/{product.unit}</p>
           <Input
             type="number"
             min="0"
@@ -449,7 +449,7 @@ function EntradaFlow({ onDone }: { onDone: () => void }) {
       <Button
         onClick={handleSubmit}
         disabled={!quantity || !price}
-        className="w-full h-14 text-lg bg-[#F97316] hover:bg-[#EA680C] text-white"
+        className="w-full h-14 text-lg bg-primary hover:bg-primary/90 text-white"
       >
         <PackagePlus className="h-5 w-5 mr-2" />
         Registrar entrada
@@ -476,18 +476,18 @@ function ProduccionFlow({ onDone }: { onDone: () => void }) {
   if (!recipe) {
     return (
       <div className="max-w-md mx-auto space-y-3">
-        <h2 className="text-lg font-bold text-[#E5E2E1] mb-1">👨‍🍳 Producción</h2>
-        <p className="text-xs text-[#A78B7D]">¿Qué elaboraste?</p>
+        <h2 className="text-lg font-bold text-foreground mb-1">👨‍🍳 Producción</h2>
+        <p className="text-xs text-muted-foreground">¿Qué elaboraste?</p>
         <div className="grid grid-cols-2 gap-3">
           {QUICK_RECIPES.map(r => (
             <button
               key={r.id}
               onClick={() => { setRecipe(r); setRaciones(String(r.servings)) }}
-              className="rounded-lg border border-[#333] bg-[#1A1A1A] p-4 text-left hover:border-[#F97316] transition-colors"
+              className="rounded-lg border border-border-subtle bg-card p-4 text-left hover:border-primary transition-colors"
             >
               <span className="text-2xl">{r.icon}</span>
-              <p className="text-sm font-medium text-[#E5E2E1] mt-1">{r.name}</p>
-              <p className="text-xs text-[#A78B7D]">{r.servings} raciones/batch</p>
+              <p className="text-sm font-medium text-foreground mt-1">{r.name}</p>
+              <p className="text-xs text-muted-foreground">{r.servings} raciones/batch</p>
             </button>
           ))}
         </div>
@@ -497,11 +497,11 @@ function ProduccionFlow({ onDone }: { onDone: () => void }) {
 
   return (
     <div className="max-w-md mx-auto space-y-4">
-      <h2 className="text-lg font-bold text-[#E5E2E1]">
+      <h2 className="text-lg font-bold text-foreground">
         {recipe.icon} {recipe.name}
       </h2>
       <div>
-        <p className="text-xs text-[#A78B7D] mb-1">Raciones producidas</p>
+        <p className="text-xs text-muted-foreground mb-1">Raciones producidas</p>
         <Input
           type="number"
           min="1"
@@ -510,7 +510,7 @@ function ProduccionFlow({ onDone }: { onDone: () => void }) {
           className="text-3xl h-16 text-center font-bold"
           autoFocus
         />
-        <p className="text-xs text-[#A78B7D] mt-1 text-center">Batch estándar: {recipe.servings} raciones</p>
+        <p className="text-xs text-muted-foreground mt-1 text-center">Batch estándar: {recipe.servings} raciones</p>
       </div>
       <Button
         onClick={() => {
@@ -518,7 +518,7 @@ function ProduccionFlow({ onDone }: { onDone: () => void }) {
           onDone()
         }}
         disabled={!raciones}
-        className="w-full h-14 text-lg bg-[#F97316] hover:bg-[#EA680C] text-white"
+        className="w-full h-14 text-lg bg-primary hover:bg-primary/90 text-white"
       >
         <ChefHat className="h-5 w-5 mr-2" />
         Confirmar producción

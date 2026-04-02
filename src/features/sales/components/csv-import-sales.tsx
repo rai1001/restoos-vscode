@@ -155,7 +155,7 @@ export function CSVImportSales({ onImportComplete }: { onImportComplete?: (rows:
   return (
     <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) { setRows([]); setStep("upload") } }}>
       <DialogTrigger
-        render={<Button variant="outline" className="border-[#333] text-[#E5E2E1]" />}
+        render={<Button variant="outline" className="border-border-subtle text-foreground" />}
       >
         <FileSpreadsheet className="h-4 w-4 mr-1.5" />
         Importar ventas CSV
@@ -168,30 +168,30 @@ export function CSVImportSales({ onImportComplete }: { onImportComplete?: (rows:
 
         {step === "upload" && (
           <div className="space-y-4">
-            <p className="text-sm text-[#A78B7D]">
+            <p className="text-sm text-muted-foreground">
               Sube el CSV de ventas de tu TPV. Columnas esperadas: fecha, plato/artículo, cantidad, importe.
               Separadores: coma, punto y coma o tabulador.
             </p>
             <div
-              className="border-2 border-dashed border-[#333] rounded-lg p-8 text-center hover:border-[#F97316]/50 transition-colors cursor-pointer"
+              className="border-2 border-dashed border-border-subtle rounded-lg p-8 text-center hover:border-primary/50 transition-colors cursor-pointer"
               onClick={() => fileRef.current?.click()}
             >
               <input ref={fileRef} type="file" accept=".csv,.tsv,.txt" className="hidden" onChange={handleFile} />
               {loading ? (
-                <Loader2 className="h-6 w-6 mx-auto text-[#F97316] animate-spin" />
+                <Loader2 className="h-6 w-6 mx-auto text-primary animate-spin" />
               ) : (
                 <>
-                  <Upload className="h-6 w-6 mx-auto text-[#A78B7D] mb-2" />
-                  <p className="text-sm text-[#E5E2E1]">Arrastra o haz clic para subir CSV</p>
-                  <p className="text-xs text-[#A78B7D] mt-1">Exportado de tu TPV (Cashlogy, ICG, Sighore, etc.)</p>
+                  <Upload className="h-6 w-6 mx-auto text-muted-foreground mb-2" />
+                  <p className="text-sm text-foreground">Arrastra o haz clic para subir CSV</p>
+                  <p className="text-xs text-muted-foreground mt-1">Exportado de tu TPV (Cashlogy, ICG, Sighore, etc.)</p>
                 </>
               )}
             </div>
 
             {/* Example format */}
-            <div className="rounded-md bg-[#0A0A0A] p-3">
-              <p className="text-xs text-[#A78B7D] font-medium mb-1">Ejemplo de formato CSV:</p>
-              <pre className="text-xs text-[#E5E2E1] font-mono">
+            <div className="rounded-md bg-background p-3">
+              <p className="text-xs text-muted-foreground font-medium mb-1">Ejemplo de formato CSV:</p>
+              <pre className="text-xs text-foreground font-mono">
 {`fecha;plato;cantidad;importe
 2026-03-30;Callos de Culuca;3;42.00
 2026-03-30;Tortilla jugosa;5;45.00
@@ -212,28 +212,28 @@ export function CSVImportSales({ onImportComplete }: { onImportComplete?: (rows:
                   {unmatchedCount} sin mapear
                 </Badge>
               )}
-              <span className="text-xs text-[#A78B7D] ml-auto">
+              <span className="text-xs text-muted-foreground ml-auto">
                 Asigna receta a las ventas no mapeadas
               </span>
             </div>
 
-            <div className="max-h-[400px] overflow-y-auto rounded-lg border border-[#333]">
+            <div className="max-h-[400px] overflow-y-auto rounded-lg border border-border-subtle">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-[#333]">
-                    <TableHead className="text-[#A78B7D] text-xs">Venta TPV</TableHead>
-                    <TableHead className="text-[#A78B7D] text-xs">Cant.</TableHead>
-                    <TableHead className="text-[#A78B7D] text-xs">Importe</TableHead>
-                    <TableHead className="text-[#A78B7D] text-xs">Receta RestoOS</TableHead>
-                    <TableHead className="text-[#A78B7D] text-xs w-8"></TableHead>
+                  <TableRow className="border-border-subtle">
+                    <TableHead className="text-muted-foreground text-xs">Venta TPV</TableHead>
+                    <TableHead className="text-muted-foreground text-xs">Cant.</TableHead>
+                    <TableHead className="text-muted-foreground text-xs">Importe</TableHead>
+                    <TableHead className="text-muted-foreground text-xs">Receta RestoOS</TableHead>
+                    <TableHead className="text-muted-foreground text-xs w-8"></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {rows.map((row, idx) => (
-                    <TableRow key={idx} className="border-[#333]">
-                      <TableCell className="text-sm text-[#E5E2E1]">{row.item}</TableCell>
-                      <TableCell className="text-sm text-[#A78B7D]">{row.quantity}</TableCell>
-                      <TableCell className="text-sm text-[#A78B7D]">{row.amount.toFixed(2)}€</TableCell>
+                    <TableRow key={idx} className="border-border-subtle">
+                      <TableCell className="text-sm text-foreground">{row.item}</TableCell>
+                      <TableCell className="text-sm text-muted-foreground">{row.quantity}</TableCell>
+                      <TableCell className="text-sm text-muted-foreground">{row.amount.toFixed(2)}€</TableCell>
                       <TableCell>
                         <select
                           className="w-full h-7 rounded border border-input bg-background px-2 text-xs"
@@ -257,10 +257,10 @@ export function CSVImportSales({ onImportComplete }: { onImportComplete?: (rows:
             </div>
 
             <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => { setRows([]); setStep("upload") }} className="border-[#333]">
+              <Button variant="outline" onClick={() => { setRows([]); setStep("upload") }} className="border-border-subtle">
                 Reimportar
               </Button>
-              <Button onClick={handleConfirm} className="bg-[#F97316] hover:bg-[#EA680C] text-white">
+              <Button onClick={handleConfirm} className="bg-primary hover:bg-primary/90 text-white">
                 Confirmar y descontar stock ({matchedCount} ventas)
               </Button>
             </div>
@@ -270,8 +270,8 @@ export function CSVImportSales({ onImportComplete }: { onImportComplete?: (rows:
         {step === "done" && (
           <div className="text-center py-8 space-y-3">
             <CheckCircle2 className="h-10 w-10 text-emerald-400 mx-auto" />
-            <p className="text-[#E5E2E1] font-medium">Ventas procesadas</p>
-            <p className="text-sm text-[#A78B7D]">
+            <p className="text-foreground font-medium">Ventas procesadas</p>
+            <p className="text-sm text-muted-foreground">
               El stock teórico se ha actualizado con las ventas importadas
             </p>
           </div>

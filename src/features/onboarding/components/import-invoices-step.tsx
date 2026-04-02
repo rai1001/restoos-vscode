@@ -67,15 +67,15 @@ export function ImportInvoicesStep({ invoices, onInvoicesChange }: ImportInvoice
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-lg font-semibold text-[#E5E2E1]">Importar albaranes / facturas</h2>
-        <p className="text-sm text-[#A78B7D] mt-1">
+        <h2 className="text-lg font-semibold text-foreground">Importar albaranes / facturas</h2>
+        <p className="text-sm text-muted-foreground mt-1">
           Sube fotos de 2-3 albaranes recientes y crearemos tu catálogo de productos con precios reales
         </p>
       </div>
 
       {/* Upload area */}
       <div
-        className="border-2 border-dashed border-[#333] rounded-lg p-6 text-center hover:border-[#F97316]/50 transition-colors cursor-pointer"
+        className="border-2 border-dashed border-border-subtle rounded-lg p-6 text-center hover:border-primary/50 transition-colors cursor-pointer"
         onClick={() => fileRef.current?.click()}
       >
         <input
@@ -87,16 +87,16 @@ export function ImportInvoicesStep({ invoices, onInvoicesChange }: ImportInvoice
         />
         {loading ? (
           <div className="space-y-2">
-            <Loader2 className="h-6 w-6 mx-auto text-[#F97316] animate-spin" />
-            <p className="text-sm text-[#A78B7D]">Analizando albarán con IA...</p>
+            <Loader2 className="h-6 w-6 mx-auto text-primary animate-spin" />
+            <p className="text-sm text-muted-foreground">Analizando albarán con IA...</p>
           </div>
         ) : (
           <div className="space-y-1">
-            <Upload className="h-6 w-6 mx-auto text-[#A78B7D]" />
-            <p className="text-sm text-[#E5E2E1] font-medium">
+            <Upload className="h-6 w-6 mx-auto text-muted-foreground" />
+            <p className="text-sm text-foreground font-medium">
               {invoices.length === 0 ? "Sube tu primer albarán" : "Añadir otro albarán"}
             </p>
-            <p className="text-xs text-[#A78B7D]">
+            <p className="text-xs text-muted-foreground">
               Foto del albarán o factura de proveedor. Max 10MB.
             </p>
           </div>
@@ -106,23 +106,23 @@ export function ImportInvoicesStep({ invoices, onInvoicesChange }: ImportInvoice
       {/* Imported invoices summary */}
       {invoices.length > 0 && (
         <div className="space-y-3">
-          <div className="flex items-center gap-3 text-sm text-[#A78B7D]">
+          <div className="flex items-center gap-3 text-sm text-muted-foreground">
             <FileText className="h-4 w-4" />
             <span>{invoices.length} albarán(es) · {totalSuppliers} proveedor(es) · {totalProducts} productos</span>
           </div>
 
           {invoices.map((inv, idx) => (
-            <div key={idx} className="rounded-lg border border-[#333] p-4 space-y-2">
+            <div key={idx} className="rounded-lg border border-border-subtle p-4 space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-                  <span className="text-sm font-medium text-[#E5E2E1]">{inv.supplier}</span>
+                  <span className="text-sm font-medium text-foreground">{inv.supplier}</span>
                 </div>
-                <span className="text-xs text-[#A78B7D]">{inv.products.length} productos</span>
+                <span className="text-xs text-muted-foreground">{inv.products.length} productos</span>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-1">
                 {inv.products.map((prod, pidx) => (
-                  <div key={pidx} className="text-xs text-[#A78B7D] truncate">
+                  <div key={pidx} className="text-xs text-muted-foreground truncate">
                     {prod.name} — {prod.quantity}{prod.unit} a {prod.price.toFixed(2)}€
                   </div>
                 ))}
@@ -134,7 +134,7 @@ export function ImportInvoicesStep({ invoices, onInvoicesChange }: ImportInvoice
             variant="outline"
             size="sm"
             onClick={() => fileRef.current?.click()}
-            className="border-[#333]"
+            className="border-border-subtle"
           >
             <Plus className="h-3 w-3 mr-1" />
             Añadir otro albarán

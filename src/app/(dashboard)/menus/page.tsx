@@ -29,23 +29,23 @@ export default function MenusPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">
+          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
             GESTION DE CARTA
           </p>
-          <h1 className="text-2xl font-bold text-[#E5E2E1]">Menus & Cartas</h1>
-          <p className="text-[#A78B7D] mt-1">
+          <h1 className="text-2xl font-bold text-foreground">Menus & Cartas</h1>
+          <p className="text-muted-foreground mt-1">
             {menus?.length ?? 0} menus registrados
           </p>
         </div>
         <div className="flex items-center gap-2">
           <Link href="/menus/engineering">
-            <Button variant="outline" className="border-[#A78B7D]/20 bg-[#1A1A1A] text-[#E5E2E1] hover:bg-[#222222] hover:text-[#F97316]">
+            <Button variant="outline" className="border-muted-foreground/20 bg-card text-foreground hover:bg-card-hover hover:text-primary">
               <BarChart2 className="mr-2 h-4 w-4" />
               Ingenieria de menu
             </Button>
           </Link>
           <Link href="/menus/new">
-            <Button className="bg-[#F97316] text-white hover:bg-[#F97316]/90">
+            <Button className="bg-primary text-white hover:bg-primary/90">
               <Plus className="mr-2 h-4 w-4" />
               Nuevo menu
             </Button>
@@ -54,12 +54,12 @@ export default function MenusPage() {
       </div>
 
       <div className="relative">
-        <Search className="text-[#A78B7D] absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
+        <Search className="text-muted-foreground absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2" />
         <Input
           placeholder="Buscar menus..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="pl-9 bg-[#1A1A1A] border-[#A78B7D]/20 text-[#E5E2E1] placeholder:text-[#A78B7D]/50"
+          className="pl-9 bg-card border-muted-foreground/20 text-foreground placeholder:text-muted-foreground/50"
         />
       </div>
 
@@ -74,53 +74,53 @@ export default function MenusPage() {
           actionHref="/menus/new"
         />
       ) : (
-        <div className="rounded-lg overflow-hidden bg-[#1A1A1A]">
+        <div className="rounded-lg overflow-hidden bg-card">
           <Table>
             <TableHeader>
-              <TableRow className="border-b border-[#A78B7D]/10 hover:bg-transparent">
-                <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Nombre</TableHead>
-                <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Tipo</TableHead>
-                <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Estado</TableHead>
-                <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Coste total</TableHead>
-                <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Food cost %</TableHead>
+              <TableRow className="border-b border-muted-foreground/10 hover:bg-transparent">
+                <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Nombre</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Tipo</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Estado</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Coste total</TableHead>
+                <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Food cost %</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered?.map((menu) => (
-                <TableRow key={menu.id} className="border-b border-[#A78B7D]/10 hover:bg-[#222222] transition-colors">
+                <TableRow key={menu.id} className="border-b border-muted-foreground/10 hover:bg-card-hover transition-colors">
                   <TableCell>
-                    <Link href={`/menus/${menu.id}`} className="text-[#F97316] font-medium hover:underline">
+                    <Link href={`/menus/${menu.id}`} className="text-primary font-medium hover:underline">
                       <span className="flex items-center gap-1.5">
                         <UtensilsCrossed className="h-3.5 w-3.5" />
                         {menu.name}
                       </span>
                     </Link>
                   </TableCell>
-                  <TableCell className="capitalize text-[#E5E2E1]">{menu.menu_type ?? "—"}</TableCell>
+                  <TableCell className="capitalize text-foreground">{menu.menu_type ?? "—"}</TableCell>
                   <TableCell>
                     <span
                       className={
                         menu.status === "active"
-                          ? "inline-flex items-center rounded-md bg-[#F97316]/10 px-2 py-0.5 text-xs font-medium uppercase tracking-widest text-[#F97316]"
+                          ? "inline-flex items-center rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium uppercase tracking-widest text-primary"
                           : menu.status === "draft"
-                            ? "inline-flex items-center rounded-md bg-[#A78B7D]/10 px-2 py-0.5 text-xs font-medium uppercase tracking-widest text-[#A78B7D]"
-                            : "inline-flex items-center rounded-md bg-[#A78B7D]/10 px-2 py-0.5 text-xs font-medium uppercase tracking-widest text-[#A78B7D]/60"
+                            ? "inline-flex items-center rounded-md bg-muted-foreground/10 px-2 py-0.5 text-xs font-medium uppercase tracking-widest text-muted-foreground"
+                            : "inline-flex items-center rounded-md bg-muted-foreground/10 px-2 py-0.5 text-xs font-medium uppercase tracking-widest text-muted-foreground/60"
                       }
                     >
                       {menu.status === "active" ? "Activo" : menu.status === "draft" ? "Borrador" : "Archivado"}
                     </span>
                   </TableCell>
-                  <TableCell className="text-[#E5E2E1]">
+                  <TableCell className="text-foreground">
                     {menu.total_cost != null ? `${menu.total_cost.toFixed(2)} €` : "—"}
                   </TableCell>
-                  <TableCell className="text-[#E5E2E1]">
+                  <TableCell className="text-foreground">
                     {menu.target_food_cost_pct != null ? `${menu.target_food_cost_pct}%` : "—"}
                   </TableCell>
                 </TableRow>
               ))}
               {filtered?.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-[#A78B7D] text-center">
+                  <TableCell colSpan={5} className="text-muted-foreground text-center">
                     Sin resultados para &quot;{search}&quot;
                   </TableCell>
                 </TableRow>

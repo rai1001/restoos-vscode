@@ -55,17 +55,17 @@ export default function TheoreticalInventoryPage() {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <Link href="/inventory">
-              <Button variant="ghost" size="sm" className="h-7 px-2 text-[#A78B7D]">
+              <Button variant="ghost" size="sm" className="h-7 px-2 text-muted-foreground">
                 <ArrowLeft className="h-3.5 w-3.5 mr-1" />
                 Inventario
               </Button>
             </Link>
           </div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#F97316] mb-1">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
             ANÁLISIS
           </p>
-          <h1 className="text-3xl font-bold text-[#E5E2E1]">Teórico vs Real</h1>
-          <p className="text-[#A78B7D] text-sm mt-1">
+          <h1 className="text-3xl font-bold text-foreground">Teórico vs Real</h1>
+          <p className="text-muted-foreground text-sm mt-1">
             Comparación del stock según ventas vs conteo físico · Última importación: {lastImport}
           </p>
         </div>
@@ -74,21 +74,21 @@ export default function TheoreticalInventoryPage() {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-blue-500 p-4">
-          <p className="text-xs text-[#A78B7D] uppercase tracking-wide">Productos analizados</p>
+        <div className="rounded-lg bg-card border-l-4 border-l-blue-500 p-4">
+          <p className="text-xs text-muted-foreground uppercase tracking-wide">Productos analizados</p>
           <p className="text-2xl font-bold text-blue-400">{totalItems}</p>
         </div>
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-yellow-500 p-4">
-          <p className="text-xs text-[#A78B7D] uppercase tracking-wide">Con desviación</p>
+        <div className="rounded-lg bg-card border-l-4 border-l-yellow-500 p-4">
+          <p className="text-xs text-muted-foreground uppercase tracking-wide">Con desviación</p>
           <p className="text-2xl font-bold text-yellow-400">{withDiff}</p>
         </div>
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-red-500 p-4">
-          <p className="text-xs text-[#A78B7D] uppercase tracking-wide">Críticos (&gt;20%)</p>
+        <div className="rounded-lg bg-card border-l-4 border-l-red-500 p-4">
+          <p className="text-xs text-muted-foreground uppercase tracking-wide">Críticos (&gt;20%)</p>
           <p className="text-2xl font-bold text-red-400">{critical}</p>
         </div>
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-[#F97316] p-4">
-          <p className="text-xs text-[#A78B7D] uppercase tracking-wide">Pérdida estimada</p>
-          <p className="text-2xl font-bold text-[#F97316]">{totalLoss.toFixed(0)}€</p>
+        <div className="rounded-lg bg-card border-l-4 border-l-primary p-4">
+          <p className="text-xs text-muted-foreground uppercase tracking-wide">Pérdida estimada</p>
+          <p className="text-2xl font-bold text-primary">{totalLoss.toFixed(0)}€</p>
         </div>
       </div>
 
@@ -100,7 +100,7 @@ export default function TheoreticalInventoryPage() {
             <p className="text-sm font-medium text-red-400">
               {critical} producto{critical > 1 ? "s" : ""} con desviación superior al 20%
             </p>
-            <p className="text-xs text-[#A78B7D] mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               Revisa si hay merma no registrada, consumos en platos fuera de carta, o errores de conteo
             </p>
           </div>
@@ -108,16 +108,16 @@ export default function TheoreticalInventoryPage() {
       )}
 
       {/* Table */}
-      <div className="rounded-lg bg-[#1A1A1A] overflow-hidden">
+      <div className="rounded-lg bg-card overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="border-[#333] hover:bg-transparent">
-              <TableHead className="text-[#A78B7D]">Producto</TableHead>
-              <TableHead className="text-[#A78B7D] text-right">Teórico</TableHead>
-              <TableHead className="text-[#A78B7D] text-right">Real</TableHead>
-              <TableHead className="text-[#A78B7D] text-right">Diferencia</TableHead>
-              <TableHead className="text-[#A78B7D]">Desviación</TableHead>
-              <TableHead className="text-[#A78B7D]">Posible causa</TableHead>
+            <TableRow className="border-border-subtle hover:bg-transparent">
+              <TableHead className="text-muted-foreground">Producto</TableHead>
+              <TableHead className="text-muted-foreground text-right">Teórico</TableHead>
+              <TableHead className="text-muted-foreground text-right">Real</TableHead>
+              <TableHead className="text-muted-foreground text-right">Diferencia</TableHead>
+              <TableHead className="text-muted-foreground">Desviación</TableHead>
+              <TableHead className="text-muted-foreground">Posible causa</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -125,14 +125,14 @@ export default function TheoreticalInventoryPage() {
               .sort((a, b) => Math.abs(b.diffPct) - Math.abs(a.diffPct))
               .map((item, idx) => (
               <TableRow key={idx} className={cn(
-                "border-[#333]",
+                "border-border-subtle",
                 Math.abs(item.diffPct) > 20 && "bg-red-950/10"
               )}>
-                <TableCell className="font-medium text-[#E5E2E1]">{item.product}</TableCell>
-                <TableCell className="text-right text-[#A78B7D]">
+                <TableCell className="font-medium text-foreground">{item.product}</TableCell>
+                <TableCell className="text-right text-muted-foreground">
                   {item.theoretical} {item.unit}
                 </TableCell>
-                <TableCell className="text-right text-[#E5E2E1]">
+                <TableCell className="text-right text-foreground">
                   {item.real} {item.unit}
                 </TableCell>
                 <TableCell className="text-right">
@@ -141,11 +141,11 @@ export default function TheoreticalInventoryPage() {
                       {item.diff > 0 ? "+" : ""}{item.diff} {item.unit}
                     </span>
                   ) : (
-                    <span className="text-[#A78B7D]">—</span>
+                    <span className="text-muted-foreground">—</span>
                   )}
                 </TableCell>
                 <TableCell><DiffBadge pct={item.diffPct} /></TableCell>
-                <TableCell className="text-xs text-[#A78B7D]">
+                <TableCell className="text-xs text-muted-foreground">
                   {item.reason && (
                     <span className="flex items-center gap-1">
                       <TrendingDown className="h-3 w-3 text-red-400" />

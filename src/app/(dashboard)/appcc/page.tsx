@@ -112,7 +112,7 @@ function StatusBadge({ status }: { status: CheckStatus }) {
 
 function LimitsCell({ template }: { template: CheckTemplate }) {
   const { min_value, max_value, unit } = template
-  if (min_value === null && max_value === null) return <span className="text-[#A78B7D]">—</span>
+  if (min_value === null && max_value === null) return <span className="text-muted-foreground">—</span>
   if (min_value !== null && max_value !== null)
     return <span>{min_value} – {max_value} {unit}</span>
   if (min_value !== null)
@@ -222,13 +222,13 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-[#1A1A1A] border-white/10">
+      <DialogContent className="sm:max-w-md bg-card border-white/10">
         <DialogHeader>
-          <DialogTitle className="text-[#E5E2E1]">Nuevo registro APPCC</DialogTitle>
+          <DialogTitle className="text-foreground">Nuevo registro APPCC</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <Label htmlFor="template-select" className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Plantilla de control</Label>
+            <Label htmlFor="template-select" className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Plantilla de control</Label>
             <select
               id="template-select"
               value={templateId}
@@ -238,8 +238,8 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
                 setCorrectiveAction("")
               }}
               className={cn(
-                "flex h-8 w-full rounded-lg border border-white/10 bg-[#0A0A0A] px-2.5 py-1 text-sm text-[#E5E2E1]",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]/50 focus-visible:border-[#F97316]",
+                "flex h-8 w-full rounded-lg border border-white/10 bg-background px-2.5 py-1 text-sm text-foreground",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary",
               )}
             >
               {templates.filter((t) => t.is_active).map((t) => (
@@ -249,16 +249,16 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
               ))}
             </select>
             {selectedTemplate?.description && (
-              <p className="text-xs text-[#A78B7D]">{selectedTemplate.description}</p>
+              <p className="text-xs text-muted-foreground">{selectedTemplate.description}</p>
             )}
           </div>
 
           {needsValue && (
             <div className="space-y-1.5">
-              <Label htmlFor="record-value" className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">
+              <Label htmlFor="record-value" className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
                 Valor medido
                 {selectedTemplate?.unit && (
-                  <span className="ml-1 text-[#A78B7D]/70">({selectedTemplate.unit})</span>
+                  <span className="ml-1 text-muted-foreground/70">({selectedTemplate.unit})</span>
                 )}
               </Label>
               <div className="flex items-center gap-2">
@@ -270,16 +270,16 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
                   className={cn(
-                    "bg-[#0A0A0A] border-white/10 text-[#E5E2E1]",
+                    "bg-background border-white/10 text-foreground",
                     isOutOfRange && "border-red-400 focus-visible:ring-red-400/50"
                   )}
                 />
                 {selectedTemplate?.unit && (
-                  <span className="text-sm text-[#A78B7D] shrink-0">{selectedTemplate.unit}</span>
+                  <span className="text-sm text-muted-foreground shrink-0">{selectedTemplate.unit}</span>
                 )}
               </div>
               {selectedTemplate && (selectedTemplate.min_value !== null || selectedTemplate.max_value !== null) && (
-                <p className={cn("text-xs", isOutOfRange ? "text-red-400 font-medium" : "text-[#A78B7D]")}>
+                <p className={cn("text-xs", isOutOfRange ? "text-red-400 font-medium" : "text-muted-foreground")}>
                   {isOutOfRange ? "Valor fuera del rango permitido — " : "Rango: "}
                   <LimitsCell template={selectedTemplate} />
                 </p>
@@ -288,7 +288,7 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
           )}
 
           <div className="space-y-1.5">
-            <Label htmlFor="record-notes" className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Notas <span className="text-[#A78B7D]/70">(opcional)</span></Label>
+            <Label htmlFor="record-notes" className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Notas <span className="text-muted-foreground/70">(opcional)</span></Label>
             <textarea
               id="record-notes"
               rows={2}
@@ -296,9 +296,9 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               className={cn(
-                "flex min-h-[60px] w-full rounded-lg border border-white/10 bg-[#0A0A0A] px-3 py-2 text-sm text-[#E5E2E1]",
-                "placeholder:text-[#A78B7D]/50",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]/50 focus-visible:border-[#F97316]",
+                "flex min-h-[60px] w-full rounded-lg border border-white/10 bg-background px-3 py-2 text-sm text-foreground",
+                "placeholder:text-muted-foreground/50",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary",
                 "resize-none"
               )}
             />
@@ -316,8 +316,8 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
                 value={correctiveAction}
                 onChange={(e) => setCorrectiveAction(e.target.value)}
                 className={cn(
-                  "flex min-h-[60px] w-full rounded-lg border border-red-500/30 bg-[#0A0A0A] px-3 py-2 text-sm text-[#E5E2E1]",
-                  "placeholder:text-[#A78B7D]/50",
+                  "flex min-h-[60px] w-full rounded-lg border border-red-500/30 bg-background px-3 py-2 text-sm text-foreground",
+                  "placeholder:text-muted-foreground/50",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400/50 focus-visible:border-red-400",
                   "resize-none"
                 )}
@@ -326,12 +326,12 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
           )}
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="border-white/10 text-[#A78B7D] hover:bg-white/5">
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="border-white/10 text-muted-foreground hover:bg-white/5">
               Cancelar
             </Button>
             <Button
               type="submit"
-              className="bg-[#F97316] hover:bg-[#F97316]/90 text-white"
+              className="bg-primary hover:bg-primary/90 text-white"
               disabled={createRecord.isPending}
             >
               {createRecord.isPending ? "Guardando..." : "Guardar registro"}
@@ -369,26 +369,26 @@ function ValidateDialog({ open, onOpenChange, date }: { open: boolean; onOpenCha
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-[#1A1A1A] border-white/10">
+      <DialogContent className="sm:max-w-md bg-card border-white/10">
         <DialogHeader>
-          <DialogTitle className="text-[#E5E2E1]">Validar cierre APPCC</DialogTitle>
+          <DialogTitle className="text-foreground">Validar cierre APPCC</DialogTitle>
         </DialogHeader>
-        <p className="text-sm text-[#A78B7D]">
+        <p className="text-sm text-muted-foreground">
           Al validar confirmas que has revisado todos los registros del día {formatDisplayDate(date)}.
           Esta acción quedará registrada con tu nombre y fecha.
         </p>
         <div className="space-y-1.5">
-          <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Notas de validación (opcional)</Label>
+          <Label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Notas de validación (opcional)</Label>
           <textarea
             rows={2}
             placeholder="Observaciones del responsable..."
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="flex min-h-[60px] w-full rounded-lg border border-white/10 bg-[#0A0A0A] px-3 py-2 text-sm text-[#E5E2E1] placeholder:text-[#A78B7D]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]/50 resize-none"
+            className="flex min-h-[60px] w-full rounded-lg border border-white/10 bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 resize-none"
           />
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-white/10 text-[#A78B7D] hover:bg-white/5">
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-white/10 text-muted-foreground hover:bg-white/5">
             Cancelar
           </Button>
           <Button onClick={handleValidate} className="bg-green-600 hover:bg-green-700 text-white" disabled={validate.isPending}>
@@ -408,15 +408,15 @@ function RecordsTab({ date }: { date: string }) {
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   if (isLoading) {
-    return <p className="text-[#A78B7D] text-sm py-4">Cargando registros...</p>
+    return <p className="text-muted-foreground text-sm py-4">Cargando registros...</p>
   }
 
   if (records.length === 0) {
     return (
       <div className="text-center py-8">
-        <ShieldCheck className="mx-auto h-10 w-10 text-[#A78B7D]/30 mb-3" />
-        <p className="text-[#A78B7D] text-sm">No hay registros para este día.</p>
-        <p className="text-[#A78B7D]/60 text-xs mt-1">Pulsa &ldquo;Nuevo registro&rdquo; para empezar.</p>
+        <ShieldCheck className="mx-auto h-10 w-10 text-muted-foreground/30 mb-3" />
+        <p className="text-muted-foreground text-sm">No hay registros para este día.</p>
+        <p className="text-muted-foreground/60 text-xs mt-1">Pulsa &ldquo;Nuevo registro&rdquo; para empezar.</p>
       </div>
     )
   }
@@ -425,13 +425,13 @@ function RecordsTab({ date }: { date: string }) {
     <Table>
       <TableHeader>
         <TableRow className="border-white/5 hover:bg-transparent">
-          <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Control</TableHead>
-          <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Tipo</TableHead>
-          <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Valor</TableHead>
-          <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Límites</TableHead>
-          <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Estado</TableHead>
-          <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Registrado por</TableHead>
-          <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Hora</TableHead>
+          <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Control</TableHead>
+          <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Tipo</TableHead>
+          <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Valor</TableHead>
+          <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Límites</TableHead>
+          <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Estado</TableHead>
+          <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Registrado por</TableHead>
+          <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Hora</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -455,38 +455,38 @@ function RecordsTab({ date }: { date: string }) {
                   if (hasDetails) setExpandedId(isExpanded ? null : record.id)
                 }}
               >
-                <TableCell className="font-medium text-[#E5E2E1]">
+                <TableCell className="font-medium text-foreground">
                   <span className="flex items-center gap-2">
                     {template.name}
                     {hasDetails && (
-                      <span className="text-xs text-[#A78B7D]">
+                      <span className="text-xs text-muted-foreground">
                         {isExpanded ? "▲" : "▼"}
                       </span>
                     )}
                   </span>
                 </TableCell>
                 <TableCell>
-                  <span className="flex items-center gap-1.5 text-[#A78B7D]">
+                  <span className="flex items-center gap-1.5 text-muted-foreground">
                     {TypeIcon && <TypeIcon className="h-3.5 w-3.5" />}
                     {CHECK_TYPE_LABELS[template.check_type as CheckType]}
                   </span>
                 </TableCell>
                 <TableCell>
                   {record.value !== null
-                    ? <span className="font-mono text-[#E5E2E1]">{record.value} {template.unit}</span>
+                    ? <span className="font-mono text-foreground">{record.value} {template.unit}</span>
                     : <span className="text-green-400">OK</span>
                   }
                 </TableCell>
-                <TableCell className="text-[#A78B7D]">
+                <TableCell className="text-muted-foreground">
                   <LimitsCell template={template as CheckTemplate} />
                 </TableCell>
                 <TableCell>
                   <StatusBadge status={record.status as CheckStatus} />
                 </TableCell>
-                <TableCell className="text-[#A78B7D]">
+                <TableCell className="text-muted-foreground">
                   {record.checked_by_name}
                 </TableCell>
-                <TableCell className="text-[#A78B7D] font-mono text-xs">
+                <TableCell className="text-muted-foreground font-mono text-xs">
                   {record.recorded_at.slice(11, 16)}
                 </TableCell>
               </TableRow>
@@ -496,15 +496,15 @@ function RecordsTab({ date }: { date: string }) {
                   <TableCell colSpan={7} className="py-3 px-4">
                     <div className="space-y-2 text-sm">
                       {record.notes && (
-                        <div className="text-[#E5E2E1]">
-                          <span className="font-medium text-[#A78B7D]">Notas: </span>
+                        <div className="text-foreground">
+                          <span className="font-medium text-muted-foreground">Notas: </span>
                           {record.notes}
                         </div>
                       )}
                       {record.corrective_action && (
                         <div className="flex items-start gap-2">
                           <AlertTriangle className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
-                          <div className="text-[#E5E2E1]">
+                          <div className="text-foreground">
                             <span className="font-medium text-red-400">Acción correctiva: </span>
                             {record.corrective_action}
                           </div>
@@ -561,30 +561,30 @@ function NewTemplateDialog({ open, onOpenChange }: { open: boolean; onOpenChange
   }
 
   const selectClass = cn(
-    "flex h-8 w-full rounded-lg border border-white/10 bg-[#0A0A0A] px-2.5 py-1 text-sm text-[#E5E2E1]",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]/50"
+    "flex h-8 w-full rounded-lg border border-white/10 bg-background px-2.5 py-1 text-sm text-foreground",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
   )
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md bg-[#1A1A1A] border-white/10">
+      <DialogContent className="sm:max-w-md bg-card border-white/10">
         <DialogHeader>
-          <DialogTitle className="text-[#E5E2E1]">Nueva plantilla APPCC</DialogTitle>
+          <DialogTitle className="text-foreground">Nueva plantilla APPCC</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-3">
           <div className="space-y-1">
-            <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Nombre</Label>
-            <Input value={name} onChange={e => setName(e.target.value)} placeholder="Ej: Cámara frigorífica #3" className="bg-[#0A0A0A] border-white/10 text-[#E5E2E1]" />
+            <Label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Nombre</Label>
+            <Input value={name} onChange={e => setName(e.target.value)} placeholder="Ej: Cámara frigorífica #3" className="bg-background border-white/10 text-foreground" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1">
-              <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Tipo</Label>
+              <Label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Tipo</Label>
               <select value={checkType} onChange={e => setCheckType(e.target.value as CheckType)} className={selectClass}>
                 {Object.entries(CHECK_TYPE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
             </div>
             <div className="space-y-1">
-              <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Frecuencia</Label>
+              <Label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Frecuencia</Label>
               <select value={frequency} onChange={e => setFrequency(e.target.value as CheckFrequency)} className={selectClass}>
                 {Object.entries(FREQUENCY_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
@@ -592,25 +592,25 @@ function NewTemplateDialog({ open, onOpenChange }: { open: boolean; onOpenChange
           </div>
           <div className="grid grid-cols-3 gap-3">
             <div className="space-y-1">
-              <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Min</Label>
-              <Input type="number" step="0.1" value={minValue} onChange={e => setMinValue(e.target.value)} placeholder="—" className="bg-[#0A0A0A] border-white/10 text-[#E5E2E1]" />
+              <Label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Min</Label>
+              <Input type="number" step="0.1" value={minValue} onChange={e => setMinValue(e.target.value)} placeholder="—" className="bg-background border-white/10 text-foreground" />
             </div>
             <div className="space-y-1">
-              <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Max</Label>
-              <Input type="number" step="0.1" value={maxValue} onChange={e => setMaxValue(e.target.value)} placeholder="—" className="bg-[#0A0A0A] border-white/10 text-[#E5E2E1]" />
+              <Label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Max</Label>
+              <Input type="number" step="0.1" value={maxValue} onChange={e => setMaxValue(e.target.value)} placeholder="—" className="bg-background border-white/10 text-foreground" />
             </div>
             <div className="space-y-1">
-              <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Unidad</Label>
-              <Input value={unit} onChange={e => setUnit(e.target.value)} placeholder="°C, %, pH" className="bg-[#0A0A0A] border-white/10 text-[#E5E2E1]" />
+              <Label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Unidad</Label>
+              <Input value={unit} onChange={e => setUnit(e.target.value)} placeholder="°C, %, pH" className="bg-background border-white/10 text-foreground" />
             </div>
           </div>
           <div className="space-y-1">
-            <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Descripción (opcional)</Label>
-            <Input value={description} onChange={e => setDescription(e.target.value)} placeholder="Descripción del control..." className="bg-[#0A0A0A] border-white/10 text-[#E5E2E1]" />
+            <Label className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Descripción (opcional)</Label>
+            <Input value={description} onChange={e => setDescription(e.target.value)} placeholder="Descripción del control..." className="bg-background border-white/10 text-foreground" />
           </div>
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="border-white/10 text-[#A78B7D] hover:bg-white/5">Cancelar</Button>
-            <Button type="submit" className="bg-[#F97316] hover:bg-[#F97316]/90 text-white" disabled={createTemplate.isPending}>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="border-white/10 text-muted-foreground hover:bg-white/5">Cancelar</Button>
+            <Button type="submit" className="bg-primary hover:bg-primary/90 text-white" disabled={createTemplate.isPending}>
               {createTemplate.isPending ? "Creando..." : "Crear plantilla"}
             </Button>
           </DialogFooter>
@@ -642,18 +642,18 @@ function TemplatesTab() {
   }
 
   if (isLoading) {
-    return <p className="text-[#A78B7D] text-sm py-4">Cargando plantillas...</p>
+    return <p className="text-muted-foreground text-sm py-4">Cargando plantillas...</p>
   }
 
   return (
     <Table>
       <TableHeader>
         <TableRow className="border-white/5 hover:bg-transparent">
-          <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Nombre</TableHead>
-          <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Tipo</TableHead>
-          <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Frecuencia</TableHead>
-          <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Límites</TableHead>
-          <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Activa</TableHead>
+          <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Nombre</TableHead>
+          <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Tipo</TableHead>
+          <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Frecuencia</TableHead>
+          <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Límites</TableHead>
+          <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Activa</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -663,22 +663,22 @@ function TemplatesTab() {
             <TableRow key={t.id} className="border-white/5 hover:bg-white/5">
               <TableCell>
                 <div>
-                  <p className="font-medium text-[#E5E2E1]">{t.name}</p>
+                  <p className="font-medium text-foreground">{t.name}</p>
                   {t.description && (
-                    <p className="text-xs text-[#A78B7D] mt-0.5">{t.description}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{t.description}</p>
                   )}
                 </div>
               </TableCell>
               <TableCell>
-                <span className="flex items-center gap-1.5 text-[#A78B7D]">
+                <span className="flex items-center gap-1.5 text-muted-foreground">
                   {TypeIcon && <TypeIcon className="h-3.5 w-3.5" />}
                   {CHECK_TYPE_LABELS[t.check_type as CheckType]}
                 </span>
               </TableCell>
-              <TableCell className="text-[#A78B7D]">
+              <TableCell className="text-muted-foreground">
                 {FREQUENCY_LABELS[t.frequency as CheckFrequency]}
               </TableCell>
-              <TableCell className="text-[#A78B7D]">
+              <TableCell className="text-muted-foreground">
                 <LimitsCell template={t} />
               </TableCell>
               <TableCell>
@@ -688,8 +688,8 @@ function TemplatesTab() {
                   disabled={updateTemplate.isPending}
                   className={cn(
                     "relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A1A1A]",
-                    t.is_active ? "bg-[#F97316]" : "bg-white/10"
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-card",
+                    t.is_active ? "bg-primary" : "bg-white/10"
                   )}
                   role="switch"
                   aria-checked={t.is_active}
@@ -721,22 +721,22 @@ function HistoryTab() {
   )
 
   if (isLoading) {
-    return <p className="text-[#A78B7D] text-sm py-4">Cargando histórico...</p>
+    return <p className="text-muted-foreground text-sm py-4">Cargando histórico...</p>
   }
 
   if (summaries.length === 0) {
     return (
       <div className="text-center py-8">
-        <BarChart3 className="mx-auto h-10 w-10 text-[#A78B7D]/30 mb-3" />
-        <p className="text-[#A78B7D] text-sm">Sin datos históricos todavía.</p>
+        <BarChart3 className="mx-auto h-10 w-10 text-muted-foreground/30 mb-3" />
+        <p className="text-muted-foreground text-sm">Sin datos históricos todavía.</p>
       </div>
     )
   }
 
   return (
     <div className="space-y-6">
-      <div className="rounded-lg bg-[#1A1A1A] p-4">
-        <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] mb-3">Registros últimos 14 días</p>
+      <div className="rounded-lg bg-card p-4">
+        <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-3">Registros últimos 14 días</p>
         <div className="flex items-end gap-1.5 h-24">
           {summaries.map((s: DailyCheckSummary) => {
             const totalPct = (s.total_checks / maxTotal) * 100
@@ -755,12 +755,12 @@ function HistoryTab() {
                   {alertPct > 0 && <div className="w-full bg-yellow-500" style={{ height: `${alertPct}%` }} />}
                   {okPct > 0 && <div className="w-full bg-green-500" style={{ height: `${okPct}%` }} />}
                 </div>
-                <span className="text-[10px] text-[#A78B7D]">{formatShortDate(s.closure_date)}</span>
+                <span className="text-[10px] text-muted-foreground">{formatShortDate(s.closure_date)}</span>
               </div>
             )
           })}
         </div>
-        <div className="flex items-center gap-4 mt-3 text-xs text-[#A78B7D]">
+        <div className="flex items-center gap-4 mt-3 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-green-500" /> OK</span>
           <span className="flex items-center gap-1.5"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-yellow-500" /> Alerta</span>
           <span className="flex items-center gap-1.5"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-red-500" /> Crítico</span>
@@ -770,44 +770,44 @@ function HistoryTab() {
       <Table>
         <TableHeader>
           <TableRow className="border-white/5 hover:bg-transparent">
-            <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Fecha</TableHead>
-            <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Total</TableHead>
-            <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">OK</TableHead>
-            <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Alertas</TableHead>
-            <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Críticos</TableHead>
-            <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Completado</TableHead>
-            <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Estado</TableHead>
+            <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Fecha</TableHead>
+            <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Total</TableHead>
+            <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">OK</TableHead>
+            <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Alertas</TableHead>
+            <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Críticos</TableHead>
+            <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Completado</TableHead>
+            <TableHead className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Estado</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {[...summaries].reverse().map((s: DailyCheckSummary) => (
             <TableRow key={s.closure_date} className="border-white/5 hover:bg-white/5">
-              <TableCell className="font-medium text-[#E5E2E1]">
+              <TableCell className="font-medium text-foreground">
                 {new Date(s.closure_date).toLocaleDateString("es", { weekday: "short", day: "numeric", month: "short" })}
               </TableCell>
-              <TableCell className="text-[#E5E2E1]">{s.total_checks}</TableCell>
+              <TableCell className="text-foreground">{s.total_checks}</TableCell>
               <TableCell><span className="text-green-400 font-medium">{s.ok_count}</span></TableCell>
               <TableCell>
                 {s.alert_count > 0
                   ? <span className="text-yellow-400 font-medium">{s.alert_count}</span>
-                  : <span className="text-[#A78B7D]">0</span>
+                  : <span className="text-muted-foreground">0</span>
                 }
               </TableCell>
               <TableCell>
                 {s.critical_count > 0
                   ? <span className="text-red-400 font-medium">{s.critical_count}</span>
-                  : <span className="text-[#A78B7D]">0</span>
+                  : <span className="text-muted-foreground">0</span>
                 }
               </TableCell>
               <TableCell>
                 <div className="flex items-center gap-2">
                   <div className="h-1.5 w-20 rounded-full bg-white/10 overflow-hidden">
                     <div
-                      className={cn("h-full rounded-full", s.completion_pct >= 100 ? "bg-green-500" : "bg-[#F97316]")}
+                      className={cn("h-full rounded-full", s.completion_pct >= 100 ? "bg-green-500" : "bg-primary")}
                       style={{ width: `${Math.min(s.completion_pct, 100)}%` }}
                     />
                   </div>
-                  <span className="text-xs text-[#A78B7D]">{Math.round(s.completion_pct)}%</span>
+                  <span className="text-xs text-muted-foreground">{Math.round(s.completion_pct)}%</span>
                 </div>
               </TableCell>
               <TableCell>
@@ -820,7 +820,7 @@ function HistoryTab() {
                     <CheckCircle2 className="mr-1 h-3 w-3" /> Completado
                   </Badge>
                 ) : (
-                  <Badge className="bg-white/5 text-[#A78B7D] border-0">Abierto</Badge>
+                  <Badge className="bg-white/5 text-muted-foreground border-0">Abierto</Badge>
                 )}
               </TableCell>
             </TableRow>
@@ -840,14 +840,14 @@ function IncidentsTab() {
   const [resolveAction, setResolveAction] = useState("")
 
   if (isLoading) {
-    return <p className="text-[#A78B7D] text-sm py-4">Cargando incidencias...</p>
+    return <p className="text-muted-foreground text-sm py-4">Cargando incidencias...</p>
   }
 
   if (incidents.length === 0) {
     return (
       <div className="text-center py-8">
         <CheckCircle2 className="mx-auto h-10 w-10 text-green-500/30 mb-3" />
-        <p className="text-[#A78B7D] text-sm">Sin incidencias abiertas.</p>
+        <p className="text-muted-foreground text-sm">Sin incidencias abiertas.</p>
       </div>
     )
   }
@@ -856,7 +856,7 @@ function IncidentsTab() {
     <div className="space-y-3">
       {incidents.map((inc) => (
         <div key={inc.id} className={cn(
-          "rounded-lg bg-[#1A1A1A] p-4 border-l-4",
+          "rounded-lg bg-card p-4 border-l-4",
           inc.severity === "critical" ? "border-l-red-500" :
           inc.severity === "high" ? "border-l-orange-500" :
           inc.severity === "medium" ? "border-l-yellow-500" : "border-l-blue-500"
@@ -869,11 +869,11 @@ function IncidentsTab() {
                   inc.severity === "critical" ? "text-red-400" :
                   inc.severity === "high" ? "text-orange-400" : "text-yellow-400"
                 )} />
-                <span className="font-medium text-[#E5E2E1]">{inc.title}</span>
-                <Badge className="bg-white/5 text-[#A78B7D] border-0 text-xs">{inc.severity}</Badge>
+                <span className="font-medium text-foreground">{inc.title}</span>
+                <Badge className="bg-white/5 text-muted-foreground border-0 text-xs">{inc.severity}</Badge>
               </div>
-              {inc.description && <p className="text-sm text-[#A78B7D]">{inc.description}</p>}
-              <p className="text-xs text-[#A78B7D]/60">
+              {inc.description && <p className="text-sm text-muted-foreground">{inc.description}</p>}
+              <p className="text-xs text-muted-foreground/60">
                 {inc.incident_date} — Reportado por {inc.reported_by_name}
               </p>
             </div>
@@ -881,7 +881,7 @@ function IncidentsTab() {
               <Button
                 variant="outline"
                 size="sm"
-                className="border-white/10 text-[#A78B7D] hover:bg-white/5 shrink-0"
+                className="border-white/10 text-muted-foreground hover:bg-white/5 shrink-0"
                 onClick={() => setResolvingId(inc.id)}
               >
                 Resolver
@@ -896,7 +896,7 @@ function IncidentsTab() {
                 placeholder="Acción correctiva aplicada..."
                 value={resolveAction}
                 onChange={(e) => setResolveAction(e.target.value)}
-                className="flex min-h-[50px] w-full rounded-lg border border-white/10 bg-[#0A0A0A] px-3 py-2 text-sm text-[#E5E2E1] placeholder:text-[#A78B7D]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]/50 resize-none"
+                className="flex min-h-[50px] w-full rounded-lg border border-white/10 bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 resize-none"
               />
               <div className="flex gap-2">
                 <Button
@@ -921,7 +921,7 @@ function IncidentsTab() {
                 <Button
                   size="sm"
                   variant="ghost"
-                  className="text-[#A78B7D]"
+                  className="text-muted-foreground"
                   onClick={() => { setResolvingId(null); setResolveAction("") }}
                 >
                   Cancelar
@@ -967,14 +967,14 @@ export default function AppccPage() {
       {/* Page header */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-medium uppercase tracking-widest text-[#F97316]">
+          <p className="text-xs font-medium uppercase tracking-widest text-primary">
             SEGURIDAD ALIMENTARIA
           </p>
-          <h1 className="text-2xl font-bold flex items-center gap-2 text-[#E5E2E1]">
-            <ShieldCheck className="h-6 w-6 text-[#F97316]" />
+          <h1 className="text-2xl font-bold flex items-center gap-2 text-foreground">
+            <ShieldCheck className="h-6 w-6 text-primary" />
             APPCC / Control de puntos críticos
           </h1>
-          <p className="text-[#A78B7D] mt-1">
+          <p className="text-muted-foreground mt-1">
             Registros de seguridad alimentaria — {formatDisplayDate(selectedDate)}
           </p>
         </div>
@@ -985,7 +985,7 @@ export default function AppccPage() {
               variant="outline"
               size="sm"
               onClick={() => exportRecordsCSV(records, selectedDate)}
-              className="border-white/10 text-[#A78B7D] hover:bg-white/5"
+              className="border-white/10 text-muted-foreground hover:bg-white/5"
             >
               <Download className="mr-2 h-4 w-4" />
               CSV
@@ -1010,7 +1010,7 @@ export default function AppccPage() {
           )}
           <Button
             onClick={() => setDialogOpen(true)}
-            className="bg-[#F97316] hover:bg-[#F97316]/90 text-white"
+            className="bg-primary hover:bg-primary/90 text-white"
             disabled={isFuture || isValidated}
           >
             <Plus className="mr-2 h-4 w-4" />
@@ -1024,22 +1024,22 @@ export default function AppccPage() {
         <Button
           variant="outline"
           size="icon-sm"
-          className="border-white/10 text-[#A78B7D] hover:bg-white/5 hover:text-[#E5E2E1]"
+          className="border-white/10 text-muted-foreground hover:bg-white/5 hover:text-foreground"
           onClick={() => setSelectedDate(addDays(selectedDate, -1))}
         >
           <ChevronLeft className="h-4 w-4" />
           <span className="sr-only">Día anterior</span>
         </Button>
-        <div className="min-w-[140px] text-center text-sm font-medium text-[#E5E2E1]">
+        <div className="min-w-[140px] text-center text-sm font-medium text-foreground">
           {isToday ? "Hoy" : formatShortDate(selectedDate)}
           {!isToday && (
-            <span className="ml-1 text-xs text-[#A78B7D]">({selectedDate})</span>
+            <span className="ml-1 text-xs text-muted-foreground">({selectedDate})</span>
           )}
         </div>
         <Button
           variant="outline"
           size="icon-sm"
-          className="border-white/10 text-[#A78B7D] hover:bg-white/5 hover:text-[#E5E2E1]"
+          className="border-white/10 text-muted-foreground hover:bg-white/5 hover:text-foreground"
           onClick={() => setSelectedDate(addDays(selectedDate, 1))}
           disabled={isToday}
         >
@@ -1047,7 +1047,7 @@ export default function AppccPage() {
           <span className="sr-only">Día siguiente</span>
         </Button>
         {!isToday && (
-          <Button variant="ghost" size="sm" onClick={() => setSelectedDate(todayStr())} className="text-xs text-[#F97316] hover:bg-white/5">
+          <Button variant="ghost" size="sm" onClick={() => setSelectedDate(todayStr())} className="text-xs text-primary hover:bg-white/5">
             Hoy
           </Button>
         )}
@@ -1055,44 +1055,44 @@ export default function AppccPage() {
 
       {/* KPI summary cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-green-500 p-4">
-          <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] flex items-center gap-1.5 mb-2">
+        <div className="rounded-lg bg-card border-l-4 border-l-green-500 p-4">
+          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-1.5 mb-2">
             <CheckCircle2 className="h-4 w-4 text-green-500" /> Controles OK
           </p>
           <div>
             <span className="text-3xl font-bold text-green-400">{stats.ok}</span>
-            <span className="text-[#A78B7D] text-sm ml-1">/ {stats.total}</span>
+            <span className="text-muted-foreground text-sm ml-1">/ {stats.total}</span>
           </div>
         </div>
 
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-yellow-500 p-4">
-          <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] flex items-center gap-1.5 mb-2">
+        <div className="rounded-lg bg-card border-l-4 border-l-yellow-500 p-4">
+          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-1.5 mb-2">
             <AlertTriangle className="h-4 w-4 text-yellow-500" /> Alertas
           </p>
-          <span className={cn("text-3xl font-bold", stats.alerts > 0 ? "text-yellow-400" : "text-[#A78B7D]")}>
+          <span className={cn("text-3xl font-bold", stats.alerts > 0 ? "text-yellow-400" : "text-muted-foreground")}>
             {stats.alerts}
           </span>
         </div>
 
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-red-500 p-4">
-          <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] flex items-center gap-1.5 mb-2">
+        <div className="rounded-lg bg-card border-l-4 border-l-red-500 p-4">
+          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-1.5 mb-2">
             <XCircle className="h-4 w-4 text-red-500" /> Críticos
           </p>
-          <span className={cn("text-3xl font-bold", stats.critical > 0 ? "text-red-400" : "text-[#A78B7D]")}>
+          <span className={cn("text-3xl font-bold", stats.critical > 0 ? "text-red-400" : "text-muted-foreground")}>
             {stats.critical}
           </span>
         </div>
 
-        <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-[#F97316] p-4">
-          <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] flex items-center gap-1.5 mb-2">
-            <BarChart3 className="h-4 w-4 text-[#F97316]" /> Completado
+        <div className="rounded-lg bg-card border-l-4 border-l-primary p-4">
+          <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-1.5 mb-2">
+            <BarChart3 className="h-4 w-4 text-primary" /> Completado
           </p>
           <div className="space-y-2">
-            <span className="text-3xl font-bold text-[#E5E2E1]">{isFuture ? "—" : `${stats.pct}%`}</span>
+            <span className="text-3xl font-bold text-foreground">{isFuture ? "—" : `${stats.pct}%`}</span>
             {!isFuture && (
               <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div
-                  className={cn("h-full rounded-full transition-all", stats.pct >= 100 ? "bg-green-500" : "bg-[#F97316]")}
+                  className={cn("h-full rounded-full transition-all", stats.pct >= 100 ? "bg-green-500" : "bg-primary")}
                   style={{ width: `${Math.min(stats.pct, 100)}%` }}
                 />
               </div>
@@ -1103,22 +1103,22 @@ export default function AppccPage() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="bg-[#1A1A1A] border-white/5">
-          <TabsTrigger value="registros" className="data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">Registros del día</TabsTrigger>
-          <TabsTrigger value="incidencias" className="data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">
+        <TabsList className="bg-card border-white/5">
+          <TabsTrigger value="registros" className="data-[state=active]:bg-primary data-[state=active]:text-white text-muted-foreground">Registros del día</TabsTrigger>
+          <TabsTrigger value="incidencias" className="data-[state=active]:bg-primary data-[state=active]:text-white text-muted-foreground">
             Incidencias
           </TabsTrigger>
-          <TabsTrigger value="plantillas" className="data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">Plantillas</TabsTrigger>
-          <TabsTrigger value="historico" className="data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">Histórico</TabsTrigger>
+          <TabsTrigger value="plantillas" className="data-[state=active]:bg-primary data-[state=active]:text-white text-muted-foreground">Plantillas</TabsTrigger>
+          <TabsTrigger value="historico" className="data-[state=active]:bg-primary data-[state=active]:text-white text-muted-foreground">Histórico</TabsTrigger>
         </TabsList>
 
         <TabsContent value="registros" className="mt-4">
-          <div className="rounded-lg bg-[#1A1A1A]">
+          <div className="rounded-lg bg-card">
             <div className="p-4 pb-3">
-              <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] mb-1">
+              <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1">
                 Registros — {formatDisplayDate(selectedDate)}
               </p>
-              <p className="text-sm text-[#A78B7D]">
+              <p className="text-sm text-muted-foreground">
                 {isValidated && (
                   <span className="text-green-400 font-medium">
                     Día validado por {closure?.validated_by_name}.{" "}
@@ -1137,9 +1137,9 @@ export default function AppccPage() {
         </TabsContent>
 
         <TabsContent value="incidencias" className="mt-4">
-          <div className="rounded-lg bg-[#1A1A1A] p-4">
-            <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] mb-1">Incidencias abiertas</p>
-            <p className="text-sm text-[#A78B7D] mb-4">
+          <div className="rounded-lg bg-card p-4">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1">Incidencias abiertas</p>
+            <p className="text-sm text-muted-foreground mb-4">
               No conformidades que requieren acción correctiva.
             </p>
             <IncidentsTab />
@@ -1147,15 +1147,15 @@ export default function AppccPage() {
         </TabsContent>
 
         <TabsContent value="plantillas" className="mt-4">
-          <div className="rounded-lg bg-[#1A1A1A]">
+          <div className="rounded-lg bg-card">
             <div className="p-4 pb-3 flex items-start justify-between">
               <div>
-                <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] mb-1">Plantillas de control</p>
-                <p className="text-sm text-[#A78B7D]">
+                <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1">Plantillas de control</p>
+                <p className="text-sm text-muted-foreground">
                   Configura los puntos de control que se registran. Desactiva los que no apliquen.
                 </p>
               </div>
-              <Button size="sm" onClick={() => setTemplateDialogOpen(true)} className="bg-[#F97316] hover:bg-[#F97316]/90 text-white shrink-0">
+              <Button size="sm" onClick={() => setTemplateDialogOpen(true)} className="bg-primary hover:bg-primary/90 text-white shrink-0">
                 <Plus className="mr-1.5 h-3.5 w-3.5" /> Nueva
               </Button>
             </div>
@@ -1164,9 +1164,9 @@ export default function AppccPage() {
         </TabsContent>
 
         <TabsContent value="historico" className="mt-4">
-          <div className="rounded-lg bg-[#1A1A1A] p-4">
-            <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] mb-1">Histórico de controles</p>
-            <p className="text-sm text-[#A78B7D] mb-4">
+          <div className="rounded-lg bg-card p-4">
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground mb-1">Histórico de controles</p>
+            <p className="text-sm text-muted-foreground mb-4">
               Resumen de los últimos 14 días de registros APPCC.
             </p>
             <HistoryTab />

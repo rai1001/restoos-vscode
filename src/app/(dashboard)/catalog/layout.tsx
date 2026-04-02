@@ -18,7 +18,7 @@ export default function CatalogLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="space-y-6">
-      <nav className="flex gap-1 border-b border-[#222]">
+      <nav className="flex gap-1 border-b border-card-hover">
         {tabs.map((tab) => {
           const isActive =
             tab.href === "/catalog"
@@ -31,8 +31,8 @@ export default function CatalogLayout({ children }: { children: ReactNode }) {
               className={cn(
                 "border-b-2 px-4 py-2.5 text-xs font-semibold uppercase tracking-widest transition-colors",
                 isActive
-                  ? "border-[#F97316] text-[#F97316]"
-                  : "text-[#A78B7D] hover:text-[#E5E2E1] border-transparent"
+                  ? "border-primary text-primary"
+                  : "text-muted-foreground hover:text-foreground border-transparent"
               )}
             >
               {tab.name}

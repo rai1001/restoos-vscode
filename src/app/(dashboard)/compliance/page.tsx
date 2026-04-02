@@ -79,23 +79,23 @@ export default function CompliancePage() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-[#F97316] mb-1">
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
           CUMPLIMIENTO NORMATIVO
         </p>
-        <h1 className="text-3xl font-bold text-[#E5E2E1]">Pack de Cumplimiento</h1>
-        <p className="text-[#A78B7D] text-sm mt-1">
+        <h1 className="text-3xl font-bold text-foreground">Pack de Cumplimiento</h1>
+        <p className="text-muted-foreground text-sm mt-1">
           Documentación lista para inspección sanitaria — APPCC, fichas técnicas y alérgenos
         </p>
       </div>
 
       {/* Quick export cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="rounded-lg bg-[#1A1A1A] border border-[#333] p-5 space-y-3">
+        <div className="rounded-lg bg-card border border-border-subtle p-5 space-y-3">
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-5 w-5 text-emerald-400" />
-            <h3 className="text-sm font-semibold text-[#E5E2E1]">Informe APPCC</h3>
+            <h3 className="text-sm font-semibold text-foreground">Informe APPCC</h3>
           </div>
-          <p className="text-xs text-[#A78B7D]">
+          <p className="text-xs text-muted-foreground">
             Último mes: 30 días registrados, 240 controles, 100% completados
           </p>
           <Button
@@ -108,12 +108,12 @@ export default function CompliancePage() {
           </Button>
         </div>
 
-        <div className="rounded-lg bg-[#1A1A1A] border border-[#333] p-5 space-y-3">
+        <div className="rounded-lg bg-card border border-border-subtle p-5 space-y-3">
           <div className="flex items-center gap-2">
             <Wheat className="h-5 w-5 text-yellow-400" />
-            <h3 className="text-sm font-semibold text-[#E5E2E1]">Tabla alérgenos</h3>
+            <h3 className="text-sm font-semibold text-foreground">Tabla alérgenos</h3>
           </div>
-          <p className="text-xs text-[#A78B7D]">
+          <p className="text-xs text-muted-foreground">
             {MENU_ALLERGENS.length} platos × 14 alérgenos. Obligatorio en sala.
           </p>
           <Button
@@ -126,12 +126,12 @@ export default function CompliancePage() {
           </Button>
         </div>
 
-        <div className="rounded-lg bg-[#1A1A1A] border border-[#333] p-5 space-y-3">
+        <div className="rounded-lg bg-card border border-border-subtle p-5 space-y-3">
           <div className="flex items-center gap-2">
             <ChefHat className="h-5 w-5 text-blue-400" />
-            <h3 className="text-sm font-semibold text-[#E5E2E1]">Fichas técnicas</h3>
+            <h3 className="text-sm font-semibold text-foreground">Fichas técnicas</h3>
           </div>
-          <p className="text-xs text-[#A78B7D]">
+          <p className="text-xs text-muted-foreground">
             {MOCK_TECH_SHEETS.length} fichas con ingredientes, alérgenos y proceso
           </p>
           <Button
@@ -145,20 +145,20 @@ export default function CompliancePage() {
       </div>
 
       {/* Allergen matrix */}
-      <div className="rounded-lg bg-[#1A1A1A] border border-[#333] overflow-hidden">
-        <div className="px-5 py-4 border-b border-[#333]">
-          <h3 className="text-sm font-semibold text-[#E5E2E1]">
+      <div className="rounded-lg bg-card border border-border-subtle overflow-hidden">
+        <div className="px-5 py-4 border-b border-border-subtle">
+          <h3 className="text-sm font-semibold text-foreground">
             Tabla de alérgenos de la carta
           </h3>
-          <p className="text-xs text-[#A78B7D] mt-0.5">
+          <p className="text-xs text-muted-foreground mt-0.5">
             Reglamento UE 1169/2011 — 14 alérgenos de declaración obligatoria
           </p>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead>
-              <tr className="border-b border-[#333]">
-                <th className="text-left px-3 py-2 text-[#A78B7D] font-medium sticky left-0 bg-[#1A1A1A] min-w-[180px]">Plato</th>
+              <tr className="border-b border-border-subtle">
+                <th className="text-left px-3 py-2 text-muted-foreground font-medium sticky left-0 bg-card min-w-[180px]">Plato</th>
                 {ALLERGENS.map(a => (
                   <th key={a.id} className="px-1.5 py-2 text-center min-w-[32px]" title={a.label}>
                     <span className="text-base">{a.icon}</span>
@@ -168,17 +168,17 @@ export default function CompliancePage() {
             </thead>
             <tbody>
               {MENU_ALLERGENS.map((dish, idx) => (
-                <tr key={idx} className="border-b border-[#333] hover:bg-[#222]">
-                  <td className="px-3 py-2 sticky left-0 bg-[#1A1A1A]">
-                    <span className="text-[#E5E2E1] font-medium">{dish.dish}</span>
-                    <span className="text-[#A78B7D] ml-1.5">{dish.category}</span>
+                <tr key={idx} className="border-b border-border-subtle hover:bg-card-hover">
+                  <td className="px-3 py-2 sticky left-0 bg-card">
+                    <span className="text-foreground font-medium">{dish.dish}</span>
+                    <span className="text-muted-foreground ml-1.5">{dish.category}</span>
                   </td>
                   {ALLERGENS.map(a => (
                     <td key={a.id} className="px-1.5 py-2 text-center">
                       {dish.allergens.includes(a.id) ? (
                         <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500/20 text-red-400 text-[10px] font-bold">✓</span>
                       ) : (
-                        <span className="text-[#333]">—</span>
+                        <span className="text-muted-foreground/40">—</span>
                       )}
                     </td>
                   ))}
@@ -191,26 +191,26 @@ export default function CompliancePage() {
 
       {/* Tech sheets preview */}
       <div className="space-y-3">
-        <h3 className="text-sm font-semibold text-[#E5E2E1]">Fichas técnicas</h3>
+        <h3 className="text-sm font-semibold text-foreground">Fichas técnicas</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {MOCK_TECH_SHEETS.map(sheet => (
-            <div key={sheet.id} className="rounded-lg bg-[#1A1A1A] border border-[#333] p-4 space-y-2">
+            <div key={sheet.id} className="rounded-lg bg-card border border-border-subtle p-4 space-y-2">
               <div className="flex items-center justify-between">
-                <h4 className="text-sm font-medium text-[#E5E2E1]">{sheet.name}</h4>
-                <Badge className="bg-[#F97316]/15 text-[#F97316] border-0 text-xs">{sheet.category}</Badge>
+                <h4 className="text-sm font-medium text-foreground">{sheet.name}</h4>
+                <Badge className="bg-primary/15 text-primary border-0 text-xs">{sheet.category}</Badge>
               </div>
               <div className="grid grid-cols-3 gap-2 text-xs">
                 <div>
-                  <p className="text-[#A78B7D]">Raciones</p>
-                  <p className="text-[#E5E2E1] font-medium">{sheet.servings}</p>
+                  <p className="text-muted-foreground">Raciones</p>
+                  <p className="text-foreground font-medium">{sheet.servings}</p>
                 </div>
                 <div>
-                  <p className="text-[#A78B7D]">Tiempo</p>
-                  <p className="text-[#E5E2E1] font-medium">{sheet.prepTime + sheet.cookTime} min</p>
+                  <p className="text-muted-foreground">Tiempo</p>
+                  <p className="text-foreground font-medium">{sheet.prepTime + sheet.cookTime} min</p>
                 </div>
                 <div>
-                  <p className="text-[#A78B7D]">Coste/ración</p>
-                  <p className="text-[#E5E2E1] font-medium">{sheet.costPerServing.toFixed(2)}€</p>
+                  <p className="text-muted-foreground">Coste/ración</p>
+                  <p className="text-foreground font-medium">{sheet.costPerServing.toFixed(2)}€</p>
                 </div>
               </div>
               <div className="flex flex-wrap gap-1">
@@ -228,13 +228,13 @@ export default function CompliancePage() {
                   </Badge>
                 )}
               </div>
-              <p className="text-xs text-[#A78B7D] truncate">
+              <p className="text-xs text-muted-foreground truncate">
                 {sheet.ingredients.join(" · ")}
               </p>
               <Button
                 variant="ghost"
                 size="sm"
-                className="w-full text-xs text-[#F97316] hover:text-[#F97316]"
+                className="w-full text-xs text-primary hover:text-primary"
                 onClick={() => toast.success(`Ficha técnica "${sheet.name}" exportada`)}
               >
                 <FileText className="h-3 w-3 mr-1" />

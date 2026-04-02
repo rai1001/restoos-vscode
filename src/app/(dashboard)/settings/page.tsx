@@ -29,11 +29,11 @@ export default function SettingsPage() {
     <div className="max-w-2xl space-y-8">
       {/* Header */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-[#F97316] mb-1">
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
           CONFIGURACION
         </p>
-        <h1 className="text-3xl font-bold text-[#E5E2E1]">Ajustes</h1>
-        <p className="text-[#A78B7D] text-sm mt-1">
+        <h1 className="text-3xl font-bold text-foreground">Ajustes</h1>
+        <p className="text-muted-foreground text-sm mt-1">
           Configura tu establecimiento y equipo
         </p>
       </div>
@@ -44,15 +44,15 @@ export default function SettingsPage() {
           const Icon = section.icon;
           return (
             <Link key={section.href} href={section.href}>
-              <div className="group rounded-lg bg-[#1A1A1A] p-5 flex items-center gap-4 transition-colors hover:bg-[#222] cursor-pointer">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#F97316]/10">
-                  <Icon className="h-5 w-5 text-[#F97316]" />
+              <div className="group rounded-lg bg-card p-5 flex items-center gap-4 transition-colors hover:bg-card-hover cursor-pointer">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                  <Icon className="h-5 w-5 text-primary" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-[#E5E2E1]">{section.title}</p>
-                  <p className="text-xs text-[#A78B7D] mt-0.5">{section.description}</p>
+                  <p className="text-sm font-semibold text-foreground">{section.title}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{section.description}</p>
                 </div>
-                <ChevronRight className="h-4 w-4 text-[#A78B7D] group-hover:text-[#F97316] transition-colors shrink-0" />
+                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
               </div>
             </Link>
           );

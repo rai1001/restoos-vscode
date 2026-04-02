@@ -277,7 +277,7 @@ export default function RecipesPage() {
               setSearch(e.target.value);
               setVisibleCount(ITEMS_PER_PAGE);
             }}
-            className="w-full pl-11 pr-4 py-3 rounded-xl text-sm outline-none placeholder:text-[#A78B7D]/50 focus:ring-1 focus:ring-[#F97316]/40"
+            className="w-full pl-11 pr-4 py-3 rounded-xl text-sm outline-none placeholder:text-muted-foreground/50 focus:ring-1 focus:ring-primary/40"
             style={{ backgroundColor: "#1A1A1A", color: "#E5E2E1" }}
           />
         </div>

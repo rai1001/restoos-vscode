@@ -44,13 +44,13 @@ function KpiCard({
   emoji: string
 }) {
   return (
-    <div className="rounded-lg bg-[#1A1A1A] p-4">
-      <div className="mb-1 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-[#A78B7D]">
+    <div className="rounded-lg bg-card p-4">
+      <div className="mb-1 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-muted-foreground">
         <span>{emoji}</span>
         <span>{label}</span>
       </div>
-      <p className="text-2xl font-bold tracking-tight text-[#E5E2E1]">{value}</p>
-      {sub && <p className="mt-0.5 text-xs text-[#A78B7D]">{sub}</p>}
+      <p className="text-2xl font-bold tracking-tight text-foreground">{value}</p>
+      {sub && <p className="mt-0.5 text-xs text-muted-foreground">{sub}</p>}
     </div>
   )
 }
@@ -70,7 +70,7 @@ function QuadrantCard({
   const quadrantBg: Record<MatrixQuadrant, string> = {
     estrella: "bg-[#1A1A0A]",
     vaca: "bg-[#0A1A1A]",
-    enigma: "bg-[#1A1A1A]",
+    enigma: "bg-card",
     perro: "bg-[#1A0A0A]",
   }
 
@@ -90,12 +90,12 @@ function QuadrantCard({
               {cfg.label}
             </span>
             <span
-              className="ml-1 rounded-md bg-[#0A0A0A] px-2 py-0.5 text-xs font-semibold text-[#E5E2E1]"
+              className="ml-1 rounded-md bg-background px-2 py-0.5 text-xs font-semibold text-foreground"
             >
               {dishes.length}
             </span>
           </div>
-          <p className="mt-0.5 text-xs text-[#A78B7D]">{cfg.description}</p>
+          <p className="mt-0.5 text-xs text-muted-foreground">{cfg.description}</p>
         </div>
       </div>
 
@@ -107,15 +107,15 @@ function QuadrantCard({
       {/* Dish list */}
       <div className="flex flex-col gap-1.5">
         {dishes.length === 0 ? (
-          <p className="text-xs text-[#A78B7D]">Sin platos en este cuadrante</p>
+          <p className="text-xs text-muted-foreground">Sin platos en este cuadrante</p>
         ) : (
           dishes.map((dish) => (
             <div
               key={dish.id}
-              className="flex items-start justify-between gap-2 rounded-md bg-[#0A0A0A]/60 px-2.5 py-1.5 text-xs"
+              className="flex items-start justify-between gap-2 rounded-md bg-background/60 px-2.5 py-1.5 text-xs"
             >
-              <span className="font-medium leading-snug text-[#E5E2E1]">{dish.name}</span>
-              <span className="shrink-0 text-[#A78B7D]">
+              <span className="font-medium leading-snug text-foreground">{dish.name}</span>
+              <span className="shrink-0 text-muted-foreground">
                 {dish.contribution_margin.toFixed(2)}€ Â· {dish.units_sold} uds
               </span>
             </div>
@@ -143,7 +143,7 @@ function QuadrantBadge({ quadrant }: { quadrant: MatrixQuadrant }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-md bg-[#0A0A0A] px-2 py-0.5 text-xs font-medium uppercase tracking-widest",
+        "inline-flex items-center gap-1 rounded-md bg-background px-2 py-0.5 text-xs font-medium uppercase tracking-widest",
         cfg.color,
       )}
     >
@@ -162,7 +162,7 @@ function SortIndicator({
   return active ? (
     <span className="ml-1 text-xs">{direction === "asc" ? "↑" : "↓"}</span>
   ) : (
-    <span className="ml-1 text-xs text-[#A78B7D]/40">↕</span>
+    <span className="ml-1 text-xs text-muted-foreground/40">↕</span>
   )
 }
 
@@ -185,7 +185,7 @@ function SortableTh({
     <th
       onClick={() => onSort(col)}
       className={cn(
-        "cursor-pointer select-none whitespace-nowrap px-3 py-2 text-xs font-medium uppercase tracking-widest text-[#A78B7D] hover:text-[#E5E2E1] transition-colors",
+        "cursor-pointer select-none whitespace-nowrap px-3 py-2 text-xs font-medium uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors",
         right ? "text-right" : "text-left",
       )}
     >
@@ -227,9 +227,9 @@ function TableView({ dishes }: { dishes: MenuDishAnalysis[] }) {
 
 
   return (
-    <div className="overflow-x-auto rounded-lg bg-[#1A1A1A]">
+    <div className="overflow-x-auto rounded-lg bg-card">
       <table className="w-full text-sm">
-        <thead className="bg-[#111111]">
+        <thead className="bg-sidebar">
           <tr>
             <SortableTh col="name" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Plato</SortableTh>
             <SortableTh col="category" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Categoria</SortableTh>
@@ -241,51 +241,51 @@ function TableView({ dishes }: { dishes: MenuDishAnalysis[] }) {
             <SortableTh col="quadrant" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Cuadrante</SortableTh>
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#A78B7D]/10">
+        <tbody className="divide-y divide-muted-foreground/10">
           {sorted.map((dish) => (
-            <tr key={dish.id} className="hover:bg-[#222222] transition-colors">
-              <td className="px-3 py-2 font-medium text-[#E5E2E1]">{dish.name}</td>
-              <td className="px-3 py-2 text-[#A78B7D]">
+            <tr key={dish.id} className="hover:bg-card-hover transition-colors">
+              <td className="px-3 py-2 font-medium text-foreground">{dish.name}</td>
+              <td className="px-3 py-2 text-muted-foreground">
                 {CATEGORY_LABELS[dish.category]}
               </td>
-              <td className="px-3 py-2 text-right text-[#E5E2E1]">{dish.selling_price.toFixed(2)} €</td>
-              <td className="px-3 py-2 text-right text-[#A78B7D]">
+              <td className="px-3 py-2 text-right text-foreground">{dish.selling_price.toFixed(2)} €</td>
+              <td className="px-3 py-2 text-right text-muted-foreground">
                 {dish.cost_price.toFixed(2)} €
               </td>
-              <td className="px-3 py-2 text-right font-medium text-[#E5E2E1]">
+              <td className="px-3 py-2 text-right font-medium text-foreground">
                 {dish.contribution_margin.toFixed(2)} €
               </td>
-              <td className="px-3 py-2 text-right text-[#E5E2E1]">
+              <td className="px-3 py-2 text-right text-foreground">
                 {dish.contribution_margin_pct.toFixed(1)}%
               </td>
-              <td className="px-3 py-2 text-right text-[#E5E2E1]">{dish.units_sold}</td>
+              <td className="px-3 py-2 text-right text-foreground">{dish.units_sold}</td>
               <td className="px-3 py-2">
                 <QuadrantBadge quadrant={dish.quadrant} />
               </td>
             </tr>
           ))}
         </tbody>
-        <tfoot className="border-t-2 border-[#A78B7D]/20 bg-[#111111] font-semibold">
+        <tfoot className="border-t-2 border-muted-foreground/20 bg-sidebar font-semibold">
           <tr>
-            <td className="px-3 py-2 text-[#E5E2E1]" colSpan={2}>
+            <td className="px-3 py-2 text-foreground" colSpan={2}>
               Totales ({dishes.length} platos)
             </td>
-            <td className="px-3 py-2 text-right text-[#E5E2E1]">
+            <td className="px-3 py-2 text-right text-foreground">
               {totalRevenue.toFixed(0)} €
             </td>
-            <td className="px-3 py-2 text-right text-[#A78B7D]">
+            <td className="px-3 py-2 text-right text-muted-foreground">
               {totalCost.toFixed(0)} €
             </td>
-            <td className="px-3 py-2 text-right text-[#E5E2E1]">
+            <td className="px-3 py-2 text-right text-foreground">
               {totalContrib.toFixed(0)} €
             </td>
-            <td className="px-3 py-2 text-right text-[#E5E2E1]">
+            <td className="px-3 py-2 text-right text-foreground">
               {totalRevenue > 0
                 ? ((totalContrib / totalRevenue) * 100).toFixed(1)
                 : "0.0"}
               %
             </td>
-            <td className="px-3 py-2 text-right text-[#E5E2E1]">{totalUnits}</td>
+            <td className="px-3 py-2 text-right text-foreground">{totalUnits}</td>
             <td />
           </tr>
         </tfoot>
@@ -357,13 +357,13 @@ function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
 
   return (
     <div className="space-y-3">
-      <h2 className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Recomendaciones automaticas</h2>
+      <h2 className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Recomendaciones automaticas</h2>
       <div className="flex flex-col gap-2">
         {insights.map((ins, i) => (
           <div
             key={i}
             className={cn(
-              "flex items-start gap-3 rounded-lg border-l-4 bg-[#1A1A1A] px-4 py-3 text-sm text-[#E5E2E1]",
+              "flex items-start gap-3 rounded-lg border-l-4 bg-card px-4 py-3 text-sm text-foreground",
               ins.borderColor,
             )}
           >
@@ -386,7 +386,7 @@ function MatrixView({ dishes }: { dishes: MenuDishAnalysis[] }) {
       {/* Y-axis label */}
       <div className="hidden w-6 shrink-0 items-center justify-center sm:flex">
         <span
-          className="whitespace-nowrap text-xs font-medium text-[#A78B7D]"
+          className="whitespace-nowrap text-xs font-medium text-muted-foreground"
           style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
         >
           Rentabilidad â†‘
@@ -409,13 +409,13 @@ function MatrixView({ dishes }: { dishes: MenuDishAnalysis[] }) {
 
         {/* X-axis label */}
         <div className="flex items-center justify-center">
-          <span className="text-xs font-medium text-[#A78B7D]">
+          <span className="text-xs font-medium text-muted-foreground">
             Popularidad â†’
           </span>
         </div>
 
         {/* Axis legend */}
-        <div className="flex items-center justify-between text-xs text-[#A78B7D]">
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span>â† Baja popularidad</span>
           <span>Alta popularidad â†’</span>
         </div>
@@ -497,7 +497,7 @@ function ScatterTooltipContent({ active, payload }: { active?: boolean; payload?
 
 function ScatterLegend() {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-[#A78B7D]">
+    <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-muted-foreground">
       {(Object.entries(QUADRANT_LABELS_SCATTER) as [QuadrantKey, string][]).map(
         ([key, label]) => (
           <div key={key} className="flex items-center gap-1.5">
@@ -517,10 +517,10 @@ function RentabilidadScatterChart() {
   const theme = CHART_THEME.dark
 
   return (
-    <div className="rounded-lg bg-[#1A1A1A] p-4">
+    <div className="rounded-lg bg-card p-4">
       <div className="mb-4">
-        <h2 className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Mapa de Rentabilidad</h2>
-        <p className="text-sm text-[#A78B7D] mt-1">
+        <h2 className="text-xs font-medium uppercase tracking-widest text-muted-foreground">Mapa de Rentabilidad</h2>
+        <p className="text-sm text-muted-foreground mt-1">
           Margen vs popularidad —tamaño = contribución a ingresos
         </p>
       </div>
@@ -649,7 +649,7 @@ function RentabilidadScatterChart() {
       </ResponsiveContainer>
 
       {/* Quadrant corner labels */}
-      <div className="mt-1 grid grid-cols-2 gap-x-4 text-[10px] text-[#A78B7D]">
+      <div className="mt-1 grid grid-cols-2 gap-x-4 text-[10px] text-muted-foreground">
         <div className="flex justify-between">
           <span style={{ color: CHART_COLORS.red }}>ðŸ• Perro (bajo/bajo)</span>
           <span />
@@ -695,11 +695,11 @@ export default function MenuEngineeringPage() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">
+        <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
           INGENIERIA DE MENU
         </p>
-        <h1 className="text-xl font-bold sm:text-2xl text-[#E5E2E1]">Ingenieria de Menu</h1>
-        <p className="mt-1 text-[#A78B7D]">
+        <h1 className="text-xl font-bold sm:text-2xl text-foreground">Ingenieria de Menu</h1>
+        <p className="mt-1 text-muted-foreground">
           Analisis de rentabilidad y popularidad de platos Â· {report.period_label}
         </p>
       </div>
@@ -739,7 +739,7 @@ export default function MenuEngineeringPage() {
               e.target.value === "" ? undefined : (e.target.value as MenuCategory),
             )
           }
-          className="rounded-md bg-[#1A1A1A] border-[#A78B7D]/20 px-3 py-2 text-sm text-[#E5E2E1]"
+          className="rounded-md bg-card border-muted-foreground/20 px-3 py-2 text-sm text-foreground"
         >
           <option value="">Todas las categorias</option>
           {(Object.entries(CATEGORY_LABELS) as [MenuCategory, string][]).map(
@@ -752,14 +752,14 @@ export default function MenuEngineeringPage() {
         </select>
 
         {/* View mode toggle */}
-        <div className="flex rounded-lg overflow-hidden bg-[#1A1A1A]">
+        <div className="flex rounded-lg overflow-hidden bg-card">
           <button
             onClick={() => setViewMode("matriz")}
             className={cn(
               "px-4 py-2 text-sm font-medium transition-colors",
               viewMode === "matriz"
-                ? "bg-[#F97316] text-white"
-                : "text-[#A78B7D] hover:bg-[#222222] hover:text-[#E5E2E1]",
+                ? "bg-primary text-white"
+                : "text-muted-foreground hover:bg-card-hover hover:text-foreground",
             )}
           >
             Matriz
@@ -769,8 +769,8 @@ export default function MenuEngineeringPage() {
             className={cn(
               "px-4 py-2 text-sm font-medium transition-colors",
               viewMode === "tabla"
-                ? "bg-[#F97316] text-white"
-                : "text-[#A78B7D] hover:bg-[#222222] hover:text-[#E5E2E1]",
+                ? "bg-primary text-white"
+                : "text-muted-foreground hover:bg-card-hover hover:text-foreground",
             )}
           >
             Tabla
@@ -780,8 +780,8 @@ export default function MenuEngineeringPage() {
             className={cn(
               "px-4 py-2 text-sm font-medium transition-colors",
               viewMode === "recomendaciones"
-                ? "bg-[#F97316] text-white"
-                : "text-[#A78B7D] hover:bg-[#222222] hover:text-[#E5E2E1]",
+                ? "bg-primary text-white"
+                : "text-muted-foreground hover:bg-card-hover hover:text-foreground",
             )}
           >
             Recomendaciones

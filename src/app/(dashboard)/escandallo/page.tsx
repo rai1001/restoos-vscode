@@ -98,7 +98,7 @@ function DonutChart({ totalCost }: { totalCost: number }) {
         />
         {/* Inner circle for donut effect */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-24 h-24 rounded-full bg-[#1A1A1A] dark:bg-[#1A1A1A] bg-white flex flex-col items-center justify-center">
+          <div className="w-24 h-24 rounded-full bg-card dark:bg-card bg-white flex flex-col items-center justify-center">
             <span className="text-lg font-bold text-orange-500">{fmt(totalCost)}</span>
             <span className="text-[10px] text-gray-400 uppercase tracking-wide">Total</span>
           </div>
@@ -136,7 +136,7 @@ function KpiCard({
   borderColor?: string
 }) {
   return (
-    <div className="relative overflow-hidden rounded-xl bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[#2A2A2A]/30 p-5">
+    <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
       <div className={cn("absolute left-0 top-0 bottom-0 w-1", borderColor)} />
       <p className="text-[11px] uppercase tracking-widest text-gray-500 dark:text-gray-500 font-medium mb-2 pl-3">
         {label}
@@ -213,7 +213,7 @@ function DetailDialog({
 
   return (
     <Dialog open={open} onOpenChange={v => { if (!v) onClose() }}>
-      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto bg-white dark:bg-[#0A0A0A] border-gray-200 dark:border-[#2A2A2A]/30">
+      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto bg-white dark:bg-background border-gray-200 dark:border-accent/30">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg text-gray-900 dark:text-gray-100">
             <ChefHat className="h-5 w-5 text-orange-500" />
@@ -232,11 +232,11 @@ function DetailDialog({
         )}
 
         <Tabs defaultValue="ingredientes">
-          <TabsList className="mb-4 bg-gray-100 dark:bg-[#1A1A1A] border border-gray-200 dark:border-[#2A2A2A]/30">
-            <TabsTrigger value="ingredientes" className="data-[state=active]:bg-white dark:data-[state=active]:bg-[#2A2A2A] data-[state=active]:text-orange-500">
+          <TabsList className="mb-4 bg-gray-100 dark:bg-card border border-gray-200 dark:border-accent/30">
+            <TabsTrigger value="ingredientes" className="data-[state=active]:bg-white dark:data-[state=active]:bg-accent data-[state=active]:text-orange-500">
               Ingredientes
             </TabsTrigger>
-            <TabsTrigger value="evolucion" className="data-[state=active]:bg-white dark:data-[state=active]:bg-[#2A2A2A] data-[state=active]:text-orange-500">
+            <TabsTrigger value="evolucion" className="data-[state=active]:bg-white dark:data-[state=active]:bg-accent data-[state=active]:text-orange-500">
               Evolucion de Costes
             </TabsTrigger>
           </TabsList>
@@ -285,7 +285,7 @@ function DetailDialog({
                     "rounded-xl border p-3 transition-all",
                     voice.status === "listening"
                       ? "border-red-500/30 bg-red-500/5 dark:bg-red-950/20"
-                      : "border-dashed border-gray-300 dark:border-[#2A2A2A]/50"
+                      : "border-dashed border-gray-300 dark:border-accent/50"
                   )}>
                     <div className="flex items-center justify-between gap-3">
                       <div className="flex-1">
@@ -307,10 +307,10 @@ function DetailDialog({
                 )}
 
                 {/* Ingredients Table - Dark themed */}
-                <div className="rounded-xl border border-gray-200 dark:border-[#2A2A2A]/30 overflow-hidden bg-white dark:bg-[#1A1A1A]">
+                <div className="rounded-xl border border-gray-200 dark:border-accent/30 overflow-hidden bg-white dark:bg-card">
                   <Table>
                     <TableHeader>
-                      <TableRow className="bg-gray-50 dark:bg-[#1A1A1A] border-b border-gray-200 dark:border-[#2A2A2A]/30 hover:bg-gray-50 dark:hover:bg-[#1A1A1A]">
+                      <TableRow className="bg-gray-50 dark:bg-card border-b border-gray-200 dark:border-accent/30 hover:bg-gray-50 dark:hover:bg-card">
                         <TableHead className="text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-600 font-semibold">Ingrediente</TableHead>
                         <TableHead className="text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-600 font-semibold text-center">Unidad</TableHead>
                         <TableHead className="text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-600 font-semibold text-right">Cantidad</TableHead>
@@ -323,7 +323,7 @@ function DetailDialog({
                       {escandallo.ingredients.map(ing => {
                         const merma = 100 - ing.yield_pct
                         return (
-                          <TableRow key={ing.id} className="border-b border-gray-100 dark:border-[#2A2A2A]/20 hover:bg-gray-50 dark:hover:bg-[#1A1A1A]/80">
+                          <TableRow key={ing.id} className="border-b border-gray-100 dark:border-accent/20 hover:bg-gray-50 dark:hover:bg-card/80">
                             <TableCell className="font-medium text-gray-900 dark:text-gray-100">{ing.ingredient_name}</TableCell>
                             <TableCell className="text-center text-gray-500 dark:text-gray-500 text-sm">{ing.unit}</TableCell>
                             <TableCell className="text-right text-gray-700 dark:text-gray-300">{ing.quantity}</TableCell>
@@ -345,7 +345,7 @@ function DetailDialog({
                 </div>
 
                 {/* Footer summary */}
-                <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-200 dark:border-[#2A2A2A]/30 bg-gray-50 dark:bg-[#1A1A1A] px-4 py-3">
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-gray-200 dark:border-accent/30 bg-gray-50 dark:bg-card px-4 py-3">
                   <div className="flex gap-6 text-sm">
                     <span>
                       <span className="text-gray-500 dark:text-gray-500">Coste total: </span>
@@ -362,14 +362,14 @@ function DetailDialog({
                       </Badge>
                     </span>
                   </div>
-                  <Button variant="outline" size="sm" onClick={handleExportPDF} className="border-gray-300 dark:border-[#2A2A2A]/50 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2A2A2A]">
+                  <Button variant="outline" size="sm" onClick={handleExportPDF} className="border-gray-300 dark:border-accent/50 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-accent">
                     <FileText className="mr-2 h-4 w-4" />
                     Exportar PDF
                   </Button>
                 </div>
 
                 {/* Mise en Place section */}
-                <div className="rounded-xl border border-gray-200 dark:border-[#2A2A2A]/30 bg-white dark:bg-[#1A1A1A] p-5">
+                <div className="rounded-xl border border-gray-200 dark:border-accent/30 bg-white dark:bg-card p-5">
                   <h3 className="text-[11px] uppercase tracking-widest text-gray-500 dark:text-gray-500 font-semibold mb-4">
                     Mise en Place
                   </h3>
@@ -398,7 +398,7 @@ function DetailDialog({
               {/* Right column: col-span-4 */}
               <div className="lg:col-span-4 space-y-4">
                 {/* Donut Chart - Distribucion de Costes */}
-                <div className="rounded-xl border border-gray-200 dark:border-[#2A2A2A]/30 bg-white dark:bg-[#1A1A1A] p-5">
+                <div className="rounded-xl border border-gray-200 dark:border-accent/30 bg-white dark:bg-card p-5">
                   <h3 className="text-[11px] uppercase tracking-widest text-gray-500 dark:text-gray-500 font-semibold mb-4">
                     Distribucion de Costes
                   </h3>
@@ -406,7 +406,7 @@ function DetailDialog({
                 </div>
 
                 {/* Tip de Rentabilidad */}
-                <div className="rounded-xl border border-gray-200 dark:border-[#2A2A2A]/30 bg-white dark:bg-[#1A1A1A] p-5">
+                <div className="rounded-xl border border-gray-200 dark:border-accent/30 bg-white dark:bg-card p-5">
                   <div className="flex items-start gap-3">
                     <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-yellow-500/10 flex items-center justify-center">
                       <Lightbulb className="h-4 w-4 text-yellow-500" />
@@ -436,7 +436,7 @@ function DetailDialog({
                 </div>
 
                 {/* Allergens section */}
-                <div className="rounded-xl border border-gray-200 dark:border-[#2A2A2A]/30 bg-white dark:bg-[#1A1A1A] p-5">
+                <div className="rounded-xl border border-gray-200 dark:border-accent/30 bg-white dark:bg-card p-5">
                   <h3 className="text-[11px] uppercase tracking-widest text-gray-500 dark:text-gray-500 font-semibold mb-3">
                     Alergenos
                   </h3>
@@ -448,7 +448,7 @@ function DetailDialog({
                     ].map(({ icon: Icon, label }) => (
                       <div
                         key={label}
-                        className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-gray-50 dark:bg-[#2A2A2A]/30 border border-gray-200 dark:border-[#2A2A2A]/30 flex-1"
+                        className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-gray-50 dark:bg-accent/30 border border-gray-200 dark:border-accent/30 flex-1"
                       >
                         <Icon className="h-5 w-5 text-orange-500" />
                         <span className="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400 font-medium">{label}</span>
@@ -463,7 +463,7 @@ function DetailDialog({
           {/* ── Tab: Evolucion de Costes ── */}
           <TabsContent value="evolucion">
             <div className="space-y-4">
-              <div className="rounded-xl border border-gray-200 dark:border-[#2A2A2A]/30 bg-white dark:bg-[#1A1A1A] p-5">
+              <div className="rounded-xl border border-gray-200 dark:border-accent/30 bg-white dark:bg-card p-5">
                 <h3 className="mb-4 text-[11px] font-semibold text-gray-500 dark:text-gray-500 uppercase tracking-widest">
                   Coste por racion — ultimos 6 meses
                 </h3>
@@ -479,7 +479,7 @@ function DetailDialog({
                     </div>
 
                     {/* Chart area */}
-                    <div className="relative flex-1 border-b border-l border-gray-200 dark:border-[#2A2A2A]/50" style={{ height: 160 }}>
+                    <div className="relative flex-1 border-b border-l border-gray-200 dark:border-accent/50" style={{ height: 160 }}>
                       {/* Target cost dashed line */}
                       <div
                         className="absolute left-0 right-0 border-t-2 border-dashed border-orange-400 z-10"
@@ -526,20 +526,20 @@ function DetailDialog({
 
                 {/* Summary stat */}
                 <div className="mt-4 flex flex-wrap gap-3 text-sm">
-                  <div className="rounded-lg border border-gray-200 dark:border-[#2A2A2A]/30 bg-gray-50 dark:bg-[#1A1A1A] px-3 py-2">
+                  <div className="rounded-lg border border-gray-200 dark:border-accent/30 bg-gray-50 dark:bg-card px-3 py-2">
                     <span className="text-gray-500 dark:text-gray-500">Variacion 6 meses: </span>
                     <span className={cn("font-semibold", evolutionChangePct > 0 ? "text-red-400" : "text-green-400")}>
                       {evolutionChangePct > 0 ? "+" : ""}
                       {evolutionChangePct.toFixed(1)}%
                     </span>
                   </div>
-                  <div className="rounded-lg border border-gray-200 dark:border-[#2A2A2A]/30 bg-gray-50 dark:bg-[#1A1A1A] px-3 py-2">
+                  <div className="rounded-lg border border-gray-200 dark:border-accent/30 bg-gray-50 dark:bg-card px-3 py-2">
                     <span className="text-gray-500 dark:text-gray-500">Food cost actual: </span>
                     <Badge variant="outline" className={cn("text-xs", foodCostColor(escandallo.food_cost_pct))}>
                       {escandallo.food_cost_pct.toFixed(1)}%
                     </Badge>
                   </div>
-                  <div className="rounded-lg border border-gray-200 dark:border-[#2A2A2A]/30 bg-gray-50 dark:bg-[#1A1A1A] px-3 py-2">
+                  <div className="rounded-lg border border-gray-200 dark:border-accent/30 bg-gray-50 dark:bg-card px-3 py-2">
                     <span className="text-gray-500 dark:text-gray-500">Objetivo: </span>
                     <span className="font-semibold text-gray-900 dark:text-gray-100">{escandallo.target_food_cost_pct}%</span>
                   </div>
@@ -589,7 +589,7 @@ export default function EscandalloPage() {
         </div>
         <div className="flex gap-2">
           <Link href="/escandallo/multi-local">
-            <Button variant="outline" className="border-[#333]">
+            <Button variant="outline" className="border-border-subtle">
               <Building2 className="mr-1 h-4 w-4" />
               Multi-Local
             </Button>
@@ -616,7 +616,7 @@ export default function EscandalloPage() {
 
       {/* ── Summary KPI Cards with colored left border ── */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="relative overflow-hidden rounded-xl bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[#2A2A2A]/30 p-5">
+        <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
           <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500" />
           <div className="pl-3">
             <div className="flex items-center gap-2 mb-2">
@@ -629,7 +629,7 @@ export default function EscandalloPage() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-xl bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[#2A2A2A]/30 p-5">
+        <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
           <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500" />
           <div className="pl-3">
             <div className="flex items-center gap-2 mb-2">
@@ -642,7 +642,7 @@ export default function EscandalloPage() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-xl bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[#2A2A2A]/30 p-5">
+        <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
           <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-500" />
           <div className="pl-3">
             <div className="flex items-center gap-2 mb-2">
@@ -660,7 +660,7 @@ export default function EscandalloPage() {
           </div>
         </div>
 
-        <div className="relative overflow-hidden rounded-xl bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-[#2A2A2A]/30 p-5">
+        <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
           <div className={cn("absolute left-0 top-0 bottom-0 w-1", alertCount > 0 ? "bg-red-500" : "bg-green-500")} />
           <div className="pl-3">
             <div className="flex items-center gap-2 mb-2">
@@ -677,10 +677,10 @@ export default function EscandalloPage() {
       </div>
 
       {/* ── Recipes Table - Premium dark styled ── */}
-      <div className="rounded-xl border border-gray-200 dark:border-[#2A2A2A]/30 overflow-hidden bg-white dark:bg-[#1A1A1A]">
+      <div className="rounded-xl border border-gray-200 dark:border-accent/30 overflow-hidden bg-white dark:bg-card">
         <Table>
           <TableHeader>
-            <TableRow className="bg-gray-50 dark:bg-[#1A1A1A] border-b border-gray-200 dark:border-[#2A2A2A]/30 hover:bg-gray-50 dark:hover:bg-[#1A1A1A]">
+            <TableRow className="bg-gray-50 dark:bg-card border-b border-gray-200 dark:border-accent/30 hover:bg-gray-50 dark:hover:bg-card">
               <TableHead className="text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-600 font-semibold">Receta</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-600 font-semibold">Categoria</TableHead>
               <TableHead className="text-[10px] uppercase tracking-widest text-gray-400 dark:text-gray-600 font-semibold text-right">Porciones</TableHead>
@@ -705,7 +705,7 @@ export default function EscandalloPage() {
                   : "text-gray-500 dark:text-gray-400"
 
               return (
-                <TableRow key={recipe.id} className="border-b border-gray-100 dark:border-[#2A2A2A]/20 hover:bg-gray-50 dark:hover:bg-[#2A2A2A]/20 transition-colors">
+                <TableRow key={recipe.id} className="border-b border-gray-100 dark:border-accent/20 hover:bg-gray-50 dark:hover:bg-accent/20 transition-colors">
                   <TableCell className="font-medium max-w-[220px] text-gray-900 dark:text-gray-100">
                     <span className="flex items-center gap-1.5 truncate">
                       <ChefHat className="h-3.5 w-3.5 flex-shrink-0 text-orange-500/50" />
@@ -713,7 +713,7 @@ export default function EscandalloPage() {
                     </span>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline" className="text-xs font-normal border-gray-200 dark:border-[#2A2A2A]/50 text-gray-600 dark:text-gray-400">
+                    <Badge variant="outline" className="text-xs font-normal border-gray-200 dark:border-accent/50 text-gray-600 dark:text-gray-400">
                       {recipe.category}
                     </Badge>
                   </TableCell>
@@ -741,7 +741,7 @@ export default function EscandalloPage() {
                       variant="outline"
                       size="sm"
                       onClick={() => setSelectedId(recipe.id)}
-                      className="border-gray-200 dark:border-[#2A2A2A]/50 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2A2A2A] hover:text-orange-500 transition-colors text-xs"
+                      className="border-gray-200 dark:border-accent/50 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-accent hover:text-orange-500 transition-colors text-xs"
                     >
                       Ver detalle
                     </Button>

@@ -209,7 +209,7 @@ const darkGridProps = { strokeDasharray: "3 3", stroke: "rgba(255,255,255,0.06)"
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">
+    <h2 className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
       {children}
     </h2>
   )
@@ -266,7 +266,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 function CategoryBadge({ cat }: { cat: string }) {
   return (
-    <span className={cn("inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium", CATEGORY_COLORS[cat] ?? "bg-[#2A2A2A] text-[#A78B7D]")}>
+    <span className={cn("inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium", CATEGORY_COLORS[cat] ?? "bg-accent text-muted-foreground")}>
       {cat}
     </span>
   )
@@ -294,12 +294,12 @@ function KpiCard({
   borderColor?: string
 }) {
   return (
-    <div className={cn("rounded-lg border-l-4 bg-[#1A1A1A] p-4 transition-colors hover:bg-[#222222]", borderColor)}>
-      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">
+    <div className={cn("rounded-lg border-l-4 bg-card p-4 transition-colors hover:bg-card-hover", borderColor)}>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
         {title}
       </p>
-      <p className="mt-1 text-2xl font-bold text-[#E5E2E1]">{value}</p>
-      {sub && <p className="mt-0.5 text-xs text-[#A78B7D]">{sub}</p>}
+      <p className="mt-1 text-2xl font-bold text-foreground">{value}</p>
+      {sub && <p className="mt-0.5 text-xs text-muted-foreground">{sub}</p>}
     </div>
   )
 }
@@ -308,7 +308,7 @@ function KpiCard({
 
 function MCard({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={cn("rounded-lg bg-[#1A1A1A] p-5", className)}>
+    <div className={cn("rounded-lg bg-card p-5", className)}>
       {children}
     </div>
   )
@@ -316,7 +316,7 @@ function MCard({ children, className }: { children: React.ReactNode; className?:
 
 function MCardTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="mb-4 text-sm font-semibold text-[#E5E2E1]">{children}</h3>
+    <h3 className="mb-4 text-sm font-semibold text-foreground">{children}</h3>
   )
 }
 
@@ -342,12 +342,12 @@ function HallazgoCard({
     optimization: <BarChart3 className="h-4 w-4 text-blue-400" />,
   }
   return (
-    <div className={cn("rounded-lg border-l-4 bg-[#1A1A1A] p-4", borderMap[type])}>
+    <div className={cn("rounded-lg border-l-4 bg-card p-4", borderMap[type])}>
       <div className="flex items-start gap-2">
         {iconMap[type]}
         <div>
-          <p className="text-sm font-semibold text-[#E5E2E1]">{title}</p>
-          <p className="mt-0.5 text-xs text-[#A78B7D]">{description}</p>
+          <p className="text-sm font-semibold text-foreground">{title}</p>
+          <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>
         </div>
       </div>
     </div>
@@ -369,7 +369,7 @@ function PeriodSelector({
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="print:hidden h-9 rounded-md border border-[rgba(88,66,55,0.15)] bg-[#1A1A1A] px-3 py-1 text-sm text-[#E5E2E1] shadow-sm focus:outline-none focus:ring-1 focus:ring-[#F97316]"
+      className="print:hidden h-9 rounded-md border border-[rgba(88,66,55,0.15)] bg-card px-3 py-1 text-sm text-foreground shadow-sm focus:outline-none focus:ring-1 focus:ring-primary"
     >
       {PERIODS.map((p) => (
         <option key={p} value={p}>
@@ -569,15 +569,15 @@ export default function ReportsPage() {
       {/* -- Page header (Stitch Matte) -- */}
       <div className="flex flex-col gap-1 print:hidden">
         <SectionLabel>CUADRO DE MANDO Y GESTION</SectionLabel>
-        <h1 className="text-3xl font-bold tracking-tight text-[#E5E2E1]">
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">
           Informes y Analitica
         </h1>
       </div>
 
       {/* -- Print-only title -- */}
       <div className="hidden print:block mb-4">
-        <h1 className="text-xl font-bold text-[#E5E2E1]">RestoOS — Informes y Analitica</h1>
-        <p className="text-sm text-[#A78B7D]">
+        <h1 className="text-xl font-bold text-foreground">RestoOS — Informes y Analitica</h1>
+        <p className="text-sm text-muted-foreground">
           Periodo: {period}
         </p>
       </div>
@@ -585,14 +585,14 @@ export default function ReportsPage() {
       {/* -- Toolbar: date selector + export -- */}
       <div className="flex items-center justify-between gap-3 print:hidden">
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 rounded-lg bg-[#1A1A1A] px-3 py-2">
-            <button className="text-[#A78B7D] hover:text-[#E5E2E1] transition-colors">
+          <div className="flex items-center gap-2 rounded-lg bg-card px-3 py-2">
+            <button className="text-muted-foreground hover:text-foreground transition-colors">
               <ChevronLeft className="h-4 w-4" />
             </button>
-            <span className="text-sm font-medium text-[#E5E2E1] min-w-[120px] text-center">
+            <span className="text-sm font-medium text-foreground min-w-[120px] text-center">
               Octubre 2023
             </span>
-            <button className="text-[#A78B7D] hover:text-[#E5E2E1] transition-colors">
+            <button className="text-muted-foreground hover:text-foreground transition-colors">
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>
@@ -600,7 +600,7 @@ export default function ReportsPage() {
         </div>
         <button
           onClick={() => printReport("Informes")}
-          className="flex items-center gap-2 rounded-lg bg-[#F97316] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#EA6C0E]"
+          className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary/90"
         >
           <FileDown className="h-4 w-4" />
           Exportar PDF
@@ -609,20 +609,20 @@ export default function ReportsPage() {
 
       {/* -- Tabs -- */}
       <Tabs defaultValue="food-cost" className="w-full">
-        <TabsList className="print:hidden mb-4 bg-[#1A1A1A] border border-[rgba(88,66,55,0.15)]">
-          <TabsTrigger value="food-cost" className="gap-2 data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">
+        <TabsList className="print:hidden mb-4 bg-card border border-[rgba(88,66,55,0.15)]">
+          <TabsTrigger value="food-cost" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-white text-muted-foreground">
             <TrendingUp className="h-4 w-4" />
             Food Cost
           </TabsTrigger>
-          <TabsTrigger value="purchases" className="gap-2 data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">
+          <TabsTrigger value="purchases" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-white text-muted-foreground">
             <ShoppingCart className="h-4 w-4" />
             Compras
           </TabsTrigger>
-          <TabsTrigger value="profitability" className="gap-2 data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">
+          <TabsTrigger value="profitability" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-white text-muted-foreground">
             <BarChart3 className="h-4 w-4" />
             Rentabilidad
           </TabsTrigger>
-          <TabsTrigger value="waste" className="gap-2 data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">
+          <TabsTrigger value="waste" className="gap-2 data-[state=active]:bg-primary data-[state=active]:text-white text-muted-foreground">
             <Trash2 className="h-4 w-4" />
             Mermas
           </TabsTrigger>
@@ -633,7 +633,7 @@ export default function ReportsPage() {
         ================================================================ */}
         <TabsContent value="food-cost" className="space-y-6 print:block">
           {/* Print section title */}
-          <h2 className="hidden print:block text-lg font-semibold mb-2 text-[#E5E2E1]">
+          <h2 className="hidden print:block text-lg font-semibold mb-2 text-foreground">
             Informe Food Cost
           </h2>
 
@@ -675,8 +675,8 @@ export default function ReportsPage() {
                   className={cn(
                     "rounded-md px-3 py-1 text-xs font-semibold uppercase tracking-wider transition-colors",
                     foodCostRange === "6m"
-                      ? "bg-[#F97316] text-white"
-                      : "bg-[#2A2A2A] text-[#A78B7D] hover:text-[#E5E2E1]"
+                      ? "bg-primary text-white"
+                      : "bg-accent text-muted-foreground hover:text-foreground"
                   )}
                 >
                   6 Meses
@@ -686,8 +686,8 @@ export default function ReportsPage() {
                   className={cn(
                     "rounded-md px-3 py-1 text-xs font-semibold uppercase tracking-wider transition-colors",
                     foodCostRange === "12m"
-                      ? "bg-[#F97316] text-white"
-                      : "bg-[#2A2A2A] text-[#A78B7D] hover:text-[#E5E2E1]"
+                      ? "bg-primary text-white"
+                      : "bg-accent text-muted-foreground hover:text-foreground"
                   )}
                 >
                   12 Meses
@@ -711,7 +711,7 @@ export default function ReportsPage() {
                 <Area type="monotone" dataKey="foodCostPct" stroke={T.primary} strokeWidth={2.5} fill="url(#fcGrad)" dot={{ fill: T.primary, r: 4, strokeWidth: 0 }} activeDot={{ r: 6 }} name="Food Cost %" />
               </AreaChart>
             </ResponsiveContainer>
-            <div className="mt-2 flex items-center gap-4 text-[10px] text-[#A78B7D]">
+            <div className="mt-2 flex items-center gap-4 text-[10px] text-muted-foreground">
               <span className="flex items-center gap-1"><span className="inline-block h-2 w-2 rounded-full bg-green-500/40" /> &lt;30% Optimo</span>
               <span className="flex items-center gap-1"><span className="inline-block h-2 w-2 rounded-full bg-red-500/40" /> &gt;35% Alerta</span>
             </div>
@@ -725,14 +725,14 @@ export default function ReportsPage() {
               <div className="space-y-3">
                 {paretoMermas.map((item) => (
                   <div key={item.name} className="flex items-center gap-3">
-                    <span className="w-20 text-xs text-[#A78B7D] text-right">{item.name}</span>
-                    <div className="flex-1 h-6 rounded bg-[#2A2A2A] relative overflow-hidden">
+                    <span className="w-20 text-xs text-muted-foreground text-right">{item.name}</span>
+                    <div className="flex-1 h-6 rounded bg-accent relative overflow-hidden">
                       <div
                         className="h-full rounded bg-gradient-to-r from-[#F97316] to-[#F97316]/60"
                         style={{ width: `${item.pct}%` }}
                       />
                     </div>
-                    <span className="w-10 text-xs font-semibold text-[#E5E2E1] text-right">{item.pct}%</span>
+                    <span className="w-10 text-xs font-semibold text-foreground text-right">{item.pct}%</span>
                   </div>
                 ))}
               </div>
@@ -747,17 +747,17 @@ export default function ReportsPage() {
                 </h3>
               </div>
               <div className="space-y-3">
-                <div className="rounded-lg bg-[#2A2A2A] p-3">
-                  <p className="text-xs font-semibold text-[#E5E2E1]">Food Cost por encima del objetivo</p>
-                  <p className="text-xs text-[#A78B7D] mt-1">El food cost actual ({formatPercent(avgFoodCostPct)}) supera el objetivo del 30%. Revisar costes de carnes y pescados.</p>
+                <div className="rounded-lg bg-accent p-3">
+                  <p className="text-xs font-semibold text-foreground">Food Cost por encima del objetivo</p>
+                  <p className="text-xs text-muted-foreground mt-1">El food cost actual ({formatPercent(avgFoodCostPct)}) supera el objetivo del 30%. Revisar costes de carnes y pescados.</p>
                 </div>
-                <div className="rounded-lg bg-[#2A2A2A] p-3">
-                  <p className="text-xs font-semibold text-[#E5E2E1]">Merma elevada en fin de semana</p>
-                  <p className="text-xs text-[#A78B7D] mt-1">Las mermas del sabado superan los 8kg. Ajustar previsiones de produccion para servicio de fin de semana.</p>
+                <div className="rounded-lg bg-accent p-3">
+                  <p className="text-xs font-semibold text-foreground">Merma elevada en fin de semana</p>
+                  <p className="text-xs text-muted-foreground mt-1">Las mermas del sabado superan los 8kg. Ajustar previsiones de produccion para servicio de fin de semana.</p>
                 </div>
-                <div className="rounded-lg bg-[#2A2A2A] p-3">
-                  <p className="text-xs font-semibold text-[#E5E2E1]">Variacion en coste de proveedores</p>
-                  <p className="text-xs text-[#A78B7D] mt-1">Carnes Ruiz ha incrementado precios un 5.2% en diciembre. Evaluar alternativas.</p>
+                <div className="rounded-lg bg-accent p-3">
+                  <p className="text-xs font-semibold text-foreground">Variacion en coste de proveedores</p>
+                  <p className="text-xs text-muted-foreground mt-1">Carnes Ruiz ha incrementado precios un 5.2% en diciembre. Evaluar alternativas.</p>
                 </div>
               </div>
             </MCard>
@@ -789,8 +789,8 @@ export default function ReportsPage() {
             <MCardTitle>Comparativa Ventas vs Objetivos</MCardTitle>
             <div className="flex items-end gap-6">
               <div>
-                <p className="text-4xl font-bold text-[#E5E2E1]">€{(totalRevenue).toLocaleString("es-ES")}</p>
-                <p className="mt-1 text-xs text-[#A78B7D]">Ventas acumuladas del periodo</p>
+                <p className="text-4xl font-bold text-foreground">€{(totalRevenue).toLocaleString("es-ES")}</p>
+                <p className="mt-1 text-xs text-muted-foreground">Ventas acumuladas del periodo</p>
               </div>
               <div className="flex items-center gap-1.5 rounded-full bg-green-900/30 px-3 py-1">
                 <ArrowUpRight className="h-3.5 w-3.5 text-green-400" />
@@ -825,14 +825,14 @@ export default function ReportsPage() {
           <div className="flex gap-2 print:hidden">
             <button
               onClick={exportFoodCostCSV}
-              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-[#1A1A1A] px-4 py-2 text-xs font-semibold text-[#A78B7D] transition-colors hover:bg-[#222222] hover:text-[#E5E2E1]"
+              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-card px-4 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-card-hover hover:text-foreground"
             >
               <FileDown className="h-3.5 w-3.5" />
               Exportar CSV
             </button>
             <button
               onClick={() => printReport("Food Cost")}
-              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-[#1A1A1A] px-4 py-2 text-xs font-semibold text-[#A78B7D] transition-colors hover:bg-[#222222] hover:text-[#E5E2E1]"
+              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-card px-4 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-card-hover hover:text-foreground"
             >
               <Printer className="h-3.5 w-3.5" />
               Imprimir PDF
@@ -844,27 +844,27 @@ export default function ReportsPage() {
             <Table>
               <TableHeader>
                 <TableRow className="border-b border-[rgba(88,66,55,0.15)] hover:bg-transparent">
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Periodo</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Ingresos</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Coste alim.</TableHead>
-                  <TableHead className="text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Food cost %</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Eventos</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Periodo</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Ingresos</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Coste alim.</TableHead>
+                  <TableHead className="text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Food cost %</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Eventos</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {MOCK_FOOD_COST_REPORT.map((row) => (
-                  <TableRow key={row.period} className="border-b border-[rgba(88,66,55,0.08)] hover:bg-[#222222]">
-                    <TableCell className="font-medium text-[#E5E2E1]">{row.period}</TableCell>
-                    <TableCell className="text-right text-[#E5E2E1]">
+                  <TableRow key={row.period} className="border-b border-[rgba(88,66,55,0.08)] hover:bg-card-hover">
+                    <TableCell className="font-medium text-foreground">{row.period}</TableCell>
+                    <TableCell className="text-right text-foreground">
                       {formatCurrency(row.revenue)}
                     </TableCell>
-                    <TableCell className="text-right text-[#E5E2E1]">
+                    <TableCell className="text-right text-foreground">
                       {formatCurrency(row.food_cost)}
                     </TableCell>
                     <TableCell className="text-center">
                       <FoodCostBadge pct={row.food_cost_pct} />
                     </TableCell>
-                    <TableCell className="text-right text-[#A78B7D]">{row.events}</TableCell>
+                    <TableCell className="text-right text-muted-foreground">{row.events}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -878,22 +878,22 @@ export default function ReportsPage() {
               <Table>
                 <TableHeader>
                   <TableRow className="border-b border-[rgba(88,66,55,0.15)] hover:bg-transparent">
-                    <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Plato</TableHead>
-                    <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Categoria</TableHead>
-                    <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Ventas (uds)</TableHead>
-                    <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Coste Unit</TableHead>
-                    <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Precio VTA</TableHead>
-                    <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Margen %</TableHead>
+                    <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Plato</TableHead>
+                    <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Categoria</TableHead>
+                    <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Ventas (uds)</TableHead>
+                    <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Coste Unit</TableHead>
+                    <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Precio VTA</TableHead>
+                    <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Margen %</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {menuEngineering.map((row) => (
-                    <TableRow key={row.plato} className="border-b border-[rgba(88,66,55,0.08)] hover:bg-[#222222]">
-                      <TableCell className="font-medium text-[#E5E2E1]">{row.plato}</TableCell>
+                    <TableRow key={row.plato} className="border-b border-[rgba(88,66,55,0.08)] hover:bg-card-hover">
+                      <TableCell className="font-medium text-foreground">{row.plato}</TableCell>
                       <TableCell><CategoryBadge cat={row.categoria} /></TableCell>
-                      <TableCell className="text-right text-[#E5E2E1]">{row.ventas}</TableCell>
-                      <TableCell className="text-right text-[#A78B7D]">€{row.costeUnit.toFixed(2)}</TableCell>
-                      <TableCell className="text-right text-[#E5E2E1]">€{row.precioVta.toFixed(2)}</TableCell>
+                      <TableCell className="text-right text-foreground">{row.ventas}</TableCell>
+                      <TableCell className="text-right text-muted-foreground">€{row.costeUnit.toFixed(2)}</TableCell>
+                      <TableCell className="text-right text-foreground">€{row.precioVta.toFixed(2)}</TableCell>
                       <TableCell className={cn("text-right font-semibold", marginColor(row.margenPct))}>
                         {row.margenPct.toFixed(1)}%
                       </TableCell>
@@ -909,7 +909,7 @@ export default function ReportsPage() {
             TAB: Purchases
         ================================================================ */}
         <TabsContent value="purchases" className="space-y-6 print:block">
-          <h2 className="hidden print:block text-lg font-semibold mb-2 text-[#E5E2E1]">
+          <h2 className="hidden print:block text-lg font-semibold mb-2 text-foreground">
             Informe Compras
           </h2>
 
@@ -992,14 +992,14 @@ export default function ReportsPage() {
           <div className="flex gap-2 print:hidden">
             <button
               onClick={exportPurchasesCSV}
-              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-[#1A1A1A] px-4 py-2 text-xs font-semibold text-[#A78B7D] transition-colors hover:bg-[#222222] hover:text-[#E5E2E1]"
+              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-card px-4 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-card-hover hover:text-foreground"
             >
               <FileDown className="h-3.5 w-3.5" />
               Exportar CSV
             </button>
             <button
               onClick={() => printReport("Compras")}
-              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-[#1A1A1A] px-4 py-2 text-xs font-semibold text-[#A78B7D] transition-colors hover:bg-[#222222] hover:text-[#E5E2E1]"
+              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-card px-4 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-card-hover hover:text-foreground"
             >
               <Printer className="h-3.5 w-3.5" />
               Imprimir PDF
@@ -1011,34 +1011,34 @@ export default function ReportsPage() {
             <Table>
               <TableHeader>
                 <TableRow className="border-b border-[rgba(88,66,55,0.15)] hover:bg-transparent">
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Proveedor</TableHead>
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Categoria</TableHead>
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Producto</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Cantidad</TableHead>
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Ud.</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">P. unit.</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Total</TableHead>
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Fecha</TableHead>
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Estado</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Proveedor</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Categoria</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Producto</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Cantidad</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Ud.</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">P. unit.</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Total</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Fecha</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Estado</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {MOCK_PURCHASE_REPORT.map((row, i) => (
-                  <TableRow key={i} className="border-b border-[rgba(88,66,55,0.08)] hover:bg-[#222222]">
-                    <TableCell className="font-medium text-[#E5E2E1]">
+                  <TableRow key={i} className="border-b border-[rgba(88,66,55,0.08)] hover:bg-card-hover">
+                    <TableCell className="font-medium text-foreground">
                       {row.supplier}
                     </TableCell>
-                    <TableCell className="text-[#A78B7D]">{row.category}</TableCell>
-                    <TableCell className="text-[#E5E2E1]">{row.product}</TableCell>
-                    <TableCell className="text-right text-[#E5E2E1]">{row.quantity}</TableCell>
-                    <TableCell className="text-[#A78B7D]">{row.unit}</TableCell>
-                    <TableCell className="text-right text-[#A78B7D]">
+                    <TableCell className="text-muted-foreground">{row.category}</TableCell>
+                    <TableCell className="text-foreground">{row.product}</TableCell>
+                    <TableCell className="text-right text-foreground">{row.quantity}</TableCell>
+                    <TableCell className="text-muted-foreground">{row.unit}</TableCell>
+                    <TableCell className="text-right text-muted-foreground">
                       {formatCurrency(row.unit_price)}
                     </TableCell>
-                    <TableCell className="text-right font-medium text-[#E5E2E1]">
+                    <TableCell className="text-right font-medium text-foreground">
                       {formatCurrency(row.total)}
                     </TableCell>
-                    <TableCell className="text-sm text-[#A78B7D]">
+                    <TableCell className="text-sm text-muted-foreground">
                       {row.date}
                     </TableCell>
                     <TableCell>
@@ -1055,7 +1055,7 @@ export default function ReportsPage() {
             TAB: Profitability
         ================================================================ */}
         <TabsContent value="profitability" className="space-y-6 print:block">
-          <h2 className="hidden print:block text-lg font-semibold mb-2 text-[#E5E2E1]">
+          <h2 className="hidden print:block text-lg font-semibold mb-2 text-foreground">
             Informe Rentabilidad por Evento
           </h2>
 
@@ -1125,14 +1125,14 @@ export default function ReportsPage() {
           <div className="flex gap-2 print:hidden">
             <button
               onClick={exportProfitabilityCSV}
-              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-[#1A1A1A] px-4 py-2 text-xs font-semibold text-[#A78B7D] transition-colors hover:bg-[#222222] hover:text-[#E5E2E1]"
+              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-card px-4 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-card-hover hover:text-foreground"
             >
               <FileDown className="h-3.5 w-3.5" />
               Exportar CSV
             </button>
             <button
               onClick={() => printReport("Rentabilidad Eventos")}
-              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-[#1A1A1A] px-4 py-2 text-xs font-semibold text-[#A78B7D] transition-colors hover:bg-[#222222] hover:text-[#E5E2E1]"
+              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-card px-4 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-card-hover hover:text-foreground"
             >
               <Printer className="h-3.5 w-3.5" />
               Imprimir PDF
@@ -1144,47 +1144,47 @@ export default function ReportsPage() {
             <Table>
               <TableHeader>
                 <TableRow className="border-b border-[rgba(88,66,55,0.15)] hover:bg-transparent">
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Evento</TableHead>
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Fecha</TableHead>
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Tipo</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Comensales</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Ingresos</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">C. teorico</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">C. real</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Margen</TableHead>
-                  <TableHead className="text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">%</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Evento</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Fecha</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Tipo</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Comensales</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Ingresos</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">C. teorico</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">C. real</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Margen</TableHead>
+                  <TableHead className="text-center text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">%</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {MOCK_PROFITABILITY_REPORT.map((row) => {
                   const overBudget = row.real_cost > row.theoretical_cost
                   return (
-                    <TableRow key={row.event_name} className="border-b border-[rgba(88,66,55,0.08)] hover:bg-[#222222]">
-                      <TableCell className="font-medium text-[#E5E2E1]">
+                    <TableRow key={row.event_name} className="border-b border-[rgba(88,66,55,0.08)] hover:bg-card-hover">
+                      <TableCell className="font-medium text-foreground">
                         {row.event_name}
                       </TableCell>
-                      <TableCell className="text-sm text-[#A78B7D]">
+                      <TableCell className="text-sm text-muted-foreground">
                         {row.event_date}
                       </TableCell>
                       <TableCell>
-                        <span className="inline-flex items-center rounded-full border border-[rgba(88,66,55,0.15)] px-2.5 py-0.5 text-xs text-[#A78B7D]">{row.event_type}</span>
+                        <span className="inline-flex items-center rounded-full border border-[rgba(88,66,55,0.15)] px-2.5 py-0.5 text-xs text-muted-foreground">{row.event_type}</span>
                       </TableCell>
-                      <TableCell className="text-right text-[#E5E2E1]">{row.guests}</TableCell>
-                      <TableCell className="text-right text-[#E5E2E1]">
+                      <TableCell className="text-right text-foreground">{row.guests}</TableCell>
+                      <TableCell className="text-right text-foreground">
                         {formatCurrency(row.revenue)}
                       </TableCell>
-                      <TableCell className="text-right text-[#A78B7D]">
+                      <TableCell className="text-right text-muted-foreground">
                         {formatCurrency(row.theoretical_cost)}
                       </TableCell>
                       <TableCell
                         className={cn(
                           "text-right font-medium",
-                          overBudget ? "text-red-400" : "text-[#E5E2E1]"
+                          overBudget ? "text-red-400" : "text-foreground"
                         )}
                       >
                         {formatCurrency(row.real_cost)}
                       </TableCell>
-                      <TableCell className="text-right font-semibold text-[#E5E2E1]">
+                      <TableCell className="text-right font-semibold text-foreground">
                         {formatCurrency(row.margin)}
                       </TableCell>
                       <TableCell className="text-center">
@@ -1204,7 +1204,7 @@ export default function ReportsPage() {
             TAB: Waste
         ================================================================ */}
         <TabsContent value="waste" className="space-y-6 print:block">
-          <h2 className="hidden print:block text-lg font-semibold mb-2 text-[#E5E2E1]">
+          <h2 className="hidden print:block text-lg font-semibold mb-2 text-foreground">
             Informe Mermas
           </h2>
 
@@ -1277,14 +1277,14 @@ export default function ReportsPage() {
           <div className="flex gap-2 print:hidden">
             <button
               onClick={exportWasteCSV}
-              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-[#1A1A1A] px-4 py-2 text-xs font-semibold text-[#A78B7D] transition-colors hover:bg-[#222222] hover:text-[#E5E2E1]"
+              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-card px-4 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-card-hover hover:text-foreground"
             >
               <FileDown className="h-3.5 w-3.5" />
               Exportar CSV
             </button>
             <button
               onClick={() => printReport("Mermas")}
-              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-[#1A1A1A] px-4 py-2 text-xs font-semibold text-[#A78B7D] transition-colors hover:bg-[#222222] hover:text-[#E5E2E1]"
+              className="flex items-center gap-2 rounded-lg border border-[rgba(88,66,55,0.15)] bg-card px-4 py-2 text-xs font-semibold text-muted-foreground transition-colors hover:bg-card-hover hover:text-foreground"
             >
               <Printer className="h-3.5 w-3.5" />
               Imprimir PDF
@@ -1296,35 +1296,35 @@ export default function ReportsPage() {
             <Table>
               <TableHeader>
                 <TableRow className="border-b border-[rgba(88,66,55,0.15)] hover:bg-transparent">
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Fecha</TableHead>
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Producto</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Cantidad</TableHead>
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Ud.</TableHead>
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Motivo</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Coste unit.</TableHead>
-                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Perdida total</TableHead>
-                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#A78B7D]">Registrado por</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Fecha</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Producto</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Cantidad</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Ud.</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Motivo</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Coste unit.</TableHead>
+                  <TableHead className="text-right text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Perdida total</TableHead>
+                  <TableHead className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Registrado por</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {MOCK_WASTE_REPORT.map((row, i) => (
-                  <TableRow key={i} className="border-b border-[rgba(88,66,55,0.08)] hover:bg-[#222222]">
-                    <TableCell className="text-sm text-[#A78B7D]">
+                  <TableRow key={i} className="border-b border-[rgba(88,66,55,0.08)] hover:bg-card-hover">
+                    <TableCell className="text-sm text-muted-foreground">
                       {row.date}
                     </TableCell>
-                    <TableCell className="font-medium text-[#E5E2E1]">{row.product}</TableCell>
-                    <TableCell className="text-right text-[#E5E2E1]">{row.quantity}</TableCell>
-                    <TableCell className="text-[#A78B7D]">{row.unit}</TableCell>
+                    <TableCell className="font-medium text-foreground">{row.product}</TableCell>
+                    <TableCell className="text-right text-foreground">{row.quantity}</TableCell>
+                    <TableCell className="text-muted-foreground">{row.unit}</TableCell>
                     <TableCell>
-                      <span className="inline-flex items-center rounded-full bg-[#2A2A2A] px-2.5 py-0.5 text-xs text-[#A78B7D]">{row.reason}</span>
+                      <span className="inline-flex items-center rounded-full bg-accent px-2.5 py-0.5 text-xs text-muted-foreground">{row.reason}</span>
                     </TableCell>
-                    <TableCell className="text-right text-[#A78B7D]">
+                    <TableCell className="text-right text-muted-foreground">
                       {formatCurrency(row.cost_per_unit)}
                     </TableCell>
                     <TableCell className="text-right font-semibold text-red-400">
                       {formatCurrency(row.total_cost)}
                     </TableCell>
-                    <TableCell className="text-sm text-[#A78B7D]">
+                    <TableCell className="text-sm text-muted-foreground">
                       {row.recorded_by}
                     </TableCell>
                   </TableRow>

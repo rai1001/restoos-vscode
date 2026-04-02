@@ -63,19 +63,6 @@ import {
   formatPercent,
 } from "@/lib/chart-config";
 
-// ── Design tokens ────────────────────────────────────────────────────────────
-
-const T = {
-  bg: "#0A0A0A",
-  card: "#1A1A1A",
-  cardHover: "#222222",
-  sidebar: "#111111",
-  primary: "#F97316",
-  text: "#E5E2E1",
-  textSecondary: "#A78B7D",
-  ghostBorder: "rgba(88, 66, 55, 0.15)",
-} as const;
-
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 const hour = new Date().getHours();
@@ -96,7 +83,7 @@ function capitalize(s: string) {
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-sm font-semibold uppercase tracking-widest text-[#A78B7D]">
+    <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
       {children}
     </h2>
   );
@@ -121,7 +108,7 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
 function TrendPill({ trend, inverted }: { trend: number; inverted?: boolean }) {
   if (trend === 0) {
     return (
-      <span className="inline-flex items-center rounded-full bg-[#2A2A2A] px-2 py-0.5 text-xs font-medium text-[#A78B7D]">
+      <span className="inline-flex items-center rounded-full bg-accent px-2 py-0.5 text-xs font-medium text-muted-foreground">
         —
       </span>
     );
@@ -176,7 +163,7 @@ function KpiCard({ kpi, large }: { kpi: KpiMetric; large?: boolean }) {
   return (
     <div
       className={cn(
-        "rounded-lg bg-[#1A1A1A] transition-colors hover:bg-[#222222]",
+        "rounded-lg bg-card transition-colors hover:bg-card-hover",
         large ? "p-5" : "p-4"
       )}
     >
@@ -195,9 +182,9 @@ function KpiCard({ kpi, large }: { kpi: KpiMetric; large?: boolean }) {
       >
         {kpi.value}
       </p>
-      <p className="mt-1 text-sm font-medium text-[#E5E2E1]">{kpi.label}</p>
+      <p className="mt-1 text-sm font-medium text-foreground">{kpi.label}</p>
       {kpi.subvalue && (
-        <p className="mt-0.5 text-xs text-[#A78B7D]">{kpi.subvalue}</p>
+        <p className="mt-0.5 text-xs text-muted-foreground">{kpi.subvalue}</p>
       )}
     </div>
   );
@@ -251,7 +238,7 @@ const tooltipStyle = {
 
 function RevenueChart() {
   return (
-    <div className="rounded-lg bg-[#1A1A1A] p-5">
+    <div className="rounded-lg bg-card p-5">
       <SectionLabel>Ingresos &amp; Food Cost (7 dias)</SectionLabel>
       <div className="mt-3">
         <ResponsiveContainer width="100%" height={260}>
@@ -315,10 +302,10 @@ function RevenueChart() {
 
 function FoodCostChart() {
   return (
-    <div className="rounded-lg bg-[#1A1A1A] p-5">
+    <div className="rounded-lg bg-card p-5">
       <div className="mb-3 flex items-center justify-between">
         <SectionLabel>Food Cost % — 7 dias</SectionLabel>
-        <div className="flex items-center gap-1.5 text-xs text-[#A78B7D]">
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <span
             className="inline-block h-px w-4"
             style={{ borderTop: `2px dashed ${CHART_COLORS.amber}` }}
@@ -401,9 +388,9 @@ function FoodCostChart() {
 function TopDishesChart() {
   const barColors = ["#F97316", "#E24B4A", "#1D9E75", "#BA7517", "#378ADD"];
   return (
-    <div className="rounded-lg bg-[#1A1A1A] p-5">
+    <div className="rounded-lg bg-card p-5">
       <div className="mb-3 flex items-center gap-2">
-        <UtensilsCrossed className="h-4 w-4 text-[#F97316]" />
+        <UtensilsCrossed className="h-4 w-4 text-primary" />
         <SectionLabel>Top 5 Platos</SectionLabel>
       </div>
       <ResponsiveContainer width="100%" height={220}>
@@ -477,7 +464,7 @@ function AlertRow({ alert }: { alert: AlertItem }) {
     <Link
       href={alert.href}
       className={cn(
-        "flex items-start gap-3 rounded-md bg-[#111111] px-3 py-2.5 transition-colors hover:bg-[#1F1F1F]",
+        "flex items-start gap-3 rounded-md bg-sidebar px-3 py-2.5 transition-colors hover:bg-card",
         styles.bg
       )}
     >
@@ -494,11 +481,11 @@ function AlertRow({ alert }: { alert: AlertItem }) {
           >
             {alert.module}
           </span>
-          <span className="text-xs text-[#A78B7D]">{alert.time}</span>
+          <span className="text-xs text-muted-foreground">{alert.time}</span>
         </div>
-        <p className="mt-0.5 text-sm text-[#E5E2E1]">{alert.message}</p>
+        <p className="mt-0.5 text-sm text-foreground">{alert.message}</p>
       </div>
-      <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-[#A78B7D]" />
+      <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-muted-foreground" />
     </Link>
   );
 }
@@ -511,10 +498,10 @@ function AlertsPanel({ items }: { items: AlertItem[] }) {
   ).length;
 
   return (
-    <div className="rounded-lg bg-[#1A1A1A]">
+    <div className="rounded-lg bg-card">
       <div className="flex items-center justify-between px-5 py-4">
         <div className="flex items-center gap-2">
-          <AlertTriangle className="h-4 w-4 text-[#F97316]" />
+          <AlertTriangle className="h-4 w-4 text-primary" />
           <SectionLabel>Centro de Alertas</SectionLabel>
           {urgentCount > 0 && (
             <span className="rounded-full bg-red-900/30 px-2 py-0.5 text-xs font-semibold text-red-400">
@@ -522,17 +509,17 @@ function AlertsPanel({ items }: { items: AlertItem[] }) {
             </span>
           )}
         </div>
-        <Info className="h-4 w-4 text-[#A78B7D]" />
+        <Info className="h-4 w-4 text-muted-foreground" />
       </div>
       <div className="flex flex-col gap-2 px-4 pb-3">
         {items.map((alert) => (
           <AlertRow key={alert.id} alert={alert} />
         ))}
       </div>
-      <div className="px-5 py-3" style={{ borderTop: `1px solid ${T.ghostBorder}` }}>
+      <div className="px-5 py-3 border-t border-border">
         <Link
           href="/appcc"
-          className="text-xs font-medium text-[#F97316] hover:underline"
+          className="text-xs font-medium text-primary hover:underline"
         >
           Ver todas las alertas →
         </Link>
@@ -570,7 +557,7 @@ function formatEventDate(iso: string) {
 
 function EventsTable({ items }: { items: UpcomingEvent[] }) {
   return (
-    <div className="rounded-lg bg-[#1A1A1A]">
+    <div className="rounded-lg bg-card">
       <div className="flex items-center justify-between px-5 py-4">
         <div className="flex items-center gap-2">
           <CalendarDays className="h-4 w-4 text-purple-400" />
@@ -580,23 +567,23 @@ function EventsTable({ items }: { items: UpcomingEvent[] }) {
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr style={{ borderBottom: `1px solid ${T.ghostBorder}` }}>
-              <th className="px-5 py-2.5 text-left text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+            <tr >
+              <th className="px-5 py-2.5 text-left text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Evento
               </th>
-              <th className="px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+              <th className="px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Fecha
               </th>
-              <th className="px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+              <th className="px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Pax
               </th>
-              <th className="px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+              <th className="px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Estado
               </th>
-              <th className="px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+              <th className="px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Personal
               </th>
-              <th className="px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+              <th className="px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 Accion
               </th>
             </tr>
@@ -611,21 +598,21 @@ function EventsTable({ items }: { items: UpcomingEvent[] }) {
               return (
                 <tr
                   key={evt.id}
-                  className="transition-colors hover:bg-[#222222]"
-                  style={{ borderBottom: `1px solid ${T.ghostBorder}` }}
+                  className="transition-colors hover:bg-card-hover border-b border-border"
+                  
                 >
                   <td className="px-5 py-3">
                     <Link
                       href={`/reservations/${evt.id}`}
-                      className="font-medium text-[#E5E2E1] hover:text-[#F97316] hover:underline"
+                      className="font-medium text-foreground hover:text-primary hover:underline"
                     >
                       {evt.name}
                     </Link>
                   </td>
-                  <td className="px-3 py-3 text-[#A78B7D]">
+                  <td className="px-3 py-3 text-muted-foreground">
                     {formatEventDate(evt.date)}
                   </td>
-                  <td className="px-3 py-3 text-right text-[#E5E2E1]">
+                  <td className="px-3 py-3 text-right text-foreground">
                     {evt.guests}
                   </td>
                   <td className="px-3 py-3">
@@ -641,10 +628,10 @@ function EventsTable({ items }: { items: UpcomingEvent[] }) {
                   <td className="px-3 py-3">
                     {evt.staffTotal > 0 ? (
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-[#A78B7D]">
+                        <span className="text-xs text-muted-foreground">
                           {evt.staffConfirmed}/{evt.staffTotal}
                         </span>
-                        <div className="h-1.5 w-16 overflow-hidden rounded-full bg-[#2A2A2A]">
+                        <div className="h-1.5 w-16 overflow-hidden rounded-full bg-accent">
                           <div
                             className={cn(
                               "h-full rounded-full transition-all",
@@ -659,13 +646,13 @@ function EventsTable({ items }: { items: UpcomingEvent[] }) {
                         </div>
                       </div>
                     ) : (
-                      <span className="text-xs text-[#A78B7D]">—</span>
+                      <span className="text-xs text-muted-foreground">—</span>
                     )}
                   </td>
                   <td className="px-3 py-3 text-right">
                     <Link
                       href={`/reservations/${evt.id}`}
-                      className="text-xs font-medium text-[#F97316] hover:underline"
+                      className="text-xs font-medium text-primary hover:underline"
                     >
                       Ver →
                     </Link>
@@ -676,10 +663,10 @@ function EventsTable({ items }: { items: UpcomingEvent[] }) {
           </tbody>
         </table>
       </div>
-      <div className="px-5 py-3" style={{ borderTop: `1px solid ${T.ghostBorder}` }}>
+      <div className="px-5 py-3 border-t border-border">
         <Link
           href="/reservations"
-          className="text-xs font-medium text-[#F97316] hover:underline"
+          className="text-xs font-medium text-primary hover:underline"
         >
           Ver todas las reservas →
         </Link>
@@ -694,14 +681,14 @@ const STATUS_DOT: Record<ModuleStatus["status"], string> = {
   ok: "bg-green-500",
   warning: "bg-yellow-400",
   critical: "bg-red-500",
-  inactive: "bg-[#A78B7D]",
+  inactive: "bg-muted-foreground",
 };
 
 const STATUS_LABEL_COLOR: Record<ModuleStatus["status"], string> = {
   ok: "text-green-400",
   warning: "text-yellow-400",
   critical: "text-red-400",
-  inactive: "text-[#A78B7D]",
+  inactive: "text-muted-foreground",
 };
 
 function ModuleCard({ mod }: { mod: ModuleStatus }) {
@@ -709,12 +696,12 @@ function ModuleCard({ mod }: { mod: ModuleStatus }) {
   return (
     <Link
       href={mod.href}
-      className="flex items-start gap-3 rounded-lg bg-[#111111] p-3 transition-colors hover:bg-[#1F1F1F]"
+      className="flex items-start gap-3 rounded-lg bg-sidebar p-3 transition-colors hover:bg-card"
     >
-      <Icon className="mt-0.5 h-4 w-4 shrink-0 text-[#A78B7D]" />
+      <Icon className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between gap-1">
-          <span className="truncate text-sm font-medium text-[#E5E2E1]">
+          <span className="truncate text-sm font-medium text-foreground">
             {mod.name}
           </span>
           <span
@@ -727,7 +714,7 @@ function ModuleCard({ mod }: { mod: ModuleStatus }) {
         <p className={cn("text-xs font-medium", STATUS_LABEL_COLOR[mod.status])}>
           {mod.statusLabel}
         </p>
-        <p className="text-xs text-[#A78B7D]">{mod.lastActivity}</p>
+        <p className="text-xs text-muted-foreground">{mod.lastActivity}</p>
       </div>
     </Link>
   );
@@ -735,9 +722,9 @@ function ModuleCard({ mod }: { mod: ModuleStatus }) {
 
 function ModulesGrid() {
   return (
-    <div className="rounded-lg bg-[#1A1A1A]">
+    <div className="rounded-lg bg-card">
       <div className="flex items-center gap-2 px-5 py-4">
-        <BarChart3 className="h-4 w-4 text-[#A78B7D]" />
+        <BarChart3 className="h-4 w-4 text-muted-foreground" />
         <SectionLabel>Estado de modulos</SectionLabel>
       </div>
       <div className="grid grid-cols-2 gap-2 px-4 pb-4">
@@ -780,7 +767,7 @@ const QUICK_ACTIONS = [
     label: "Nueva Reserva",
     href: "/reservations",
     Icon: PlusCircle,
-    accent: "text-[#F97316]",
+    accent: "text-primary",
   },
   {
     label: "Registro APPCC",
@@ -798,23 +785,23 @@ const QUICK_ACTIONS = [
     label: "Escandallo",
     href: "/escandallo",
     Icon: Calculator,
-    accent: "text-[#F97316]",
+    accent: "text-primary",
   },
 ] as const;
 
 function QuickActionsBar() {
   return (
-    <div className="rounded-lg bg-[#1A1A1A] px-5 py-4">
+    <div className="rounded-lg bg-card px-5 py-4">
       <SectionLabel>Acciones rapidas</SectionLabel>
       <div className="mt-3 grid grid-cols-4 gap-3 sm:grid-cols-8">
         {QUICK_ACTIONS.map(({ label, href, Icon, accent }) => (
           <Link
             key={href + label}
             href={href}
-            className="flex flex-col items-center gap-1.5 rounded-lg bg-[#111111] p-3 text-center transition-colors hover:bg-[#222222]"
+            className="flex flex-col items-center gap-1.5 rounded-lg bg-sidebar p-3 text-center transition-colors hover:bg-card-hover"
           >
             <Icon className={cn("h-6 w-6", accent)} />
-            <span className="text-[10px] font-medium leading-tight text-[#A78B7D]">
+            <span className="text-[10px] font-medium leading-tight text-muted-foreground">
               {label}
             </span>
           </Link>
@@ -929,10 +916,10 @@ export default function DashboardPage() {
       {/* ── Header ─────────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#E5E2E1]">
+          <h1 className="text-2xl font-bold text-foreground">
             {greeting}, Chef <span role="img" aria-label="wave">👋</span>
           </h1>
-          <p className="mt-1 text-sm text-[#A78B7D]">
+          <p className="mt-1 text-sm text-muted-foreground">
             {isLive ? "Datos en vivo" : "Vista previa (datos de ejemplo)"} · Hoy,{" "}
             {capitalize(todayLabel)}
             {liveLoading && <Loader2 className="ml-2 inline h-3 w-3 animate-spin" />}
@@ -940,23 +927,23 @@ export default function DashboardPage() {
         </div>
         <div className="flex items-center gap-3">
           {/* Search */}
-          <div className="flex items-center gap-2 rounded-lg bg-[#1A1A1A] px-3 py-2">
-            <Search className="h-4 w-4 text-[#A78B7D]" />
-            <span className="text-sm text-[#A78B7D]">Buscar...</span>
+          <div className="flex items-center gap-2 rounded-lg bg-card px-3 py-2">
+            <Search className="h-4 w-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">Buscar...</span>
           </div>
           {/* Notification bell */}
-          <button className="relative rounded-lg bg-[#1A1A1A] p-2 transition-colors hover:bg-[#222222]" aria-label="Notificaciones">
-            <Bell className="h-4 w-4 text-[#A78B7D]" />
+          <button className="relative rounded-lg bg-card p-2 transition-colors hover:bg-card-hover" aria-label="Notificaciones">
+            <Bell className="h-4 w-4 text-muted-foreground" />
             <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-red-500" />
           </button>
           {/* Settings gear */}
-          <button className="rounded-lg bg-[#1A1A1A] p-2 transition-colors hover:bg-[#222222]" aria-label="Configuración">
-            <Settings className="h-4 w-4 text-[#A78B7D]" />
+          <button className="rounded-lg bg-card p-2 transition-colors hover:bg-card-hover" aria-label="Configuración">
+            <Settings className="h-4 w-4 text-muted-foreground" />
           </button>
           {/* Nuevo Escandallo button */}
           <Link
             href="/escandallo"
-            className="rounded-lg bg-[#F97316] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#EA6C0B]"
+            className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-primary/90"
           >
             + Nuevo Escandallo
           </Link>

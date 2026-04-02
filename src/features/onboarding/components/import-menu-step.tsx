@@ -82,8 +82,8 @@ export function ImportMenuStep({ items, onItemsChange }: ImportMenuStepProps) {
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="text-lg font-semibold text-[#E5E2E1]">Importar carta</h2>
-        <p className="text-sm text-[#A78B7D] mt-1">
+        <h2 className="text-lg font-semibold text-foreground">Importar carta</h2>
+        <p className="text-sm text-muted-foreground mt-1">
           Sube una foto o PDF de tu carta y extraemos los platos automáticamente
         </p>
       </div>
@@ -91,7 +91,7 @@ export function ImportMenuStep({ items, onItemsChange }: ImportMenuStepProps) {
       {/* Upload area */}
       {items.length === 0 && (
         <div
-          className="border-2 border-dashed border-[#333] rounded-lg p-8 text-center hover:border-[#F97316]/50 transition-colors cursor-pointer"
+          className="border-2 border-dashed border-border-subtle rounded-lg p-8 text-center hover:border-primary/50 transition-colors cursor-pointer"
           onClick={() => fileRef.current?.click()}
         >
           <input
@@ -103,16 +103,16 @@ export function ImportMenuStep({ items, onItemsChange }: ImportMenuStepProps) {
           />
           {loading ? (
             <div className="space-y-2">
-              <Loader2 className="h-8 w-8 mx-auto text-[#F97316] animate-spin" />
-              <p className="text-sm text-[#A78B7D]">Analizando carta con IA...</p>
+              <Loader2 className="h-8 w-8 mx-auto text-primary animate-spin" />
+              <p className="text-sm text-muted-foreground">Analizando carta con IA...</p>
             </div>
           ) : (
             <div className="space-y-2">
-              <Upload className="h-8 w-8 mx-auto text-[#A78B7D]" />
-              <p className="text-sm text-[#E5E2E1] font-medium">
+              <Upload className="h-8 w-8 mx-auto text-muted-foreground" />
+              <p className="text-sm text-foreground font-medium">
                 Arrastra o haz clic para subir tu carta
               </p>
-              <p className="text-xs text-[#A78B7D]">
+              <p className="text-xs text-muted-foreground">
                 PDF, foto de la carta, o captura de pantalla. Max 10MB.
               </p>
             </div>
@@ -124,7 +124,7 @@ export function ImportMenuStep({ items, onItemsChange }: ImportMenuStepProps) {
       {items.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <p className="text-sm text-[#A78B7D]">
+            <p className="text-sm text-muted-foreground">
               <FileText className="h-4 w-4 inline mr-1" />
               {items.length} platos extraídos — revisa y corrige
             </p>
@@ -133,7 +133,7 @@ export function ImportMenuStep({ items, onItemsChange }: ImportMenuStepProps) {
                 variant="outline"
                 size="sm"
                 onClick={() => fileRef.current?.click()}
-                className="h-7 text-xs border-[#333]"
+                className="h-7 text-xs border-border-subtle"
               >
                 <Upload className="h-3 w-3 mr-1" />
                 Reimportar
@@ -145,7 +145,7 @@ export function ImportMenuStep({ items, onItemsChange }: ImportMenuStepProps) {
                 className="hidden"
                 onChange={handleFileUpload}
               />
-              <Button variant="outline" size="sm" onClick={addItem} className="h-7 text-xs border-[#333]">
+              <Button variant="outline" size="sm" onClick={addItem} className="h-7 text-xs border-border-subtle">
                 <Plus className="h-3 w-3 mr-1" />
                 Añadir plato
               </Button>
@@ -154,7 +154,7 @@ export function ImportMenuStep({ items, onItemsChange }: ImportMenuStepProps) {
 
           <div className="space-y-1.5 max-h-[400px] overflow-y-auto">
             {/* Header */}
-            <div className="grid grid-cols-[1fr_120px_80px_28px] gap-2 px-2 text-xs text-[#A78B7D] font-medium">
+            <div className="grid grid-cols-[1fr_120px_80px_28px] gap-2 px-2 text-xs text-muted-foreground font-medium">
               <span>Plato</span>
               <span>Categoría</span>
               <span>PVP (€)</span>
@@ -190,7 +190,7 @@ export function ImportMenuStep({ items, onItemsChange }: ImportMenuStepProps) {
                   variant="ghost"
                   size="sm"
                   onClick={() => removeItem(idx)}
-                  className="h-7 w-7 p-0 text-[#A78B7D] hover:text-red-400"
+                  className="h-7 w-7 p-0 text-muted-foreground hover:text-red-400"
                 >
                   <Trash2 className="h-3 w-3" />
                 </Button>

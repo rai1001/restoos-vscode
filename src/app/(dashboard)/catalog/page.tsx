@@ -98,7 +98,7 @@ const HOMOLOGATED_SUPPLIERS = [
     name: "Makro España",
     specialty: "Distribucion General",
     badges: [
-      { label: "ELITE", color: "bg-[#F97316]/15 text-[#F97316]" },
+      { label: "ELITE", color: "bg-primary/15 text-primary" },
       { label: "STOCK 24H", color: "bg-blue-500/15 text-blue-400" },
       { label: "GLOBAL", color: "bg-purple-500/15 text-purple-400" },
     ],
@@ -110,7 +110,7 @@ const HOMOLOGATED_SUPPLIERS = [
     name: "Sysco España",
     specialty: "Carnes & Proteinas",
     badges: [
-      { label: "ELITE", color: "bg-[#F97316]/15 text-[#F97316]" },
+      { label: "ELITE", color: "bg-primary/15 text-primary" },
       { label: "FRESCO", color: "bg-emerald-500/15 text-emerald-400" },
     ],
     initials: "SY",
@@ -147,7 +147,7 @@ const HOMOLOGATED_SUPPLIERS = [
 const RECENT_ORDERS = [
   { ref: "PO-2024-0087", supplier: "Makro España", total: "1.245,80€", status: "ENTREGADO", statusColor: "bg-emerald-500/15 text-emerald-400" },
   { ref: "PO-2024-0086", supplier: "Sysco España", total: "892,40€", status: "EN TRANSITO", statusColor: "bg-blue-500/15 text-blue-400" },
-  { ref: "PO-2024-0085", supplier: "Frutas Garcia S.L.", total: "342,10€", status: "CONFIRMADO", statusColor: "bg-[#F97316]/15 text-[#F97316]" },
+  { ref: "PO-2024-0085", supplier: "Frutas Garcia S.L.", total: "342,10€", status: "CONFIRMADO", statusColor: "bg-primary/15 text-primary" },
   { ref: "PO-2024-0084", supplier: "Pesqueria del Norte", total: "1.580,00€", status: "PENDIENTE", statusColor: "bg-yellow-500/15 text-yellow-400" },
 ];
 
@@ -189,13 +189,13 @@ export default function CatalogPage() {
       {/* ── Header ──────────────────────────────────────────── */}
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#F97316] mb-1">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
             Operaciones de Suministro
           </p>
-          <h1 className="text-3xl font-bold text-[#E5E2E1]">
+          <h1 className="text-3xl font-bold text-foreground">
             Catalogo y Compras
           </h1>
-          <p className="text-[#A78B7D] text-sm mt-1">
+          <p className="text-muted-foreground text-sm mt-1">
             {products?.length ?? 0} productos &middot; {suppliers?.length ?? HOMOLOGATED_SUPPLIERS.length} proveedores homologados
           </p>
         </div>
@@ -203,14 +203,14 @@ export default function CatalogPage() {
           <Link href="/procurement/orders">
             <Button
               variant="outline"
-              className="border-[#333] bg-transparent text-[#E5E2E1] hover:bg-[#1A1A1A]"
+              className="border-border-subtle bg-transparent text-foreground hover:bg-card"
             >
               <ClipboardList className="mr-2 h-4 w-4" />
               Historial de Pedidos
             </Button>
           </Link>
           <Link href="/procurement/orders/new">
-            <Button className="bg-[#F97316] hover:bg-[#EA680C] text-white border-0">
+            <Button className="bg-primary hover:bg-primary/90 text-white border-0">
               <Plus className="mr-2 h-4 w-4" />
               NUEVO PEDIDO
             </Button>
@@ -223,13 +223,13 @@ export default function CatalogPage() {
         {/* ── Left column ──────────────────────────────────── */}
         <div className="space-y-8">
           {/* ── Comparativa de Precios Criticos ────────────── */}
-          <div className="rounded-lg bg-[#1A1A1A] p-6">
+          <div className="rounded-lg bg-card p-6">
             <div className="flex items-center justify-between mb-5">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D] mb-1">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
                   Analisis de Mercado
                 </p>
-                <h2 className="text-xl font-bold text-[#E5E2E1]">
+                <h2 className="text-xl font-bold text-foreground">
                   Comparativa de Precios Criticos
                 </h2>
               </div>
@@ -248,17 +248,17 @@ export default function CatalogPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-[#333]">
-                    <th className="text-left py-3 px-3 text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+                  <tr className="border-b border-border-subtle">
+                    <th className="text-left py-3 px-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                       Ingrediente
                     </th>
-                    <th className="text-left py-3 px-3 text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+                    <th className="text-left py-3 px-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                       Unidad
                     </th>
                     {SUPPLIER_COLS.map((col) => (
                       <th
                         key={col}
-                        className="text-right py-3 px-3 text-xs font-semibold uppercase tracking-widest text-[#A78B7D]"
+                        className="text-right py-3 px-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground"
                       >
                         {col}
                       </th>
@@ -269,19 +269,19 @@ export default function CatalogPage() {
                   {PRICE_COMPARISON.map((row) => (
                     <tr
                       key={row.ingrediente}
-                      className="border-b border-[#222] hover:bg-[#222222] transition-colors"
+                      className="border-b border-card-hover hover:bg-card-hover transition-colors"
                     >
-                      <td className="py-3 px-3 font-medium text-[#E5E2E1]">
+                      <td className="py-3 px-3 font-medium text-foreground">
                         {row.ingrediente}
                       </td>
-                      <td className="py-3 px-3 text-[#A78B7D]">{row.unidad}</td>
+                      <td className="py-3 px-3 text-muted-foreground">{row.unidad}</td>
                       {SUPPLIER_COLS.map((col) => {
                         const price = row.precios[col as keyof typeof row.precios];
                         if (price == null) {
                           return (
                             <td
                               key={col}
-                              className="py-3 px-3 text-right text-[#555]"
+                              className="py-3 px-3 text-right text-muted-foreground/60"
                             >
                               &mdash;
                             </td>
@@ -297,7 +297,7 @@ export default function CatalogPage() {
                                 ? "text-emerald-400"
                                 : isMax
                                 ? "text-red-400"
-                                : "text-[#E5E2E1]"
+                                : "text-foreground"
                             }`}
                           >
                             {price.toFixed(2)}€
@@ -313,14 +313,14 @@ export default function CatalogPage() {
 
           {/* ── Proveedores Homologados ────────────────────── */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D] mb-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
               Proveedores Homologados
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {HOMOLOGATED_SUPPLIERS.map((sup) => (
                 <div
                   key={sup.id}
-                  className="rounded-lg bg-[#1A1A1A] p-5 hover:bg-[#222222] transition-colors"
+                  className="rounded-lg bg-card p-5 hover:bg-card-hover transition-colors"
                 >
                   <div className="flex items-start gap-4">
                     {/* Logo placeholder */}
@@ -330,10 +330,10 @@ export default function CatalogPage() {
                       {sup.initials}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-[#E5E2E1] truncate">
+                      <h3 className="font-semibold text-foreground truncate">
                         {sup.name}
                       </h3>
-                      <p className="text-xs text-[#A78B7D] mt-0.5">
+                      <p className="text-xs text-muted-foreground mt-0.5">
                         {sup.specialty}
                       </p>
                       <div className="flex flex-wrap gap-1.5 mt-3">
@@ -355,25 +355,25 @@ export default function CatalogPage() {
 
           {/* ── Ultimos Pedidos ────────────────────────────── */}
           <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D] mb-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
               Ultimos Pedidos
             </p>
             <div className="space-y-2">
               {RECENT_ORDERS.map((order) => (
                 <div
                   key={order.ref}
-                  className="flex items-center justify-between rounded-lg bg-[#1A1A1A] px-5 py-3 hover:bg-[#222222] transition-colors"
+                  className="flex items-center justify-between rounded-lg bg-card px-5 py-3 hover:bg-card-hover transition-colors"
                 >
                   <div className="flex items-center gap-4">
-                    <span className="font-mono text-sm font-medium text-[#F97316]">
+                    <span className="font-mono text-sm font-medium text-primary">
                       {order.ref}
                     </span>
-                    <span className="text-sm text-[#A78B7D]">
+                    <span className="text-sm text-muted-foreground">
                       {order.supplier}
                     </span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <span className="text-sm font-semibold text-[#E5E2E1]">
+                    <span className="text-sm font-semibold text-foreground">
                       {order.total}
                     </span>
                     <span
@@ -390,16 +390,16 @@ export default function CatalogPage() {
 
         {/* ── Right sidebar: Carrito Industrial ────────────── */}
         <div className="xl:sticky xl:top-6 h-fit">
-          <div className="rounded-lg bg-[#1A1A1A] p-5">
+          <div className="rounded-lg bg-card p-5">
             <div className="flex items-center gap-2 mb-5">
-              <ShoppingCart className="h-5 w-5 text-[#F97316]" />
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-[#F97316]">
+              <ShoppingCart className="h-5 w-5 text-primary" />
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-primary">
                 Carrito Industrial
               </h3>
             </div>
 
             {cart.length === 0 ? (
-              <p className="text-sm text-[#A78B7D] py-8 text-center">
+              <p className="text-sm text-muted-foreground py-8 text-center">
                 Carrito vacio
               </p>
             ) : (
@@ -410,26 +410,26 @@ export default function CatalogPage() {
                     className="flex items-center justify-between gap-2"
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-[#E5E2E1] truncate">
+                      <p className="text-sm font-medium text-foreground truncate">
                         {item.productName}
                       </p>
-                      <p className="text-xs text-[#A78B7D]">
+                      <p className="text-xs text-muted-foreground">
                         {item.unitPrice.toFixed(2)}€/{item.unit}
                       </p>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <button
                         onClick={() => updateQty(idx, -1)}
-                        className="h-6 w-6 rounded bg-[#333] flex items-center justify-center text-[#A78B7D] hover:bg-[#444] transition-colors"
+                        className="h-6 w-6 rounded bg-border-subtle flex items-center justify-center text-muted-foreground hover:bg-accent transition-colors"
                       >
                         <Minus className="h-3 w-3" />
                       </button>
-                      <span className="w-8 text-center text-sm font-semibold text-[#E5E2E1]">
+                      <span className="w-8 text-center text-sm font-semibold text-foreground">
                         {item.qty}
                       </span>
                       <button
                         onClick={() => updateQty(idx, 1)}
-                        className="h-6 w-6 rounded bg-[#333] flex items-center justify-center text-[#A78B7D] hover:bg-[#444] transition-colors"
+                        className="h-6 w-6 rounded bg-border-subtle flex items-center justify-center text-muted-foreground hover:bg-accent transition-colors"
                       >
                         <Plus className="h-3 w-3" />
                       </button>
@@ -444,20 +444,20 @@ export default function CatalogPage() {
                 ))}
 
                 {/* Totals */}
-                <div className="border-t border-[#333] pt-4 mt-4 space-y-2">
+                <div className="border-t border-border-subtle pt-4 mt-4 space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#A78B7D]">Subtotal</span>
-                    <span className="text-[#E5E2E1]">{subtotal.toFixed(2)}€</span>
+                    <span className="text-muted-foreground">Subtotal</span>
+                    <span className="text-foreground">{subtotal.toFixed(2)}€</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-[#A78B7D]">IVA (21%)</span>
-                    <span className="text-[#E5E2E1]">{iva.toFixed(2)}€</span>
+                    <span className="text-muted-foreground">IVA (21%)</span>
+                    <span className="text-foreground">{iva.toFixed(2)}€</span>
                   </div>
                   <div className="flex justify-between items-baseline pt-2">
-                    <span className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                       Total Pedido
                     </span>
-                    <span className="text-2xl font-bold text-[#F97316]">
+                    <span className="text-2xl font-bold text-primary">
                       {total.toFixed(2)}€
                     </span>
                   </div>
@@ -466,7 +466,7 @@ export default function CatalogPage() {
                 {/* Send button */}
                 <button
                   onClick={handleFinalize}
-                  className="w-full mt-4 rounded-lg bg-[#F97316] hover:bg-[#EA680C] text-white font-semibold py-3 text-sm uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
+                  className="w-full mt-4 rounded-lg bg-primary hover:bg-primary/90 text-white font-semibold py-3 text-sm uppercase tracking-widest transition-colors flex items-center justify-center gap-2"
                 >
                   <Send className="h-4 w-4" />
                   Finalizar y Enviar

@@ -61,7 +61,7 @@ const STATUS_CONFIG: Record<ShiftStatus, { label: string; className: string }> =
   confirmado:  { label: "CONFIRMADO",  className: "bg-emerald-500/15 text-emerald-400 border-0 uppercase tracking-widest text-[10px]" },
   pendiente:   { label: "PENDIENTE",   className: "bg-orange-500/15 text-orange-400 border-0 uppercase tracking-widest text-[10px]" },
   cancelado:   { label: "CANCELADO",   className: "bg-red-500/15 text-red-400 border-0 uppercase tracking-widest text-[10px]" },
-  completado:  { label: "COMPLETADO",  className: "bg-[#A78B7D]/15 text-[#A78B7D] border-0 uppercase tracking-widest text-[10px]" },
+  completado:  { label: "COMPLETADO",  className: "bg-muted-foreground/15 text-muted-foreground border-0 uppercase tracking-widest text-[10px]" },
 }
 
 function ShiftStatusBadge({ status }: { status: ShiftStatus }) {
@@ -77,7 +77,7 @@ function ShiftStatusBadge({ status }: { status: ShiftStatus }) {
 
 function RoleBadge({ role }: { role: StaffRole }) {
   return (
-    <span className="inline-flex items-center rounded bg-[#F97316]/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-[#F97316]">
+    <span className="inline-flex items-center rounded bg-primary/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-primary">
       {ROLE_LABELS[role]}
     </span>
   )
@@ -105,9 +105,9 @@ function AssignShiftDialog({ open, onClose }: AssignDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md bg-[#1A1A1A] border-[#333] text-[#E5E2E1]">
+      <DialogContent className="max-w-md bg-card border-border-subtle text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-[#E5E2E1]">Asignar turno</DialogTitle>
+          <DialogTitle className="text-foreground">Asignar turno</DialogTitle>
         </DialogHeader>
         {toast ? (
           <div className="flex flex-col items-center gap-3 py-8">
@@ -118,12 +118,12 @@ function AssignShiftDialog({ open, onClose }: AssignDialogProps) {
           <form onSubmit={handleSubmit} className="space-y-4 pt-2">
             {/* Evento */}
             <div className="space-y-1.5">
-              <Label htmlFor="dlg-event" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Evento</Label>
+              <Label htmlFor="dlg-event" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Evento</Label>
               <Select required>
-                <SelectTrigger id="dlg-event" className="bg-[#111] border-[#333] text-[#E5E2E1]">
+                <SelectTrigger id="dlg-event" className="bg-sidebar border-border-subtle text-foreground">
                   <SelectValue placeholder="Seleccionar evento..." />
                 </SelectTrigger>
-                <SelectContent className="bg-[#1A1A1A] border-[#333]">
+                <SelectContent className="bg-card border-border-subtle">
                   {MOCK_EVENTS_FOR_STAFFING.map(ev => (
                     <SelectItem key={ev.id} value={ev.id}>
                       {ev.name}
@@ -135,12 +135,12 @@ function AssignShiftDialog({ open, onClose }: AssignDialogProps) {
 
             {/* Empleado */}
             <div className="space-y-1.5">
-              <Label htmlFor="dlg-staff" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Empleado</Label>
+              <Label htmlFor="dlg-staff" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Empleado</Label>
               <Select required>
-                <SelectTrigger id="dlg-staff" className="bg-[#111] border-[#333] text-[#E5E2E1]">
+                <SelectTrigger id="dlg-staff" className="bg-sidebar border-border-subtle text-foreground">
                   <SelectValue placeholder="Seleccionar empleado..." />
                 </SelectTrigger>
-                <SelectContent className="bg-[#1A1A1A] border-[#333]">
+                <SelectContent className="bg-card border-border-subtle">
                   {staff.filter(s => s.is_active).map(s => (
                     <SelectItem key={s.id} value={s.id}>
                       {s.name} — {ROLE_LABELS[s.role]}
@@ -152,12 +152,12 @@ function AssignShiftDialog({ open, onClose }: AssignDialogProps) {
 
             {/* Rol */}
             <div className="space-y-1.5">
-              <Label htmlFor="dlg-role" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Rol en el evento</Label>
+              <Label htmlFor="dlg-role" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Rol en el evento</Label>
               <Select required>
-                <SelectTrigger id="dlg-role" className="bg-[#111] border-[#333] text-[#E5E2E1]">
+                <SelectTrigger id="dlg-role" className="bg-sidebar border-border-subtle text-foreground">
                   <SelectValue placeholder="Seleccionar rol..." />
                 </SelectTrigger>
-                <SelectContent className="bg-[#1A1A1A] border-[#333]">
+                <SelectContent className="bg-card border-border-subtle">
                   {(Object.keys(ROLE_LABELS) as StaffRole[]).map(r => (
                     <SelectItem key={r} value={r}>{ROLE_LABELS[r]}</SelectItem>
                   ))}
@@ -168,31 +168,31 @@ function AssignShiftDialog({ open, onClose }: AssignDialogProps) {
             {/* Horarios */}
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
-                <Label htmlFor="dlg-start" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Inicio de turno</Label>
-                <Input id="dlg-start" type="datetime-local" required className="bg-[#111] border-[#333] text-[#E5E2E1]" />
+                <Label htmlFor="dlg-start" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Inicio de turno</Label>
+                <Input id="dlg-start" type="datetime-local" required className="bg-sidebar border-border-subtle text-foreground" />
               </div>
               <div className="space-y-1.5">
-                <Label htmlFor="dlg-end" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Fin de turno</Label>
-                <Input id="dlg-end" type="datetime-local" required className="bg-[#111] border-[#333] text-[#E5E2E1]" />
+                <Label htmlFor="dlg-end" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Fin de turno</Label>
+                <Input id="dlg-end" type="datetime-local" required className="bg-sidebar border-border-subtle text-foreground" />
               </div>
             </div>
 
             {/* Notas */}
             <div className="space-y-1.5">
-              <Label htmlFor="dlg-notes" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Notas (opcional)</Label>
+              <Label htmlFor="dlg-notes" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Notas (opcional)</Label>
               <textarea
                 id="dlg-notes"
                 rows={3}
                 placeholder="Indicaciones especiales..."
-                className="w-full rounded-md bg-[#111] border border-[#333] text-[#E5E2E1] placeholder:text-[#A78B7D]/50 px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-[#F97316] focus-visible:outline-none resize-none"
+                className="w-full rounded-md bg-sidebar border border-border-subtle text-foreground placeholder:text-muted-foreground/50 px-3 py-2 text-sm focus-visible:ring-1 focus-visible:ring-primary focus-visible:outline-none resize-none"
               />
             </div>
 
             <DialogFooter className="pt-2">
-              <Button type="button" variant="outline" onClick={onClose} className="border-[#333] bg-transparent text-[#E5E2E1] hover:bg-[#1A1A1A]">
+              <Button type="button" variant="outline" onClick={onClose} className="border-border-subtle bg-transparent text-foreground hover:bg-card">
                 Cancelar
               </Button>
-              <Button type="submit" className="bg-[#F97316] hover:bg-[#EA680C] text-white border-0">Asignar</Button>
+              <Button type="submit" className="bg-primary hover:bg-primary/90 text-white border-0">Asignar</Button>
             </DialogFooter>
           </form>
         )}
@@ -224,37 +224,37 @@ function EventShiftsTable({ eventId }: { eventId: string }) {
 
   return (
     <div className="space-y-3">
-      <div className="rounded-lg bg-[#1A1A1A] overflow-hidden">
+      <div className="rounded-lg bg-card overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="border-b border-[#333] hover:bg-transparent">
-              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Empleado</TableHead>
-              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Rol</TableHead>
-              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Turno</TableHead>
-              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D] text-right">Horas</TableHead>
-              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Estado</TableHead>
-              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Notas</TableHead>
+            <TableRow className="border-b border-border-subtle hover:bg-transparent">
+              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Empleado</TableHead>
+              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Rol</TableHead>
+              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Turno</TableHead>
+              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground text-right">Horas</TableHead>
+              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Estado</TableHead>
+              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Notas</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {shifts.map(shift => (
-              <TableRow key={shift.id} className="border-b border-[#222] hover:bg-[#222]/50">
-                <TableCell className="font-medium text-[#E5E2E1]">
+              <TableRow key={shift.id} className="border-b border-card-hover hover:bg-card-hover/50">
+                <TableCell className="font-medium text-foreground">
                   {shift.staff?.name ?? shift.staff_id}
                 </TableCell>
                 <TableCell>
                   <RoleBadge role={shift.role} />
                 </TableCell>
-                <TableCell className="text-sm whitespace-nowrap text-[#A78B7D]">
+                <TableCell className="text-sm whitespace-nowrap text-muted-foreground">
                   {formatTime(shift.shift_start)} – {formatTime(shift.shift_end)}
                 </TableCell>
-                <TableCell className="text-right text-sm tabular-nums text-[#E5E2E1]">
+                <TableCell className="text-right text-sm tabular-nums text-foreground">
                   {shiftHours(shift.shift_start, shift.shift_end)}h
                 </TableCell>
                 <TableCell>
                   <ShiftStatusBadge status={shift.status} />
                 </TableCell>
-                <TableCell className="text-[#A78B7D] text-sm max-w-[180px] truncate">
+                <TableCell className="text-muted-foreground text-sm max-w-[180px] truncate">
                   {shift.notes ?? "—"}
                 </TableCell>
               </TableRow>
@@ -262,7 +262,7 @@ function EventShiftsTable({ eventId }: { eventId: string }) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center gap-4 px-1 text-xs text-[#A78B7D]">
+      <div className="flex items-center gap-4 px-1 text-xs text-muted-foreground">
         <span className="flex items-center gap-1">
           <Clock className="h-3.5 w-3.5" />
           {Math.round(totalHours * 10) / 10} horas totales
@@ -295,12 +295,12 @@ function TabPorEvento({ onAssign }: { onAssign: () => void }) {
               className={cn(
                 "w-full rounded-lg p-3 text-left transition-colors",
                 isActive
-                  ? "bg-[#F97316]/10 border-l-2 border-l-[#F97316]"
-                  : "bg-[#1A1A1A] hover:bg-[#222]"
+                  ? "bg-primary/10 border-l-2 border-l-primary"
+                  : "bg-card hover:bg-card-hover"
               )}
             >
-              <p className="text-sm font-medium leading-tight text-[#E5E2E1]">{ev.name}</p>
-              <p className="mt-1 text-xs flex items-center gap-1 text-[#A78B7D]">
+              <p className="text-sm font-medium leading-tight text-foreground">{ev.name}</p>
+              <p className="mt-1 text-xs flex items-center gap-1 text-muted-foreground">
                 <CalendarDays className="h-3 w-3" />
                 {formatDate(ev.date)}
               </p>
@@ -310,7 +310,7 @@ function TabPorEvento({ onAssign }: { onAssign: () => void }) {
         <Button
           variant="outline"
           size="sm"
-          className="w-full mt-2 border-[#333] bg-transparent text-[#E5E2E1] hover:bg-[#1A1A1A]"
+          className="w-full mt-2 border-border-subtle bg-transparent text-foreground hover:bg-card"
           onClick={onAssign}
         >
           <Plus className="mr-2 h-3.5 w-3.5" />
@@ -348,45 +348,45 @@ function TabPlantilla() {
     <div className="space-y-4">
       <div className="flex items-center gap-3">
         <Select value={roleFilter} onValueChange={setRoleFilter}>
-          <SelectTrigger className="w-52 bg-[#1A1A1A] border-[#333] text-[#E5E2E1]">
+          <SelectTrigger className="w-52 bg-card border-border-subtle text-foreground">
             <SelectValue placeholder="Filtrar por rol" />
           </SelectTrigger>
-          <SelectContent className="bg-[#1A1A1A] border-[#333]">
+          <SelectContent className="bg-card border-border-subtle">
             <SelectItem value="all">Todos los roles</SelectItem>
             {(Object.keys(ROLE_LABELS) as StaffRole[]).map(r => (
               <SelectItem key={r} value={r}>{ROLE_LABELS[r]}</SelectItem>
             ))}
           </SelectContent>
         </Select>
-        <span className="text-sm text-[#A78B7D]">{filtered.length} empleados</span>
+        <span className="text-sm text-muted-foreground">{filtered.length} empleados</span>
       </div>
 
-      <div className="rounded-lg bg-[#1A1A1A] overflow-hidden">
+      <div className="rounded-lg bg-card overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="border-b border-[#333] hover:bg-transparent">
-              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Nombre</TableHead>
-              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Rol</TableHead>
-              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Email</TableHead>
-              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Telefono</TableHead>
-              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D] text-right">Tarifa / h</TableHead>
-              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Estado</TableHead>
+            <TableRow className="border-b border-border-subtle hover:bg-transparent">
+              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Nombre</TableHead>
+              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Rol</TableHead>
+              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Email</TableHead>
+              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Telefono</TableHead>
+              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground text-right">Tarifa / h</TableHead>
+              <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Estado</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filtered.map(member => (
-              <TableRow key={member.id} className="border-b border-[#222] hover:bg-[#222]/50">
-                <TableCell className="font-medium text-[#E5E2E1]">{member.name}</TableCell>
+              <TableRow key={member.id} className="border-b border-card-hover hover:bg-card-hover/50">
+                <TableCell className="font-medium text-foreground">{member.name}</TableCell>
                 <TableCell>
                   <RoleBadge role={member.role} />
                 </TableCell>
-                <TableCell className="text-sm text-[#A78B7D]">
+                <TableCell className="text-sm text-muted-foreground">
                   {member.email ?? "—"}
                 </TableCell>
-                <TableCell className="text-sm text-[#A78B7D]">
+                <TableCell className="text-sm text-muted-foreground">
                   {member.phone ?? "—"}
                 </TableCell>
-                <TableCell className="text-right tabular-nums text-sm text-[#E5E2E1]">
+                <TableCell className="text-right tabular-nums text-sm text-foreground">
                   {member.hourly_rate != null ? `${member.hourly_rate} \u20AC` : "—"}
                 </TableCell>
                 <TableCell>
@@ -395,7 +395,7 @@ function TabPlantilla() {
                       Activo
                     </Badge>
                   ) : (
-                    <Badge variant="outline" className="bg-[#A78B7D]/15 text-[#A78B7D] border-0 text-[10px] uppercase tracking-widest">
+                    <Badge variant="outline" className="bg-muted-foreground/15 text-muted-foreground border-0 text-[10px] uppercase tracking-widest">
                       Inactivo
                     </Badge>
                   )}
@@ -456,21 +456,21 @@ function TabVistaSemana() {
         className="grid min-w-[700px] gap-px rounded-t-lg overflow-hidden"
         style={{ gridTemplateColumns: "200px repeat(7, 1fr)" }}
       >
-        <div className="bg-[#111] px-3 py-2 text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">
+        <div className="bg-sidebar px-3 py-2 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
           Empleado
         </div>
         {days.map((d, i) => (
           <div
             key={i}
             className={cn(
-              "bg-[#111] px-2 py-2 text-center text-[10px] font-semibold uppercase tracking-widest",
-              i === 0 ? "text-[#F97316]" : "text-[#A78B7D]"
+              "bg-sidebar px-2 py-2 text-center text-[10px] font-semibold uppercase tracking-widest",
+              i === 0 ? "text-primary" : "text-muted-foreground"
             )}
           >
             <div>
               {d.toLocaleDateString("es-ES", { weekday: "short" })}
             </div>
-            <div className={cn("text-sm font-bold", i === 0 ? "text-[#F97316]" : "text-[#E5E2E1]")}>
+            <div className={cn("text-sm font-bold", i === 0 ? "text-primary" : "text-foreground")}>
               {d.getDate()}
             </div>
           </div>
@@ -484,13 +484,13 @@ function TabVistaSemana() {
           return (
             <div
               key={member.id}
-              className="grid border-b border-[#222] hover:bg-[#222]/30 transition-colors"
+              className="grid border-b border-card-hover hover:bg-card-hover/30 transition-colors"
               style={{ gridTemplateColumns: "200px repeat(7, 1fr)" }}
             >
               {/* Name column */}
-              <div className="px-3 py-2.5 border-r border-[#222] bg-[#1A1A1A]">
-                <p className="text-sm font-medium truncate text-[#E5E2E1]">{member.name}</p>
-                <p className="text-xs text-[#A78B7D]">{ROLE_LABELS[member.role]}</p>
+              <div className="px-3 py-2.5 border-r border-card-hover bg-card">
+                <p className="text-sm font-medium truncate text-foreground">{member.name}</p>
+                <p className="text-xs text-muted-foreground">{ROLE_LABELS[member.role]}</p>
               </div>
 
               {/* Day cells */}
@@ -500,8 +500,8 @@ function TabVistaSemana() {
                   <div
                     key={dayIdx}
                     className={cn(
-                      "px-1 py-1.5 min-h-[52px] border-r border-[#222] last:border-r-0 space-y-0.5",
-                      dayIdx === 0 && "bg-[#F97316]/5"
+                      "px-1 py-1.5 min-h-[52px] border-r border-card-hover last:border-r-0 space-y-0.5",
+                      dayIdx === 0 && "bg-primary/5"
                     )}
                   >
                     {dayShifts.map(shift => (
@@ -509,7 +509,7 @@ function TabVistaSemana() {
                         key={shift.id}
                         className={cn(
                           "rounded px-1.5 py-0.5 text-[10px] font-medium leading-tight truncate",
-                          EVENT_COLORS[shift.event_id] ?? "bg-[#A78B7D]/15 text-[#A78B7D]"
+                          EVENT_COLORS[shift.event_id] ?? "bg-muted-foreground/15 text-muted-foreground"
                         )}
                         title={`${shift.event_name ?? shift.event_id} · ${formatTime(shift.shift_start)}–${formatTime(shift.shift_end)}`}
                       >
@@ -531,7 +531,7 @@ function TabVistaSemana() {
             key={ev.id}
             className={cn(
               "flex items-center gap-1 rounded px-2 py-0.5 font-medium",
-              EVENT_COLORS[ev.id] ?? "bg-[#A78B7D]/15 text-[#A78B7D]"
+              EVENT_COLORS[ev.id] ?? "bg-muted-foreground/15 text-muted-foreground"
             )}
           >
             {ev.name}
@@ -550,17 +550,17 @@ function SummaryCards() {
   return (
     <div className="grid gap-4 sm:grid-cols-3">
       {summaries.map(s => (
-        <div key={s.event_id} className="rounded-lg bg-[#1A1A1A] p-5">
-          <p className="text-sm font-semibold leading-tight line-clamp-2 text-[#E5E2E1]">
+        <div key={s.event_id} className="rounded-lg bg-card p-5">
+          <p className="text-sm font-semibold leading-tight line-clamp-2 text-foreground">
             {s.event_name}
           </p>
-          <p className="flex items-center gap-1 text-xs mt-1 text-[#A78B7D]">
+          <p className="flex items-center gap-1 text-xs mt-1 text-muted-foreground">
             <CalendarDays className="h-3 w-3" />
             {formatDate(s.event_date)}
           </p>
           <div className="mt-3 space-y-2">
             <div className="flex items-center gap-3 flex-wrap">
-              <span className="flex items-center gap-1 text-xs text-[#A78B7D]">
+              <span className="flex items-center gap-1 text-xs text-muted-foreground">
                 <Users2 className="h-3.5 w-3.5" />
                 {s.total_shifts} turnos
               </span>
@@ -575,7 +575,7 @@ function SummaryCards() {
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-1 text-xs text-[#A78B7D]">
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <Euro className="h-3.5 w-3.5" />
               {formatCurrency(s.estimated_cost)} estimado
             </div>
@@ -596,15 +596,15 @@ export default function StaffingPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#F97316] mb-1">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
             BRIGADA Y PERSONAL
           </p>
-          <h1 className="text-3xl font-bold text-[#E5E2E1]">Planificacion de Personal</h1>
-          <p className="text-[#A78B7D] text-sm mt-1">
+          <h1 className="text-3xl font-bold text-foreground">Planificacion de Personal</h1>
+          <p className="text-muted-foreground text-sm mt-1">
             Gestion de turnos y plantilla por evento
           </p>
         </div>
-        <Button onClick={() => setDialogOpen(true)} className="bg-[#F97316] hover:bg-[#EA680C] text-white border-0">
+        <Button onClick={() => setDialogOpen(true)} className="bg-primary hover:bg-primary/90 text-white border-0">
           <Plus className="mr-2 h-4 w-4" />
           Asignar turno
         </Button>
@@ -615,10 +615,10 @@ export default function StaffingPage() {
 
       {/* Tabs */}
       <Tabs defaultValue="por-evento">
-        <TabsList className="bg-[#111] border border-[#333]">
-          <TabsTrigger value="por-evento" className="data-[state=active]:bg-[#1A1A1A] data-[state=active]:text-[#F97316] text-[#A78B7D]">Por Evento</TabsTrigger>
-          <TabsTrigger value="plantilla" className="data-[state=active]:bg-[#1A1A1A] data-[state=active]:text-[#F97316] text-[#A78B7D]">Plantilla</TabsTrigger>
-          <TabsTrigger value="semana" className="data-[state=active]:bg-[#1A1A1A] data-[state=active]:text-[#F97316] text-[#A78B7D]">Vista Semana</TabsTrigger>
+        <TabsList className="bg-sidebar border border-border-subtle">
+          <TabsTrigger value="por-evento" className="data-[state=active]:bg-card data-[state=active]:text-primary text-muted-foreground">Por Evento</TabsTrigger>
+          <TabsTrigger value="plantilla" className="data-[state=active]:bg-card data-[state=active]:text-primary text-muted-foreground">Plantilla</TabsTrigger>
+          <TabsTrigger value="semana" className="data-[state=active]:bg-card data-[state=active]:text-primary text-muted-foreground">Vista Semana</TabsTrigger>
         </TabsList>
 
         <TabsContent value="por-evento" className="mt-6">

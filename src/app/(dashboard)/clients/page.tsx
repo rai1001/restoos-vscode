@@ -57,48 +57,48 @@ export default function ClientsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-[#F97316] mb-1">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
             GESTION DE CLIENTES
           </p>
-          <h1 className="text-3xl font-bold text-[#E5E2E1]">Clientes</h1>
-          <p className="text-[#A78B7D] text-sm mt-1">{clients?.length ?? 0} clientes</p>
+          <h1 className="text-3xl font-bold text-foreground">Clientes</h1>
+          <p className="text-muted-foreground text-sm mt-1">{clients?.length ?? 0} clientes</p>
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-          <DialogTrigger render={<Button className="bg-[#F97316] hover:bg-[#EA680C] text-white border-0" />}>
+          <DialogTrigger render={<Button className="bg-primary hover:bg-primary/90 text-white border-0" />}>
             <Plus className="mr-2 h-4 w-4" />
             Nuevo cliente
           </DialogTrigger>
-          <DialogContent className="bg-[#1A1A1A] border-[#333] text-[#E5E2E1]">
+          <DialogContent className="bg-card border-border-subtle text-foreground">
             <DialogHeader>
-              <DialogTitle className="text-[#E5E2E1]">Nuevo cliente</DialogTitle>
+              <DialogTitle className="text-foreground">Nuevo cliente</DialogTitle>
             </DialogHeader>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="client-name" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Nombre</Label>
-                <Input id="client-name" {...form.register("name")} placeholder="Nombre del cliente" className="bg-[#111] border-[#333] text-[#E5E2E1] placeholder:text-[#A78B7D]/50" />
+                <Label htmlFor="client-name" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Nombre</Label>
+                <Input id="client-name" {...form.register("name")} placeholder="Nombre del cliente" className="bg-sidebar border-border-subtle text-foreground placeholder:text-muted-foreground/50" />
                 {form.formState.errors.name && (
                   <p className="text-red-400 text-sm">{form.formState.errors.name.message}</p>
                 )}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="company" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Empresa</Label>
-                <Input id="company" {...form.register("company")} className="bg-[#111] border-[#333] text-[#E5E2E1]" />
+                <Label htmlFor="company" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Empresa</Label>
+                <Input id="company" {...form.register("company")} className="bg-sidebar border-border-subtle text-foreground" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="client-email" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Email</Label>
-                  <Input id="client-email" type="email" {...form.register("email")} className="bg-[#111] border-[#333] text-[#E5E2E1]" />
+                  <Label htmlFor="client-email" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Email</Label>
+                  <Input id="client-email" type="email" {...form.register("email")} className="bg-sidebar border-border-subtle text-foreground" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="client-phone" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">Telefono</Label>
-                  <Input id="client-phone" {...form.register("phone")} className="bg-[#111] border-[#333] text-[#E5E2E1]" />
+                  <Label htmlFor="client-phone" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Telefono</Label>
+                  <Input id="client-phone" {...form.register("phone")} className="bg-sidebar border-border-subtle text-foreground" />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="client-tax" className="text-xs font-semibold uppercase tracking-widest text-[#A78B7D]">CIF/NIF</Label>
-                <Input id="client-tax" {...form.register("tax_id")} className="bg-[#111] border-[#333] text-[#E5E2E1]" />
+                <Label htmlFor="client-tax" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">CIF/NIF</Label>
+                <Input id="client-tax" {...form.register("tax_id")} className="bg-sidebar border-border-subtle text-foreground" />
               </div>
-              <Button type="submit" className="w-full bg-[#F97316] hover:bg-[#EA680C] text-white border-0" disabled={createClient.isPending}>
+              <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-white border-0" disabled={createClient.isPending}>
                 {createClient.isPending ? "Creando..." : "Crear cliente"}
               </Button>
             </form>
@@ -108,12 +108,12 @@ export default function ClientsPage() {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#A78B7D]" />
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           placeholder="Buscar clientes..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="pl-9 bg-[#1A1A1A] border-[#333] text-[#E5E2E1] placeholder:text-[#A78B7D]/50"
+          className="pl-9 bg-card border-border-subtle text-foreground placeholder:text-muted-foreground/50"
         />
       </div>
 
@@ -127,23 +127,23 @@ export default function ClientsPage() {
           description="Registra tu primer cliente para asociar eventos"
         />
       ) : (
-        <div className="rounded-lg bg-[#1A1A1A] overflow-hidden">
+        <div className="rounded-lg bg-card overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="border-b border-[#333] hover:bg-transparent">
-                <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Nombre</TableHead>
-                <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Empresa</TableHead>
-                <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Email</TableHead>
-                <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-[#A78B7D]">Telefono</TableHead>
+              <TableRow className="border-b border-border-subtle hover:bg-transparent">
+                <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Nombre</TableHead>
+                <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Empresa</TableHead>
+                <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Email</TableHead>
+                <TableHead className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">Telefono</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered?.map((client) => (
-                <TableRow key={client.id} className="border-b border-[#222] hover:bg-[#222]/50">
-                  <TableCell className="font-medium text-[#E5E2E1]">{client.name}</TableCell>
-                  <TableCell className="text-[#A78B7D]">{client.company ?? "\u2014"}</TableCell>
-                  <TableCell className="text-[#A78B7D]">{client.email ?? "\u2014"}</TableCell>
-                  <TableCell className="text-[#A78B7D]">{client.phone ?? "\u2014"}</TableCell>
+                <TableRow key={client.id} className="border-b border-card-hover hover:bg-card-hover/50">
+                  <TableCell className="font-medium text-foreground">{client.name}</TableCell>
+                  <TableCell className="text-muted-foreground">{client.company ?? "\u2014"}</TableCell>
+                  <TableCell className="text-muted-foreground">{client.email ?? "\u2014"}</TableCell>
+                  <TableCell className="text-muted-foreground">{client.phone ?? "\u2014"}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

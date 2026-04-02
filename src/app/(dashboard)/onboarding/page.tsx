@@ -55,13 +55,13 @@ export default function OnboardingPage() {
     <div className="max-w-3xl mx-auto space-y-8">
       {/* Header */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-[#F97316] mb-1">
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">
           CONFIGURACIÓN INICIAL
         </p>
-        <h1 className="text-3xl font-bold text-[#E5E2E1]">
+        <h1 className="text-3xl font-bold text-foreground">
           Configura tu restaurante
         </h1>
-        <p className="text-[#A78B7D] text-sm mt-1">
+        <p className="text-muted-foreground text-sm mt-1">
           En 5 minutos tendrás tu restaurante funcionando en RestoOS
         </p>
       </div>
@@ -78,16 +78,16 @@ export default function OnboardingPage() {
                 onClick={() => s.id < step && setStep(s.id)}
                 className={cn(
                   "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors w-full",
-                  isActive && "bg-[#F97316]/15 text-[#F97316] border border-[#F97316]/30",
+                  isActive && "bg-primary/15 text-primary border border-primary/30",
                   isCompleted && "bg-emerald-500/10 text-emerald-400 cursor-pointer",
-                  !isActive && !isCompleted && "text-[#A78B7D]"
+                  !isActive && !isCompleted && "text-muted-foreground"
                 )}
               >
                 <Icon className={cn("h-4 w-4 shrink-0", isCompleted && "text-emerald-400")} />
                 <span className="hidden sm:inline truncate">{s.label}</span>
               </button>
               {idx < STEPS.length - 1 && (
-                <ChevronRight className="h-4 w-4 text-[#333] shrink-0" />
+                <ChevronRight className="h-4 w-4 text-muted-foreground/40 shrink-0" />
               )}
             </div>
           )
@@ -95,20 +95,20 @@ export default function OnboardingPage() {
       </div>
 
       {/* Progress bar */}
-      <div className="h-1.5 bg-[#1A1A1A] rounded-full overflow-hidden">
+      <div className="h-1.5 bg-card rounded-full overflow-hidden">
         <div
-          className="h-full bg-[#F97316] rounded-full transition-all duration-500"
+          className="h-full bg-primary rounded-full transition-all duration-500"
           style={{ width: `${completionPct}%` }}
         />
       </div>
 
       {/* Step content */}
-      <div className="rounded-xl bg-[#1A1A1A] border border-[#333] p-6">
+      <div className="rounded-xl bg-card border border-border-subtle p-6">
         {step === 1 && (
           <div className="space-y-5">
             <div>
-              <h2 className="text-lg font-semibold text-[#E5E2E1]">Datos de tu restaurante</h2>
-              <p className="text-sm text-[#A78B7D] mt-1">
+              <h2 className="text-lg font-semibold text-foreground">Datos de tu restaurante</h2>
+              <p className="text-sm text-muted-foreground mt-1">
                 Información básica para configurar tu espacio
               </p>
             </div>
@@ -177,10 +177,10 @@ export default function OnboardingPage() {
             <div className="mx-auto w-16 h-16 rounded-full bg-emerald-500/10 flex items-center justify-center">
               <CheckCircle2 className="h-8 w-8 text-emerald-400" />
             </div>
-            <h2 className="text-xl font-semibold text-[#E5E2E1]">
+            <h2 className="text-xl font-semibold text-foreground">
               {restaurantName || "Tu restaurante"} está listo
             </h2>
-            <div className="text-sm text-[#A78B7D] space-y-1">
+            <div className="text-sm text-muted-foreground space-y-1">
               {menuItems.length > 0 && (
                 <p>{menuItems.length} platos importados de tu carta</p>
               )}
@@ -192,7 +192,7 @@ export default function OnboardingPage() {
               )}
             </div>
             <Button
-              className="bg-[#F97316] hover:bg-[#EA680C] text-white mt-4"
+              className="bg-primary hover:bg-primary/90 text-white mt-4"
               onClick={() => {
                 toast.success("Onboarding completado")
                 window.location.href = "/"
@@ -211,7 +211,7 @@ export default function OnboardingPage() {
             variant="outline"
             onClick={prevStep}
             disabled={step === 1}
-            className="border-[#333]"
+            className="border-border-subtle"
           >
             Atrás
           </Button>
@@ -220,14 +220,14 @@ export default function OnboardingPage() {
               <Button
                 variant="ghost"
                 onClick={nextStep}
-                className="text-[#A78B7D]"
+                className="text-muted-foreground"
               >
                 Saltar paso
               </Button>
             )}
             <Button
               onClick={nextStep}
-              className="bg-[#F97316] hover:bg-[#EA680C] text-white"
+              className="bg-primary hover:bg-primary/90 text-white"
             >
               {step === 3 ? "Finalizar" : "Siguiente"}
               <ChevronRight className="h-4 w-4 ml-1" />

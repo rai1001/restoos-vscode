@@ -71,7 +71,7 @@ export function PriceHistory({ productName }: { productName: string }) {
 
   if (!history || history.length === 0) {
     return (
-      <p className="text-xs text-[#A78B7D]">Sin historial de precios</p>
+      <p className="text-xs text-muted-foreground">Sin historial de precios</p>
     )
   }
 
@@ -84,15 +84,15 @@ export function PriceHistory({ productName }: { productName: string }) {
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-[#E5E2E1]">Historial de precios</p>
-          <p className="text-xs text-[#A78B7D]">Últimos 6 meses</p>
+          <p className="text-sm font-medium text-foreground">Historial de precios</p>
+          <p className="text-xs text-muted-foreground">Últimos 6 meses</p>
         </div>
         <div className="flex items-center gap-2">
           <Sparkline points={prices} />
           <Badge className={`text-xs ${
             totalVariation > 2 ? "bg-red-500/15 text-red-400 border-0" :
             totalVariation < -2 ? "bg-emerald-500/15 text-emerald-400 border-0" :
-            "bg-[#2A2A2A] text-[#A78B7D] border-0"
+            "bg-accent text-muted-foreground border-0"
           }`}>
             {totalVariation > 0 ? "+" : ""}{totalVariation.toFixed(1)}% total
           </Badge>
@@ -101,10 +101,10 @@ export function PriceHistory({ productName }: { productName: string }) {
 
       <div className="space-y-1">
         {history.map((point, idx) => (
-          <div key={idx} className="flex items-center justify-between py-1 text-xs border-b border-[#333] last:border-0">
-            <span className="text-[#A78B7D] w-20">{point.date.slice(5)}</span>
-            <span className="text-[#A78B7D] flex-1 truncate">{point.supplier}</span>
-            <span className="text-[#E5E2E1] font-mono w-16 text-right">{point.price.toFixed(2)}€</span>
+          <div key={idx} className="flex items-center justify-between py-1 text-xs border-b border-border-subtle last:border-0">
+            <span className="text-muted-foreground w-20">{point.date.slice(5)}</span>
+            <span className="text-muted-foreground flex-1 truncate">{point.supplier}</span>
+            <span className="text-foreground font-mono w-16 text-right">{point.price.toFixed(2)}€</span>
             <span className="w-14 text-right">
               {point.variation !== 0 ? (
                 <span className={`inline-flex items-center gap-0.5 ${
@@ -114,7 +114,7 @@ export function PriceHistory({ productName }: { productName: string }) {
                   {Math.abs(point.variation).toFixed(1)}%
                 </span>
               ) : (
-                <Minus className="h-2.5 w-2.5 text-[#A78B7D] inline" />
+                <Minus className="h-2.5 w-2.5 text-muted-foreground inline" />
               )}
             </span>
           </div>
@@ -137,15 +137,15 @@ export function PriceAlertsSummary() {
   if (allProducts.length === 0) return null
 
   return (
-    <div className="rounded-lg bg-[#1A1A1A] p-4 space-y-3">
-      <p className="text-xs font-semibold uppercase tracking-widest text-[#F97316]">
+    <div className="rounded-lg bg-card p-4 space-y-3">
+      <p className="text-xs font-semibold uppercase tracking-widest text-primary">
         Alertas de precio — últimas entregas
       </p>
       {allProducts.map((p, idx) => (
-        <div key={idx} className="flex items-center justify-between py-1 border-b border-[#333] last:border-0">
-          <span className="text-sm text-[#E5E2E1]">{p.name}</span>
+        <div key={idx} className="flex items-center justify-between py-1 border-b border-border-subtle last:border-0">
+          <span className="text-sm text-foreground">{p.name}</span>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-[#A78B7D] font-mono">{p.price.toFixed(2)}€</span>
+            <span className="text-xs text-muted-foreground font-mono">{p.price.toFixed(2)}€</span>
             <Badge className={`text-xs ${
               p.variation > 0
                 ? "bg-red-500/15 text-red-400 border-0"

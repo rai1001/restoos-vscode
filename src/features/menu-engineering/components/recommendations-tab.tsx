@@ -25,8 +25,8 @@ export function RecommendationsTab({ recommendations }: { recommendations: Recom
     return (
       <div className="text-center py-12">
         <ShieldCheck className="h-10 w-10 mx-auto text-emerald-400 mb-3" />
-        <p className="text-[#E5E2E1] font-medium">Tu carta está optimizada</p>
-        <p className="text-sm text-[#A78B7D] mt-1">No hay recomendaciones pendientes</p>
+        <p className="text-foreground font-medium">Tu carta está optimizada</p>
+        <p className="text-sm text-muted-foreground mt-1">No hay recomendaciones pendientes</p>
       </div>
     )
   }
@@ -39,7 +39,7 @@ export function RecommendationsTab({ recommendations }: { recommendations: Recom
     <div className="space-y-6">
       {/* Summary */}
       <div className="flex items-center gap-3">
-        <Badge className="bg-[#F97316]/15 text-[#F97316] border-0">
+        <Badge className="bg-primary/15 text-primary border-0">
           {recommendations.length} recomendaciones
         </Badge>
         {high.length > 0 && (
@@ -89,15 +89,15 @@ function RecommendationCard({ rec }: { rec: Recommendation }) {
   const sevConfig = SEVERITY_CONFIG[rec.severity]
 
   return (
-    <div className="rounded-lg bg-[#1A1A1A] border border-[#333] p-4 space-y-2 hover:border-[#555] transition-colors">
+    <div className="rounded-lg bg-card border border-border-subtle p-4 space-y-2 hover:border-border-hover transition-colors">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3">
           <div className={`mt-0.5 ${config.color}`}>
             <Icon className="h-4 w-4" />
           </div>
           <div>
-            <p className="text-sm font-medium text-[#E5E2E1]">{rec.action}</p>
-            <p className="text-xs text-[#A78B7D] mt-1">{rec.impact}</p>
+            <p className="text-sm font-medium text-foreground">{rec.action}</p>
+            <p className="text-xs text-muted-foreground mt-1">{rec.impact}</p>
           </div>
         </div>
         <Badge className={`${sevConfig.color} shrink-0 text-xs`}>{config.label}</Badge>

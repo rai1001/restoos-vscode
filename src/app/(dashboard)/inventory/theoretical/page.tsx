@@ -74,19 +74,19 @@ export default function TheoreticalInventoryPage() {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="rounded-lg bg-card border-l-4 border-l-blue-500 p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-xs text-muted-foreground uppercase tracking-wide">Productos analizados</p>
           <p className="text-2xl font-bold text-blue-400">{totalItems}</p>
         </div>
-        <div className="rounded-lg bg-card border-l-4 border-l-yellow-500 p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-xs text-muted-foreground uppercase tracking-wide">Con desviación</p>
           <p className="text-2xl font-bold text-yellow-400">{withDiff}</p>
         </div>
-        <div className="rounded-lg bg-card border-l-4 border-l-red-500 p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-xs text-muted-foreground uppercase tracking-wide">Críticos (&gt;20%)</p>
           <p className="text-2xl font-bold text-red-400">{critical}</p>
         </div>
-        <div className="rounded-lg bg-card border-l-4 border-l-primary p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-xs text-muted-foreground uppercase tracking-wide">Pérdida estimada</p>
           <p className="text-2xl font-bold text-primary">{totalLoss.toFixed(0)}€</p>
         </div>

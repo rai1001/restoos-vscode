@@ -363,7 +363,7 @@ function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
           <div
             key={i}
             className={cn(
-              "flex items-start gap-3 rounded-lg border-l-4 bg-card px-4 py-3 text-sm text-foreground",
+              "flex items-start gap-3 rounded-lg bg-card px-4 py-3 text-sm text-foreground",
               ins.borderColor,
             )}
           >

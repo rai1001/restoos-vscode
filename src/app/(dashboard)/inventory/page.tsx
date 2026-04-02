@@ -162,7 +162,7 @@ export default function InventoryPage() {
       {/* ---- KPI Cards ---- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Valor Total Stock */}
-        <div className="rounded-lg bg-card border-l-4 border-l-primary p-5">
+        <div className="rounded-lg bg-card p-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
             Valor Total Stock
           </p>
@@ -179,7 +179,7 @@ export default function InventoryPage() {
         </div>
 
         {/* Bajo Minimo */}
-        <div className="rounded-lg bg-card border-l-4 border-l-red-500 p-5">
+        <div className="rounded-lg bg-card p-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
             Bajo Minimo
           </p>
@@ -194,7 +194,7 @@ export default function InventoryPage() {
         </div>
 
         {/* Rotacion de Stock */}
-        <div className="rounded-lg bg-card border-l-4 border-l-emerald-500 p-5">
+        <div className="rounded-lg bg-card p-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
             Rotacion de Stock
           </p>
@@ -205,7 +205,7 @@ export default function InventoryPage() {
         </div>
 
         {/* Gestion de Mermas */}
-        <div className="rounded-lg bg-card border-l-4 border-l-emerald-500 p-5">
+        <div className="rounded-lg bg-card p-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-1">
             Gestion de Mermas
           </p>
@@ -225,7 +225,7 @@ export default function InventoryPage() {
 
       {/* ---- Expiry alert (existing functionality preserved) ---- */}
       {expiring.length > 0 && (
-        <div className="rounded-lg bg-card border-l-4 border-l-primary p-5">
+        <div className="rounded-lg bg-card p-5">
           <div className="flex items-center gap-2 mb-3">
             <AlertTriangle className="h-5 w-5 text-primary" />
             <span className="text-sm font-semibold uppercase tracking-widest text-primary">

@@ -144,19 +144,19 @@ export default function SetupStatusPage() {
 
       {/* KPIs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="rounded-lg bg-card border-l-4 border-l-emerald-500 p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-xs text-muted-foreground uppercase tracking-wide">Activos</p>
           <p className="text-2xl font-bold text-emerald-400">{activeCount}</p>
         </div>
-        <div className="rounded-lg bg-card border-l-4 border-l-yellow-500 p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-xs text-muted-foreground uppercase tracking-wide">En setup</p>
           <p className="text-2xl font-bold text-yellow-400">{onboardingCount}</p>
         </div>
-        <div className="rounded-lg bg-card border-l-4 border-l-primary p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-xs text-muted-foreground uppercase tracking-wide">Pendiente revisar</p>
           <p className="text-2xl font-bold text-primary">{pendingReview}</p>
         </div>
-        <div className="rounded-lg bg-card border-l-4 border-l-blue-500 p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-xs text-muted-foreground uppercase tracking-wide">% Setup medio</p>
           <p className="text-2xl font-bold text-blue-400">{avgCompletion}%</p>
         </div>

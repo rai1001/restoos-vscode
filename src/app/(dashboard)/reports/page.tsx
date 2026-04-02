@@ -294,7 +294,7 @@ function KpiCard({
   borderColor?: string
 }) {
   return (
-    <div className={cn("rounded-lg border-l-4 bg-card p-4 transition-colors hover:bg-card-hover", borderColor)}>
+    <div className={cn("rounded-lg bg-card p-4 transition-colors hover:bg-card-hover", borderColor)}>
       <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
         {title}
       </p>
@@ -342,7 +342,7 @@ function HallazgoCard({
     optimization: <BarChart3 className="h-4 w-4 text-blue-400" />,
   }
   return (
-    <div className={cn("rounded-lg border-l-4 bg-card p-4", borderMap[type])}>
+    <div className={cn("rounded-lg bg-card p-4", borderMap[type])}>
       <div className="flex items-start gap-2">
         {iconMap[type]}
         <div>

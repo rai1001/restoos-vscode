@@ -314,7 +314,7 @@ export default function ForecastingPage() {
       {/* ── Stats cards ── */}
       {stats && (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <div className="rounded-lg bg-card p-4 border-l-4 border-l-red-500">
+          <div className="rounded-lg bg-card p-4">
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
               Productos criticos
             </p>
@@ -322,7 +322,7 @@ export default function ForecastingPage() {
               {stats.critical}
             </p>
           </div>
-          <div className="rounded-lg bg-card p-4 border-l-4 border-l-orange-500">
+          <div className="rounded-lg bg-card p-4">
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
               Atencion
             </p>
@@ -330,7 +330,7 @@ export default function ForecastingPage() {
               {stats.warning}
             </p>
           </div>
-          <div className="rounded-lg bg-card p-4 border-l-4 border-l-green-500">
+          <div className="rounded-lg bg-card p-4">
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
               Productos OK
             </p>
@@ -338,7 +338,7 @@ export default function ForecastingPage() {
               {stats.ok}
             </p>
           </div>
-          <div className="rounded-lg bg-card p-4 border-l-4 border-l-primary">
+          <div className="rounded-lg bg-card p-4">
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
               Deficit total
             </p>

@@ -856,7 +856,7 @@ function IncidentsTab() {
     <div className="space-y-3">
       {incidents.map((inc) => (
         <div key={inc.id} className={cn(
-          "rounded-lg bg-card p-4 border-l-4",
+          "rounded-lg bg-card p-4",
           inc.severity === "critical" ? "border-l-red-500" :
           inc.severity === "high" ? "border-l-orange-500" :
           inc.severity === "medium" ? "border-l-yellow-500" : "border-l-blue-500"
@@ -1055,7 +1055,7 @@ export default function AppccPage() {
 
       {/* KPI summary cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-lg bg-card border-l-4 border-l-green-500 p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-1.5 mb-2">
             <CheckCircle2 className="h-4 w-4 text-green-500" /> Controles OK
           </p>
@@ -1065,7 +1065,7 @@ export default function AppccPage() {
           </div>
         </div>
 
-        <div className="rounded-lg bg-card border-l-4 border-l-yellow-500 p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-1.5 mb-2">
             <AlertTriangle className="h-4 w-4 text-yellow-500" /> Alertas
           </p>
@@ -1074,7 +1074,7 @@ export default function AppccPage() {
           </span>
         </div>
 
-        <div className="rounded-lg bg-card border-l-4 border-l-red-500 p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-1.5 mb-2">
             <XCircle className="h-4 w-4 text-red-500" /> Críticos
           </p>
@@ -1083,7 +1083,7 @@ export default function AppccPage() {
           </span>
         </div>
 
-        <div className="rounded-lg bg-card border-l-4 border-l-primary p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-1.5 mb-2">
             <BarChart3 className="h-4 w-4 text-primary" /> Completado
           </p>

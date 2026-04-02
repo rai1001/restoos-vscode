@@ -116,23 +116,23 @@ export default function MultiLocalPage() {
 
       {/* KPI summary */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-        <div className="rounded-lg bg-card border-l-4 border-l-primary p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Locales</p>
           <p className="text-xl font-bold text-foreground">{hotels.length}</p>
         </div>
-        <div className="rounded-lg bg-card border-l-4 border-l-blue-500 p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Productos total</p>
           <p className="text-xl font-bold text-foreground">{totalProducts}</p>
         </div>
-        <div className="rounded-lg bg-card border-l-4 border-l-emerald-500 p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Valor stock</p>
           <p className="text-xl font-bold text-foreground">{eurFmt(totalStock)}</p>
         </div>
-        <div className="rounded-lg bg-card border-l-4 border-l-red-500 p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Merma 30d</p>
           <p className="text-xl font-bold text-red-400">{eurFmt(totalWaste)}</p>
         </div>
-        <div className="rounded-lg bg-card border-l-4 border-l-yellow-500 p-4">
+        <div className="rounded-lg bg-card p-4">
           <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Alertas</p>
           <p className="text-xl font-bold text-yellow-400">{totalAlerts}</p>
         </div>

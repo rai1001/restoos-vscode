@@ -116,7 +116,7 @@ function AlertCard({
   return (
     <div
       className={cn(
-        "flex items-center justify-between gap-3 rounded-md border-l-4 px-3 py-2.5",
+        "flex items-center justify-between gap-3 rounded-md px-3 py-2.5",
         cfg.border,
         cfg.bg
       )}

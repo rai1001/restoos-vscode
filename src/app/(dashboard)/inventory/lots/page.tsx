@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useSyncExternalStore } from "react";
 import { useStockLots } from "@/features/inventory/hooks/use-inventory";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,11 @@ import Link from "next/link";
 
 export default function LotsPage() {
   const { data: lots, isLoading } = useStockLots();
-  const [expiringThreshold] = useState(() => Date.now() + 3 * 86400000);
+  const expiringThreshold = useSyncExternalStore(
+    () => () => {},
+    () => Date.now() + 3 * 86400000,
+    () => Date.now() + 3 * 86400000,
+  );
 
   return (
     <div className="space-y-6">

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useSyncExternalStore, useState, type ReactNode } from "react";
 
 interface SidebarContextValue {
   collapsed: boolean;
@@ -24,17 +24,22 @@ export function useSidebar() {
   return useContext(SidebarContext);
 }
 
+const STORAGE_KEY = "restoos-sidebar-collapsed";
+const subscribe = (cb: () => void) => {
+  window.addEventListener("storage", cb);
+  return () => window.removeEventListener("storage", cb);
+};
+const getSnapshot = () => localStorage.getItem(STORAGE_KEY) === "true";
+const getServerSnapshot = () => false;
+
 export function SidebarProvider({ children }: { children: ReactNode }) {
-  const [collapsed, setCollapsedState] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return localStorage.getItem("restoos-sidebar-collapsed") === "true";
-  });
+  const collapsed = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  function setCollapsed(v: boolean) {
-    setCollapsedState(v);
-    localStorage.setItem("restoos-sidebar-collapsed", String(v));
-  }
+  const setCollapsed = useCallback((v: boolean) => {
+    localStorage.setItem(STORAGE_KEY, String(v));
+    window.dispatchEvent(new StorageEvent("storage", { key: STORAGE_KEY }));
+  }, []);
 
   function toggleCollapsed() {
     setCollapsed(!collapsed);

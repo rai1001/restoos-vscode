@@ -55,7 +55,7 @@ interface ActiveHotel {
 
 export function useActiveHotel() {
   const [hotel, setHotel] = useState<ActiveHotel>(EMPTY_ACTIVE_HOTEL);
-  const [hotelLoading, setHotelLoading] = useState(false);
+  const [hotelLoading, setHotelLoading] = useState(true);
   const { user, loading: sessionLoading } = useSession();
   const [supabase] = useState(() => createClient());
 

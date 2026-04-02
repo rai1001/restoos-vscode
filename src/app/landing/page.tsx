@@ -54,14 +54,12 @@ function Navbar() {
           </a>
         </div>
         <div className="flex items-center gap-3">
-          <Link href="/login">
-            <Button variant="ghost" size="sm">Iniciar sesión</Button>
+          <Link href="/login" className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground h-8 px-3">
+            Iniciar sesión
           </Link>
-          <Link href="#pricing">
-            <Button size="sm">
-              Empezar gratis
-              <ChevronRight className="ml-1 size-3.5" />
-            </Button>
+          <Link href="#pricing" className="inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground text-sm font-medium h-8 px-3 hover:bg-primary/90">
+            Empezar gratis
+            <ChevronRight className="ml-1 size-3.5" />
           </Link>
         </div>
       </nav>
@@ -127,15 +125,11 @@ function Hero() {
           </motion.p>
 
           <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            <Link href="#pricing">
-              <button className="cursor-pointer rounded-full bg-white px-8 py-4 text-base font-medium text-gray-900 transition-transform duration-300 hover:scale-105">
-                Empezar prueba gratuita
-              </button>
+            <Link href="#pricing" className="cursor-pointer rounded-full bg-white px-8 py-4 text-base font-medium text-gray-900 transition-transform duration-300 hover:scale-105 inline-block">
+              Empezar prueba gratuita
             </Link>
-            <Link href="#features">
-              <button className="cursor-pointer rounded-full border border-white/30 bg-white/10 px-8 py-4 text-base font-medium text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:border-white/50">
-                Ver funcionalidades
-              </button>
+            <Link href="#features" className="cursor-pointer rounded-full border border-white/30 bg-white/10 px-8 py-4 text-base font-medium text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:border-white/50 inline-block">
+              Ver funcionalidades
             </Link>
           </motion.div>
 
@@ -498,9 +492,10 @@ function Pricing() {
                 ))}
               </ul>
 
-              <button
+              <a
+                href="#contacto"
                 className={`
-                  mt-auto w-full cursor-pointer rounded-xl py-3 text-sm font-semibold transition-all duration-200
+                  mt-auto w-full block cursor-pointer rounded-xl py-3 text-sm font-semibold text-center transition-all duration-200
                   ${plan.featured
                     ? "bg-primary text-primary-foreground hover:bg-primary/90"
                     : "border border-white/20 bg-white/10 text-foreground hover:bg-white/20"
@@ -508,7 +503,7 @@ function Pricing() {
                 `}
               >
                 {plan.cta}
-              </button>
+              </a>
             </motion.div>
           ))}
         </motion.div>
@@ -545,11 +540,9 @@ function CTASection() {
           con precio preferente de por vida.
         </motion.p>
         <motion.div variants={fadeUp}>
-          <Link href="#pricing">
-            <Button size="lg" className="h-12 px-8 text-base cursor-pointer">
-              Reservar mi plaza
-              <ArrowRight className="ml-2 size-4" />
-            </Button>
+          <Link href="#pricing" className="inline-flex items-center justify-center rounded-md bg-primary text-primary-foreground h-12 px-8 text-base font-medium cursor-pointer hover:bg-primary/90">
+            Reservar mi plaza
+            <ArrowRight className="ml-2 size-4" />
           </Link>
         </motion.div>
       </motion.div>

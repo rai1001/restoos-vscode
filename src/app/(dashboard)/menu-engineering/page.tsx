@@ -116,7 +116,7 @@ function QuadrantCard({
             >
               <span className="font-medium leading-snug text-[#E5E2E1]">{dish.name}</span>
               <span className="shrink-0 text-[#A78B7D]">
-                {dish.contribution_margin.toFixed(2)}â‚¬ Â· {dish.units_sold} uds
+                {dish.contribution_margin.toFixed(2)}€ Â· {dish.units_sold} uds
               </span>
             </div>
           ))
@@ -160,9 +160,9 @@ function SortIndicator({
   direction: "asc" | "desc"
 }) {
   return active ? (
-    <span className="ml-1 text-xs">{direction === "asc" ? "Ã¢â€ â€˜" : "Ã¢â€ â€œ"}</span>
+    <span className="ml-1 text-xs">{direction === "asc" ? "↑" : "↓"}</span>
   ) : (
-    <span className="ml-1 text-xs text-[#A78B7D]/40">Ã¢â€ â€¢</span>
+    <span className="ml-1 text-xs text-[#A78B7D]/40">↕</span>
   )
 }
 
@@ -235,7 +235,7 @@ function TableView({ dishes }: { dishes: MenuDishAnalysis[] }) {
             <SortableTh col="category" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Categoria</SortableTh>
             <SortableTh col="selling_price" right sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Precio</SortableTh>
             <SortableTh col="cost_price" right sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Coste</SortableTh>
-            <SortableTh col="contribution_margin" right sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Margen â‚¬</SortableTh>
+            <SortableTh col="contribution_margin" right sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Margen €</SortableTh>
             <SortableTh col="contribution_margin_pct" right sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Margen %</SortableTh>
             <SortableTh col="units_sold" right sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Uds vendidas</SortableTh>
             <SortableTh col="quadrant" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Cuadrante</SortableTh>
@@ -248,12 +248,12 @@ function TableView({ dishes }: { dishes: MenuDishAnalysis[] }) {
               <td className="px-3 py-2 text-[#A78B7D]">
                 {CATEGORY_LABELS[dish.category]}
               </td>
-              <td className="px-3 py-2 text-right text-[#E5E2E1]">{dish.selling_price.toFixed(2)} â‚¬</td>
+              <td className="px-3 py-2 text-right text-[#E5E2E1]">{dish.selling_price.toFixed(2)} €</td>
               <td className="px-3 py-2 text-right text-[#A78B7D]">
-                {dish.cost_price.toFixed(2)} â‚¬
+                {dish.cost_price.toFixed(2)} €
               </td>
               <td className="px-3 py-2 text-right font-medium text-[#E5E2E1]">
-                {dish.contribution_margin.toFixed(2)} â‚¬
+                {dish.contribution_margin.toFixed(2)} €
               </td>
               <td className="px-3 py-2 text-right text-[#E5E2E1]">
                 {dish.contribution_margin_pct.toFixed(1)}%
@@ -271,13 +271,13 @@ function TableView({ dishes }: { dishes: MenuDishAnalysis[] }) {
               Totales ({dishes.length} platos)
             </td>
             <td className="px-3 py-2 text-right text-[#E5E2E1]">
-              {totalRevenue.toFixed(0)} â‚¬
+              {totalRevenue.toFixed(0)} €
             </td>
             <td className="px-3 py-2 text-right text-[#A78B7D]">
-              {totalCost.toFixed(0)} â‚¬
+              {totalCost.toFixed(0)} €
             </td>
             <td className="px-3 py-2 text-right text-[#E5E2E1]">
-              {totalContrib.toFixed(0)} â‚¬
+              {totalContrib.toFixed(0)} €
             </td>
             <td className="px-3 py-2 text-right text-[#E5E2E1]">
               {totalRevenue > 0
@@ -323,7 +323,7 @@ function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
   if (topStar) {
     insights.push({
       emoji: "â­",
-      text: `"${topStar.name}" es tu mejor plato â€” ponlo en lugar destacado de la carta.`,
+      text: `"${topStar.name}" es tu mejor plato —ponlo en lugar destacado de la carta.`,
       borderColor: "border-l-yellow-500",
     })
   }
@@ -331,7 +331,7 @@ function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
   if (dogs.length > 0) {
     insights.push({
       emoji: "ðŸ•",
-      text: `${dogs.length} plato${dogs.length > 1 ? "s" : ""} con baja rentabilidad y baja popularidad${worstDog ? ` â€” "${worstDog.name}" es el candidato principal para retirar` : ""}.`,
+      text: `${dogs.length} plato${dogs.length > 1 ? "s" : ""} con baja rentabilidad y baja popularidad${worstDog ? ` —"${worstDog.name}" es el candidato principal para retirar` : ""}.`,
       borderColor: "border-l-red-500",
     })
   }
@@ -340,7 +340,7 @@ function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
     const suggestedPrice = (worstPlow.selling_price * 1.1).toFixed(2)
     insights.push({
       emoji: "ðŸ„",
-      text: `"${worstPlow.name}" se vende mucho pero su margen es bajo (${worstPlow.contribution_margin_pct.toFixed(1)}%) â€” considera subir el precio a ${suggestedPrice} â‚¬.`,
+      text: `"${worstPlow.name}" se vende mucho pero su margen es bajo (${worstPlow.contribution_margin_pct.toFixed(1)}%) —considera subir el precio a ${suggestedPrice} €.`,
       borderColor: "border-l-blue-500",
     })
   }
@@ -348,7 +348,7 @@ function Recommendations({ dishes }: { dishes: MenuDishAnalysis[] }) {
   if (topPuzzle) {
     insights.push({
       emoji: "â“",
-      text: `"${topPuzzle.name}" tiene buen margen (${topPuzzle.contribution_margin.toFixed(2)} â‚¬) pero pocas ventas â€” mejora su visibilidad en la carta.`,
+      text: `"${topPuzzle.name}" tiene buen margen (${topPuzzle.contribution_margin.toFixed(2)} €) pero pocas ventas —mejora su visibilidad en la carta.`,
       borderColor: "border-l-purple-500",
     })
   }
@@ -394,7 +394,7 @@ function MatrixView({ dishes }: { dishes: MenuDishAnalysis[] }) {
       </div>
 
       <div className="flex flex-1 flex-col gap-3">
-        {/* 2Ã—2 Grid: top-left=ENIGMA, top-right=ESTRELLA, bottom-left=PERRO, bottom-right=VACA */}
+        {/* 2×2 Grid: top-left=ENIGMA, top-right=ESTRELLA, bottom-left=PERRO, bottom-right=VACA */}
         <div
           className="grid grid-cols-1 gap-3 sm:grid-cols-2"
         >
@@ -487,7 +487,7 @@ function ScatterTooltipContent({ active, payload }: { active?: boolean; payload?
       <p className="mb-1 font-semibold">{d.plato}</p>
       <p>Popularidad: {d.popularidad} uds</p>
       <p>Margen: {d.margen}%</p>
-      <p>Revenue: {d.revenue.toLocaleString("es-ES")} â‚¬</p>
+      <p>Revenue: {d.revenue.toLocaleString("es-ES")} €</p>
       <p className="mt-1 font-medium" style={{ color: QUADRANT_COLORS[d.quadrant] }}>
         {QUADRANT_LABELS_SCATTER[d.quadrant]}
       </p>
@@ -521,7 +521,7 @@ function RentabilidadScatterChart() {
       <div className="mb-4">
         <h2 className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Mapa de Rentabilidad</h2>
         <p className="text-sm text-[#A78B7D] mt-1">
-          Margen vs popularidad â€” tamano = contribucion a ingresos
+          Margen vs popularidad —tamaño = contribución a ingresos
         </p>
       </div>
 
@@ -709,17 +709,17 @@ export default function MenuEngineeringPage() {
         <KpiCard
           emoji="ðŸ’°"
           label="Ingresos totales"
-          value={`${report.total_revenue.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} â‚¬`}
+          value={`${report.total_revenue.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} €`}
         />
         <KpiCard
           emoji="ðŸ“‰"
           label="Coste total"
-          value={`${report.total_cost.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} â‚¬`}
+          value={`${report.total_cost.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} €`}
         />
         <KpiCard
           emoji="ðŸ“ˆ"
           label="Margen total"
-          value={`${report.total_contribution.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} â‚¬`}
+          value={`${report.total_contribution.toLocaleString("es-ES", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} €`}
           sub={`${marginPct}% sobre ingresos`}
         />
         <KpiCard

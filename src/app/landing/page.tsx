@@ -138,13 +138,13 @@ function Hero() {
             className="flex flex-wrap items-center justify-center gap-6 pt-4 text-sm text-white/70"
           >
             <span className="flex items-center gap-1.5">
-              <Check className="size-4 text-orange-400" /> Sin permanencia
+              <Check className="size-4 text-[var(--alert-warning)]" /> Sin permanencia
             </span>
             <span className="flex items-center gap-1.5">
-              <Check className="size-4 text-orange-400" /> Setup en 15 min
+              <Check className="size-4 text-[var(--alert-warning)]" /> Setup en 15 min
             </span>
             <span className="flex items-center gap-1.5">
-              <Check className="size-4 text-orange-400" /> Soporte en español
+              <Check className="size-4 text-[var(--alert-warning)]" /> Soporte en español
             </span>
           </motion.div>
         </motion.div>

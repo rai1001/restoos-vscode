@@ -178,7 +178,7 @@ export default function NotificationsSettingsPage() {
             Productos próximos a caducar
           </div>
           <div className="flex items-center gap-2 text-foreground">
-            <Badge className="bg-orange-500/15 text-orange-400 border-0 text-xs">Stock</Badge>
+            <Badge className="bg-primary/15 text-[var(--alert-warning)] border-0 text-xs">Stock</Badge>
             Productos bajo mínimo
           </div>
           <div className="flex items-center gap-2 text-foreground">

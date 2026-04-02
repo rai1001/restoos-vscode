@@ -286,7 +286,7 @@ function KpiCard({
   title,
   value,
   sub,
-  borderColor = "border-l-orange-500",
+  borderColor = "border-l-primary",
 }: {
   title: string
   value: string
@@ -333,12 +333,12 @@ function HallazgoCard({
 }) {
   const borderMap = {
     opportunity: "border-l-green-500",
-    warning: "border-l-orange-500",
+    warning: "border-l-primary",
     optimization: "border-l-blue-500",
   }
   const iconMap = {
     opportunity: <Lightbulb className="h-4 w-4 text-green-400" />,
-    warning: <AlertTriangle className="h-4 w-4 text-orange-400" />,
+    warning: <AlertTriangle className="h-4 w-4 text-[var(--alert-warning)]" />,
     optimization: <BarChart3 className="h-4 w-4 text-blue-400" />,
   }
   return (
@@ -655,7 +655,7 @@ export default function ReportsPage() {
               title="Food Cost Actual"
               value={formatPercent(avgFoodCostPct)}
               sub="Objetivo: <= 30%"
-              borderColor="border-l-orange-500"
+              borderColor="border-l-primary"
             />
             <KpiCard
               title="Ticket Medio"
@@ -739,10 +739,10 @@ export default function ReportsPage() {
             </MCard>
 
             {/* Alerta de Control */}
-            <MCard className="border border-orange-500/20">
+            <MCard className="border border-primary/20">
               <div className="flex items-center gap-2 mb-4">
-                <AlertTriangle className="h-5 w-5 text-orange-400" />
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-orange-400">
+                <AlertTriangle className="h-5 w-5 text-[var(--alert-warning)]" />
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--alert-warning)]">
                   Alerta de Control
                 </h3>
               </div>
@@ -937,7 +937,7 @@ export default function ReportsPage() {
               title="Top categoria"
               value={topCategory}
               sub={formatCurrency(categoryTotals[topCategory] ?? 0)}
-              borderColor="border-l-orange-500"
+              borderColor="border-l-primary"
             />
           </div>
 
@@ -1220,7 +1220,7 @@ export default function ReportsPage() {
               title="Coste total perdidas"
               value={formatCurrency(totalWasteCost)}
               sub="Periodo seleccionado"
-              borderColor="border-l-orange-500"
+              borderColor="border-l-primary"
             />
             <KpiCard
               title="Motivo principal"

@@ -59,7 +59,7 @@ export function AllergenEditor({
                 "flex flex-col items-center gap-0.5 rounded-lg border p-2 text-center transition-all",
                 "hover:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary",
                 active
-                  ? "border-orange-400 bg-orange-50 dark:bg-orange-950/40 dark:border-orange-600"
+                  ? "border-[var(--alert-warning)] bg-orange-50 dark:bg-[var(--alert-warning)]/40 dark:border-orange-600"
                   : "border-border bg-card text-muted-foreground hover:bg-muted/50",
                 readOnly && "cursor-default hover:border-border"
               )}

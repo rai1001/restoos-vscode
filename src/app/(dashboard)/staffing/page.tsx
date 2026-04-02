@@ -59,7 +59,7 @@ function formatCurrency(n: number): string {
 
 const STATUS_CONFIG: Record<ShiftStatus, { label: string; className: string }> = {
   confirmado:  { label: "CONFIRMADO",  className: "bg-emerald-500/15 text-emerald-400 border-0 uppercase tracking-widest text-[10px]" },
-  pendiente:   { label: "PENDIENTE",   className: "bg-orange-500/15 text-orange-400 border-0 uppercase tracking-widest text-[10px]" },
+  pendiente:   { label: "PENDIENTE",   className: "bg-primary/15 text-[var(--alert-warning)] border-0 uppercase tracking-widest text-[10px]" },
   cancelado:   { label: "CANCELADO",   className: "bg-red-500/15 text-red-400 border-0 uppercase tracking-widest text-[10px]" },
   completado:  { label: "COMPLETADO",  className: "bg-muted-foreground/15 text-muted-foreground border-0 uppercase tracking-widest text-[10px]" },
 }
@@ -569,7 +569,7 @@ function SummaryCards() {
                 {s.confirmed} conf.
               </span>
               {s.pending > 0 && (
-                <span className="flex items-center gap-1 text-xs text-orange-400">
+                <span className="flex items-center gap-1 text-xs text-[var(--alert-warning)]">
                   <AlertCircle className="h-3.5 w-3.5" />
                   {s.pending} pend.
                 </span>

@@ -858,7 +858,7 @@ function IncidentsTab() {
         <div key={inc.id} className={cn(
           "rounded-lg bg-card p-4",
           inc.severity === "critical" ? "border-l-red-500" :
-          inc.severity === "high" ? "border-l-orange-500" :
+          inc.severity === "high" ? "border-l-primary" :
           inc.severity === "medium" ? "border-l-yellow-500" : "border-l-blue-500"
         )}>
           <div className="flex items-start justify-between gap-4">
@@ -867,7 +867,7 @@ function IncidentsTab() {
                 <AlertCircle className={cn(
                   "h-4 w-4",
                   inc.severity === "critical" ? "text-red-400" :
-                  inc.severity === "high" ? "text-orange-400" : "text-yellow-400"
+                  inc.severity === "high" ? "text-[var(--alert-warning)]" : "text-yellow-400"
                 )} />
                 <span className="font-medium text-foreground">{inc.title}</span>
                 <Badge className="bg-white/5 text-muted-foreground border-0 text-xs">{inc.severity}</Badge>

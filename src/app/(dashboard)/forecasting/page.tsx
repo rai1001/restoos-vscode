@@ -224,7 +224,7 @@ function UrgencyBadge({ urgency }: { urgency: ForecastSummary["urgency"] }) {
       )
     case "warning":
       return (
-        <span className="inline-flex items-center gap-1 rounded-md bg-orange-500/10 px-2 py-0.5 text-xs font-medium uppercase tracking-widest text-orange-400">
+        <span className="inline-flex items-center gap-1 rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium uppercase tracking-widest text-[var(--alert-warning)]">
           <AlertTriangle className="h-3 w-3" />
           Atencion
         </span>
@@ -326,7 +326,7 @@ export default function ForecastingPage() {
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
               Atencion
             </p>
-            <p className="mt-1 text-2xl font-bold text-orange-400">
+            <p className="mt-1 text-2xl font-bold text-[var(--alert-warning)]">
               {stats.warning}
             </p>
           </div>
@@ -374,7 +374,7 @@ export default function ForecastingPage() {
                     className={cn(
                       "border-b border-muted-foreground/10 hover:bg-card-hover transition-colors",
                       row.urgency === "critical" && "bg-red-950/20",
-                      row.urgency === "warning" && "bg-orange-950/10",
+                      row.urgency === "warning" && "bg-[var(--alert-warning)]/10",
                     )}
                   >
                     <TableCell className="font-medium text-foreground">

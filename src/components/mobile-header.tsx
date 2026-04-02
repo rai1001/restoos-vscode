@@ -16,7 +16,7 @@ export function MobileHeader() {
         <Menu className="h-5 w-5" />
       </button>
       <span className="ml-3 font-semibold">
-        Resto<span className="text-orange-500">OS</span>
+        Resto<span className="text-primary">OS</span>
       </span>
     </header>
   );

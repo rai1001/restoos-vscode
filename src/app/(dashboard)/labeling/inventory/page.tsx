@@ -82,8 +82,8 @@ const ALERT_CONFIG: Record<
   },
   expiry_24h: {
     emoji: "\uD83D\uDFE0",
-    border: "border-l-orange-500",
-    bg: "bg-orange-950/20",
+    border: "border-l-primary",
+    bg: "bg-[var(--alert-warning)]/20",
     label: (a) =>
       `Caduca HOY: ${a.prep_batches?.prep_name} — ${
         a.prep_batches ? format(parseISO(a.prep_batches.expiry_date), "HH:mm") : ""

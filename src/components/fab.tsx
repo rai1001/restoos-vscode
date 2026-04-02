@@ -66,7 +66,7 @@ export function FAB() {
           "flex h-14 w-14 items-center justify-center rounded-full shadow-xl transition-all",
           open
             ? "bg-destructive text-white rotate-45"
-            : "bg-orange-500 hover:bg-orange-600 text-white"
+            : "bg-primary hover:bg-primary/90 text-white"
         )}
         aria-label={open ? "Cerrar acciones" : "Acciones rápidas"}
       >

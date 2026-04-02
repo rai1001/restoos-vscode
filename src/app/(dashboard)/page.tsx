@@ -121,8 +121,8 @@ function TrendPill({ trend, inverted }: { trend: number; inverted?: boolean }) {
       className={cn(
         "inline-flex items-center gap-0.5 rounded-full px-2 py-0.5 text-xs font-medium",
         isGood
-          ? "bg-green-900/30 text-green-400"
-          : "bg-red-900/30 text-red-400"
+          ? "bg-[rgba(255,255,255,0.03)] text-muted-foreground"
+          : "bg-[#DC4A4A]/10 text-[#DC4A4A]"
       )}
     >
       {trend > 0 ? (
@@ -138,45 +138,33 @@ function TrendPill({ trend, inverted }: { trend: number; inverted?: boolean }) {
 
 // ── KPI color map ─────────────────────────────────────────────────────────────
 
-const KPI_ACCENT_BG: Record<KpiMetric["color"], string> = {
-  green: "bg-green-500/10",
-  blue: "bg-blue-500/10",
-  orange: "bg-orange-500/10",
-  purple: "bg-purple-500/10",
-  red: "bg-red-500/10",
-  yellow: "bg-yellow-500/10",
-};
-
-const KPI_VALUE_COLOR: Record<KpiMetric["color"], string> = {
-  green: "text-green-400",
-  blue: "text-blue-400",
-  orange: "text-orange-400",
-  purple: "text-purple-400",
-  red: "text-red-400",
-  yellow: "text-yellow-400",
-};
-
-// ── KPI Card ──────────────────────────────────────────────────────────────────
+// ── KPI Card — Calm Darkness: monochromatic, color only for alerts ───────────
 
 function KpiCard({ kpi, large }: { kpi: KpiMetric; large?: boolean }) {
   const Icon = ICON_MAP[kpi.icon] ?? TrendingUp;
+  // Color ONLY if this KPI has an alert condition (red/yellow = problem)
+  const isAlert = kpi.color === "red" || kpi.color === "yellow";
+  const valueColor = isAlert
+    ? kpi.color === "red" ? "text-[#DC4A4A]" : "text-[#D4920A]"
+    : "text-foreground";
+
   return (
     <div
       className={cn(
-        "rounded-lg bg-card transition-colors hover:bg-card-hover",
+        "rounded-lg bg-card border border-border transition-colors hover:bg-card-hover",
         large ? "p-5" : "p-4"
       )}
     >
       <div className="mb-2 flex items-start justify-between">
-        <div className={cn("flex h-8 w-8 items-center justify-center rounded-md", KPI_ACCENT_BG[kpi.color])}>
-          <Icon className={cn("h-4 w-4", KPI_VALUE_COLOR[kpi.color])} />
+        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[rgba(255,255,255,0.03)]">
+          <Icon className="h-4 w-4 text-muted-foreground" />
         </div>
         <TrendPill trend={kpi.trend} inverted={kpi.trendInverted} />
       </div>
       <p
         className={cn(
-          "font-bold leading-tight",
-          KPI_VALUE_COLOR[kpi.color],
+          "font-bold leading-tight tabular-nums",
+          valueColor,
           large ? "text-3xl" : "text-2xl"
         )}
       >

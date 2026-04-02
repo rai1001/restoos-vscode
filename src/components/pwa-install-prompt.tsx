@@ -46,7 +46,7 @@ export function PWAInstallPrompt() {
     <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-80 z-40 rounded-xl border bg-background shadow-lg p-4">
       <div className="flex items-start gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-100 dark:bg-orange-900/30">
-          <Download className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+          <Download className="h-5 w-5 text-orange-600 dark:text-[var(--alert-warning)]" />
         </div>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold">Instalar RestoOS</p>

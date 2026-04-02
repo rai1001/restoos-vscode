@@ -100,7 +100,7 @@ function DonutChart({ totalCost }: { totalCost: number }) {
         {/* Inner circle for donut effect */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-24 h-24 rounded-full bg-card dark:bg-card bg-white flex flex-col items-center justify-center">
-            <span className="text-lg font-bold text-orange-500">{fmt(totalCost)}</span>
+            <span className="text-lg font-bold text-primary">{fmt(totalCost)}</span>
             <span className="text-[10px] text-gray-400 uppercase tracking-wide">Total</span>
           </div>
         </div>
@@ -128,7 +128,7 @@ function KpiCard({
   value,
   subtitle,
   subtitleColor = "text-gray-400",
-  borderColor = "bg-orange-500",
+  borderColor = "bg-primary",
 }: {
   label: string
   value: string
@@ -217,7 +217,7 @@ function DetailDialog({
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto bg-white dark:bg-background border-gray-200 dark:border-accent/30">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg text-gray-900 dark:text-gray-100">
-            <ChefHat className="h-5 w-5 text-orange-500" />
+            <ChefHat className="h-5 w-5 text-primary" />
             {escandallo.name}
           </DialogTitle>
           <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -234,10 +234,10 @@ function DetailDialog({
 
         <Tabs defaultValue="ingredientes">
           <TabsList className="mb-4 bg-gray-100 dark:bg-card border border-gray-200 dark:border-accent/30">
-            <TabsTrigger value="ingredientes" className="data-[state=active]:bg-white dark:data-[state=active]:bg-accent data-[state=active]:text-orange-500">
+            <TabsTrigger value="ingredientes" className="data-[state=active]:bg-white dark:data-[state=active]:bg-accent data-[state=active]:text-primary">
               Ingredientes
             </TabsTrigger>
-            <TabsTrigger value="evolucion" className="data-[state=active]:bg-white dark:data-[state=active]:bg-accent data-[state=active]:text-orange-500">
+            <TabsTrigger value="evolucion" className="data-[state=active]:bg-white dark:data-[state=active]:bg-accent data-[state=active]:text-primary">
               Evolucion de Costes
             </TabsTrigger>
           </TabsList>
@@ -251,7 +251,7 @@ function DetailDialog({
                 value={fmt(escandallo.cost_per_portion)}
                 subtitle={`${evolutionChangePct >= 0 ? "+" : ""}${evolutionChangePct.toFixed(1)}% vs mes anterior`}
                 subtitleColor={evolutionChangePct > 0 ? "text-red-400" : "text-green-400"}
-                borderColor="bg-orange-500"
+                borderColor="bg-primary"
               />
               <KpiCard
                 label="Margen Objetivo"
@@ -265,7 +265,7 @@ function DetailDialog({
                 value={fmt(escandallo.suggested_price)}
                 subtitle="Inc. IVA 10%"
                 subtitleColor="text-gray-400 dark:text-gray-500"
-                borderColor="bg-orange-500"
+                borderColor="bg-primary"
               />
               <KpiCard
                 label="Margen Real vs Teorico"
@@ -337,7 +337,7 @@ function DetailDialog({
                                 {merma.toFixed(0)}%
                               </span>
                             </TableCell>
-                            <TableCell className="text-right font-bold text-orange-500">{fmt(ing.line_cost)}</TableCell>
+                            <TableCell className="text-right font-bold text-primary">{fmt(ing.line_cost)}</TableCell>
                           </TableRow>
                         )
                       })}
@@ -354,7 +354,7 @@ function DetailDialog({
                     </span>
                     <span>
                       <span className="text-gray-500 dark:text-gray-500">Coste/racion: </span>
-                      <span className="font-semibold text-orange-500">{fmt(escandallo.cost_per_portion)}</span>
+                      <span className="font-semibold text-primary">{fmt(escandallo.cost_per_portion)}</span>
                     </span>
                     <span>
                       <span className="text-gray-500 dark:text-gray-500">Food cost: </span>
@@ -377,8 +377,8 @@ function DetailDialog({
                   <div className="space-y-4">
                     {miseEnPlace.map((step, i) => (
                       <div key={i} className="flex gap-4 items-start">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
-                          <span className="text-sm font-bold text-orange-500">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
+                          <span className="text-sm font-bold text-primary">
                             {String(i + 1).padStart(2, "0")}
                           </span>
                         </div>
@@ -425,10 +425,10 @@ function DetailDialog({
                 </div>
 
                 {/* Suggested price callout */}
-                <div className="rounded-xl border border-orange-500/20 bg-orange-500/5 dark:bg-orange-500/5 px-4 py-3 text-sm">
-                  <span className="font-medium text-orange-500">Precio sugerido</span>
+                <div className="rounded-xl border border-primary/20 bg-primary/5 dark:bg-primary/5 px-4 py-3 text-sm">
+                  <span className="font-medium text-primary">Precio sugerido</span>
                   <span className="text-gray-500 dark:text-gray-400"> con objetivo {escandallo.target_food_cost_pct}% food cost: </span>
-                  <span className="text-lg font-bold text-orange-500">{fmt(escandallo.suggested_price)}</span>
+                  <span className="text-lg font-bold text-primary">{fmt(escandallo.suggested_price)}</span>
                   {Math.abs(escandallo.suggested_price - escandallo.selling_price) > escandallo.selling_price * 0.1 && (
                     <p className="mt-1 text-xs text-yellow-400">
                       Precio actual {fmt(escandallo.selling_price)} — diferencia &gt;10%
@@ -451,7 +451,7 @@ function DetailDialog({
                         key={label}
                         className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-gray-50 dark:bg-accent/30 border border-gray-200 dark:border-accent/30 flex-1"
                       >
-                        <Icon className="h-5 w-5 text-orange-500" />
+                        <Icon className="h-5 w-5 text-primary" />
                         <span className="text-[10px] uppercase tracking-wider text-gray-500 dark:text-gray-400 font-medium">{label}</span>
                       </div>
                     ))}
@@ -483,12 +483,12 @@ function DetailDialog({
                     <div className="relative flex-1 border-b border-l border-gray-200 dark:border-accent/50" style={{ height: 160 }}>
                       {/* Target cost dashed line */}
                       <div
-                        className="absolute left-0 right-0 border-t-2 border-dashed border-orange-400 z-10"
+                        className="absolute left-0 right-0 border-t-2 border-dashed border-[var(--alert-warning)] z-10"
                         style={{
                           bottom: `${Math.min((targetCostLine / maxCpp) * 100, 100)}%`,
                         }}
                       >
-                        <span className="absolute right-0 -top-5 text-xs text-orange-500 font-medium pr-1">
+                        <span className="absolute right-0 -top-5 text-xs text-primary font-medium pr-1">
                           objetivo {fmt(targetCostLine)}
                         </span>
                       </div>
@@ -503,7 +503,7 @@ function DetailDialog({
                               <div
                                 className={cn(
                                   "w-full rounded-t transition-all",
-                                  isAboveTarget ? "bg-red-500/70" : "bg-orange-500/70"
+                                  isAboveTarget ? "bg-red-500/70" : "bg-primary/70"
                                 )}
                                 style={{ height: `${heightPct}%` }}
                                 title={`${point.date}: ${fmt(point.cost_per_portion)} (food cost ${point.food_cost_pct}%)`}
@@ -581,7 +581,7 @@ export default function EscandalloPage() {
       <div className="flex items-start justify-between">
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2 text-gray-900 dark:text-gray-100">
-            <Calculator className="h-6 w-6 text-orange-500" />
+            <Calculator className="h-6 w-6 text-primary" />
             Escandallo Dinamico
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">
@@ -596,7 +596,7 @@ export default function EscandalloPage() {
             </Button>
           </Link>
           <Link href="/recipes/new">
-            <Button className="bg-orange-500 hover:bg-orange-600 text-white border-0">
+            <Button className="bg-primary hover:bg-primary/90 text-white border-0">
               <Plus className="mr-1 h-4 w-4" />
               Nuevo escandallo
             </Button>
@@ -621,7 +621,7 @@ export default function EscandalloPage() {
       {/* ── Summary KPI Cards with colored left border ── */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500" />
+          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
           <div className="pl-3">
             <div className="flex items-center gap-2 mb-2">
               <UtensilsCrossed className="h-4 w-4 text-gray-400 dark:text-gray-600" />
@@ -634,7 +634,7 @@ export default function EscandalloPage() {
         </div>
 
         <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-orange-500" />
+          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
           <div className="pl-3">
             <div className="flex items-center gap-2 mb-2">
               <Calculator className="h-4 w-4 text-gray-400 dark:text-gray-600" />
@@ -642,7 +642,7 @@ export default function EscandalloPage() {
                 Coste medio / racion
               </p>
             </div>
-            <p className="text-3xl font-bold text-orange-500">{fmt(avgCostPerPortion)}</p>
+            <p className="text-3xl font-bold text-primary">{fmt(avgCostPerPortion)}</p>
           </div>
         </div>
 
@@ -705,14 +705,14 @@ export default function EscandalloPage() {
                   : 0
               const suggestedPriceClass =
                 priceDiffPct > 10
-                  ? "text-orange-500 font-semibold"
+                  ? "text-primary font-semibold"
                   : "text-gray-500 dark:text-gray-400"
 
               return (
                 <TableRow key={recipe.id} className="border-b border-gray-100 dark:border-accent/20 hover:bg-gray-50 dark:hover:bg-accent/20 transition-colors">
                   <TableCell className="font-medium max-w-[220px] text-gray-900 dark:text-gray-100">
                     <span className="flex items-center gap-1.5 truncate">
-                      <ChefHat className="h-3.5 w-3.5 flex-shrink-0 text-orange-500/50" />
+                      <ChefHat className="h-3.5 w-3.5 flex-shrink-0 text-primary/50" />
                       <span className="truncate">{recipe.name}</span>
                     </span>
                   </TableCell>
@@ -723,7 +723,7 @@ export default function EscandalloPage() {
                   </TableCell>
                   <TableCell className="text-right text-gray-700 dark:text-gray-300">{recipe.portions}</TableCell>
                   <TableCell className="text-right font-medium text-gray-900 dark:text-gray-100">{fmt(recipe.total_cost)}</TableCell>
-                  <TableCell className="text-right font-bold text-orange-500">{fmt(recipe.cost_per_portion)}</TableCell>
+                  <TableCell className="text-right font-bold text-primary">{fmt(recipe.cost_per_portion)}</TableCell>
                   <TableCell className="text-center">
                     <Badge variant="outline" className={cn("text-xs", foodCostColor(recipe.food_cost_pct))}>
                       {recipe.food_cost_pct.toFixed(1)}%
@@ -745,7 +745,7 @@ export default function EscandalloPage() {
                       variant="outline"
                       size="sm"
                       onClick={() => setSelectedId(recipe.id)}
-                      className="border-gray-200 dark:border-accent/50 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-accent hover:text-orange-500 transition-colors text-xs"
+                      className="border-gray-200 dark:border-accent/50 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-accent hover:text-primary transition-colors text-xs"
                     >
                       Ver detalle
                     </Button>

@@ -107,7 +107,7 @@ const CATEGORY_TABS = ["TODOS", "CARNES", "PESCADOS", "BODEGA", "LACTEOS"] as co
 const statusConfig: Record<string, { label: string; className: string }> = {
   OPTIMO: { label: "OPTIMO", className: "bg-emerald-500/15 text-emerald-400 border-0" },
   CRITICO: { label: "CRITICO", className: "bg-red-500/15 text-red-400 border-0" },
-  AVISO: { label: "AVISO", className: "bg-orange-500/15 text-orange-400 border-0" },
+  AVISO: { label: "AVISO", className: "bg-primary/15 text-[var(--alert-warning)] border-0" },
 };
 
 export default function InventoryPage() {
@@ -251,7 +251,7 @@ export default function InventoryPage() {
                     item.days_to_expiry <= 0
                       ? "bg-red-500/15 text-red-400 border-0"
                       : item.days_to_expiry <= 3
-                      ? "bg-orange-500/15 text-orange-400 border-0"
+                      ? "bg-primary/15 text-[var(--alert-warning)] border-0"
                       : "bg-amber-500/15 text-amber-400 border-0"
                   }>
                     {item.days_to_expiry <= 0

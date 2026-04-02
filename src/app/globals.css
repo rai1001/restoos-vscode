@@ -87,44 +87,48 @@
 }
 
 .dark {
-  /* Matte Kitchen: "The Tactical Monolith" */
-  /* Surface hierarchy: #0A0A0A → #111111 → #1A1A1A → #2A2A2A → #353534 */
-  --background: #0A0A0A;
-  --foreground: #E5E2E1;
-  --card: #1A1A1A;
-  --card-foreground: #E5E2E1;
-  --popover: #2A2A2A;
-  --popover-foreground: #E5E2E1;
-  --primary: #F97316;
-  --primary-foreground: #0A0A0A;
-  --secondary: #1A1A1A;
-  --secondary-foreground: #E5E2E1;
-  --muted: #1A1A1A;
-  --muted-foreground: #A78B7D;
-  --accent: #2A2A2A;
-  --accent-foreground: #E5E2E1;
-  --destructive: #E24B4A;
-  --border: rgba(88, 66, 55, 0.15);
-  --input: #1A1A1A;
-  --ring: #F97316;
-  --chart-1: #378ADD;
-  --chart-2: #E24B4A;
-  --chart-3: #1D9E75;
-  --chart-4: #BA7517;
-  --chart-5: #D85A30;
-  --sidebar: #111111;
-  --sidebar-foreground: #E5E2E1;
-  --sidebar-primary: #F97316;
-  --sidebar-primary-foreground: #0A0A0A;
-  --sidebar-accent: #1A1A1A;
-  --sidebar-accent-foreground: #E5E2E1;
-  --sidebar-border: rgba(88, 66, 55, 0.15);
-  --sidebar-ring: #F97316;
-  /* Extra tokens for hardcoded colors used across pages */
-  --card-hover: #222222;
-  --border-subtle: #333333;
-  --border-hover: #555555;
-  --surface-elevated: #353534;
+  /* Calm Darkness: color only for alerts */
+  /* Surface hierarchy: #090909 → #0F0F0F → #141414 → #1A1A1A → #1E1E1E */
+  --background: #090909;
+  --foreground: #C8C2BF;
+  --card: #141414;
+  --card-foreground: #C8C2BF;
+  --popover: #1E1E1E;
+  --popover-foreground: #C8C2BF;
+  --primary: #B8906F;
+  --primary-foreground: #090909;
+  --secondary: #141414;
+  --secondary-foreground: #C8C2BF;
+  --muted: #141414;
+  --muted-foreground: #706860;
+  --accent: #1E1E1E;
+  --accent-foreground: #C8C2BF;
+  --destructive: #DC4A4A;
+  --border: rgba(255, 255, 255, 0.04);
+  --input: #141414;
+  --ring: #B8906F;
+  --chart-1: #C8C2BF;
+  --chart-2: #8A8078;
+  --chart-3: #706860;
+  --chart-4: #B8906F;
+  --chart-5: #5A524C;
+  --sidebar: #0F0F0F;
+  --sidebar-foreground: #C8C2BF;
+  --sidebar-primary: #B8906F;
+  --sidebar-primary-foreground: #090909;
+  --sidebar-accent: #141414;
+  --sidebar-accent-foreground: #C8C2BF;
+  --sidebar-border: rgba(255, 255, 255, 0.04);
+  --sidebar-ring: #B8906F;
+  /* Extra tokens */
+  --card-hover: #1A1A1A;
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.08);
+  --surface-elevated: #1E1E1E;
+  /* Alert-only colors (not in Tailwind theme, use directly) */
+  --alert-critical: #DC4A4A;
+  --alert-warning: #D4920A;
+  --alert-ok: #2D8A56;
 }
 
 @layer base {
@@ -133,6 +137,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-size: 15px;
   }
   button,
   [role="button"] {

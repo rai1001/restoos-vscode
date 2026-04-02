@@ -24,7 +24,7 @@ const ALERT_STYLE: Record<
       }`,
   },
   expiry_24h: {
-    dot: "bg-orange-500",
+    dot: "bg-primary",
     label: (a) => `Caduca HOY: ${a.prep_batches?.prep_name}`,
   },
   expiry_48h: {
@@ -47,7 +47,7 @@ export function PrepAlertsWidget() {
     <div className="rounded-lg border bg-card shadow-sm">
       <div className="flex items-center justify-between border-b px-4 py-3">
         <div className="flex items-center gap-2">
-          <Tag className="h-4 w-4 text-orange-500" />
+          <Tag className="h-4 w-4 text-primary" />
           <h3 className="text-sm font-semibold text-foreground">
             Alertas de Etiquetado
           </h3>

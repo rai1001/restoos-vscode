@@ -124,10 +124,10 @@ export function Sidebar() {
         {/* Logo + collapse toggle */}
         <div className="flex h-14 items-center border-b px-3 shrink-0">
           {collapsed ? (
-            <span className="font-bold text-orange-500 text-lg mx-auto">R</span>
+            <span className="font-bold text-primary text-lg mx-auto">R</span>
           ) : (
             <span className="font-bold text-lg">
-              Resto<span className="text-orange-500">OS</span>
+              Resto<span className="text-primary">OS</span>
             </span>
           )}
           {/* Collapse toggle — only on desktop (lg+) */}

@@ -209,7 +209,7 @@ export function Sidebar() {
                     title={collapsed ? item.name : undefined}
                     onClick={() => setMobileOpen(false)}
                     className={cn(
-                      "flex items-center gap-3 rounded-md py-2 text-sm font-medium transition-colors",
+                      "flex items-center gap-3 rounded-md py-2.5 text-sm font-medium transition-colors min-h-[44px]",
                       collapsed
                         ? "justify-center px-0 w-10 mx-auto"
                         : "px-3",

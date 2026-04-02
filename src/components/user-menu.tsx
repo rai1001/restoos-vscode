@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/db/client";
 import { useSession } from "@/lib/auth/hooks";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,11 +35,7 @@ export function UserMenu() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button variant="ghost" className="relative h-9 w-9 rounded-full" />
-        }
-      >
+      <DropdownMenuTrigger className="relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-transparent bg-transparent hover:bg-accent focus:outline-none">
         <Avatar className="h-9 w-9">
           <AvatarFallback>{initials}</AvatarFallback>
         </Avatar>

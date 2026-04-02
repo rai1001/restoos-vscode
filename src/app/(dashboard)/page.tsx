@@ -945,12 +945,12 @@ export default function DashboardPage() {
             <span className="text-sm text-[#A78B7D]">Buscar...</span>
           </div>
           {/* Notification bell */}
-          <button className="relative rounded-lg bg-[#1A1A1A] p-2 transition-colors hover:bg-[#222222]">
+          <button className="relative rounded-lg bg-[#1A1A1A] p-2 transition-colors hover:bg-[#222222]" aria-label="Notificaciones">
             <Bell className="h-4 w-4 text-[#A78B7D]" />
             <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-red-500" />
           </button>
           {/* Settings gear */}
-          <button className="rounded-lg bg-[#1A1A1A] p-2 transition-colors hover:bg-[#222222]">
+          <button className="rounded-lg bg-[#1A1A1A] p-2 transition-colors hover:bg-[#222222]" aria-label="Configuración">
             <Settings className="h-4 w-4 text-[#A78B7D]" />
           </button>
           {/* Nuevo Escandallo button */}

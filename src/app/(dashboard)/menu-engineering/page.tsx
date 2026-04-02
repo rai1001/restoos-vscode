@@ -2,6 +2,8 @@
 
 import { useState, useMemo, type ReactNode } from "react"
 import { cn } from "@/lib/utils"
+import { BarChart3 } from "lucide-react"
+import { EmptyState } from "@/components/empty-state"
 import { useMenuEngineering } from "@/features/menu-engineering/use-menu-engineering"
 import {
   CATEGORY_LABELS,
@@ -684,7 +686,25 @@ export default function MenuEngineeringPage() {
   >(undefined)
   const [viewMode, setViewMode] = useState<"matriz" | "tabla" | "recomendaciones">("matriz")
 
-  const { report } = useMenuEngineering(selectedCategory)
+  const { report, isLoading } = useMenuEngineering(selectedCategory)
+
+  if (!isLoading && report.dishes.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Rentabilidad de Menu</p>
+          <h1 className="text-2xl font-bold text-foreground">Ingenieria de Menu</h1>
+        </div>
+        <EmptyState
+          icon={BarChart3}
+          title="Necesitas datos de ventas para el analisis"
+          description="Importa datos de ventas (CSV o manual) para que la matriz BCG calcule que platos son estrellas, vacas, enigmas o perros."
+          actionLabel="Importar ventas"
+          actionHref="/reports"
+        />
+      </div>
+    )
+  }
 
   const marginPct =
     report.total_revenue > 0

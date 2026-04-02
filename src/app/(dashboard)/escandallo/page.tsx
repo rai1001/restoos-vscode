@@ -6,6 +6,7 @@ import { useEscandallos, useEscandallo } from "@/features/escandallo/use-escanda
 import { InvoiceUploader } from "@/features/invoice-ocr/components/InvoiceUploader"
 import type { EscandalloRecipe } from "@/features/escandallo/types"
 import { cn } from "@/lib/utils"
+import { EmptyState } from "@/components/empty-state"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -567,6 +568,25 @@ export default function EscandalloPage() {
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Escandallo Dinamico</h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">Cargando...</p>
         </div>
+      </div>
+    )
+  }
+
+  if (escandallos.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Escandallo Dinamico</h1>
+          <p className="text-muted-foreground mt-1">Coste actualizado de recetas</p>
+        </div>
+        <InvoiceUploader />
+        <EmptyState
+          icon={Calculator}
+          title="Aun no tienes recetas con coste"
+          description="Anade tu primera receta con ingredientes para ver el escandallo dinamico. O sube una factura de proveedor para empezar."
+          actionLabel="Crear receta"
+          actionHref="/recipes/new"
+        />
       </div>
     )
   }

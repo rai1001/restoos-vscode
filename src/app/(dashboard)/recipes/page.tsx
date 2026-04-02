@@ -3,7 +3,8 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useRecipes } from "@/features/recipes/hooks/use-recipes";
-import { Plus, Upload, Clock, Heart, SlidersHorizontal, Search } from "lucide-react";
+import { Plus, Upload, Clock, Heart, SlidersHorizontal, Search, ChefHat } from "lucide-react";
+import { EmptyState } from "@/components/empty-state";
 import { ImportRecipeModal } from "@/features/recipes/components/ImportRecipeModal";
 import { RoleGate } from "@/components/role-gate";
 
@@ -190,6 +191,24 @@ export default function RecipesPage() {
   const [activeSeason, setActiveSeason] = useState("otono");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+
+  if (!isLoading && (!recipes || recipes.length === 0)) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Alta Cocina Digital</p>
+          <h1 className="text-2xl font-bold text-foreground">Biblioteca de Recetas</h1>
+        </div>
+        <EmptyState
+          icon={ChefHat}
+          title="Tu biblioteca de recetas esta vacia"
+          description="Crea tu primera receta con ingredientes, pasos y fotos. O importa recetas desde un archivo."
+          actionLabel="+ Nueva Receta"
+          actionHref="/recipes/new"
+        />
+      </div>
+    );
+  }
 
   const filtered = useMemo(() => {
     if (!recipes) return [];

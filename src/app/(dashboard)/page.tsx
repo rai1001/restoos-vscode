@@ -152,7 +152,7 @@ function KpiCard({ kpi, large }: { kpi: KpiMetric; large?: boolean }) {
     <div
       className={cn(
         "rounded-lg bg-card border border-border transition-colors hover:bg-card-hover",
-        large ? "p-5" : "p-4"
+        large ? "p-3 sm:p-5" : "p-3 sm:p-4"
       )}
     >
       <div className="mb-2 flex items-start justify-between">
@@ -914,18 +914,18 @@ export default function DashboardPage() {
           </p>
         </div>
         <div className="flex items-center gap-3">
-          {/* Search */}
-          <div className="flex items-center gap-2 rounded-lg bg-card px-3 py-2">
+          {/* Search — hidden on mobile */}
+          <div className="hidden sm:flex items-center gap-2 rounded-lg bg-card px-3 py-2">
             <Search className="h-4 w-4 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">Buscar...</span>
           </div>
-          {/* Notification bell */}
-          <button className="relative rounded-lg bg-card p-2 transition-colors hover:bg-card-hover" aria-label="Notificaciones">
+          {/* Notification bell — hidden on mobile */}
+          <button className="hidden sm:flex relative rounded-lg bg-card p-2 transition-colors hover:bg-card-hover" aria-label="Notificaciones">
             <Bell className="h-4 w-4 text-muted-foreground" />
             <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-red-500" />
           </button>
           {/* Settings gear */}
-          <button className="rounded-lg bg-card p-2 transition-colors hover:bg-card-hover" aria-label="Configuración">
+          <button className="hidden sm:flex rounded-lg bg-card p-2 transition-colors hover:bg-card-hover" aria-label="Configuración">
             <Settings className="h-4 w-4 text-muted-foreground" />
           </button>
           {/* Nuevo Escandallo button */}
@@ -941,7 +941,7 @@ export default function DashboardPage() {
       {/* ── Primary KPIs (3 large cards) ───────────────────────────────── */}
       <div>
         <SectionLabel>KPIs principales</SectionLabel>
-        <div className="mt-2 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
           {primaryKpis.map((kpi) => (
             <KpiCard key={kpi.label} kpi={kpi} large />
           ))}
@@ -949,7 +949,7 @@ export default function DashboardPage() {
       </div>
 
       {/* ── Secondary KPIs (3 smaller cards) ───────────────────────────── */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
         {secondaryKpis.map((kpi) => (
           <KpiCard key={kpi.label} kpi={kpi} />
         ))}

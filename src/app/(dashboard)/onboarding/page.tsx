@@ -79,11 +79,11 @@ export default function OnboardingPage() {
                 className={cn(
                   "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors w-full",
                   isActive && "bg-primary/15 text-primary border border-primary/30",
-                  isCompleted && "bg-emerald-500/10 text-emerald-400 cursor-pointer",
+                  isCompleted && "bg-[rgba(255,255,255,0.03)] text-foreground cursor-pointer",
                   !isActive && !isCompleted && "text-muted-foreground"
                 )}
               >
-                <Icon className={cn("h-4 w-4 shrink-0", isCompleted && "text-emerald-400")} />
+                <Icon className={cn("h-4 w-4 shrink-0", isCompleted && "text-foreground")} />
                 <span className="hidden sm:inline truncate">{s.label}</span>
               </button>
               {idx < STEPS.length - 1 && (

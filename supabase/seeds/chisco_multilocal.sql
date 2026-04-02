@@ -262,3 +262,4 @@ INSERT INTO check_templates (hotel_id, name, check_type, frequency, description,
   ('bb000000-0000-0000-0000-000000000004', 'Higiene personal', 'higiene_personal', 'diario', 'Uniformes, manos, gorros', null, null, null, 11, true),
   ('bb000000-0000-0000-0000-000000000004', 'Trazabilidad lotes', 'otro', 'diario', 'Etiquetado batch con fecha y lote', null, null, null, 12, true)
 ON CONFLICT DO NOTHING;
+UPDATE hotels SET type = 'central_kitchen' WHERE slug = 'culuca-obrador';

@@ -294,10 +294,11 @@ CREATE POLICY "alert_rules_select" ON alert_rules FOR SELECT USING (public.has_h
 CREATE POLICY "alert_rules_insert" ON alert_rules FOR INSERT WITH CHECK (public.has_hotel_access(hotel_id));
 CREATE POLICY "alert_rules_update" ON alert_rules FOR UPDATE USING (public.has_hotel_access(hotel_id));
 
--- feedback_tickets (admin = direction/admin/superadmin via role check)
-CREATE POLICY "Admins can view all tickets" ON feedback_tickets FOR SELECT
-  USING (EXISTS (SELECT 1 FROM public.memberships WHERE user_id = auth.uid() AND is_active = true AND role IN ('admin', 'direction', 'superadmin')));
-CREATE POLICY "Admins can update all tickets" ON feedback_tickets FOR UPDATE
-  USING (EXISTS (SELECT 1 FROM public.memberships WHERE user_id = auth.uid() AND is_active = true AND role IN ('admin', 'direction', 'superadmin')));
-CREATE POLICY "Admins can delete tickets" ON feedback_tickets FOR DELETE
-  USING (EXISTS (SELECT 1 FROM public.memberships WHERE user_id = auth.uid() AND is_active = true AND role IN ('admin', 'direction', 'superadmin')));
+-- feedback_tickets (admin = direction/admin/superadmin via SECURITY DEFINER helper)
+CREATE OR REPLACE FUNCTION public.is_admin_user()
+RETURNS boolean LANGUAGE sql SECURITY DEFINER STABLE
+AS $$ SELECT EXISTS (SELECT 1 FROM public.memberships WHERE user_id = auth.uid() AND is_active = true AND role IN ('admin','direction','superadmin')); $$;
+
+CREATE POLICY "Admins can view all tickets" ON feedback_tickets FOR SELECT USING (public.is_admin_user());
+CREATE POLICY "Admins can update all tickets" ON feedback_tickets FOR UPDATE USING (public.is_admin_user());
+CREATE POLICY "Admins can delete tickets" ON feedback_tickets FOR DELETE USING (public.is_admin_user());

@@ -29,7 +29,7 @@ begin
   values (p_hotel_id, p_event_id, v_number, v_user_id, p_notes)
   returning id into v_request_id;
 
-  insert into audit_logs (hotel_id, user_id, action, entity_type, entity_id, new_values)
+  insert into audit_logs (hotel_id, performed_by, action, entity_type, entity_id, after_json)
   values (p_hotel_id, v_user_id, 'create', 'purchase_request', v_request_id,
     jsonb_build_object('request_number', v_number));
 
@@ -64,7 +64,7 @@ begin
 
   update purchase_requests set status = 'approved', approved_by = v_user_id where id = p_request_id;
 
-  insert into audit_logs (hotel_id, user_id, action, entity_type, entity_id, new_values)
+  insert into audit_logs (hotel_id, performed_by, action, entity_type, entity_id, after_json)
   values (p_hotel_id, v_user_id, 'approve', 'purchase_request', p_request_id,
     jsonb_build_object('status', 'approved'));
 
@@ -104,7 +104,7 @@ begin
   values (p_hotel_id, p_supplier_id, v_number, p_expected_delivery, p_notes, v_user_id)
   returning id into v_order_id;
 
-  insert into audit_logs (hotel_id, user_id, action, entity_type, entity_id, new_values)
+  insert into audit_logs (hotel_id, performed_by, action, entity_type, entity_id, after_json)
   values (p_hotel_id, v_user_id, 'create', 'purchase_order', v_order_id,
     jsonb_build_object('order_number', v_number, 'supplier_id', p_supplier_id));
 
@@ -147,11 +147,12 @@ begin
   where id = p_order_id;
 
   -- Domain event
-  insert into domain_events (hotel_id, event_type, entity_type, entity_id, payload, triggered_by)
+  insert into domain_events (hotel_id, event_type, entity_type, entity_id, payload)
   values (p_hotel_id, 'purchase_order.sent', 'purchase_order', p_order_id,
-    jsonb_build_object('order_number', v_order.order_number, 'supplier_id', v_order.supplier_id), v_user_id);
+    jsonb_build_object('order_number', v_order.order_number, 'supplier_id', v_order.supplier_id));
 
-  insert into audit_logs (hotel_id, user_id, action, entity_type, entity_id, new_values)
+
+  insert into audit_logs (hotel_id, performed_by, action, entity_type, entity_id, after_json)
   values (p_hotel_id, v_user_id, 'send', 'purchase_order', p_order_id,
     jsonb_build_object('status', 'sent', 'line_count', v_line_count));
 
@@ -174,6 +175,7 @@ declare
   v_user_id uuid := auth.uid();
   v_order purchase_orders%rowtype;
   v_receipt_id uuid;
+  v_receipt_line_id uuid;
   v_receipt_number text;
   v_line jsonb;
   v_lot_id uuid;
@@ -210,17 +212,18 @@ begin
       quantity_received, unit_cost, expiry_date, lot_number)
     values (v_receipt_id, p_hotel_id, v_order_line.id, v_order_line.product_id, v_order_line.unit_id,
       (v_line->>'quantity_received')::numeric, (v_line->>'unit_cost')::numeric,
-      (v_line->>'expiry_date')::date, v_line->>'lot_number');
+      (v_line->>'expiry_date')::date, v_line->>'lot_number')
+    returning id into v_receipt_line_id;
 
     -- Update order line received qty
     update purchase_order_lines set
       quantity_received = quantity_received + (v_line->>'quantity_received')::numeric
     where id = v_order_line.id;
 
-    -- Create stock lot
+    -- Create stock lot (receipt_line_id references goods_receipt_lines)
     insert into stock_lots (hotel_id, product_id, unit_id, receipt_line_id, lot_number,
       initial_quantity, current_quantity, unit_cost, expiry_date)
-    values (p_hotel_id, v_order_line.product_id, v_order_line.unit_id, v_receipt_id,
+    values (p_hotel_id, v_order_line.product_id, v_order_line.unit_id, v_receipt_line_id,
       v_line->>'lot_number', (v_line->>'quantity_received')::numeric,
       (v_line->>'quantity_received')::numeric, (v_line->>'unit_cost')::numeric,
       (v_line->>'expiry_date')::date)
@@ -232,6 +235,7 @@ begin
     values (p_hotel_id, v_order_line.product_id, v_lot_id, 'reception',
       (v_line->>'quantity_received')::numeric, v_order_line.unit_id,
       (v_line->>'unit_cost')::numeric, 'goods_receipt', v_receipt_id, v_user_id);
+
   end loop;
 
   -- Check if all lines fully received
@@ -245,11 +249,12 @@ begin
   where id = p_order_id;
 
   -- Domain event
-  insert into domain_events (hotel_id, event_type, entity_type, entity_id, payload, triggered_by)
+  insert into domain_events (hotel_id, event_type, entity_type, entity_id, payload)
   values (p_hotel_id, 'goods_receipt.applied', 'goods_receipt', v_receipt_id,
-    jsonb_build_object('order_id', p_order_id, 'fully_received', v_all_received), v_user_id);
+    jsonb_build_object('order_id', p_order_id, 'fully_received', v_all_received));
 
-  insert into audit_logs (hotel_id, user_id, action, entity_type, entity_id, new_values)
+
+  insert into audit_logs (hotel_id, performed_by, action, entity_type, entity_id, after_json)
   values (p_hotel_id, v_user_id, 'receive_goods', 'goods_receipt', v_receipt_id,
     jsonb_build_object('order_id', p_order_id, 'fully_received', v_all_received));
 
@@ -297,7 +302,8 @@ begin
   values (p_hotel_id, p_product_id, p_lot_id, 'waste', p_quantity, v_lot.unit_id,
     v_lot.unit_cost, p_notes, v_user_id);
 
-  insert into audit_logs (hotel_id, user_id, action, entity_type, entity_id, new_values)
+
+  insert into audit_logs (hotel_id, performed_by, action, entity_type, entity_id, after_json)
   values (p_hotel_id, v_user_id, 'record_waste', 'stock_lot', p_lot_id,
     jsonb_build_object('quantity', p_quantity, 'product_id', p_product_id));
 

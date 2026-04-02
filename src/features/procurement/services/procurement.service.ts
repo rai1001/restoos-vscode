@@ -23,10 +23,9 @@ export const procurementService = {
     return data ?? [];
   },
 
-  async createRequest(hotelId: string, eventId?: string, notes?: string) {
+  async createRequest(hotelId: string, notes?: string) {
     const { data, error } = await supabase.rpc("create_purchase_request", {
       p_hotel_id: hotelId,
-      p_event_id: eventId ?? null,
       p_notes: notes ?? null,
     });
     if (error) throw error;

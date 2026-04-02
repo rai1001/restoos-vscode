@@ -22,8 +22,8 @@ export function useCreatePurchaseRequest() {
   const { hotelId } = useActiveHotel();
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ eventId, notes }: { eventId?: string; notes?: string } = {}) =>
-      procurementService.createRequest(hotelId!, eventId, notes),
+    mutationFn: ({ notes }: { notes?: string } = {}) =>
+      procurementService.createRequest(hotelId!, notes),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["purchase-requests", hotelId] });
       toast.success("Solicitud creada");

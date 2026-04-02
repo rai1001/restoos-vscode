@@ -20,7 +20,6 @@ import {
   ShoppingCart,
   Tag,
   Users,
-  Users2,
   UtensilsCrossed,
   Rocket,
   Warehouse,
@@ -67,8 +66,8 @@ const navigationGroups: NavGroup[] = [
       { name: "Compras", href: "/procurement/orders", icon: ShoppingCart },
       { name: "Inventario", href: "/inventory", icon: Warehouse },
       { name: "APPCC", href: "/appcc", icon: ShieldCheck },
-      { name: "Cumplimiento", href: "/compliance", icon: ShieldCheck },
       { name: "Etiquetado", href: "/labeling", icon: Tag },
+      // Cumplimiento: oculto hasta conectar alérgenos reales
     ],
   },
   {
@@ -81,19 +80,18 @@ const navigationGroups: NavGroup[] = [
   {
     label: "Gestión",
     items: [
-      { name: "Informes", href: "/reports", icon: BarChart3 },
-      { name: "Personal", href: "/staffing", icon: Users2 },
       { name: "Configuración", href: "/settings/hotel", icon: Settings },
+      // Informes: oculto hasta conectar datos reales
+      // Personal: oculto hasta crear tablas de staffing
     ],
   },
   {
     label: "Admin",
     items: [
       { name: "Setup inicial", href: "/onboarding", icon: Rocket },
-      { name: "Pilotos", href: "/admin/setup-status", icon: BarChart3 },
       { name: "Tickets", href: "/admin/tickets", icon: MessageSquarePlus },
       { name: "Mis tickets", href: "/my-tickets", icon: MessageSquare },
-      { name: "Registro cambios", href: "/admin/audit-log", icon: Search },
+      // Pilotos y Registro cambios: ocultos (datos mock)
     ],
   },
 ];

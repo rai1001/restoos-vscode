@@ -2,7 +2,6 @@ import { createClient } from "@/lib/db/client";
 import type {
   StockLot,
   StockMovement,
-  StockReservation,
 } from "../schemas/inventory.schema";
 
 const supabase = createClient();
@@ -41,37 +40,7 @@ export const inventoryService = {
     return data ?? [];
   },
 
-  // --- Reservations ---
-  async listReservations(hotelId: string, eventId?: string): Promise<StockReservation[]> {
-    let query = supabase
-      .from("stock_reservations")
-      .select("*")
-      .eq("hotel_id", hotelId);
-    if (eventId) query = query.eq("event_id", eventId);
-    const { data, error } = await query.order("created_at", { ascending: false }).limit(100);
-    if (error) throw error;
-    return data ?? [];
-  },
-
-  async reserveStockForEvent(hotelId: string, eventId: string) {
-    const { data, error } = await supabase.rpc("reserve_stock_for_event", {
-      p_hotel_id: hotelId,
-      p_event_id: eventId,
-    });
-    if (error) throw error;
-    return data;
-  },
-
-  async consumeStock(hotelId: string, reservationId: string, quantity: number) {
-    const { data, error } = await supabase.rpc("consume_stock", {
-      p_hotel_id: hotelId,
-      p_reservation_id: reservationId,
-      p_quantity: quantity,
-    });
-    if (error) throw error;
-    return data;
-  },
-
+  // --- Waste ---
   async recordWaste(hotelId: string, productId: string, lotId: string, quantity: number, notes?: string) {
     const { data, error } = await supabase.rpc("record_waste", {
       p_hotel_id: hotelId,
@@ -84,15 +53,7 @@ export const inventoryService = {
     return data;
   },
 
-  async calculateRealCost(hotelId: string, eventId: string) {
-    const { data, error } = await supabase.rpc("calculate_real_cost", {
-      p_hotel_id: hotelId,
-      p_event_id: eventId,
-    });
-    if (error) throw error;
-    return data;
-  },
-
+  // --- Alerts ---
   async checkAlerts(hotelId: string, minDays?: number) {
     const { data, error } = await supabase.rpc("check_stock_alerts", {
       p_hotel_id: hotelId,

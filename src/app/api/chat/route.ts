@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
 import { processMessage } from "@/features/assistant/services/assistant.service"
+import { requireAuth } from "@/lib/api/require-auth"
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireAuth()
+    if (auth.error) return auth.error
+
     const body = await request.json()
     const message = body?.message
 

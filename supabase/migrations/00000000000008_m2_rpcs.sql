@@ -33,7 +33,7 @@ begin
   returning id into v_recipe_id;
 
   -- Audit
-  insert into audit_logs (hotel_id, user_id, action, entity_type, entity_id, new_values)
+  insert into audit_logs (hotel_id, performed_by, action, entity_type, entity_id, after_json)
   values (p_hotel_id, v_user_id, 'create', 'recipe', v_recipe_id,
     jsonb_build_object('name', p_name, 'category', p_category, 'servings', p_servings));
 
@@ -98,7 +98,7 @@ begin
   where id = p_recipe_id;
 
   -- Audit
-  insert into audit_logs (hotel_id, user_id, action, entity_type, entity_id, new_values)
+  insert into audit_logs (hotel_id, performed_by, action, entity_type, entity_id, after_json)
   values (p_hotel_id, v_user_id, 'update', 'recipe', p_recipe_id,
     jsonb_build_object('version', v_new_version, 'change_reason', p_change_reason));
 
@@ -138,7 +138,7 @@ begin
 
   update recipes set status = 'review_pending' where id = p_recipe_id;
 
-  insert into audit_logs (hotel_id, user_id, action, entity_type, entity_id, new_values)
+  insert into audit_logs (hotel_id, performed_by, action, entity_type, entity_id, after_json)
   values (p_hotel_id, v_user_id, 'submit_for_review', 'recipe', p_recipe_id,
     jsonb_build_object('ingredient_count', v_ingredient_count));
 
@@ -176,11 +176,12 @@ begin
   update recipes set status = 'approved' where id = p_recipe_id;
 
   -- Domain event
-  insert into domain_events (hotel_id, event_type, entity_type, entity_id, payload, triggered_by)
+  insert into domain_events (hotel_id, event_type, entity_type, entity_id, payload)
   values (p_hotel_id, 'recipe.approved', 'recipe', p_recipe_id,
-    jsonb_build_object('recipe_name', v_recipe.name, 'version', v_recipe.version), v_user_id);
+    jsonb_build_object('recipe_name', v_recipe.name, 'version', v_recipe.version));
 
-  insert into audit_logs (hotel_id, user_id, action, entity_type, entity_id, new_values)
+
+  insert into audit_logs (hotel_id, performed_by, action, entity_type, entity_id, after_json)
   values (p_hotel_id, v_user_id, 'approve', 'recipe', p_recipe_id,
     jsonb_build_object('status', 'approved'));
 
@@ -213,7 +214,7 @@ begin
 
   update recipes set status = 'deprecated' where id = p_recipe_id;
 
-  insert into audit_logs (hotel_id, user_id, action, entity_type, entity_id, new_values)
+  insert into audit_logs (hotel_id, performed_by, action, entity_type, entity_id, after_json)
   values (p_hotel_id, v_user_id, 'deprecate', 'recipe', p_recipe_id,
     jsonb_build_object('status', 'deprecated'));
 

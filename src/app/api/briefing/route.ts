@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { requireAuth } from "@/lib/api/require-auth"
 
 interface BriefingData {
   date: string
@@ -27,6 +28,9 @@ function generateMockBriefing(data: BriefingData): string {
 
 export async function POST(request: Request) {
   try {
+    const auth = await requireAuth()
+    if (auth.error) return auth.error
+
     const body = await request.json() as BriefingData
     const apiKey = process.env.GEMINI_API_KEY
 

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { requireAuth } from "@/lib/api/require-auth"
 
 interface OCRResult {
   supplier_name: string | null
@@ -33,6 +34,9 @@ function mockOCRResult(): OCRResult {
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireAuth()
+    if (auth.error) return auth.error
+
     const formData = await request.formData()
     const file = formData.get("file") as File | null
 

@@ -56,46 +56,6 @@ export function useStockMovements(productId?: string) {
   });
 }
 
-export function useStockReservations(eventId?: string) {
-  const { hotelId } = useActiveHotel();
-  return useQuery({
-    queryKey: ["stock-reservations", hotelId, eventId],
-    queryFn: () => inventoryService.listReservations(hotelId!, eventId),
-    enabled: !!hotelId,
-    staleTime: 5 * 60_000,
-  });
-}
-
-export function useReserveStock() {
-  const { hotelId } = useActiveHotel();
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (eventId: string) => inventoryService.reserveStockForEvent(hotelId!, eventId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["stock-levels"] });
-      queryClient.invalidateQueries({ queryKey: ["stock-reservations"] });
-      queryClient.invalidateQueries({ queryKey: ["stock-lots"] });
-      toast.success("Stock reservado");
-    },
-    onError: (err: Error) => toast.error(err.message),
-  });
-}
-
-export function useConsumeStock() {
-  const { hotelId } = useActiveHotel();
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: ({ reservationId, quantity }: { reservationId: string; quantity: number }) =>
-      inventoryService.consumeStock(hotelId!, reservationId, quantity),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["stock-reservations"] });
-      queryClient.invalidateQueries({ queryKey: ["stock-movements"] });
-      toast.success("Stock consumido");
-    },
-    onError: (err: Error) => toast.error(err.message),
-  });
-}
-
 export function useRecordWaste() {
   const { hotelId } = useActiveHotel();
   const queryClient = useQueryClient();
@@ -110,16 +70,6 @@ export function useRecordWaste() {
       toast.success("Merma registrada");
     },
     onError: (err: Error) => toast.error(err.message),
-  });
-}
-
-export function useRealCost(eventId: string) {
-  const { hotelId } = useActiveHotel();
-  return useQuery({
-    queryKey: ["real-cost", hotelId, eventId],
-    queryFn: () => inventoryService.calculateRealCost(hotelId!, eventId),
-    enabled: !!hotelId && !!eventId,
-    staleTime: 5 * 60_000,
   });
 }
 

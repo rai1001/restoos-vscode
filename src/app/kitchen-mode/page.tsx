@@ -14,6 +14,8 @@ import {
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { useAppccTemplates, useCreateRecord } from "@/features/appcc/use-appcc"
+import type { CheckTemplate } from "@/features/appcc/types"
 
 // ── Microflujo types ────────────────────────────────────────────────────────
 
@@ -43,16 +45,7 @@ const WASTE_REASONS = [
   { id: "overproduction", label: "Sobreproducción", icon: "📦", color: "border-blue-700 bg-blue-950/30" },
 ]
 
-const APPCC_CHECKS = [
-  { id: "c1", name: "Cámara 1", type: "temp", unit: "°C", limit: "0-5°C" },
-  { id: "c2", name: "Cámara 2", type: "temp", unit: "°C", limit: "0-4°C" },
-  { id: "c3", name: "Congelador", type: "temp", unit: "°C", limit: "-25/-18°C" },
-  { id: "c4", name: "Cocción carnes", type: "temp", unit: "°C", limit: "≥65°C" },
-  { id: "c5", name: "Aceite fritura", type: "temp", unit: "%", limit: "≤25%" },
-  { id: "c6", name: "Superficies", type: "check", unit: null, limit: null },
-  { id: "c7", name: "Tablas corte", type: "check", unit: null, limit: null },
-  { id: "c8", name: "Suelos", type: "check", unit: null, limit: null },
-]
+// APPCC_CHECKS removed — now loaded from real templates via useAppccTemplates
 
 // ── Main page ───────────────────────────────────────────────────────────────
 
@@ -232,46 +225,93 @@ function MermaFlow({ onDone }: { onDone: () => void }) {
   )
 }
 
-// ── APPCC: lista de controles → valor → confirmar ───────────────────────────
+// ── APPCC: lista de controles reales → valor → guardar en Supabase ──────────
+
+function formatLimit(t: CheckTemplate): string | null {
+  if (t.min_value !== null && t.max_value !== null) return `${t.min_value}–${t.max_value}${t.unit ?? ""}`
+  if (t.min_value !== null) return `≥${t.min_value}${t.unit ?? ""}`
+  if (t.max_value !== null) return `≤${t.max_value}${t.unit ?? ""}`
+  return null
+}
 
 function AppccFlow({ onDone }: { onDone: () => void }) {
+  const { templates, isLoading } = useAppccTemplates()
+  const createRecord = useCreateRecord()
   const [values, setValues] = useState<Record<string, string>>({})
   const [done, setDone] = useState<Set<string>>(new Set())
 
-  function markDone(id: string, value?: string) {
+  const todayStr = new Date().toISOString().slice(0, 10)
+  // Filter to daily checks only for kitchen quick flow
+  const dailyChecks = templates.filter(t => t.is_active && t.frequency === "diario")
+
+  function markDone(template: CheckTemplate, value?: string) {
+    const numValue = value ? parseFloat(value) : null
     if (value !== undefined) {
-      setValues(prev => ({ ...prev, [id]: value }))
+      setValues(prev => ({ ...prev, [template.id]: value }))
     }
-    setDone(prev => new Set([...prev, id]))
-    if (done.size + 1 === APPCC_CHECKS.length) {
-      toast.success(`APPCC completado — ${APPCC_CHECKS.length}/${APPCC_CHECKS.length} controles ✓`)
-      setTimeout(onDone, 1000)
-    }
+
+    createRecord.mutate(
+      {
+        template_id: template.id,
+        check_date: todayStr,
+        value: numValue,
+        corrective_action: value === "NO OK" ? "Registrado desde modo cocina — pendiente de revisión" : null,
+      },
+      {
+        onSuccess: () => {
+          setDone(prev => {
+            const next = new Set([...prev, template.id])
+            if (next.size === dailyChecks.length) {
+              toast.success(`APPCC completado — ${dailyChecks.length}/${dailyChecks.length} controles`)
+              setTimeout(onDone, 1000)
+            }
+            return next
+          })
+        },
+        onError: (err) => {
+          toast.error(err instanceof Error ? err.message : "Error al guardar")
+        },
+      }
+    )
+  }
+
+  if (isLoading) {
+    return <p className="text-[#A78B7D] text-sm py-8 text-center">Cargando controles...</p>
+  }
+
+  if (dailyChecks.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <p className="text-[#A78B7D] text-sm">No hay controles diarios configurados.</p>
+        <p className="text-[#A78B7D]/60 text-xs mt-1">Configura plantillas en /appcc.</p>
+      </div>
+    )
   }
 
   const completedCount = done.size
-  const totalCount = APPCC_CHECKS.length
+  const totalCount = dailyChecks.length
 
   return (
     <div className="max-w-md mx-auto space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold text-[#E5E2E1]">🌡️ Control APPCC</h2>
+        <h2 className="text-lg font-bold text-[#E5E2E1]">Control APPCC</h2>
         <Badge className="bg-[#F97316]/15 text-[#F97316] border-0">
           {completedCount}/{totalCount}
         </Badge>
       </div>
 
-      {/* Progress */}
       <div className="h-2 bg-[#1A1A1A] rounded-full overflow-hidden">
         <div
           className="h-full bg-emerald-500 rounded-full transition-all"
-          style={{ width: `${(completedCount / totalCount) * 100}%` }}
+          style={{ width: `${totalCount > 0 ? (completedCount / totalCount) * 100 : 0}%` }}
         />
       </div>
 
       <div className="space-y-2">
-        {APPCC_CHECKS.map(check => {
+        {dailyChecks.map(check => {
           const isDone = done.has(check.id)
+          const hasUnit = check.unit !== null
+          const limit = formatLimit(check)
           return (
             <div
               key={check.id}
@@ -285,27 +325,26 @@ function AppccFlow({ onDone }: { onDone: () => void }) {
                   <p className={cn("text-sm font-medium", isDone ? "text-emerald-400" : "text-[#E5E2E1]")}>
                     {check.name}
                   </p>
-                  {check.limit && (
-                    <p className="text-xs text-[#A78B7D]">Límite: {check.limit}</p>
-                  )}
+                  {limit && <p className="text-xs text-[#A78B7D]">{limit}</p>}
                 </div>
 
                 {isDone ? (
                   <Badge className="bg-emerald-500/15 text-emerald-400 border-0">
                     <Check className="h-3 w-3 mr-0.5" />
-                    {values[check.id] ? `${values[check.id]}${check.unit}` : "OK"}
+                    {values[check.id] ? `${values[check.id]}${check.unit ?? ""}` : "OK"}
                   </Badge>
-                ) : check.type === "temp" ? (
+                ) : hasUnit ? (
                   <div className="flex items-center gap-2">
                     <Input
                       type="number"
                       step="0.1"
                       placeholder="0.0"
                       className="w-20 h-10 text-center text-lg font-bold"
+                      disabled={createRecord.isPending}
                       onKeyDown={e => {
                         if (e.key === "Enter") {
                           const val = (e.target as HTMLInputElement).value
-                          if (val) markDone(check.id, val)
+                          if (val) markDone(check, val)
                         }
                       }}
                     />
@@ -315,7 +354,8 @@ function AppccFlow({ onDone }: { onDone: () => void }) {
                   <div className="flex gap-2">
                     <Button
                       size="sm"
-                      onClick={() => markDone(check.id)}
+                      onClick={() => markDone(check)}
+                      disabled={createRecord.isPending}
                       className="bg-emerald-600 hover:bg-emerald-700 text-white h-10 w-10 p-0"
                     >
                       <Check className="h-5 w-5" />
@@ -323,9 +363,10 @@ function AppccFlow({ onDone }: { onDone: () => void }) {
                     <Button
                       size="sm"
                       variant="outline"
+                      disabled={createRecord.isPending}
                       onClick={() => {
-                        toast.error(`${check.name}: no OK — registrar incidencia`)
-                        markDone(check.id, "NO OK")
+                        toast.error(`${check.name}: no OK`)
+                        markDone(check, "NO OK")
                       }}
                       className="border-red-800 text-red-400 h-10 w-10 p-0"
                     >

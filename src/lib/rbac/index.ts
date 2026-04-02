@@ -32,12 +32,16 @@ const PERMISSIONS: Record<string, readonly Role[]> = {
   // Operations
   "task.manage": [ROLE.HEAD_CHEF, ROLE.ROOM, ROLE.RECEPTION, ROLE.DIRECTION, ROLE.ADMIN],
 
+  // APPCC
+  "appcc.record": [ROLE.COOK, ROLE.HEAD_CHEF, ROLE.DIRECTION, ROLE.ADMIN, ROLE.SUPERADMIN],
+  "appcc.validate": [ROLE.HEAD_CHEF, ROLE.DIRECTION, ROLE.ADMIN, ROLE.SUPERADMIN],
+  "appcc.configure": [ROLE.HEAD_CHEF, ROLE.DIRECTION, ROLE.ADMIN, ROLE.SUPERADMIN],
+
   // Direction
   "dashboard.view": [ROLE.DIRECTION, ROLE.ADMIN, ROLE.SUPERADMIN],
 
   // Automations
   "integration.manage": [ROLE.DIRECTION, ROLE.ADMIN],
-  "job.retry": [ROLE.DIRECTION, ROLE.ADMIN],
 } as const;
 
 export function hasPermission(role: Role, action: string): boolean {

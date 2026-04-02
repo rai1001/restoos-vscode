@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server"
 import { generateMockDigest, formatDigestHTML, formatDigestText } from "@/features/digest/digest-engine"
+import { requireAuth } from "@/lib/api/require-auth"
 
 export async function POST() {
   try {
+    const auth = await requireAuth()
+    if (auth.error) return auth.error
+
     const digest = generateMockDigest()
     const html = formatDigestHTML(digest)
     const text = formatDigestText(digest)

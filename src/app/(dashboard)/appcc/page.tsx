@@ -2,35 +2,33 @@
 
 import { useState, useMemo, Fragment } from "react"
 import { toast } from "sonner"
-import { ShieldCheck, ChevronLeft, ChevronRight, Plus, CheckCircle2, AlertTriangle, XCircle, BarChart3, ThermometerSun, Droplets, Truck, User, Bug, FlameKindling, HelpCircle } from "lucide-react"
+import {
+  ShieldCheck, ChevronLeft, ChevronRight, Plus, CheckCircle2,
+  AlertTriangle, XCircle, BarChart3, ThermometerSun, Droplets,
+  Truck, User, Bug, FlameKindling, HelpCircle, Lock, FileCheck,
+  AlertCircle, Download,
+} from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "@/components/ui/tabs"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { useAppccRecords, useAppccTemplates, useAppccDailySummary } from "@/features/appcc/use-appcc"
-import type { CheckType, CheckFrequency, CheckStatus, CheckTemplate } from "@/features/appcc/types"
+import {
+  useAppccRecords,
+  useAppccTemplates,
+  useAppccDailySummary,
+  useAppccDailyClosure,
+  useCreateRecord,
+  useCreateTemplate,
+  useUpdateTemplate,
+  useValidateDayClosure,
+  useAppccIncidents,
+  useResolveIncident,
+} from "@/features/appcc/use-appcc"
+import type { CheckType, CheckFrequency, CheckStatus, CheckTemplate, DailyCheckSummary } from "@/features/appcc/types"
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -122,6 +120,36 @@ function LimitsCell({ template }: { template: CheckTemplate }) {
   return <span>≤ {max_value} {unit}</span>
 }
 
+// ─── CSV Export ───────────────────────────────────────────────────────────────
+
+function exportRecordsCSV(records: Array<{ template?: { name: string; check_type: string; unit: string | null; min_value: number | null; max_value: number | null } | null; value: number | null; status: string; checked_by_name: string; recorded_at: string; notes: string | null; corrective_action: string | null }>, date: string) {
+  const header = "Control,Tipo,Valor,Unidad,Min,Max,Estado,Registrado por,Hora,Notas,Acción correctiva"
+  const rows = records.map(r => {
+    const t = r.template
+    return [
+      t?.name ?? "",
+      t?.check_type ?? "",
+      r.value ?? "",
+      t?.unit ?? "",
+      t?.min_value ?? "",
+      t?.max_value ?? "",
+      r.status,
+      r.checked_by_name,
+      r.recorded_at.slice(11, 16),
+      (r.notes ?? "").replace(/,/g, ";"),
+      (r.corrective_action ?? "").replace(/,/g, ";"),
+    ].join(",")
+  })
+  const csv = [header, ...rows].join("\n")
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement("a")
+  a.href = url
+  a.download = `appcc-${date}.csv`
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
 // ─── New Record Dialog ─────────────────────────────────────────────────────────
 
 interface NewRecordDialogProps {
@@ -137,15 +165,21 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
   const [notes, setNotes] = useState<string>("")
   const [correctiveAction, setCorrectiveAction] = useState<string>("")
 
-  const selectedTemplate = templates.find((t) => t.id === templateId) ?? null
+  const createRecord = useCreateRecord()
 
+  const selectedTemplate = templates.find((t) => t.id === templateId) ?? null
   const needsValue = selectedTemplate?.unit !== null
   const numericValue = parseFloat(value)
-
   const isOutOfRange = needsValue && !isNaN(numericValue) && selectedTemplate !== null && (
     (selectedTemplate.min_value !== null && numericValue < selectedTemplate.min_value) ||
     (selectedTemplate.max_value !== null && numericValue > selectedTemplate.max_value)
   )
+
+  function resetForm() {
+    setValue("")
+    setNotes("")
+    setCorrectiveAction("")
+  }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -154,15 +188,36 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
       toast.error("Introduce el valor medido")
       return
     }
-    toast.success(
-      `Registro guardado para "${selectedTemplate.name}" — ${selectedDate}`,
-      { description: isOutOfRange ? "Valor fuera de rango — revisa la acción correctiva." : "Control registrado correctamente." }
+    if (isOutOfRange && correctiveAction.trim() === "") {
+      toast.error("La acción correctiva es obligatoria cuando el valor está fuera de rango")
+      return
+    }
+
+    createRecord.mutate(
+      {
+        template_id: selectedTemplate.id,
+        check_date: selectedDate,
+        value: needsValue ? numericValue : null,
+        notes: notes.trim() || null,
+        corrective_action: correctiveAction.trim() || null,
+      },
+      {
+        onSuccess: (data) => {
+          toast.success(`Registro guardado: "${selectedTemplate.name}"`, {
+            description: data?.status !== "ok"
+              ? "Valor fuera de rango — incidencia registrada."
+              : "Control registrado correctamente.",
+          })
+          resetForm()
+          onOpenChange(false)
+        },
+        onError: (err) => {
+          toast.error("Error al guardar registro", {
+            description: err instanceof Error ? err.message : "Error desconocido",
+          })
+        },
+      }
     )
-    onOpenChange(false)
-    // Reset form
-    setValue("")
-    setNotes("")
-    setCorrectiveAction("")
   }
 
   return (
@@ -172,7 +227,6 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
           <DialogTitle className="text-[#E5E2E1]">Nuevo registro APPCC</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Template selector */}
           <div className="space-y-1.5">
             <Label htmlFor="template-select" className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Plantilla de control</Label>
             <select
@@ -186,10 +240,9 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
               className={cn(
                 "flex h-8 w-full rounded-lg border border-white/10 bg-[#0A0A0A] px-2.5 py-1 text-sm text-[#E5E2E1]",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]/50 focus-visible:border-[#F97316]",
-                "disabled:cursor-not-allowed disabled:opacity-50"
               )}
             >
-              {templates.map((t) => (
+              {templates.filter((t) => t.is_active).map((t) => (
                 <option key={t.id} value={t.id}>
                   {t.name} ({CHECK_TYPE_LABELS[t.check_type]})
                 </option>
@@ -200,7 +253,6 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
             )}
           </div>
 
-          {/* Numeric value — only when template has a unit */}
           {needsValue && (
             <div className="space-y-1.5">
               <Label htmlFor="record-value" className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">
@@ -226,20 +278,15 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
                   <span className="text-sm text-[#A78B7D] shrink-0">{selectedTemplate.unit}</span>
                 )}
               </div>
-              {/* Limits hint */}
               {selectedTemplate && (selectedTemplate.min_value !== null || selectedTemplate.max_value !== null) && (
-                <p className={cn(
-                  "text-xs",
-                  isOutOfRange ? "text-red-400 font-medium" : "text-[#A78B7D]"
-                )}>
-                  {isOutOfRange ? "⚠ Valor fuera del rango permitido — " : "Rango: "}
+                <p className={cn("text-xs", isOutOfRange ? "text-red-400 font-medium" : "text-[#A78B7D]")}>
+                  {isOutOfRange ? "Valor fuera del rango permitido — " : "Rango: "}
                   <LimitsCell template={selectedTemplate} />
                 </p>
               )}
             </div>
           )}
 
-          {/* Notes */}
           <div className="space-y-1.5">
             <Label htmlFor="record-notes" className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Notas <span className="text-[#A78B7D]/70">(opcional)</span></Label>
             <textarea
@@ -252,12 +299,11 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
                 "flex min-h-[60px] w-full rounded-lg border border-white/10 bg-[#0A0A0A] px-3 py-2 text-sm text-[#E5E2E1]",
                 "placeholder:text-[#A78B7D]/50",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]/50 focus-visible:border-[#F97316]",
-                "disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+                "resize-none"
               )}
             />
           </div>
 
-          {/* Corrective action — shown when value is out of range */}
           {isOutOfRange && (
             <div className="space-y-1.5">
               <Label htmlFor="record-corrective" className="text-xs font-medium uppercase tracking-widest text-red-400">
@@ -273,7 +319,7 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
                   "flex min-h-[60px] w-full rounded-lg border border-red-500/30 bg-[#0A0A0A] px-3 py-2 text-sm text-[#E5E2E1]",
                   "placeholder:text-[#A78B7D]/50",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400/50 focus-visible:border-red-400",
-                  "disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+                  "resize-none"
                 )}
               />
             </div>
@@ -283,11 +329,73 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="border-white/10 text-[#A78B7D] hover:bg-white/5">
               Cancelar
             </Button>
-            <Button type="submit" className="bg-[#F97316] hover:bg-[#F97316]/90 text-white">
-              Guardar registro
+            <Button
+              type="submit"
+              className="bg-[#F97316] hover:bg-[#F97316]/90 text-white"
+              disabled={createRecord.isPending}
+            >
+              {createRecord.isPending ? "Guardando..." : "Guardar registro"}
             </Button>
           </DialogFooter>
         </form>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+// ─── Validate Dialog ──────────────────────────────────────────────────────────
+
+function ValidateDialog({ open, onOpenChange, date }: { open: boolean; onOpenChange: (o: boolean) => void; date: string }) {
+  const [notes, setNotes] = useState("")
+  const validate = useValidateDayClosure()
+
+  function handleValidate() {
+    validate.mutate(
+      { date, notes: notes.trim() || undefined },
+      {
+        onSuccess: () => {
+          toast.success("Cierre APPCC validado", { description: formatDisplayDate(date) })
+          setNotes("")
+          onOpenChange(false)
+        },
+        onError: (err) => {
+          toast.error("Error al validar", {
+            description: err instanceof Error ? err.message : "Error desconocido",
+          })
+        },
+      }
+    )
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-md bg-[#1A1A1A] border-white/10">
+        <DialogHeader>
+          <DialogTitle className="text-[#E5E2E1]">Validar cierre APPCC</DialogTitle>
+        </DialogHeader>
+        <p className="text-sm text-[#A78B7D]">
+          Al validar confirmas que has revisado todos los registros del día {formatDisplayDate(date)}.
+          Esta acción quedará registrada con tu nombre y fecha.
+        </p>
+        <div className="space-y-1.5">
+          <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Notas de validación (opcional)</Label>
+          <textarea
+            rows={2}
+            placeholder="Observaciones del responsable..."
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            className="flex min-h-[60px] w-full rounded-lg border border-white/10 bg-[#0A0A0A] px-3 py-2 text-sm text-[#E5E2E1] placeholder:text-[#A78B7D]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]/50 resize-none"
+          />
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="border-white/10 text-[#A78B7D] hover:bg-white/5">
+            Cancelar
+          </Button>
+          <Button onClick={handleValidate} className="bg-green-600 hover:bg-green-700 text-white" disabled={validate.isPending}>
+            <FileCheck className="mr-2 h-4 w-4" />
+            {validate.isPending ? "Validando..." : "Validar y firmar"}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
@@ -301,6 +409,16 @@ function RecordsTab({ date }: { date: string }) {
 
   if (isLoading) {
     return <p className="text-[#A78B7D] text-sm py-4">Cargando registros...</p>
+  }
+
+  if (records.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <ShieldCheck className="mx-auto h-10 w-10 text-[#A78B7D]/30 mb-3" />
+        <p className="text-[#A78B7D] text-sm">No hay registros para este día.</p>
+        <p className="text-[#A78B7D]/60 text-xs mt-1">Pulsa &ldquo;Nuevo registro&rdquo; para empezar.</p>
+      </div>
+    )
   }
 
   return (
@@ -320,7 +438,7 @@ function RecordsTab({ date }: { date: string }) {
         {records.map((record) => {
           const template = record.template
           if (!template) return null
-          const TypeIcon = CHECK_TYPE_ICONS[template.check_type]
+          const TypeIcon = CHECK_TYPE_ICONS[template.check_type as CheckType]
           const isExpanded = expandedId === record.id
           const hasDetails = record.notes !== null || record.corrective_action !== null
 
@@ -349,31 +467,30 @@ function RecordsTab({ date }: { date: string }) {
                 </TableCell>
                 <TableCell>
                   <span className="flex items-center gap-1.5 text-[#A78B7D]">
-                    <TypeIcon className="h-3.5 w-3.5" />
-                    {CHECK_TYPE_LABELS[template.check_type]}
+                    {TypeIcon && <TypeIcon className="h-3.5 w-3.5" />}
+                    {CHECK_TYPE_LABELS[template.check_type as CheckType]}
                   </span>
                 </TableCell>
                 <TableCell>
                   {record.value !== null
                     ? <span className="font-mono text-[#E5E2E1]">{record.value} {template.unit}</span>
-                    : <span className="text-[#A78B7D]">—</span>
+                    : <span className="text-green-400">OK</span>
                   }
                 </TableCell>
                 <TableCell className="text-[#A78B7D]">
-                  <LimitsCell template={template} />
+                  <LimitsCell template={template as CheckTemplate} />
                 </TableCell>
                 <TableCell>
-                  <StatusBadge status={record.status} />
+                  <StatusBadge status={record.status as CheckStatus} />
                 </TableCell>
                 <TableCell className="text-[#A78B7D]">
-                  {record.checked_by_name ?? record.checked_by}
+                  {record.checked_by_name}
                 </TableCell>
                 <TableCell className="text-[#A78B7D] font-mono text-xs">
                   {record.recorded_at.slice(11, 16)}
                 </TableCell>
               </TableRow>
 
-              {/* Expanded detail row */}
               {isExpanded && (
                 <TableRow key={`${record.id}-detail`} className="bg-white/5 border-white/5">
                   <TableCell colSpan={7} className="py-3 px-4">
@@ -405,21 +522,127 @@ function RecordsTab({ date }: { date: string }) {
   )
 }
 
+// ─── New Template Dialog ──────────────────────────────────────────────────────
+
+function NewTemplateDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
+  const [name, setName] = useState("")
+  const [checkType, setCheckType] = useState<CheckType>("temperatura")
+  const [frequency, setFrequency] = useState<CheckFrequency>("diario")
+  const [description, setDescription] = useState("")
+  const [minValue, setMinValue] = useState("")
+  const [maxValue, setMaxValue] = useState("")
+  const [unit, setUnit] = useState("")
+
+  const createTemplate = useCreateTemplate()
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!name.trim()) { toast.error("Nombre obligatorio"); return }
+
+    createTemplate.mutate(
+      {
+        name: name.trim(),
+        check_type: checkType,
+        frequency,
+        description: description.trim() || null,
+        min_value: minValue ? parseFloat(minValue) : null,
+        max_value: maxValue ? parseFloat(maxValue) : null,
+        unit: unit.trim() || null,
+      },
+      {
+        onSuccess: () => {
+          toast.success(`Plantilla "${name}" creada`)
+          setName(""); setDescription(""); setMinValue(""); setMaxValue(""); setUnit("")
+          onOpenChange(false)
+        },
+        onError: (err) => toast.error(err instanceof Error ? err.message : "Error"),
+      }
+    )
+  }
+
+  const selectClass = cn(
+    "flex h-8 w-full rounded-lg border border-white/10 bg-[#0A0A0A] px-2.5 py-1 text-sm text-[#E5E2E1]",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]/50"
+  )
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-md bg-[#1A1A1A] border-white/10">
+        <DialogHeader>
+          <DialogTitle className="text-[#E5E2E1]">Nueva plantilla APPCC</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div className="space-y-1">
+            <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Nombre</Label>
+            <Input value={name} onChange={e => setName(e.target.value)} placeholder="Ej: Cámara frigorífica #3" className="bg-[#0A0A0A] border-white/10 text-[#E5E2E1]" />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Tipo</Label>
+              <select value={checkType} onChange={e => setCheckType(e.target.value as CheckType)} className={selectClass}>
+                {Object.entries(CHECK_TYPE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+              </select>
+            </div>
+            <div className="space-y-1">
+              <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Frecuencia</Label>
+              <select value={frequency} onChange={e => setFrequency(e.target.value as CheckFrequency)} className={selectClass}>
+                {Object.entries(FREQUENCY_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <div className="space-y-1">
+              <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Min</Label>
+              <Input type="number" step="0.1" value={minValue} onChange={e => setMinValue(e.target.value)} placeholder="—" className="bg-[#0A0A0A] border-white/10 text-[#E5E2E1]" />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Max</Label>
+              <Input type="number" step="0.1" value={maxValue} onChange={e => setMaxValue(e.target.value)} placeholder="—" className="bg-[#0A0A0A] border-white/10 text-[#E5E2E1]" />
+            </div>
+            <div className="space-y-1">
+              <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Unidad</Label>
+              <Input value={unit} onChange={e => setUnit(e.target.value)} placeholder="°C, %, pH" className="bg-[#0A0A0A] border-white/10 text-[#E5E2E1]" />
+            </div>
+          </div>
+          <div className="space-y-1">
+            <Label className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Descripción (opcional)</Label>
+            <Input value={description} onChange={e => setDescription(e.target.value)} placeholder="Descripción del control..." className="bg-[#0A0A0A] border-white/10 text-[#E5E2E1]" />
+          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="border-white/10 text-[#A78B7D] hover:bg-white/5">Cancelar</Button>
+            <Button type="submit" className="bg-[#F97316] hover:bg-[#F97316]/90 text-white" disabled={createTemplate.isPending}>
+              {createTemplate.isPending ? "Creando..." : "Crear plantilla"}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 // ─── Templates Tab ─────────────────────────────────────────────────────────────
 
 function TemplatesTab() {
-  const { templates } = useAppccTemplates()
-  const [activeMap, setActiveMap] = useState<Record<string, boolean>>(
-    () => Object.fromEntries(templates.map((t) => [t.id, t.is_active]))
-  )
+  const { templates, isLoading } = useAppccTemplates()
+  const updateTemplate = useUpdateTemplate()
 
-  function toggleActive(id: string) {
-    setActiveMap((prev) => {
-      const next = { ...prev, [id]: !prev[id] }
-      const name = templates.find((t) => t.id === id)?.name ?? id
-      toast.success(next[id] ? `"${name}" activada` : `"${name}" desactivada`)
-      return next
-    })
+  function toggleActive(template: CheckTemplate) {
+    updateTemplate.mutate(
+      { templateId: template.id, updates: { is_active: !template.is_active } },
+      {
+        onSuccess: () => {
+          toast.success(
+            template.is_active
+              ? `"${template.name}" desactivada`
+              : `"${template.name}" activada`
+          )
+        },
+      }
+    )
+  }
+
+  if (isLoading) {
+    return <p className="text-[#A78B7D] text-sm py-4">Cargando plantillas...</p>
   }
 
   return (
@@ -435,8 +658,7 @@ function TemplatesTab() {
       </TableHeader>
       <TableBody>
         {templates.map((t) => {
-          const TypeIcon = CHECK_TYPE_ICONS[t.check_type]
-          const isActive = activeMap[t.id] ?? t.is_active
+          const TypeIcon = CHECK_TYPE_ICONS[t.check_type as CheckType]
           return (
             <TableRow key={t.id} className="border-white/5 hover:bg-white/5">
               <TableCell>
@@ -449,12 +671,12 @@ function TemplatesTab() {
               </TableCell>
               <TableCell>
                 <span className="flex items-center gap-1.5 text-[#A78B7D]">
-                  <TypeIcon className="h-3.5 w-3.5" />
-                  {CHECK_TYPE_LABELS[t.check_type]}
+                  {TypeIcon && <TypeIcon className="h-3.5 w-3.5" />}
+                  {CHECK_TYPE_LABELS[t.check_type as CheckType]}
                 </span>
               </TableCell>
               <TableCell className="text-[#A78B7D]">
-                {FREQUENCY_LABELS[t.frequency]}
+                {FREQUENCY_LABELS[t.frequency as CheckFrequency]}
               </TableCell>
               <TableCell className="text-[#A78B7D]">
                 <LimitsCell template={t} />
@@ -462,19 +684,20 @@ function TemplatesTab() {
               <TableCell>
                 <button
                   type="button"
-                  onClick={() => toggleActive(t.id)}
+                  onClick={() => toggleActive(t)}
+                  disabled={updateTemplate.isPending}
                   className={cn(
                     "relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A1A1A]",
-                    isActive ? "bg-[#F97316]" : "bg-white/10"
+                    t.is_active ? "bg-[#F97316]" : "bg-white/10"
                   )}
                   role="switch"
-                  aria-checked={isActive}
+                  aria-checked={t.is_active}
                 >
                   <span
                     className={cn(
                       "pointer-events-none block h-4 w-4 rounded-full bg-white shadow-sm ring-0 transition-transform",
-                      isActive ? "translate-x-4" : "translate-x-0"
+                      t.is_active ? "translate-x-4" : "translate-x-0"
                     )}
                   />
                 </button>
@@ -490,10 +713,10 @@ function TemplatesTab() {
 // ─── History Tab ───────────────────────────────────────────────────────────────
 
 function HistoryTab() {
-  const { summaries, isLoading } = useAppccDailySummary(7)
+  const { summaries, isLoading } = useAppccDailySummary(14)
 
   const maxTotal = useMemo(
-    () => Math.max(...summaries.map((s) => s.total), 1),
+    () => Math.max(...summaries.map((s: DailyCheckSummary) => s.total_checks), 1),
     [summaries]
   )
 
@@ -501,50 +724,42 @@ function HistoryTab() {
     return <p className="text-[#A78B7D] text-sm py-4">Cargando histórico...</p>
   }
 
+  if (summaries.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <BarChart3 className="mx-auto h-10 w-10 text-[#A78B7D]/30 mb-3" />
+        <p className="text-[#A78B7D] text-sm">Sin datos históricos todavía.</p>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6">
-      {/* Mini bar chart */}
       <div className="rounded-lg bg-[#1A1A1A] p-4">
-        <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] mb-3">Registros últimos 7 días</p>
-        <div className="flex items-end gap-2 h-24">
-          {summaries.map((s) => {
-            const totalPct = (s.total / maxTotal) * 100
-            const okPct = s.total > 0 ? (s.ok / s.total) * 100 : 0
-            const alertPct = s.total > 0 ? (s.alerts / s.total) * 100 : 0
-            const criticalPct = s.total > 0 ? (s.critical / s.total) * 100 : 0
+        <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] mb-3">Registros últimos 14 días</p>
+        <div className="flex items-end gap-1.5 h-24">
+          {summaries.map((s: DailyCheckSummary) => {
+            const totalPct = (s.total_checks / maxTotal) * 100
+            const okPct = s.total_checks > 0 ? (s.ok_count / s.total_checks) * 100 : 0
+            const alertPct = s.total_checks > 0 ? (s.alert_count / s.total_checks) * 100 : 0
+            const criticalPct = s.total_checks > 0 ? (s.critical_count / s.total_checks) * 100 : 0
 
             return (
-              <div key={s.date} className="flex-1 flex flex-col items-center gap-1">
+              <div key={s.closure_date} className="flex-1 flex flex-col items-center gap-1">
                 <div
                   className="w-full rounded-sm overflow-hidden flex flex-col-reverse"
                   style={{ height: `${Math.max(totalPct, 8)}%` }}
-                  title={`${s.date}: ${s.ok} OK, ${s.alerts} alertas, ${s.critical} críticos`}
+                  title={`${s.closure_date}: ${s.ok_count} OK, ${s.alert_count} alertas, ${s.critical_count} críticos`}
                 >
-                  {criticalPct > 0 && (
-                    <div
-                      className="w-full bg-red-500"
-                      style={{ height: `${criticalPct}%` }}
-                    />
-                  )}
-                  {alertPct > 0 && (
-                    <div
-                      className="w-full bg-yellow-500"
-                      style={{ height: `${alertPct}%` }}
-                    />
-                  )}
-                  {okPct > 0 && (
-                    <div
-                      className="w-full bg-green-500"
-                      style={{ height: `${okPct}%` }}
-                    />
-                  )}
+                  {criticalPct > 0 && <div className="w-full bg-red-500" style={{ height: `${criticalPct}%` }} />}
+                  {alertPct > 0 && <div className="w-full bg-yellow-500" style={{ height: `${alertPct}%` }} />}
+                  {okPct > 0 && <div className="w-full bg-green-500" style={{ height: `${okPct}%` }} />}
                 </div>
-                <span className="text-xs text-[#A78B7D]">{formatShortDate(s.date)}</span>
+                <span className="text-[10px] text-[#A78B7D]">{formatShortDate(s.closure_date)}</span>
               </div>
             )
           })}
         </div>
-        {/* Legend */}
         <div className="flex items-center gap-4 mt-3 text-xs text-[#A78B7D]">
           <span className="flex items-center gap-1.5"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-green-500" /> OK</span>
           <span className="flex items-center gap-1.5"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-yellow-500" /> Alerta</span>
@@ -552,7 +767,6 @@ function HistoryTab() {
         </div>
       </div>
 
-      {/* Summary table */}
       <Table>
         <TableHeader>
           <TableRow className="border-white/5 hover:bg-transparent">
@@ -562,27 +776,26 @@ function HistoryTab() {
             <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Alertas</TableHead>
             <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Críticos</TableHead>
             <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Completado</TableHead>
+            <TableHead className="text-xs font-medium uppercase tracking-widest text-[#A78B7D]">Estado</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {[...summaries].reverse().map((s) => (
-            <TableRow key={s.date} className="border-white/5 hover:bg-white/5">
+          {[...summaries].reverse().map((s: DailyCheckSummary) => (
+            <TableRow key={s.closure_date} className="border-white/5 hover:bg-white/5">
               <TableCell className="font-medium text-[#E5E2E1]">
-                {new Date(s.date).toLocaleDateString("es", { weekday: "short", day: "numeric", month: "short" })}
+                {new Date(s.closure_date).toLocaleDateString("es", { weekday: "short", day: "numeric", month: "short" })}
               </TableCell>
-              <TableCell className="text-[#E5E2E1]">{s.total}</TableCell>
+              <TableCell className="text-[#E5E2E1]">{s.total_checks}</TableCell>
+              <TableCell><span className="text-green-400 font-medium">{s.ok_count}</span></TableCell>
               <TableCell>
-                <span className="text-green-400 font-medium">{s.ok}</span>
-              </TableCell>
-              <TableCell>
-                {s.alerts > 0
-                  ? <span className="text-yellow-400 font-medium">{s.alerts}</span>
+                {s.alert_count > 0
+                  ? <span className="text-yellow-400 font-medium">{s.alert_count}</span>
                   : <span className="text-[#A78B7D]">0</span>
                 }
               </TableCell>
               <TableCell>
-                {s.critical > 0
-                  ? <span className="text-red-400 font-medium">{s.critical}</span>
+                {s.critical_count > 0
+                  ? <span className="text-red-400 font-medium">{s.critical_count}</span>
                   : <span className="text-[#A78B7D]">0</span>
                 }
               </TableCell>
@@ -590,12 +803,25 @@ function HistoryTab() {
                 <div className="flex items-center gap-2">
                   <div className="h-1.5 w-20 rounded-full bg-white/10 overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-green-500"
-                      style={{ width: `${s.completion_pct}%` }}
+                      className={cn("h-full rounded-full", s.completion_pct >= 100 ? "bg-green-500" : "bg-[#F97316]")}
+                      style={{ width: `${Math.min(s.completion_pct, 100)}%` }}
                     />
                   </div>
-                  <span className="text-xs text-[#A78B7D]">{s.completion_pct}%</span>
+                  <span className="text-xs text-[#A78B7D]">{Math.round(s.completion_pct)}%</span>
                 </div>
+              </TableCell>
+              <TableCell>
+                {s.status === "validated" ? (
+                  <Badge className="bg-green-900/30 text-green-400 border-0">
+                    <Lock className="mr-1 h-3 w-3" /> Validado
+                  </Badge>
+                ) : s.status === "completed" ? (
+                  <Badge className="bg-blue-900/30 text-blue-400 border-0">
+                    <CheckCircle2 className="mr-1 h-3 w-3" /> Completado
+                  </Badge>
+                ) : (
+                  <Badge className="bg-white/5 text-[#A78B7D] border-0">Abierto</Badge>
+                )}
               </TableCell>
             </TableRow>
           ))}
@@ -605,28 +831,136 @@ function HistoryTab() {
   )
 }
 
+// ─── Incidents Tab ────────────────────────────────────────────────────────────
+
+function IncidentsTab() {
+  const { incidents, isLoading } = useAppccIncidents({ status: "open" })
+  const resolveIncident = useResolveIncident()
+  const [resolvingId, setResolvingId] = useState<string | null>(null)
+  const [resolveAction, setResolveAction] = useState("")
+
+  if (isLoading) {
+    return <p className="text-[#A78B7D] text-sm py-4">Cargando incidencias...</p>
+  }
+
+  if (incidents.length === 0) {
+    return (
+      <div className="text-center py-8">
+        <CheckCircle2 className="mx-auto h-10 w-10 text-green-500/30 mb-3" />
+        <p className="text-[#A78B7D] text-sm">Sin incidencias abiertas.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-3">
+      {incidents.map((inc) => (
+        <div key={inc.id} className={cn(
+          "rounded-lg bg-[#1A1A1A] p-4 border-l-4",
+          inc.severity === "critical" ? "border-l-red-500" :
+          inc.severity === "high" ? "border-l-orange-500" :
+          inc.severity === "medium" ? "border-l-yellow-500" : "border-l-blue-500"
+        )}>
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <AlertCircle className={cn(
+                  "h-4 w-4",
+                  inc.severity === "critical" ? "text-red-400" :
+                  inc.severity === "high" ? "text-orange-400" : "text-yellow-400"
+                )} />
+                <span className="font-medium text-[#E5E2E1]">{inc.title}</span>
+                <Badge className="bg-white/5 text-[#A78B7D] border-0 text-xs">{inc.severity}</Badge>
+              </div>
+              {inc.description && <p className="text-sm text-[#A78B7D]">{inc.description}</p>}
+              <p className="text-xs text-[#A78B7D]/60">
+                {inc.incident_date} — Reportado por {inc.reported_by_name}
+              </p>
+            </div>
+            {resolvingId !== inc.id && (
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-white/10 text-[#A78B7D] hover:bg-white/5 shrink-0"
+                onClick={() => setResolvingId(inc.id)}
+              >
+                Resolver
+              </Button>
+            )}
+          </div>
+
+          {resolvingId === inc.id && (
+            <div className="mt-3 space-y-2 border-t border-white/5 pt-3">
+              <textarea
+                rows={2}
+                placeholder="Acción correctiva aplicada..."
+                value={resolveAction}
+                onChange={(e) => setResolveAction(e.target.value)}
+                className="flex min-h-[50px] w-full rounded-lg border border-white/10 bg-[#0A0A0A] px-3 py-2 text-sm text-[#E5E2E1] placeholder:text-[#A78B7D]/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]/50 resize-none"
+              />
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                  disabled={!resolveAction.trim() || resolveIncident.isPending}
+                  onClick={() => {
+                    resolveIncident.mutate(
+                      { incidentId: inc.id, action: resolveAction.trim() },
+                      {
+                        onSuccess: () => {
+                          toast.success("Incidencia resuelta")
+                          setResolvingId(null)
+                          setResolveAction("")
+                        },
+                      }
+                    )
+                  }}
+                >
+                  Confirmar resolución
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="text-[#A78B7D]"
+                  onClick={() => { setResolvingId(null); setResolveAction("") }}
+                >
+                  Cancelar
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function AppccPage() {
   const [selectedDate, setSelectedDate] = useState<string>(todayStr())
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [validateDialogOpen, setValidateDialogOpen] = useState(false)
+  const [templateDialogOpen, setTemplateDialogOpen] = useState(false)
   const [activeTab, setActiveTab] = useState("registros")
 
   const { records } = useAppccRecords(selectedDate)
   const { templates } = useAppccTemplates()
+  const { closure } = useAppccDailyClosure(selectedDate)
 
-  // Summary stats for selected date
   const stats = useMemo(() => {
     const ok = records.filter((r) => r.status === "ok").length
     const alerts = records.filter((r) => r.status === "alerta").length
     const critical = records.filter((r) => r.status === "critico").length
     const total = records.length
-    const pct = total > 0 ? Math.round(((ok + alerts + critical) / total) * 100) : 0
-    return { ok, alerts, critical, total, pct }
-  }, [records])
+    const pct = closure?.completion_pct ?? (total > 0 ? 100 : 0)
+    return { ok, alerts, critical, total, pct: Math.round(pct) }
+  }, [records, closure])
 
   const isToday = selectedDate === todayStr()
   const isFuture = selectedDate > todayStr()
+  const isValidated = closure?.status === "validated"
+  const activeTemplates = templates.filter((t) => t.is_active)
 
   return (
     <div className="space-y-6">
@@ -644,10 +978,45 @@ export default function AppccPage() {
             Registros de seguridad alimentaria — {formatDisplayDate(selectedDate)}
           </p>
         </div>
-        <Button onClick={() => setDialogOpen(true)} className="shrink-0 bg-[#F97316] hover:bg-[#F97316]/90 text-white">
-          <Plus className="mr-2 h-4 w-4" />
-          Nuevo registro
-        </Button>
+        <div className="flex items-center gap-2 shrink-0">
+          {/* Export CSV */}
+          {stats.total > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => exportRecordsCSV(records, selectedDate)}
+              className="border-white/10 text-[#A78B7D] hover:bg-white/5"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              CSV
+            </Button>
+          )}
+          {/* Validate button — only for today or past, when not yet validated */}
+          {!isFuture && !isValidated && stats.total > 0 && (
+            <Button
+              variant="outline"
+              onClick={() => setValidateDialogOpen(true)}
+              className="border-green-500/30 text-green-400 hover:bg-green-500/10"
+            >
+              <FileCheck className="mr-2 h-4 w-4" />
+              Validar día
+            </Button>
+          )}
+          {isValidated && (
+            <Badge className="bg-green-900/30 text-green-400 border-0 h-9 px-3">
+              <Lock className="mr-1.5 h-3.5 w-3.5" />
+              Validado por {closure?.validated_by_name}
+            </Badge>
+          )}
+          <Button
+            onClick={() => setDialogOpen(true)}
+            className="bg-[#F97316] hover:bg-[#F97316]/90 text-white"
+            disabled={isFuture || isValidated}
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            Nuevo registro
+          </Button>
+        </div>
       </div>
 
       {/* Date navigation */}
@@ -664,9 +1033,7 @@ export default function AppccPage() {
         <div className="min-w-[140px] text-center text-sm font-medium text-[#E5E2E1]">
           {isToday ? "Hoy" : formatShortDate(selectedDate)}
           {!isToday && (
-            <span className="ml-1 text-xs text-[#A78B7D]">
-              ({selectedDate})
-            </span>
+            <span className="ml-1 text-xs text-[#A78B7D]">({selectedDate})</span>
           )}
         </div>
         <Button
@@ -680,81 +1047,53 @@ export default function AppccPage() {
           <span className="sr-only">Día siguiente</span>
         </Button>
         {!isToday && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setSelectedDate(todayStr())}
-            className="text-xs text-[#F97316] hover:bg-white/5"
-          >
+          <Button variant="ghost" size="sm" onClick={() => setSelectedDate(todayStr())} className="text-xs text-[#F97316] hover:bg-white/5">
             Hoy
           </Button>
         )}
       </div>
 
-      {/* KPI summary cards — dark styled with 4px border-l semantic colors */}
+      {/* KPI summary cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-green-500 p-4">
           <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] flex items-center gap-1.5 mb-2">
-            <CheckCircle2 className="h-4 w-4 text-green-500" />
-            Controles OK
+            <CheckCircle2 className="h-4 w-4 text-green-500" /> Controles OK
           </p>
           <div>
-            <span className="text-3xl font-bold text-green-400">
-              {stats.ok}
-            </span>
+            <span className="text-3xl font-bold text-green-400">{stats.ok}</span>
             <span className="text-[#A78B7D] text-sm ml-1">/ {stats.total}</span>
           </div>
         </div>
 
         <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-yellow-500 p-4">
           <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] flex items-center gap-1.5 mb-2">
-            <AlertTriangle className="h-4 w-4 text-yellow-500" />
-            Alertas
+            <AlertTriangle className="h-4 w-4 text-yellow-500" /> Alertas
           </p>
-          <div>
-            <span className={cn(
-              "text-3xl font-bold",
-              stats.alerts > 0
-                ? "text-yellow-400"
-                : "text-[#A78B7D]"
-            )}>
-              {stats.alerts}
-            </span>
-          </div>
+          <span className={cn("text-3xl font-bold", stats.alerts > 0 ? "text-yellow-400" : "text-[#A78B7D]")}>
+            {stats.alerts}
+          </span>
         </div>
 
         <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-red-500 p-4">
           <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] flex items-center gap-1.5 mb-2">
-            <XCircle className="h-4 w-4 text-red-500" />
-            Críticos
+            <XCircle className="h-4 w-4 text-red-500" /> Críticos
           </p>
-          <div>
-            <span className={cn(
-              "text-3xl font-bold",
-              stats.critical > 0
-                ? "text-red-400"
-                : "text-[#A78B7D]"
-            )}>
-              {stats.critical}
-            </span>
-          </div>
+          <span className={cn("text-3xl font-bold", stats.critical > 0 ? "text-red-400" : "text-[#A78B7D]")}>
+            {stats.critical}
+          </span>
         </div>
 
         <div className="rounded-lg bg-[#1A1A1A] border-l-4 border-l-[#F97316] p-4">
           <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] flex items-center gap-1.5 mb-2">
-            <BarChart3 className="h-4 w-4 text-[#F97316]" />
-            Completado
+            <BarChart3 className="h-4 w-4 text-[#F97316]" /> Completado
           </p>
           <div className="space-y-2">
             <span className="text-3xl font-bold text-[#E5E2E1]">{isFuture ? "—" : `${stats.pct}%`}</span>
             {!isFuture && (
               <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div
-                  className={cn(
-                    "h-full rounded-full transition-all",
-                    stats.pct === 100 ? "bg-green-500" : "bg-[#F97316]"
-                  )}
-                  style={{ width: `${stats.pct}%` }}
+                  className={cn("h-full rounded-full transition-all", stats.pct >= 100 ? "bg-green-500" : "bg-[#F97316]")}
+                  style={{ width: `${Math.min(stats.pct, 100)}%` }}
                 />
               </div>
             )}
@@ -766,10 +1105,11 @@ export default function AppccPage() {
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="bg-[#1A1A1A] border-white/5">
           <TabsTrigger value="registros" className="data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">Registros del día</TabsTrigger>
-          <TabsTrigger value="plantillas" className="data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">Plantillas</TabsTrigger>
-          <TabsTrigger value="historico" className="data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">
-            Histórico 7 días
+          <TabsTrigger value="incidencias" className="data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">
+            Incidencias
           </TabsTrigger>
+          <TabsTrigger value="plantillas" className="data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">Plantillas</TabsTrigger>
+          <TabsTrigger value="historico" className="data-[state=active]:bg-[#F97316] data-[state=active]:text-white text-[#A78B7D]">Histórico</TabsTrigger>
         </TabsList>
 
         <TabsContent value="registros" className="mt-4">
@@ -779,25 +1119,45 @@ export default function AppccPage() {
                 Registros — {formatDisplayDate(selectedDate)}
               </p>
               <p className="text-sm text-[#A78B7D]">
-                {stats.critical > 0 && (
-                  <span className="text-red-400 font-medium">
-                    {stats.critical} registro(s) con valor crítico requieren acción correctiva.{" "}
+                {isValidated && (
+                  <span className="text-green-400 font-medium">
+                    Día validado por {closure?.validated_by_name}.{" "}
                   </span>
                 )}
-                Haz clic en una fila para ver notas y acciones correctivas.
+                {stats.critical > 0 && (
+                  <span className="text-red-400 font-medium">
+                    {stats.critical} registro(s) con valor crítico.{" "}
+                  </span>
+                )}
+                {!isValidated && records.length > 0 && "Haz clic en una fila para ver detalles."}
               </p>
             </div>
             <RecordsTab date={selectedDate} />
           </div>
         </TabsContent>
 
+        <TabsContent value="incidencias" className="mt-4">
+          <div className="rounded-lg bg-[#1A1A1A] p-4">
+            <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] mb-1">Incidencias abiertas</p>
+            <p className="text-sm text-[#A78B7D] mb-4">
+              No conformidades que requieren acción correctiva.
+            </p>
+            <IncidentsTab />
+          </div>
+        </TabsContent>
+
         <TabsContent value="plantillas" className="mt-4">
           <div className="rounded-lg bg-[#1A1A1A]">
-            <div className="p-4 pb-3">
-              <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] mb-1">Plantillas de control</p>
-              <p className="text-sm text-[#A78B7D]">
-                Configura los puntos de control que se registran diariamente.
-              </p>
+            <div className="p-4 pb-3 flex items-start justify-between">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] mb-1">Plantillas de control</p>
+                <p className="text-sm text-[#A78B7D]">
+                  Configura los puntos de control que se registran. Desactiva los que no apliquen.
+                </p>
+              </div>
+              <Button size="sm" onClick={() => setTemplateDialogOpen(true)} className="bg-[#F97316] hover:bg-[#F97316]/90 text-white shrink-0">
+                <Plus className="mr-1.5 h-3.5 w-3.5" /> Nueva
+              </Button>
             </div>
             <TemplatesTab />
           </div>
@@ -807,19 +1167,28 @@ export default function AppccPage() {
           <div className="rounded-lg bg-[#1A1A1A] p-4">
             <p className="text-xs font-medium uppercase tracking-widest text-[#A78B7D] mb-1">Histórico de controles</p>
             <p className="text-sm text-[#A78B7D] mb-4">
-              Resumen de los últimos 7 días de registros APPCC.
+              Resumen de los últimos 14 días de registros APPCC.
             </p>
             <HistoryTab />
           </div>
         </TabsContent>
       </Tabs>
 
-      {/* New Record Dialog */}
+      {/* Dialogs */}
       <NewRecordDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
-        templates={templates}
+        templates={activeTemplates}
         selectedDate={selectedDate}
+      />
+      <ValidateDialog
+        open={validateDialogOpen}
+        onOpenChange={setValidateDialogOpen}
+        date={selectedDate}
+      />
+      <NewTemplateDialog
+        open={templateDialogOpen}
+        onOpenChange={setTemplateDialogOpen}
       />
     </div>
   )

@@ -48,6 +48,7 @@ const navigationGroups: NavGroup[] = [
     items: [
       { name: "Modo Cocina", href: "/kitchen-mode", icon: ChefHat },
       { name: "Dashboard", href: "/", icon: LayoutDashboard },
+      { name: "Multi-Local", href: "/multi-local", icon: BarChart3 },
     ],
   },
   {

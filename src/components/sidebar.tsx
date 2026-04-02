@@ -193,7 +193,7 @@ export function Sidebar() {
           {navigationGroups.map((group) => (
             <div key={group.label || "top"} className={group.label ? "mt-3 pt-3 border-t border-border/50" : ""}>
               {group.label && !collapsed && (
-                <p className="px-3 mb-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/60">
+                <p className="px-3 mb-1 text-xs font-semibold uppercase tracking-widest text-muted-foreground/60">
                   {group.label}
                 </p>
               )}

@@ -22,6 +22,7 @@ import {
   Users,
   UtensilsCrossed,
   Rocket,
+  TrendingUp,
   Warehouse,
 } from "lucide-react";
 import { useCommandPalette } from "@/components/command-palette-provider";
@@ -64,6 +65,7 @@ const navigationGroups: NavGroup[] = [
     items: [
       { name: "Catálogo", href: "/catalog/products", icon: Package },
       { name: "Compras", href: "/procurement/orders", icon: ShoppingCart },
+      { name: "Precios", href: "/procurement/prices", icon: TrendingUp },
       { name: "Inventario", href: "/inventory", icon: Warehouse },
       { name: "APPCC", href: "/appcc", icon: ShieldCheck },
       { name: "Etiquetado", href: "/labeling", icon: Tag },

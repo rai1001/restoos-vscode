@@ -5,6 +5,36 @@
 
 ---
 
+## Sprint G5 - Agentes IA + CLARA (2026-04-03)
+
+### feat(agents): CLARA — agente de administracion financiera
+Pipeline completo de gestion de facturas: recoge del email, extrae datos con OCR (Gemini Vision), concilia contra albaranes, y redacta incidencias para proveedores.
+
+| Archivo | Descripcion |
+|---------|-------------|
+| `supabase/migrations/00000000000030_clara_agent.sql` | 5 tablas: facturas_recibidas, lineas_factura, discrepancias_clara, documentos_faltantes, clara_retry_queue |
+| `supabase/functions/_shared/clara_types.ts` | Enums, interfaces BD, tipos Gemini, ClaraDeps inyectable |
+| `supabase/functions/_shared/clara_prompts.ts` | 4 prompts Gemini (clasificacion, OCR, discrepancia, mensaje) |
+| `supabase/functions/_shared/clara_utils.ts` | SHA-256, tokens, retry backoff, NIF validation, date parsing |
+| `supabase/functions/_shared/clara_collector.ts` | Modulo 1: parsea email, clasifica adjuntos, sube a Storage |
+| `supabase/functions/_shared/clara_ocr.ts` | Modulo 2: Gemini Vision, extraccion estructurada, validacion NIF |
+| `supabase/functions/_shared/clara_reconciler.ts` | Modulo 3: cruza con goods_receipts, detecta discrepancias (+-2% precio, exacto cantidad) |
+| `supabase/functions/_shared/clara_messenger.ts` | Modulo 4: redacta mensajes profesionales para proveedores |
+| `supabase/functions/_shared/clara_agent.ts` | Orquestador runClara() — coordina 4 modulos secuencialmente |
+| `supabase/functions/clara-*/index.ts` | 5 Edge Functions (adaptadores Supabase) |
+| `scripts/test-clara.ts` | 6 tests automatizados |
+| `scripts/test-clara-real.ts` | Test con factura real PNG |
+| `scripts/generate-test-invoice.ts` | Genera factura espanola realista con Playwright |
+
+**Arquitectura:** Logica pura en `_shared/clara_*.ts` (portable a VPS Node.js). Adaptadores finos en `clara-*/index.ts`.
+**Coste medido:** $0.0007/factura (2.639 tokens in + 1.004 tokens out). $0.07/mes para 100 facturas.
+**Tests:** 6/6 pass (factura correcta, precio incorrecto, cantidad incorrecta, sin albaran, baja calidad, no es factura).
+
+### fix(migration): migracion 026 idempotente
+Arreglado conflicto pre-existente donde `reservations` y `product_aliases` se intentaban recrear con schema diferente al original. Ahora usa `ALTER TABLE ADD COLUMN IF NOT EXISTS`.
+
+---
+
 ## Sprint G4 - Stabilization pass (2026-03-31)
 
 ### fix: repo stabilization, strict TS, Next 16 proxy migration

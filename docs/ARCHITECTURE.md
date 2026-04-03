@@ -2,7 +2,7 @@
 
 ## Overview
 
-ChefOS is a hotel kitchen management platform built as a single Next.js 16 application with 46 dashboard pages, 6 pure calculation engines, 8 Remotion video compositions, and a dark-first design system (Stitch Matte Kitchen).
+RestoOS is a multi-local restaurant management platform built as a single Next.js 16 application with 46 dashboard pages, 6 pure calculation engines, 6 AI agents (Supabase Edge Functions + Gemini 2.0 Flash), 8 Remotion video compositions, and a dark-first design system (Calm Darkness).
 
 ---
 
@@ -109,6 +109,39 @@ history + events + stock
 | forecastEngine | `generateForecast` | 13 | 14-day demand forecast with seasonality |
 
 **Total: 149 unit tests** (Vitest, ~2s).
+
+---
+
+## AI Agents (Supabase Edge Functions)
+
+6 agents in `supabase/functions/`, all using Gemini 2.0 Flash. Business logic separated from Supabase adapter for VPS portability.
+
+```
+supabase/functions/
+├── _shared/              # Pure business logic (portable to Node.js)
+│   ├── utils.ts          # Shared: supabaseClient, callGemini, logAgent, tenantGuard
+│   ├── types.ts          # Shared agent types
+│   ├── clara_types.ts    # CLARA types + ClaraDeps (injectable)
+│   ├── clara_prompts.ts  # 4 Gemini prompts (JSON-only output)
+│   ├── clara_utils.ts    # SHA-256, NIF validation, retry, token estimation
+│   ├── clara_collector.ts  # Module 1: email parsing, classification
+│   ├── clara_ocr.ts        # Module 2: Gemini Vision extraction
+│   ├── clara_reconciler.ts # Module 3: invoice vs receipt matching
+│   ├── clara_messenger.ts  # Module 4: supplier message drafting
+│   └── clara_agent.ts      # Orchestrator: runClara()
+├── agent-escandallo/     # Recipe cost recalculation
+├── agent-menu-engineering/ # BCG matrix analysis
+├── agent-ocr/            # Invoice OCR (standalone)
+├── agent-appcc/          # Daily APPCC closure
+├── agent-inventario/     # FIFO stock + purchase suggestions
+├── clara-agent/          # CLARA orchestrator (thin adapter)
+├── clara-collector/      # CLARA module 1 adapter
+├── clara-ocr/            # CLARA module 2 adapter
+├── clara-reconciler/     # CLARA module 3 adapter
+└── clara-messenger/      # CLARA module 4 adapter
+```
+
+CLARA pipeline: email/document -> classify -> OCR Vision -> reconcile vs goods_receipts -> draft supplier messages. Cost: $0.0007/invoice.
 
 ---
 

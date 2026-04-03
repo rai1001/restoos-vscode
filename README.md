@@ -4,7 +4,7 @@ SaaS de gestion operativa para grupos de restauracion multi-local. Control centr
 
 **Stack:** Next.js 16 · React 19 · TypeScript 5 · Supabase (PostgreSQL + RLS + Auth) · TanStack Query · Tailwind v4 · shadcn/ui · Recharts · Vitest
 
-**Design system:** Stitch Matte Kitchen — dark-first (`#0A0A0A` surface, `#F97316` accent).
+**Design system:** Calm Darkness — dark-first (`#090909` surface, `#B8906F` bronze accent).
 
 ---
 
@@ -15,7 +15,7 @@ git clone <repo-url> restoos && cd restoos
 cp .env.example .env.local          # editar con claves de supabase status
 npm install
 npx supabase start                  # PostgreSQL + Auth local
-npx supabase db reset               # aplicar 23 migraciones
+npx supabase db reset               # aplicar 30 migraciones
 npm run dev                         # http://localhost:3000
 ```
 
@@ -94,7 +94,7 @@ Tenant (grupo) → Hotels (locales)
 
 ---
 
-## Migraciones (23)
+## Migraciones (30)
 
 ```
 00000000000000  base_functions
@@ -117,6 +117,13 @@ Tenant (grupo) → Hotels (locales)
 00000000000021  m8_appcc_rpcs (create_check_record, validate_closure, summaries, resolve_incident)
 00000000000022  fix_rls_recursion (63 policies reescritas con helper functions)
 00000000000023  multilocal_rpcs (get_tenant_overview, get_price_comparisons)
+00000000000024  hotels_type_and_transfers
+00000000000025  transfer_rpcs
+00000000000026  reservations_staffing_sales_aliases (extend reservations + product_aliases + staff + sales_data)
+00000000000027  agent_infrastructure (agent_logs, invoice_discrepancies, menu_engineering_reports, purchase_suggestions)
+00000000000028  receipt_incidents
+00000000000029  price_history
+00000000000030  clara_agent (facturas_recibidas, lineas_factura, discrepancias_clara, documentos_faltantes, clara_retry_queue)
 ```
 
 ---
@@ -160,7 +167,7 @@ Pure functions en `/src/lib/calculations/`. Sin side effects, sin DB, sin AI.
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clave publica | Si |
 | `SUPABASE_SERVICE_ROLE_KEY` | Clave servicio | Si |
 | `MISTRAL_API_KEY` | OCR recetas/albaranes | No |
-| `GEMINI_API_KEY` | Briefings AI | No |
+| `GEMINI_API_KEY` | Briefings AI + agentes (OCR, CLARA, menu-engineering) | No |
 | `RESEND_API_KEY` | Emails | No |
 | `SKIP_AUTH` | Bypass auth en dev | No (solo dev) |
 
@@ -169,11 +176,41 @@ Pure functions en `/src/lib/calculations/`. Sin side effects, sin DB, sin AI.
 ## Scripts
 
 ```bash
-npm run dev           # Dev server (http://localhost:3000)
-npm run build         # Build produccion
-npx vitest run        # Tests unitarios
-npx playwright test   # Tests e2e
-npx tsc --noEmit      # Type check
+npm run dev                           # Dev server (http://localhost:3000)
+npm run build                         # Build produccion
+npx vitest run                        # Tests unitarios
+npx playwright test                   # Tests e2e
+npx tsc --noEmit                      # Type check
+npx tsx scripts/test-agents.ts        # Tests 5 agentes IA
+npx tsx scripts/test-clara.ts         # Tests CLARA (6 escenarios)
+npx tsx scripts/test-clara-real.ts    # Test CLARA con factura real PNG
+```
+
+---
+
+## Agentes IA (6 Supabase Edge Functions + Gemini 2.0 Flash)
+
+Todos en `supabase/functions/`. Logica de negocio pura en `_shared/`, adaptadores finos en `agent-*/` y `clara-*/`.
+
+| Agente | Funcion | Trigger |
+|--------|---------|---------|
+| agent-escandallo | Recalcula costes receta cuando cambian precios | Cambio de precio producto |
+| agent-menu-engineering | Matriz BCG semanal con recomendaciones Gemini | Semanal |
+| agent-ocr | OCR facturas con Gemini Vision + validacion NIF | Subida de imagen |
+| agent-appcc | Cierre diario APPCC con SHA-256 + anomalias | Diario |
+| agent-inventario | Stock FIFO + sugerencias compra por proveedor | Venta registrada |
+| **clara-agent** | **Pipeline completo: email/doc -> OCR -> conciliacion albaranes -> redaccion incidencias** | **Email o subida documento** |
+
+**CLARA** (agente #6) coordina 4 modulos: `clara-collector` (clasificacion email), `clara-ocr` (extraccion Gemini Vision), `clara-reconciler` (cruce con albaranes +-7 dias, tolerancia 2% precio), `clara-messenger` (redaccion profesional para proveedores).
+
+Coste medido: $0.0007/factura, $0.07/mes para 100 facturas.
+
+```bash
+# Test agentes
+npx supabase functions serve --env-file .env.local
+npx tsx scripts/test-agents.ts        # 5 agentes originales
+npx tsx scripts/test-clara.ts         # 6 tests CLARA
+npx tsx scripts/test-clara-real.ts    # Test con factura real PNG
 ```
 
 ---

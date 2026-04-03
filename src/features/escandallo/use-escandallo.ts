@@ -5,7 +5,7 @@ import { useActiveHotel } from "@/lib/auth/hooks";
 import { recipeService } from "@/features/recipes/services/recipe.service";
 import { MOCK_ESCANDALLOS, getCostEvolution } from "./escandallo-mock-data";
 import { MOCK_RECIPES } from "@/lib/mock-data";
-import type { EscandalloRecipe, CostEvolutionPoint } from "./types";
+import type { EscandalloRecipe } from "./types";
 import { useMemo } from "react";
 
 const isDev = process.env.NODE_ENV === "development";

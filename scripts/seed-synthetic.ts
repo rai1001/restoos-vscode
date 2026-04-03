@@ -32,13 +32,11 @@ const supabase: SupabaseClient = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROL
 
 // ── Constants ───────────────────────────────────────────────────────────────
 const HOTEL_ID = 'bb000000-0000-0000-0000-000000000001';
-const TENANT_ID = 'aa000000-0000-0000-0000-000000000001';
 
 // Existing units from culuca_demo.sql
 const U_KG = '40000000-aaaa-0000-0000-000000000001';
 const U_G = '40000000-aaaa-0000-0000-000000000002';
 const U_L = '40000000-aaaa-0000-0000-000000000003';
-const U_ML = '40000000-aaaa-0000-0000-000000000004';
 const U_UD = '40000000-aaaa-0000-0000-000000000005';
 
 // Existing categories from culuca_demo.sql
@@ -112,10 +110,6 @@ function addDays(d: Date, days: number): Date {
   const r = new Date(d);
   r.setDate(r.getDate() + days);
   return r;
-}
-
-function randomBetween(min: number, max: number): number {
-  return Math.round((min + Math.random() * (max - min)) * 100) / 100;
 }
 
 function seededRandom(seed: number): () => number {
@@ -1083,7 +1077,7 @@ const recipes = recipeDefs.map(r => {
 
 // Build ingredient rows
 let ingredientCounter = 0;
-const recipeIngredients: any[] = [];
+const recipeIngredients: Record<string, unknown>[] = [];
 for (const r of recipeDefs) {
   r.ingredients.forEach((ing, sortIdx) => {
     ingredientCounter++;
@@ -1132,14 +1126,8 @@ const errorPOIndices = {
   malformedNIF: [12, 37],           // ERROR_TEST: NIF malformado
 };
 
-const allErrorPOs = new Set([
-  ...errorPOIndices.priceInflated,
-  ...errorPOIndices.quantityMismatch,
-  ...errorPOIndices.malformedNIF,
-]);
-
-const purchaseOrders: any[] = [];
-const purchaseOrderLines: any[] = [];
+const purchaseOrders: Record<string, unknown>[] = [];
+const purchaseOrderLines: Record<string, unknown>[] = [];
 let poLineCounter = 0;
 
 for (let i = 0; i < 50; i++) {
@@ -1153,7 +1141,7 @@ for (let i = 0; i < 50; i++) {
   const isReceived = daysBack > 3 || i < 40;
   const status = isReceived ? 'received' : pick(poStatuses);
 
-  const po: any = {
+  const po: Record<string, unknown> = {
     id: poId(i + 1),
     hotel_id: HOTEL_ID,
     supplier_id: supplierId(supIdx),
@@ -1219,8 +1207,8 @@ for (let i = 0; i < 50; i++) {
 // ══════════════════════════════════════════════════════════════════════════════
 // 7. GOODS RECEIPTS + LINES (50, matching POs)
 // ══════════════════════════════════════════════════════════════════════════════
-const goodsReceipts: any[] = [];
-const goodsReceiptLines: any[] = [];
+const goodsReceipts: Record<string, unknown>[] = [];
+const goodsReceiptLines: Record<string, unknown>[] = [];
 let receiptLineCounter = 0;
 
 for (let i = 0; i < 50; i++) {
@@ -1229,7 +1217,7 @@ for (let i = 0; i < 50; i++) {
 
   const receiptDate = addDays(new Date(po.expected_delivery_date), rngInt(0, 1));
 
-  const gr: any = {
+  const gr: Record<string, unknown> = {
     id: receiptId(i + 1),
     hotel_id: HOTEL_ID,
     order_id: po.id,
@@ -1249,7 +1237,7 @@ for (let i = 0; i < 50; i++) {
     const expiryDate = addDays(receiptDate, daysToExpiry);
     const lotDate = dateStr(receiptDate).replace(/-/g, '');
 
-    let qtyReceived = pol.quantity_received ?? pol.quantity_ordered;
+    const qtyReceived = pol.quantity_received ?? pol.quantity_ordered;
 
     goodsReceiptLines.push({
       id: receiptLineId(receiptLineCounter),
@@ -1391,7 +1379,7 @@ const outOfRangeErrors = [
 ];
 
 let checkRecordCounter = 0;
-const checkRecords: any[] = [];
+const checkRecords: Record<string, unknown>[] = [];
 
 for (let day = 0; day < 90; day++) {
   const checkDate = addDays(TODAY, -day);
@@ -1513,7 +1501,7 @@ const salesConfigs: SalesConfig[] = [
 ];
 
 let salesCounter = 0;
-const salesData: any[] = [];
+const salesData: Record<string, unknown>[] = [];
 
 // Generate sales for ~180 days (6 months back from TODAY)
 for (let day = 1; day <= 180; day++) {
@@ -1584,7 +1572,7 @@ const shiftPatterns: Record<string, { start: string; end: string; breakMin: numb
 };
 
 let shiftCounter = 0;
-const staffShifts: any[] = [];
+const staffShifts: Record<string, unknown>[] = [];
 
 for (let day = 0; day < 30; day++) {
   const shiftDate = addDays(TODAY, -day);
@@ -1699,7 +1687,7 @@ const malformedNIFSuppliers = [
 // INSERT functions
 // ══════════════════════════════════════════════════════════════════════════════
 
-async function insertBatch(table: string, rows: any[], batchSize = 100): Promise<number> {
+async function insertBatch(table: string, rows: Record<string, unknown>[], batchSize = 100): Promise<number> {
   let inserted = 0;
   for (let i = 0; i < rows.length; i += batchSize) {
     const batch = rows.slice(i, i + batchSize);
@@ -1889,7 +1877,7 @@ async function exportToJson() {
     fs.mkdirSync(outputDir, { recursive: true });
   }
 
-  const datasets: Record<string, any[]> = {
+  const datasets: Record<string, Record<string, unknown>[]> = {
     suppliers,
     products,
     supplier_offers: supplierOffers,

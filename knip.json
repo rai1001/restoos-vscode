@@ -1,0 +1,39 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "entry": [
+    "src/app/**/page.tsx",
+    "src/app/**/layout.tsx",
+    "src/app/**/route.ts",
+    "src/app/**/loading.tsx",
+    "src/app/**/error.tsx",
+    "src/app/**/not-found.tsx",
+    "src/proxy.ts",
+    "scripts/*.ts",
+    "scripts/*.mjs",
+    "supabase/functions/*/index.ts"
+  ],
+  "project": [
+    "src/**/*.{ts,tsx}",
+    "scripts/**/*.{ts,mjs}",
+    "supabase/functions/**/*.ts"
+  ],
+  "ignore": [
+    ".agents/**",
+    ".gstack/**",
+    "supabase/migrations/**"
+  ],
+  "ignoreDependencies": [
+    "@types/*",
+    "autoprefixer",
+    "postcss",
+    "tailwindcss"
+  ],
+  "next": {
+    "entry": [
+      "src/app/**/page.tsx",
+      "src/app/**/layout.tsx",
+      "src/app/**/route.ts",
+      "src/proxy.ts"
+    ]
+  }
+}

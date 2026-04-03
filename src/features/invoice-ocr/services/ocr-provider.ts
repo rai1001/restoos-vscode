@@ -100,8 +100,8 @@ function mockExtraction(): OcrResult {
  * Requires GOOGLE_DOCUMENT_AI_PROCESSOR env var.
  */
 async function googleDocumentAI(
-  fileBase64: string,
-  mimeType: string
+  _fileBase64: string,
+  _mimeType: string
 ): Promise<OcrResult> {
   const processorName = process.env.GOOGLE_DOCUMENT_AI_PROCESSOR;
   if (!processorName) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useRef } from "react";
 import { Upload, FileText, Check, AlertTriangle, Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useInvoiceOcr } from "../hooks/use-invoice-ocr";
@@ -186,7 +186,6 @@ export function InvoiceUploader() {
 
 function InvoiceLine({
   line,
-  onMatch: _onMatch,
 }: {
   line: MatchedLine;
   onMatch: (productId: string, productName: string) => void;

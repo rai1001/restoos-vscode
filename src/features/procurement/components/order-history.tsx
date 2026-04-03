@@ -3,7 +3,6 @@
 import { useState, useMemo } from "react"
 import Link from "next/link"
 import { useSuppliers } from "@/features/catalog/hooks/use-suppliers"
-import { POStatusBadge } from "./po-status-badge"
 import { OrderStatusProgress } from "./order-status-progress"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -16,7 +15,6 @@ import {
 } from "@/components/ui/select"
 import { Download, Search } from "lucide-react"
 import { EmptyState } from "@/components/empty-state"
-import { ShoppingCart } from "lucide-react"
 import type { PurchaseOrder } from "../schemas/procurement.schema"
 import type { Supplier } from "@/features/catalog/schemas/catalog.schema"
 
@@ -34,7 +32,7 @@ const STATUS_OPTIONS = [
   { value: "cancelled,cancelada", label: "Cancelado" },
 ]
 
-export function OrderHistory({ orders, isLoading }: OrderHistoryProps) {
+export function OrderHistory({ orders, isLoading: _isLoading }: OrderHistoryProps) {
   const { data: suppliers = [] } = useSuppliers()
   const [supplierFilter, setSupplierFilter] = useState("all")
   const [statusFilter, setStatusFilter] = useState("all")

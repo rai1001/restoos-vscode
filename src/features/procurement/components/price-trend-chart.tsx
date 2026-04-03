@@ -149,9 +149,9 @@ export function PriceTrendChart({
                 fontSize: 12,
               }}
               labelStyle={{ color: "#8A8078" }}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              formatter={((value: number, name: string) =>
-                [`${value.toFixed(2)} €`, supplierNames.get(name) ?? name.slice(0, 8)]) as any}
+               
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any -- recharts Tooltip generic types are incompatible
+              formatter={((value: number, name: string) => [`${value.toFixed(2)} €`, supplierNames.get(name) ?? name.slice(0, 8)]) as any}
             />
             {suppliers.map((supplierId, i) => (
               <Line

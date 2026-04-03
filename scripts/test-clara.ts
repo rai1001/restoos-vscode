@@ -164,7 +164,7 @@ async function testPrecioIncorrecto(): Promise<TestResult> {
   const tokOut = (data.tokens_output as number) ?? 0;
 
   // We expect discrepancies or at least processing
-  const hasDiscrepancy = ((data.discrepancias_count as number) ?? 0) > 0;
+  const _hasDiscrepancy = ((data.discrepancias_count as number) ?? 0) > 0;
 
   return {
     name: 'Precio incorrecto',

@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { MeshGradient as MeshGradientBase } from "@paper-design/shaders-react";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MeshGradient = MeshGradientBase as any;
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   ChefHat,

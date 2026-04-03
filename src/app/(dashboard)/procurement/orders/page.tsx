@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { usePurchaseOrders } from "@/features/procurement/hooks/use-procurement";
 import { useSuppliers } from "@/features/catalog/hooks/use-suppliers";
-import { POStatusBadge } from "@/features/procurement/components/po-status-badge";
 import { POStatusActions } from "@/features/procurement/components/po-status-actions";
 import { OrderStatusProgress } from "@/features/procurement/components/order-status-progress";
 import { OrderHistory } from "@/features/procurement/components/order-history";
@@ -20,7 +19,6 @@ import {
   Loader2,
   PackagePlus,
   Truck,
-  Clock,
   Receipt,
 } from "lucide-react";
 import { TableSkeleton } from "@/components/page-skeleton";
@@ -40,7 +38,6 @@ import {
   MOCK_VOLUME_DISCOUNTS,
   MOCK_RECIPES,
   MOCK_RECIPE_INGREDIENTS,
-  MOCK_SUPPLIERS,
 } from "@/lib/mock-data";
 import type {
   EventWithMenu,

@@ -162,6 +162,35 @@ export const procurementService = {
     return data;
   },
 
+  async listOrdersFiltered(
+    hotelId: string,
+    filters: {
+      supplierId?: string;
+      status?: string[];
+      dateFrom?: string;
+      dateTo?: string;
+      limit?: number;
+      offset?: number;
+    } = {}
+  ): Promise<PurchaseOrder[]> {
+    let query = supabase
+      .from("purchase_orders")
+      .select("*")
+      .eq("hotel_id", hotelId)
+      .order("created_at", { ascending: false });
+
+    if (filters.supplierId) query = query.eq("supplier_id", filters.supplierId);
+    if (filters.status && filters.status.length > 0) query = query.in("status", filters.status);
+    if (filters.dateFrom) query = query.gte("created_at", filters.dateFrom);
+    if (filters.dateTo) query = query.lte("created_at", filters.dateTo + "T23:59:59Z");
+    query = query.limit(filters.limit ?? 200);
+    if (filters.offset) query = query.range(filters.offset, filters.offset + (filters.limit ?? 200) - 1);
+
+    const { data, error } = await query;
+    if (error) throw error;
+    return data ?? [];
+  },
+
   async listReceipts(hotelId: string, orderId?: string): Promise<GoodsReceipt[]> {
     let query = supabase
       .from("goods_receipts")

@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { usePurchaseOrders } from "@/features/procurement/hooks/use-procurement";
 import { useSuppliers } from "@/features/catalog/hooks/use-suppliers";
 import { POStatusBadge } from "@/features/procurement/components/po-status-badge";
 import { POStatusActions } from "@/features/procurement/components/po-status-actions";
+import { OrderStatusProgress } from "@/features/procurement/components/order-status-progress";
+import { OrderHistory } from "@/features/procurement/components/order-history";
 import { OCRAlbaranDialog } from "@/features/procurement/components/ocr-albaran-dialog";
 import { Button } from "@/components/ui/button";
 import {
@@ -190,6 +192,9 @@ export default function PurchaseOrdersPage() {
   const [localOrders, setLocalOrders] = useState<PurchaseOrder[]>([]);
   const [ocrOpen, setOcrOpen] = useState(false);
 
+  // Tabs
+  const [activeTab, setActiveTab] = useState<"activos" | "historico">("activos");
+
   // AI Suggestions (collapsed by default)
   const [suggestionsOpen, setSuggestionsOpen] = useState(false);
   const [suggestions, setSuggestions] = useState<PurchaseSuggestion[]>([]);
@@ -260,6 +265,11 @@ export default function PurchaseOrdersPage() {
     .reduce((sum, o) => sum + (o.total_amount ?? 0), 0);
 
   const totalEstimatedCost = suggestions.reduce((sum, s) => sum + s.estimated_cost, 0);
+
+  const activeOrdersList = useMemo(
+    () => localOrders.filter((o) => !["received", "cancelled", "recibida", "cancelada"].includes(o.status)),
+    [localOrders]
+  );
 
   return (
     <div className="space-y-8">
@@ -444,88 +454,100 @@ export default function PurchaseOrdersPage() {
         )}
       </div>
 
-      {/* ── Orders table ────────────────────────────────────────── */}
+      {/* ── Tabs: Activos / Historico ──────────────────────────── */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-4">
-          Pedidos
-        </p>
+        <div className="flex items-center gap-1 mb-4">
+          {(["activos", "historico"] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-4 py-2 text-xs font-semibold uppercase tracking-widest rounded-md transition-colors ${
+                tab === activeTab
+                  ? "bg-primary text-white"
+                  : "text-muted-foreground hover:bg-card"
+              }`}
+            >
+              {tab === "activos" ? `Activos (${activeOrdersList.length})` : "Historico"}
+            </button>
+          ))}
+        </div>
 
         {isLoading ? (
           <TableSkeleton />
-        ) : localOrders.length === 0 ? (
-          <div className="rounded-lg bg-card p-8">
-            <EmptyState
-              icon={ShoppingCart}
-              title="No hay pedidos"
-              description="Crea un pedido de compra para solicitar mercancia a proveedores"
-              actionLabel="Crear pedido"
-              actionHref="/procurement/orders/new"
-            />
-          </div>
-        ) : (
-          <div className="overflow-x-auto rounded-lg bg-card">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-border">
-                  {["Numero", "Proveedor", "Estado", "Total", "Entrega", "Fecha", ""].map((h) => (
-                    <th
-                      key={h}
-                      className={`py-3 px-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground ${
-                        h === "Total" ? "text-right" : "text-left"
-                      }`}
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {localOrders.map((order) => (
-                  <tr
-                    key={order.id}
-                    className="border-b border-card-hover hover:bg-card-hover transition-colors"
-                  >
-                    <td className="py-3 px-4">
-                      <Link
-                        href={`/procurement/orders/${order.id}`}
-                        className="text-primary font-medium hover:underline"
+        ) : activeTab === "activos" ? (
+          activeOrdersList.length === 0 ? (
+            <div className="rounded-lg bg-card p-8">
+              <EmptyState
+                icon={ShoppingCart}
+                title="No hay pedidos activos"
+                description="Crea un pedido de compra para solicitar mercancia a proveedores"
+                actionLabel="Crear pedido"
+                actionHref="/procurement/orders/new"
+              />
+            </div>
+          ) : (
+            <div className="overflow-x-auto rounded-lg bg-card">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-border">
+                    {["Numero", "Proveedor", "Estado", "Total", "Entrega", "Fecha", ""].map((h) => (
+                      <th
+                        key={h}
+                        className={`py-3 px-4 text-xs font-semibold uppercase tracking-widest text-muted-foreground ${
+                          h === "Total" ? "text-right" : "text-left"
+                        }`}
                       >
-                        {order.order_number}
-                      </Link>
-                    </td>
-                    <td className="py-3 px-4 text-foreground">
-                      {supplierMap.get(order.supplier_id) ?? order.supplier_id.slice(0, 8)}
-                    </td>
-                    <td className="py-3 px-4">
-                      {isPOStatus(order.status) ? (
-                        <POStatusBadge status={order.status} />
-                      ) : (
-                        <span className="text-xs text-muted-foreground">{order.status}</span>
-                      )}
-                    </td>
-                    <td className="py-3 px-4 text-right font-medium tabular-nums text-foreground">
-                      {order.total_amount != null ? `${order.total_amount.toFixed(2)} €` : "\u2014"}
-                    </td>
-                    <td className="py-3 px-4 text-muted-foreground">
-                      {order.expected_delivery_date ?? "\u2014"}
-                    </td>
-                    <td className="py-3 px-4 text-muted-foreground">
-                      {new Date(order.created_at).toLocaleDateString("es")}
-                    </td>
-                    <td className="py-3 px-4">
-                      {isPOStatus(order.status) && (
-                        <POStatusActions
-                          poId={order.id}
-                          currentStatus={order.status}
-                          onStatusChange={(newStatus) => handleStatusChange(order.id, newStatus)}
-                        />
-                      )}
-                    </td>
+                        {h}
+                      </th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {activeOrdersList.map((order) => (
+                    <tr
+                      key={order.id}
+                      className="border-b border-card-hover hover:bg-card-hover transition-colors"
+                    >
+                      <td className="py-3 px-4">
+                        <Link
+                          href={`/procurement/orders/${order.id}`}
+                          className="text-primary font-medium hover:underline"
+                        >
+                          {order.order_number}
+                        </Link>
+                      </td>
+                      <td className="py-3 px-4 text-foreground">
+                        {supplierMap.get(order.supplier_id) ?? order.supplier_id.slice(0, 8)}
+                      </td>
+                      <td className="py-3 px-4">
+                        <OrderStatusProgress status={order.status} compact />
+                      </td>
+                      <td className="py-3 px-4 text-right font-medium tabular-nums text-foreground">
+                        {order.total_amount != null ? `${order.total_amount.toFixed(2)} €` : "\u2014"}
+                      </td>
+                      <td className="py-3 px-4 text-muted-foreground">
+                        {order.expected_delivery_date ?? "\u2014"}
+                      </td>
+                      <td className="py-3 px-4 text-muted-foreground">
+                        {new Date(order.created_at).toLocaleDateString("es")}
+                      </td>
+                      <td className="py-3 px-4">
+                        {isPOStatus(order.status) && (
+                          <POStatusActions
+                            poId={order.id}
+                            currentStatus={order.status}
+                            onStatusChange={(newStatus) => handleStatusChange(order.id, newStatus)}
+                          />
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )
+        ) : (
+          <OrderHistory orders={localOrders} isLoading={isLoading} />
         )}
       </div>
     </div>

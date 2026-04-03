@@ -1,0 +1,202 @@
+[
+  {
+    "id": "SEED0000-0004-0000-0000-000000000001",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000001",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000001",
+    "alias_name": "PULPO FRESCO NAC. 2-3KG",
+    "alias_sku": "PES-001",
+    "confidence": 0.95,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000002",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000001",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000002",
+    "alias_name": "PULPO ROC RIAS 2KG",
+    "alias_sku": "FM-PUL-001",
+    "confidence": 0.92,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000003",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000002",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000002",
+    "alias_name": "MERLUZA PINCHO COSTA 2-3",
+    "alias_sku": "FM-MER-010",
+    "confidence": 0.98,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000004",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000005",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000003",
+    "alias_name": "BERBERECHO CARRIL EXTRA",
+    "alias_sku": "LG-BBR-001",
+    "confidence": 0.9,
+    "source": "ocr_confirmed"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000005",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000006",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000003",
+    "alias_name": "MEJILLON BATEA EXTRA",
+    "alias_sku": "LG-MEJ-001",
+    "confidence": 0.88,
+    "source": "ocr_confirmed"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000006",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000008",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000003",
+    "alias_name": "PERCEBE COSTA MORTE 1ERA",
+    "alias_sku": "LG-PRC-001",
+    "confidence": 0.85,
+    "source": "ocr_suggested"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000007",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000016",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000005",
+    "alias_name": "SOLOM. TERNERA GALLEGA IGP",
+    "alias_sku": "FB-SOL-001",
+    "confidence": 0.97,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000008",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000018",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000006",
+    "alias_name": "LACON GALLEGO DO CUR 5KG",
+    "alias_sku": "EL-LAC-001",
+    "confidence": 0.93,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000009",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000021",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000006",
+    "alias_name": "CHORIZO GALL EXTRA CURADO",
+    "alias_sku": "EL-CHR-002",
+    "confidence": 0.91,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000010",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000026",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000008",
+    "alias_name": "PIMIENTO PADRON/HERBON",
+    "alias_sku": "FN-PAD-001",
+    "confidence": 0.96,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000011",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000027",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000007",
+    "alias_name": "GRELO FRESCO MANOJO",
+    "alias_sku": "HO-GRE-001",
+    "confidence": 0.89,
+    "source": "ocr_confirmed"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000012",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000029",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000008",
+    "alias_name": "PATATA KENNEBEC SACO 10KG",
+    "alias_sku": "FN-PAT-010",
+    "confidence": 0.99,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000013",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000040",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000010",
+    "alias_name": "QUESO TETILLA DOP BAMA",
+    "alias_sku": "QB-TET-001",
+    "confidence": 0.95,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000014",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000042",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000009",
+    "alias_name": "LECHE CELTA ENTERA 1L",
+    "alias_sku": "LC-LEC-001",
+    "confidence": 0.98,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000015",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000067",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000011",
+    "alias_name": "ESTRELLAGALICIA ESP 30L",
+    "alias_sku": "HR-EG-030",
+    "confidence": 0.99,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000016",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000069",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000012",
+    "alias_name": "ALBARIÑO M.CODAX 75CL",
+    "alias_sku": "MC-ALB-075",
+    "confidence": 0.97,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000017",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000013",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000003",
+    "alias_name": "BOGAVANTE EUR VIVO KG",
+    "alias_sku": "LG-BOG-001",
+    "confidence": 0.86,
+    "source": "ocr_suggested"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000018",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000023",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000006",
+    "alias_name": "ZORZA CERDO ADOBADO KG",
+    "alias_sku": "EL-ZOR-001",
+    "confidence": 0.9,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000019",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000007",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000003",
+    "alias_name": "NAVAJA GALLEGA FINA KG",
+    "alias_sku": "LG-NAV-001",
+    "confidence": 0.92,
+    "source": "manual"
+  },
+  {
+    "id": "SEED0000-0004-0000-0000-000000000020",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "product_id": "SEED0000-0002-0000-0000-000000000009",
+    "supplier_id": "SEED0000-0001-0000-0000-000000000003",
+    "alias_name": "VIEIRA GALL CONCHA KG",
+    "alias_sku": "LG-VIE-001",
+    "confidence": 0.94,
+    "source": "manual"
+  }
+]

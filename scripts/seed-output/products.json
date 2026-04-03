@@ -1,0 +1,802 @@
+[
+  {
+    "id": "SEED0000-0002-0000-0000-000000000001",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Pulpo fresco gallego",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"moluscos\"]",
+    "notes": "Pulpo de roca, rías gallegas"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000002",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Merluza de pincho",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"pescado\"]",
+    "notes": "Merluza de pincho costa gallega"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000003",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Rape",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"pescado\"]",
+    "notes": "Rape fresco entero"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000004",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Rodaballo salvaje",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"pescado\"]",
+    "notes": "Rodaballo salvaje 1.5-2 kg"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000005",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Berberechos",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"moluscos\"]",
+    "notes": "Berberecho de Carril"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000006",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Mejillones",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"moluscos\"]",
+    "notes": "Mejillón de batea rías gallegas"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000007",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Navajas",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"moluscos\"]",
+    "notes": "Navaja gallega fina"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000008",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Percebe",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"crustaceos\"]",
+    "notes": "Percebe Costa da Morte"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000009",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Vieira",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"moluscos\"]",
+    "notes": "Vieira gallega con concha"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000010",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Lubina salvaje",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"pescado\"]",
+    "notes": "Lubina salvaje 0.8-1.2 kg"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000011",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Sardina fresca",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"pescado\"]",
+    "notes": "Sardina temporada verano"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000012",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Jurel",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"pescado\"]",
+    "notes": "Jurel fresco lonja"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000013",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Bogavante",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"crustaceos\"]",
+    "notes": "Bogavante europeo vivo"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000014",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Cigalas",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"crustaceos\"]",
+    "notes": "Cigala gallega mediana"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000015",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Zamburiñas",
+    "category_id": "10000000-cccc-0000-0000-000000000002",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"moluscos\"]",
+    "notes": "Zamburiña de ría"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000016",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Ternera gallega IGP (solomillo)",
+    "category_id": "10000000-cccc-0000-0000-000000000001",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Solomillo ternera gallega IGP"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000017",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Ternera gallega IGP (entrecot)",
+    "category_id": "10000000-cccc-0000-0000-000000000001",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Entrecot ternera gallega IGP"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000018",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Lacón curado",
+    "category_id": "10000000-cccc-0000-0000-000000000001",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Lacón gallego DO curado"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000019",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Cerdo gallego (lomo)",
+    "category_id": "10000000-cccc-0000-0000-000000000001",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Lomo cerdo celta gallego"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000020",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Pollo de corral",
+    "category_id": "10000000-cccc-0000-0000-000000000001",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Pollo de corral gallego"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000021",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Chorizo gallego curado",
+    "category_id": "10000000-cccc-0000-0000-000000000001",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Chorizo extra curado Lalín"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000022",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Costilla cerdo",
+    "category_id": "10000000-cccc-0000-0000-000000000001",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Costilla cerdo gallego"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000023",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Zorza (carne adobada)",
+    "category_id": "10000000-cccc-0000-0000-000000000001",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Cerdo gallego adobado con pimentón"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000024",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Panceta fresca",
+    "category_id": "10000000-cccc-0000-0000-000000000001",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Panceta de cerdo gallego"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000025",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Unto (grasa de cerdo)",
+    "category_id": "10000000-cccc-0000-0000-000000000001",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Para caldo gallego tradicional"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000026",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Pimientos de Padrón",
+    "category_id": "10000000-cccc-0000-0000-000000000003",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "DO Pimiento de Herbón"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000027",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Grelos",
+    "category_id": "10000000-cccc-0000-0000-000000000003",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Grelos de temporada gallegos"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000028",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Nabiza",
+    "category_id": "10000000-cccc-0000-0000-000000000003",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Nabiza tierna gallega"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000029",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Patata kennebec",
+    "category_id": "10000000-cccc-0000-0000-000000000003",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Para cachelos y fritura"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000030",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Cebolla gallega",
+    "category_id": "10000000-cccc-0000-0000-000000000003",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000031",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Tomate raf",
+    "category_id": "10000000-cccc-0000-0000-000000000003",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000032",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Ajo morado",
+    "category_id": "10000000-cccc-0000-0000-000000000003",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Ajo gallego"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000033",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Perejil fresco",
+    "category_id": "10000000-cccc-0000-0000-000000000003",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000034",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Laurel seco",
+    "category_id": "10000000-cccc-0000-0000-000000000006",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Hoja de laurel gallego"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000035",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Berza gallega",
+    "category_id": "10000000-cccc-0000-0000-000000000003",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Para caldo gallego"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000036",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Repollo",
+    "category_id": "10000000-cccc-0000-0000-000000000003",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000037",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Pimiento rojo",
+    "category_id": "10000000-cccc-0000-0000-000000000003",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000038",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Limón",
+    "category_id": "10000000-cccc-0000-0000-000000000003",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000039",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Alubias blancas",
+    "category_id": "10000000-cccc-0000-0000-000000000003",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Alubia gallega tipo faba"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000040",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Queso tetilla DOP",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"lactosa\"]",
+    "notes": "Queso Tetilla DOP"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000041",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Queso San Simón da Costa DOP",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"lactosa\"]",
+    "notes": "Queso ahumado DOP"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000042",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Leche entera gallega",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000003",
+    "is_active": true,
+    "allergens": "[\"lactosa\"]",
+    "notes": "Leche Celta entera"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000043",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Nata 35% MG",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000003",
+    "is_active": true,
+    "allergens": "[\"lactosa\"]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000044",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Mantequilla gallega",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"lactosa\"]",
+    "notes": "Mantequilla sin sal"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000045",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Huevos camperos",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000005",
+    "is_active": true,
+    "allergens": "[\"huevo\"]",
+    "notes": "Categoría 0, gallegos"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000046",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Queso Arzúa-Ulloa DOP",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"lactosa\"]",
+    "notes": "Queso cremoso DOP"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000047",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Pimentón dulce de la Vera",
+    "category_id": "10000000-cccc-0000-0000-000000000006",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "DO Pimentón de La Vera"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000048",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Pimentón picante",
+    "category_id": "10000000-cccc-0000-0000-000000000006",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000049",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Sal gruesa",
+    "category_id": "10000000-cccc-0000-0000-000000000006",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Sal marina gallega"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000050",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Sal fina",
+    "category_id": "10000000-cccc-0000-0000-000000000006",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000051",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Pimienta negra molida",
+    "category_id": "10000000-cccc-0000-0000-000000000006",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000052",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Comino",
+    "category_id": "10000000-cccc-0000-0000-000000000006",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000053",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Azafrán",
+    "category_id": "10000000-cccc-0000-0000-000000000006",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000002",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Azafrán manchego"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000054",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Aceite de oliva virgen extra",
+    "category_id": "10000000-cccc-0000-0000-000000000007",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000003",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "AOVE primera prensada"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000055",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Aceite de girasol",
+    "category_id": "10000000-cccc-0000-0000-000000000007",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000003",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Para fritura"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000056",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Vinagre de vino blanco",
+    "category_id": "10000000-cccc-0000-0000-000000000007",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000003",
+    "is_active": true,
+    "allergens": "[\"sulfitos\"]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000057",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Vinagre de Jerez",
+    "category_id": "10000000-cccc-0000-0000-000000000007",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000003",
+    "is_active": true,
+    "allergens": "[\"sulfitos\"]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000058",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Arroz bomba",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "DO Calasparra"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000059",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Harina de trigo",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"gluten\"]",
+    "notes": "Harina panadera fuerza"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000060",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Pan de maíz (broa)",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000005",
+    "is_active": true,
+    "allergens": "[\"gluten\"]",
+    "notes": "Broa gallega artesanal"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000061",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Masa de empanada",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"gluten\"]",
+    "notes": "Masa empanada gallega artesanal"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000062",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Almendra molida",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"frutos_secos\"]",
+    "notes": "Para Tarta de Santiago"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000063",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Azúcar blanco",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000064",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Azúcar glas",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Para Tarta de Santiago"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000065",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Canela en rama",
+    "category_id": "10000000-cccc-0000-0000-000000000006",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000005",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000066",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Corteza de limón",
+    "category_id": "10000000-cccc-0000-0000-000000000006",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000005",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Para filloas y arroz con leche"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000067",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Estrella Galicia (barril 30L)",
+    "category_id": "10000000-cccc-0000-0000-000000000005",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000005",
+    "is_active": true,
+    "allergens": "[\"gluten\"]",
+    "notes": "Barril 30L hostelería"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000068",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Estrella Galicia 1906 (botella)",
+    "category_id": "10000000-cccc-0000-0000-000000000005",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000005",
+    "is_active": true,
+    "allergens": "[\"gluten\"]",
+    "notes": "Botella 33cl"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000069",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Albariño Martín Códax",
+    "category_id": "10000000-cccc-0000-0000-000000000005",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000005",
+    "is_active": true,
+    "allergens": "[\"sulfitos\"]",
+    "notes": "DO Rías Baixas 75cl"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000070",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Mencía Martín Códax",
+    "category_id": "10000000-cccc-0000-0000-000000000005",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000005",
+    "is_active": true,
+    "allergens": "[\"sulfitos\"]",
+    "notes": "DO Monterrei 75cl"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000071",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Godello Valdeorras",
+    "category_id": "10000000-cccc-0000-0000-000000000005",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000005",
+    "is_active": true,
+    "allergens": "[\"sulfitos\"]",
+    "notes": "DO Valdeorras 75cl"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000072",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Tinto Ribeira Sacra",
+    "category_id": "10000000-cccc-0000-0000-000000000005",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000005",
+    "is_active": true,
+    "allergens": "[\"sulfitos\"]",
+    "notes": "DO Ribeira Sacra 75cl"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000073",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Licor café",
+    "category_id": "10000000-cccc-0000-0000-000000000005",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000005",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Licor café gallego artesanal 70cl"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000074",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Orujo blanco",
+    "category_id": "10000000-cccc-0000-0000-000000000005",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000005",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Orujo gallego 70cl"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000075",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Agua Cabreiroá (cristal)",
+    "category_id": "10000000-cccc-0000-0000-000000000005",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000005",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": "Botella cristal 50cl"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000076",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Empanada congelada atún",
+    "category_id": "10000000-cccc-0000-0000-000000000008",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"gluten\",\"pescado\"]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000077",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Calamar congelado limpio",
+    "category_id": "10000000-cccc-0000-0000-000000000008",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"moluscos\"]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000078",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Guisantes congelados",
+    "category_id": "10000000-cccc-0000-0000-000000000008",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[]",
+    "notes": null
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000079",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Vino blanco Albariño (cocina)",
+    "category_id": "10000000-cccc-0000-0000-000000000005",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000003",
+    "is_active": true,
+    "allergens": "[\"sulfitos\"]",
+    "notes": "Para cocinar"
+  },
+  {
+    "id": "SEED0000-0002-0000-0000-000000000080",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "name": "Queso rallado gratinar",
+    "category_id": "10000000-cccc-0000-0000-000000000004",
+    "default_unit_id": "40000000-aaaa-0000-0000-000000000001",
+    "is_active": true,
+    "allergens": "[\"lactosa\"]",
+    "notes": "Mezcla gratinar"
+  }
+]

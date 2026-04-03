@@ -1,0 +1,82 @@
+[
+  {
+    "id": "SEED0000-000E-0000-0000-000000000001",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "full_name": "Israel Ramos",
+    "role": "head_chef",
+    "contract_type": "full_time",
+    "hourly_cost": 28,
+    "phone": "+34 600 100 100",
+    "is_active": true
+  },
+  {
+    "id": "SEED0000-000E-0000-0000-000000000002",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "full_name": "Ana López",
+    "role": "sous_chef",
+    "contract_type": "full_time",
+    "hourly_cost": 22,
+    "phone": "+34 600 200 200",
+    "is_active": true
+  },
+  {
+    "id": "SEED0000-000E-0000-0000-000000000003",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "full_name": "Carlos Méndez",
+    "role": "cook",
+    "contract_type": "full_time",
+    "hourly_cost": 16,
+    "phone": "+34 600 300 300",
+    "is_active": true
+  },
+  {
+    "id": "SEED0000-000E-0000-0000-000000000004",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "full_name": "Marta Fernández",
+    "role": "cook",
+    "contract_type": "full_time",
+    "hourly_cost": 16,
+    "phone": "+34 600 400 400",
+    "is_active": true
+  },
+  {
+    "id": "SEED0000-000E-0000-0000-000000000005",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "full_name": "Pablo Vázquez",
+    "role": "pastry",
+    "contract_type": "full_time",
+    "hourly_cost": 18,
+    "phone": "+34 600 500 500",
+    "is_active": true
+  },
+  {
+    "id": "SEED0000-000E-0000-0000-000000000006",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "full_name": "Lucía Torres",
+    "role": "waiter",
+    "contract_type": "full_time",
+    "hourly_cost": 14,
+    "phone": "+34 600 600 600",
+    "is_active": true
+  },
+  {
+    "id": "SEED0000-000E-0000-0000-000000000007",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "full_name": "Diego Romero",
+    "role": "waiter",
+    "contract_type": "part_time",
+    "hourly_cost": 14,
+    "phone": "+34 600 700 700",
+    "is_active": true
+  },
+  {
+    "id": "SEED0000-000E-0000-0000-000000000008",
+    "hotel_id": "bb000000-0000-0000-0000-000000000001",
+    "full_name": "Elena Piñeiro",
+    "role": "bartender",
+    "contract_type": "full_time",
+    "hourly_cost": 16,
+    "phone": "+34 600 800 800",
+    "is_active": true
+  }
+]

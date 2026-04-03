@@ -58,6 +58,9 @@ export async function POST() {
 
 // GET: preview the digest without sending
 export async function GET() {
+  const auth = await requireAuth()
+  if (auth.error) return auth.error
+
   const digest = generateMockDigest()
   const html = formatDigestHTML(digest)
   // Return HTML directly for browser preview

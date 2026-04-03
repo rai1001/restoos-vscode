@@ -54,6 +54,7 @@ const ROLE_LABELS: Record<string, string> = {
 export default function TeamPage() {
   const [members, setMembers] = useState<TeamMember[]>([]);
   const [hotelId, setHotelId] = useState<string | null>(null);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const supabase = createClient();
@@ -81,6 +82,7 @@ export default function TeamPage() {
 
       if (data?.hotel_id) {
         setHotelId(data.hotel_id);
+        setCurrentUserId(user.id);
         await loadMembers(data.hotel_id);
       }
       setLoading(false);
@@ -181,7 +183,19 @@ export default function TeamPage() {
                   className="border-input bg-background flex h-9 w-full rounded-md border px-3 py-1 text-sm"
                 >
                   {Object.entries(ROLE_LABELS)
-                    .filter(([key]) => key !== "superadmin")
+                    .filter(([key]) => {
+                      if (key === "superadmin") return false;
+                      const currentRole = members.find(
+                        (m) => m.user_id === currentUserId
+                      )?.role;
+                      if (
+                        key === "admin" &&
+                        currentRole !== "admin" &&
+                        currentRole !== "superadmin"
+                      )
+                        return false;
+                      return true;
+                    })
                     .map(([value, label]) => (
                       <option key={value} value={value}>
                         {label}

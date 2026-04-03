@@ -15,6 +15,7 @@ export enum TipoDiscrepancia {
   CargoDuplicado = 'cargo_duplicado',
   DocumentoFaltante = 'documento_faltante',
   ProveedorDesconocido = 'proveedor_desconocido',
+  LineaSinConciliar = 'linea_sin_conciliar',
 }
 
 export enum EstadoDiscrepancia {

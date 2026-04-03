@@ -1,6 +1,7 @@
 // CLARA — Modulo 4: Redactor de incidencias
 // Logica pura — portable a Node.js
 
+import { SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import type { ClaraDeps, MensajeProveedorResult } from './clara_types.ts';
 import { PROMPT_MENSAJE_PROVEEDOR } from './clara_prompts.ts';
 import { safeJsonParse, withTimeout } from './clara_utils.ts';
@@ -27,7 +28,7 @@ export async function runMessenger(
   input: MessengerInput,
   deps: ClaraDeps
 ): Promise<MessengerOutput> {
-  const sb = deps.supabase as any;
+  const sb = deps.supabase as unknown as SupabaseClient;
 
   // ── Load discrepancy with context ──────────────────────────────────────
 

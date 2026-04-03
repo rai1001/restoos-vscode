@@ -2,6 +2,7 @@
 // Logica pura — portable a Node.js
 // Coordina los 4 modulos secuencialmente con manejo de errores
 
+import { SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import type {
   ClaraDeps,
   ClaraPayload,
@@ -29,7 +30,7 @@ export async function runClara(
   let mensajesRedactados = 0;
   const errores: string[] = [];
 
-  const sb = deps.supabase as any;
+  const sb = deps.supabase as unknown as SupabaseClient;
 
   try {
     // ═══════════════════════════════════════════════════════════════════════

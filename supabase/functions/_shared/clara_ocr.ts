@@ -1,6 +1,7 @@
 // CLARA — Modulo 2: OCR + Extraccion estructurada
 // Logica pura — portable a Node.js
 
+import { SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import type { ClaraDeps, OcrFacturaExtraida } from './clara_types.ts';
 import { EstadoFactura } from './clara_types.ts';
 import { PROMPT_OCR_SYSTEM, PROMPT_OCR_EXTRACCION } from './clara_prompts.ts';
@@ -128,7 +129,7 @@ export async function runOcr(
 
   if (!datos) {
     // Update factura status
-    const sb = deps.supabase as any;
+    const sb = deps.supabase as unknown as SupabaseClient;
     await sb
       .from('facturas_recibidas')
       .update({ estado: EstadoFactura.RevisionManual, updated_at: new Date().toISOString() })
@@ -166,7 +167,7 @@ export async function runOcr(
 
   // ── Lookup supplier by NIF ─────────────────────────────────────────────
 
-  const sb = deps.supabase as any;
+  const sb = deps.supabase as unknown as SupabaseClient;
   let supplierId: string | null = null;
 
   if (datos.proveedor_nif && isValidNif(datos.proveedor_nif)) {

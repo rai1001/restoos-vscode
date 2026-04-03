@@ -1,17 +1,16 @@
 // CLARA — Modulo 1: Recolector de facturas
 // Logica pura — portable a Node.js
 
+import { SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import type {
   ClaraDeps,
   ClasificacionEmailResult,
-  FacturaRecibida,
 } from './clara_types.ts';
 import { EstadoFactura } from './clara_types.ts';
 import { PROMPT_CLASIFICACION_EMAIL } from './clara_prompts.ts';
 import {
   calculateHash,
   safeJsonParse,
-  measureTokens,
   withTimeout,
 } from './clara_utils.ts';
 
@@ -221,30 +220,9 @@ export async function runCollector(
 
   const hashDocumento = await calculateHash(attachment.base64);
 
-  // ── Check for duplicate ────────────────────────────────────────────────
-
-  const sb = deps.supabase as any;
-  const { data: existingDoc } = await sb
-    .from('facturas_recibidas')
-    .select('id')
-    .eq('hotel_id', input.hotelId)
-    .eq('hash_documento', hashDocumento)
-    .maybeSingle();
-
-  if (existingDoc) {
-    return {
-      facturaId: existingDoc.id,
-      estado: EstadoFactura.Procesada,
-      confianza: 100,
-      rutaDocumento: null,
-      hashDocumento,
-      tokensInput,
-      tokensOutput,
-      error: 'Documento duplicado — ya procesado',
-    };
-  }
-
   // ── Upload to Storage ──────────────────────────────────────────────────
+
+  const sb = deps.supabase as unknown as SupabaseClient;
 
   const now = new Date();
   const year = now.getFullYear();
@@ -267,25 +245,47 @@ export async function runCollector(
     console.error('Storage upload failed:', uploadError.message);
   }
 
-  // ── Insert initial record ──────────────────────────────────────────────
+  // ── Insert record (ON CONFLICT handles race condition) ─────────────────
 
-  const estado = (tokensOutput > 0 && tokensInput > 0)
-    ? EstadoFactura.Pendiente
-    : EstadoFactura.Pendiente;
+  const estado = EstadoFactura.Pendiente;
 
   const { data: inserted, error: insertError } = await sb
     .from('facturas_recibidas')
-    .insert({
+    .upsert({
       hotel_id: input.hotelId,
       estado,
       ruta_documento: rutaDocumento,
       hash_documento: hashDocumento,
       email_origin: emailOrigin || null,
+    }, {
+      onConflict: 'hotel_id,hash_documento',
+      ignoreDuplicates: true,
     })
     .select('id')
     .single();
 
-  if (insertError || !inserted) {
+  // If ignoreDuplicates swallowed the insert, fetch the existing record
+  if (!inserted && !insertError) {
+    const { data: existingDoc } = await sb
+      .from('facturas_recibidas')
+      .select('id')
+      .eq('hotel_id', input.hotelId)
+      .eq('hash_documento', hashDocumento)
+      .single();
+
+    return {
+      facturaId: existingDoc?.id ?? null,
+      estado: EstadoFactura.Procesada,
+      confianza: 100,
+      rutaDocumento: null,
+      hashDocumento,
+      tokensInput,
+      tokensOutput,
+      error: 'Documento duplicado — ya procesado',
+    };
+  }
+
+  if (insertError) {
     return {
       facturaId: null,
       estado: EstadoFactura.RevisionManual,

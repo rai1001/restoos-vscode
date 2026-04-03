@@ -46,6 +46,9 @@ export const MODULE_ACCESS: ModuleAccess[] = [
   { href: "/admin/setup-status", roles: ["superadmin", "admin"] },
   { href: "/admin/audit-log", roles: ["superadmin", "admin"] },
 
+  // Multi-local: management only (RO-APPSEC-213)
+  { href: "/multi-local", roles: ["superadmin", "direction", "admin"] },
+
   // Everyone: tickets propios
   { href: "/my-tickets", roles: ["superadmin", "direction", "admin", "head_chef", "cook", "procurement", "commercial", "room", "reception"] },
 ]

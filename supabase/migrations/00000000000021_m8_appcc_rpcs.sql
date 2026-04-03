@@ -23,6 +23,10 @@ DECLARE
   v_user_id     UUID := auth.uid();
   v_user_name   TEXT;
 BEGIN
+  IF NOT has_hotel_role(p_hotel_id, ARRAY['superadmin','admin','direction','head_chef','cook']) THEN
+    RAISE EXCEPTION 'ACCESS_DENIED';
+  END IF;
+
   -- Fetch template
   SELECT * INTO v_template
   FROM check_templates
@@ -86,6 +90,9 @@ BEGIN
 END;
 $$;
 
+REVOKE ALL ON FUNCTION create_check_record(UUID, UUID, DATE, NUMERIC, TEXT, TEXT) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION create_check_record(UUID, UUID, DATE, NUMERIC, TEXT, TEXT) TO authenticated;
+
 -- ─── REFRESH DAILY CLOSURE ───────────────────────────────────
 -- Recalcula el cierre diario a partir de los registros del día
 CREATE OR REPLACE FUNCTION refresh_daily_closure(
@@ -107,6 +114,10 @@ DECLARE
   v_day_of_week INTEGER;
   v_day_of_month INTEGER;
 BEGIN
+  IF NOT has_hotel_role(p_hotel_id, ARRAY['superadmin','admin','direction','head_chef','cook']) THEN
+    RAISE EXCEPTION 'ACCESS_DENIED';
+  END IF;
+
   v_day_of_week := EXTRACT(ISODOW FROM p_date)::INTEGER;  -- 1=Mon, 7=Sun
   v_day_of_month := EXTRACT(DAY FROM p_date)::INTEGER;
 
@@ -171,6 +182,9 @@ BEGIN
     updated_at = NOW();
 END;
 $$;
+
+REVOKE ALL ON FUNCTION refresh_daily_closure(UUID, DATE) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION refresh_daily_closure(UUID, DATE) TO authenticated;
 
 -- ─── VALIDATE DAILY CLOSURE ──────────────────────────────────
 -- Firma/validación del responsable sobre el cierre del día
@@ -246,6 +260,10 @@ AS $$
 DECLARE
   v_result JSONB;
 BEGIN
+  IF NOT has_hotel_access(p_hotel_id) THEN
+    RAISE EXCEPTION 'ACCESS_DENIED';
+  END IF;
+
   SELECT COALESCE(jsonb_agg(row_to_json(s)::JSONB ORDER BY s.closure_date), '[]'::JSONB)
   INTO v_result
   FROM (
@@ -270,6 +288,9 @@ BEGIN
 END;
 $$;
 
+REVOKE ALL ON FUNCTION get_appcc_daily_summaries(UUID, INTEGER) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION get_appcc_daily_summaries(UUID, INTEGER) TO authenticated;
+
 -- ─── RESOLVE INCIDENT ────────────────────────────────────────
 CREATE OR REPLACE FUNCTION resolve_appcc_incident(
   p_hotel_id     UUID,
@@ -286,6 +307,10 @@ DECLARE
   v_user_name  TEXT;
   v_incident   appcc_incidents%ROWTYPE;
 BEGIN
+  IF NOT has_hotel_role(p_hotel_id, ARRAY['superadmin','admin','direction','head_chef']) THEN
+    RAISE EXCEPTION 'ACCESS_DENIED';
+  END IF;
+
   IF p_status NOT IN ('resolved', 'closed') THEN
     RAISE EXCEPTION 'Status must be resolved or closed';
   END IF;
@@ -319,3 +344,6 @@ BEGIN
   );
 END;
 $$;
+
+REVOKE ALL ON FUNCTION resolve_appcc_incident(UUID, UUID, TEXT, TEXT) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION resolve_appcc_incident(UUID, UUID, TEXT, TEXT) TO authenticated;

@@ -6,6 +6,7 @@ import {
   callGemini,
   logAgent,
   ensureHotelId,
+  verifyCallerHotelAccess,
   jsonResponse,
   errorResponse,
   startTimer,
@@ -49,7 +50,6 @@ Deno.serve(async (req: Request) => {
   }
 
   const elapsed = startTimer();
-  const supabase = getSupabaseClient();
   const triggeredAt = new Date().toISOString();
 
   let payload: WebhookPayload;
@@ -67,6 +67,9 @@ Deno.serve(async (req: Request) => {
   } catch (e) {
     return errorResponse((e as Error).message, 400);
   }
+
+  const supabase = getSupabaseClient();
+  await verifyCallerHotelAccess(req, hotelId, supabase);
 
   const { product_id, old_price, new_price } = payload;
   const marginThreshold = payload.margin_threshold ?? DEFAULT_MARGIN_THRESHOLD;

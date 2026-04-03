@@ -7,6 +7,7 @@ import {
   callGemini,
   logAgent,
   ensureHotelId,
+  verifyCallerHotelAccess,
   jsonResponse,
   errorResponse,
   startTimer,
@@ -26,6 +27,11 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
     const hotelId = ensureHotelId(body.hotel_id);
 
+    const supabase = getSupabaseClient();
+
+    // Verify caller has access to this hotel
+    await verifyCallerHotelAccess(req, hotelId, supabase);
+
     const payload: ClaraPayload = {
       trigger: (body.trigger as ClaraTrigger) ?? 'manual',
       hotel_id: hotelId,
@@ -36,8 +42,6 @@ Deno.serve(async (req: Request) => {
       factura_id: body.factura_id,
       retry_id: body.retry_id,
     };
-
-    const supabase = getSupabaseClient();
 
     // Build deps — adapter layer for portability
     const deps = {

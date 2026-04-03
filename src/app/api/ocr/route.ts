@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { extractInvoice } from "@/features/invoice-ocr/services/ocr-provider";
+import { requireAuth } from "@/lib/api/require-auth";
 
 export async function POST(request: NextRequest) {
   try {
+    const auth = await requireAuth();
+    if (auth.error) return auth.error;
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
 

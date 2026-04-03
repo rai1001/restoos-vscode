@@ -6,6 +6,7 @@ import {
   callGemini,
   logAgent,
   ensureHotelId,
+  verifyCallerHotelAccess,
   jsonResponse,
   errorResponse,
   startTimer,
@@ -77,6 +78,7 @@ Deno.serve(async (req) => {
     const date = target_date ?? todayISO();
 
     const supabase = getSupabaseClient();
+    await verifyCallerHotelAccess(req, hotelId, supabase);
 
     // 1. Fetch active check_templates for this hotel
     const { data: templates, error: tplErr } = await supabase

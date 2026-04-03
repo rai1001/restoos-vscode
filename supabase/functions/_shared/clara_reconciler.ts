@@ -1,8 +1,22 @@
 // CLARA — Modulo 3: Conciliacion facturas vs albaranes
 // Logica pura — portable a Node.js
 
+import { SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import type { ClaraDeps } from './clara_types.ts';
 import { EstadoFactura, TipoDiscrepancia } from './clara_types.ts';
+
+// ─── Helpers ──────────────────────────────────────────────────────────────
+
+/** Normalize a product name/description for fuzzy matching */
+function normalizeForMatch(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // strip accents
+    .replace(/[^a-z0-9]/g, ' ')      // non-alphanum → space
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 
@@ -36,7 +50,7 @@ export async function runReconciler(
   input: ReconcilerInput,
   deps: ClaraDeps
 ): Promise<ReconcilerOutput> {
-  const sb = deps.supabase as any;
+  const sb = deps.supabase as unknown as SupabaseClient;
   const discrepancias: DiscrepanciaDetectada[] = [];
 
   // ── Load factura with lines ────────────────────────────────────────────
@@ -215,33 +229,106 @@ export async function runReconciler(
         }
       }
 
+      // Load product names for receipt lines (needed for OCR matching)
+      const receiptProductIds = receiptLines
+        ? [...new Set(receiptLines.map((rl: { product_id: string }) => rl.product_id))]
+        : [];
+      const productNameMap = new Map<string, string>(); // product_id → name
+      if (receiptProductIds.length > 0) {
+        const { data: products } = await sb
+          .from('products')
+          .select('id, name')
+          .in('id', receiptProductIds);
+        if (products) {
+          for (const p of products) {
+            productNameMap.set(p.id, p.name);
+          }
+        }
+      }
+
       // Build receipt lookup: product_id → { qty, cost, receipt_id }
       const receiptByProduct = new Map<string, {
         qty: number;
         cost: number;
         receiptId: string;
+        productName: string;
+      }>();
+      // Build secondary lookup: normalized product name → same data
+      const receiptByName = new Map<string, {
+        qty: number;
+        cost: number;
+        receiptId: string;
+        productId: string;
       }>();
       if (receiptLines) {
         for (const rl of receiptLines) {
-          receiptByProduct.set(rl.product_id, {
+          const entry = {
             qty: rl.quantity_received,
             cost: rl.unit_cost,
             receiptId: rl.receipt_id,
-          });
+            productName: productNameMap.get(rl.product_id) ?? '',
+          };
+          receiptByProduct.set(rl.product_id, entry);
+
+          const name = productNameMap.get(rl.product_id);
+          if (name) {
+            receiptByName.set(normalizeForMatch(name), {
+              qty: rl.quantity_received,
+              cost: rl.unit_cost,
+              receiptId: rl.receipt_id,
+              productId: rl.product_id,
+            });
+          }
         }
       }
 
       // Compare each invoice line
       if (lineas && lineas.length > 0) {
         for (const linea of lineas) {
-          if (!linea.product_id) continue;
+          // Try to find matching receipt: by product_id first, then by description
+          let receipt: { qty: number; cost: number; receiptId: string } | undefined;
+          let matchedProductId: string | null = linea.product_id ?? null;
 
-          const receipt = receiptByProduct.get(linea.product_id);
-          if (!receipt) continue;
+          if (linea.product_id) {
+            receipt = receiptByProduct.get(linea.product_id);
+          }
+
+          // OCR lines lack product_id — try matching by description against product names
+          if (!receipt && linea.descripcion) {
+            const normalDesc = normalizeForMatch(linea.descripcion);
+            // Exact normalized match
+            const byName = receiptByName.get(normalDesc);
+            if (byName) {
+              receipt = byName;
+              matchedProductId = byName.productId;
+            } else {
+              // Substring/contains match: check if any product name is contained
+              // in the description or vice-versa
+              for (const [normName, data] of receiptByName) {
+                if (normalDesc.includes(normName) || normName.includes(normalDesc)) {
+                  receipt = data;
+                  matchedProductId = data.productId;
+                  break;
+                }
+              }
+            }
+          }
+
+          if (!receipt) {
+            // Flag as unmatched instead of silently skipping
+            discrepancias.push({
+              tipo: TipoDiscrepancia.LineaSinConciliar,
+              valorEsperado: 'Linea conciliada con albaran',
+              valorRecibido: `Sin match: "${linea.descripcion}" (${linea.cantidad} x ${linea.precio_unitario})`,
+              diferencia: linea.total_linea ?? 0,
+              receiptId: null,
+            });
+            continue;
+          }
 
           // ── Price check: ±2% tolerance ─────────────────────────────
 
-          const agreedPrice = offerPriceMap.get(linea.product_id) ?? receipt.cost;
+          const agreedPrice = (matchedProductId ? offerPriceMap.get(matchedProductId) : undefined) ?? receipt.cost;
           if (agreedPrice > 0) {
             const priceDiffPct = Math.abs(
               ((linea.precio_unitario - agreedPrice) / agreedPrice) * 100

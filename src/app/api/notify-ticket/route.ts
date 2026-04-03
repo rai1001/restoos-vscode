@@ -11,11 +11,13 @@ function escapeHtml(str: string): string {
     .replace(/'/g, "&#039;")
 }
 
+// RO-APPSEC-214: only trust fields that don't affect email identity
 interface TicketPayload {
   type: string
   title: string
   description: string
   priority: string
+  // Derived from session, never from request body
   created_by_name: string
   created_by_email: string
   created_at: string
@@ -116,7 +118,7 @@ function buildEmailHtml(ticket: TicketPayload): string {
 
             <!-- CTA -->
             <div style="text-align:center;margin:28px 0 8px;">
-              <a href="/admin/tickets" style="display:inline-block;background:#111827;color:#FFFFFF;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px;text-decoration:none;">
+              <a href="${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/admin/tickets" style="display:inline-block;background:#111827;color:#FFFFFF;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px;text-decoration:none;">
                 Ver en panel de admin
               </a>
             </div>
@@ -148,7 +150,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 })
     }
 
-    const ticket = (await request.json()) as TicketPayload
+    // RO-APPSEC-214: parse only untrusted content fields; derive identity from session
+    const raw = (await request.json()) as Partial<TicketPayload>
+
+    const ticket = {
+      type:        String(raw.type        ?? "otro"),
+      title:       String(raw.title       ?? "(sin título)"),
+      description: String(raw.description ?? ""),
+      priority:    String(raw.priority    ?? "media"),
+      // identity always from the verified session — never from the request body
+      created_by_name:  (user.user_metadata?.full_name as string | undefined)
+                         ?? user.email
+                         ?? "Usuario",
+      created_by_email: user.email ?? "unknown@example.com",
+      created_at:       new Date().toISOString(),
+    }
 
     const apiKey = process.env.RESEND_API_KEY
     if (!apiKey) {

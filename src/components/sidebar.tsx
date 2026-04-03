@@ -10,6 +10,7 @@ import {
   CalendarDays,
   ChefHat,
   ChevronLeft,
+  FileText,
   LayoutDashboard,
   MessageSquare,
   MessageSquarePlus,
@@ -82,6 +83,7 @@ const navigationGroups: NavGroup[] = [
   {
     label: "Gestión",
     items: [
+      { name: "Documentos", href: "/documents", icon: FileText },
       { name: "Configuración", href: "/settings/hotel", icon: Settings },
       // Informes: oculto hasta conectar datos reales
       // Personal: oculto hasta crear tablas de staffing

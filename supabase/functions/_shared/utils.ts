@@ -128,6 +128,65 @@ export function ensureHotelId(hotelId: unknown): string {
   return hotelId;
 }
 
+// ─── Caller Hotel Authorization ─────────────────────────────────────────────
+
+/**
+ * Verifies that the caller's JWT is valid and that the authenticated user
+ * has an active membership for the given hotel_id.
+ *
+ * Uses an anon-key client so Supabase validates the JWT via auth.getUser(),
+ * then queries the memberships table with the service-role client to check
+ * access (mirrors the DB-level has_hotel_access RPC).
+ *
+ * Throws on missing/invalid token or unauthorized access.
+ */
+export async function verifyCallerHotelAccess(
+  req: Request,
+  hotelId: string,
+  serviceClient: SupabaseClient
+): Promise<string> {
+  // Extract Bearer token from Authorization header
+  const authHeader = req.headers.get('Authorization');
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    throw new Error('Missing or invalid Authorization header');
+  }
+  const token = authHeader.replace('Bearer ', '');
+
+  // Create a lightweight client with the anon key to validate the JWT
+  const url = Deno.env.get('SUPABASE_URL') ?? '';
+  const anonKey = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
+  if (!url || !anonKey) throw new Error('Missing SUPABASE_URL or SUPABASE_ANON_KEY');
+
+  const anonClient = createClient(url, anonKey, {
+    global: { headers: { Authorization: `Bearer ${token}` } },
+  });
+
+  const { data: { user }, error: authError } = await anonClient.auth.getUser(token);
+  if (authError || !user) {
+    throw new Error('Unauthorized — invalid or expired token');
+  }
+
+  // Check membership using the service-role client (bypasses RLS)
+  const { data: membership, error: membershipError } = await serviceClient
+    .from('memberships')
+    .select('id')
+    .eq('user_id', user.id)
+    .eq('hotel_id', hotelId)
+    .eq('is_active', true)
+    .limit(1)
+    .maybeSingle();
+
+  if (membershipError) {
+    throw new Error(`Membership check failed: ${membershipError.message}`);
+  }
+
+  if (!membership) {
+    throw new Error('Forbidden — user does not have access to this hotel');
+  }
+
+  return user.id;
+}
+
 // ─── JSON Response Helper ───────────────────────────────────────────────────
 
 export function jsonResponse(data: unknown, status = 200): Response {

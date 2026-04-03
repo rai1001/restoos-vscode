@@ -192,24 +192,6 @@ export default function RecipesPage() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
-  if (!isLoading && (!recipes || recipes.length === 0)) {
-    return (
-      <div className="space-y-6">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Alta Cocina Digital</p>
-          <h1 className="text-2xl font-bold text-foreground">Biblioteca de Recetas</h1>
-        </div>
-        <EmptyState
-          icon={ChefHat}
-          title="Tu biblioteca de recetas esta vacia"
-          description="Crea tu primera receta con ingredientes, pasos y fotos. O importa recetas desde un archivo."
-          actionLabel="+ Nueva Receta"
-          actionHref="/recipes/new"
-        />
-      </div>
-    );
-  }
-
   const filtered = useMemo(() => {
     if (!recipes) return [];
     let result = recipes.filter((r) =>
@@ -231,6 +213,24 @@ export default function RecipesPage() {
 
   const visible = filtered.slice(0, visibleCount);
   const totalCount = recipes?.length ?? 0;
+
+  if (!isLoading && (!recipes || recipes.length === 0)) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Alta Cocina Digital</p>
+          <h1 className="text-2xl font-bold text-foreground">Biblioteca de Recetas</h1>
+        </div>
+        <EmptyState
+          icon={ChefHat}
+          title="Tu biblioteca de recetas esta vacia"
+          description="Crea tu primera receta con ingredientes, pasos y fotos. O importa recetas desde un archivo."
+          actionLabel="+ Nueva Receta"
+          actionHref="/recipes/new"
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: "#0A0A0A" }}>

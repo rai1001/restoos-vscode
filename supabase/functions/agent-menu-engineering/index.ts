@@ -6,19 +6,12 @@ import {
   callGemini,
   logAgent,
   ensureHotelId,
+  verifyCallerHotelAccess,
   jsonResponse,
   errorResponse,
   startTimer,
 } from '../_shared/utils.ts';
-import { MenuClassification } from '../_shared/types.ts';
-
 // ─── Types ─────────────────────────────────────────────────────────────────
-
-interface SalesRow {
-  recipe_id: string;
-  total_units: number;
-  avg_price: number;
-}
 
 interface RecipeRow {
   id: string;
@@ -78,6 +71,7 @@ Deno.serve(async (req) => {
     const periodDays: number = body.period_days ?? 30;
 
     const supabase = getSupabaseClient();
+    await verifyCallerHotelAccess(req, hotelId, supabase);
     const now = new Date();
     const periodStart = new Date(now);
     periodStart.setDate(periodStart.getDate() - periodDays);

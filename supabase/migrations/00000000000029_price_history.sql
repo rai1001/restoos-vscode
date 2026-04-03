@@ -57,6 +57,18 @@ declare
   v_fully_received boolean := true;
   v_supplier_id uuid;
 begin
+  -- Security: membership validation (RO-APPSEC-203)
+  IF v_user_id IS NULL OR NOT EXISTS (
+    SELECT 1
+    FROM memberships
+    WHERE user_id = v_user_id
+      AND hotel_id = p_hotel_id
+      AND is_active = true
+      AND role IN ('superadmin','admin','direction','procurement','head_chef')
+  ) THEN
+    RAISE EXCEPTION 'ACCESS_DENIED';
+  END IF;
+
   -- Get supplier_id from order
   select supplier_id into v_supplier_id
   from purchase_orders
@@ -166,6 +178,10 @@ begin
 end;
 $$;
 
+-- Security hardening: restrict direct access (RO-APPSEC-203)
+REVOKE ALL ON FUNCTION receive_goods(uuid, uuid, jsonb, text) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION receive_goods(uuid, uuid, jsonb, text) TO authenticated;
+
 -- ============================================================================
 -- RPC: Export price data for ML (XGBoost/Prophet features)
 -- ============================================================================
@@ -187,10 +203,16 @@ returns table (
   price_std_30d numeric,
   volume_ma_30d numeric
 )
-language sql
+language plpgsql
 security definer
 stable
 as $$
+begin
+  IF NOT has_hotel_role(p_hotel_id, ARRAY['superadmin','admin','direction','procurement']) THEN
+    RAISE EXCEPTION 'ACCESS_DENIED';
+  END IF;
+
+  return query
   with base as (
     select
       ph.product_id,
@@ -245,6 +267,10 @@ as $$
       rows between 29 preceding and current row
     ) as volume_ma_30d
   from base b;
+end;
 $$;
+
+REVOKE ALL ON FUNCTION export_price_data_for_ml(uuid) FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION export_price_data_for_ml(uuid) TO authenticated;
 
 comment on function export_price_data_for_ml is 'Export price history with pre-calculated ML features (moving averages, seasonality) for XGBoost/Prophet';

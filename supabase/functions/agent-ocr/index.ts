@@ -6,12 +6,13 @@ import {
   callGemini,
   logAgent,
   ensureHotelId,
+  verifyCallerHotelAccess,
   jsonResponse,
   errorResponse,
   startTimer,
   withRetry,
 } from '../_shared/utils.ts';
-import type { OcrInvoiceResult, OcrInvoiceLine, Discrepancy, AgentLog } from '../_shared/types.ts';
+import type { OcrInvoiceResult, Discrepancy, AgentLog } from '../_shared/types.ts';
 
 // ─── NIF Validation ────────────────────────────────────────────────────────
 
@@ -184,6 +185,11 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
     hotelId = ensureHotelId(body.hotel_id);
 
+    const supabase = getSupabaseClient();
+
+    // Verify caller has access to this hotel
+    await verifyCallerHotelAccess(req, hotelId, supabase);
+
     const imageBase64: string = body.image_base64;
     const mimeType: string = body.mime_type;
 
@@ -195,8 +201,6 @@ Deno.serve(async (req: Request) => {
     if (!mimeType || !validMimeTypes.includes(mimeType)) {
       return errorResponse(`Invalid mime_type. Expected one of: ${validMimeTypes.join(', ')}`, 400);
     }
-
-    const supabase = getSupabaseClient();
 
     // ── Step 1: OCR with Gemini Vision ──────────────────────────────────
 
@@ -331,9 +335,9 @@ Deno.serve(async (req: Request) => {
         // Quantity mismatch: compare against latest goods receipt
         const { data: receiptLines } = await supabase
           .from('goods_receipt_lines')
-          .select('quantity_received')
+          .select('quantity_received, goods_receipts!inner(purchase_orders!inner(supplier_id))')
           .eq('product_id', productId)
-          .eq('supplier_id', supplierId)
+          .eq('goods_receipts.purchase_orders.supplier_id', supplierId)
           .order('created_at', { ascending: false })
           .limit(1);
 

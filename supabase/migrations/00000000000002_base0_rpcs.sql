@@ -18,6 +18,10 @@ as $$
 declare
   v_result jsonb;
 begin
+  IF p_user_id IS DISTINCT FROM auth.uid() THEN
+    RAISE EXCEPTION 'ACCESS_DENIED';
+  END IF;
+
   select jsonb_build_object(
     'hotel_id', h.id,
     'hotel_name', h.name,
@@ -77,6 +81,10 @@ as $$
 declare
   v_membership record;
 begin
+  IF p_user_id IS DISTINCT FROM auth.uid() THEN
+    RAISE EXCEPTION 'ACCESS_DENIED';
+  END IF;
+
   -- Validate membership exists and is active
   select * into v_membership
   from memberships
@@ -215,6 +223,15 @@ begin
     raise exception 'VALIDATION_ERROR: Rol no válido';
   end if;
 
+  -- Only admin/superadmin can invite admins
+  IF p_role = 'admin' AND NOT EXISTS (
+    SELECT 1 FROM memberships
+    WHERE user_id = v_user_id AND hotel_id = p_hotel_id
+      AND is_active = true AND role IN ('superadmin','admin')
+  ) THEN
+    RAISE EXCEPTION 'ACCESS_DENIED: solo admin/superadmin pueden invitar admins';
+  END IF;
+
   -- Find user by email
   select id into v_target_user_id
   from auth.users
@@ -302,6 +319,20 @@ begin
   if v_membership is null then
     raise exception 'NOT_FOUND: Membresía no encontrada';
   end if;
+
+  -- Prevent self role change
+  IF v_user_id = p_target_user_id AND p_new_role IS DISTINCT FROM v_membership.role THEN
+    RAISE EXCEPTION 'ACCESS_DENIED: self role change disabled';
+  END IF;
+
+  -- Only admin/superadmin can assign admin role
+  IF p_new_role = 'admin' AND NOT EXISTS (
+    SELECT 1 FROM memberships
+    WHERE user_id = v_user_id AND hotel_id = p_hotel_id
+      AND is_active = true AND role IN ('superadmin','admin')
+  ) THEN
+    RAISE EXCEPTION 'ACCESS_DENIED: solo admin/superadmin pueden asignar admin';
+  END IF;
 
   -- Update role
   update memberships

@@ -6,6 +6,7 @@ import {
   callGemini,
   logAgent,
   ensureHotelId,
+  verifyCallerHotelAccess,
   jsonResponse,
   errorResponse,
   startTimer,
@@ -24,6 +25,7 @@ Deno.serve(async (req: Request) => {
     const body = await req.json();
     const hotelId = ensureHotelId(body.hotel_id);
     const supabase = getSupabaseClient();
+    await verifyCallerHotelAccess(req, hotelId, supabase);
 
     const deps = {
       supabase,

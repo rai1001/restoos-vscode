@@ -7,6 +7,7 @@ import {
   callGemini,
   logAgent,
   ensureHotelId,
+  verifyCallerHotelAccess,
   jsonResponse,
   errorResponse,
   startTimer,
@@ -59,65 +60,99 @@ interface SupplierOrder {
 
 // ─── FIFO Stock Deduction ──────────────────────────────────────────────────
 
+const FIFO_MAX_RETRIES = 3;
+
 async function deductStockFIFO(
   supabase: SupabaseClient,
   hotelId: string,
   productId: string,
   totalToDeduct: number,
   unitId: string
-): Promise<void> {
-  // Fetch lots ordered by creation (oldest first = FIFO)
-  const { data: lots, error } = await supabase
-    .from('stock_lots')
-    .select('id, current_quantity, unit_cost, unit_id')
-    .eq('hotel_id', hotelId)
-    .eq('product_id', productId)
-    .gt('current_quantity', 0)
-    .order('created_at', { ascending: true });
-
-  if (error) throw new Error(`Failed to fetch stock_lots: ${error.message}`);
-  if (!lots || lots.length === 0) {
-    console.warn(`No stock lots for product ${productId} — skipping deduction`);
-    return;
-  }
-
+): Promise<{ shortage: number }> {
   let remaining = totalToDeduct;
+  let retries = 0;
 
-  for (const lot of lots as StockLot[]) {
-    if (remaining <= 0) break;
-
-    const deduction = Math.min(lot.current_quantity, remaining);
-    const newQty = lot.current_quantity - deduction;
-
-    // Update lot
-    const { error: updateErr } = await supabase
+  while (remaining > 0 && retries < FIFO_MAX_RETRIES) {
+    // Fetch lots ordered by creation (oldest first = FIFO)
+    const { data: lots, error } = await supabase
       .from('stock_lots')
-      .update({ current_quantity: newQty })
-      .eq('id', lot.id);
+      .select('id, current_quantity, unit_cost, unit_id')
+      .eq('hotel_id', hotelId)
+      .eq('product_id', productId)
+      .gt('current_quantity', 0)
+      .order('created_at', { ascending: true });
 
-    if (updateErr) throw new Error(`Failed to update lot ${lot.id}: ${updateErr.message}`);
+    if (error) throw new Error(`Failed to fetch stock_lots: ${error.message}`);
+    if (!lots || lots.length === 0) break;
 
-    // Record movement
-    const { error: movErr } = await supabase
-      .from('stock_movements')
-      .insert({
-        hotel_id: hotelId,
-        product_id: productId,
-        lot_id: lot.id,
-        movement_type: 'consumption',
-        quantity: deduction,
-        unit_id: unitId,
-        unit_cost: lot.unit_cost,
-      });
+    let madeProgress = false;
 
-    if (movErr) throw new Error(`Failed to insert stock_movement: ${movErr.message}`);
+    for (const lot of lots as StockLot[]) {
+      if (remaining <= 0) break;
 
-    remaining -= deduction;
+      const deduction = Math.min(lot.current_quantity, remaining);
+      const newQty = lot.current_quantity - deduction;
+
+      // Optimistic concurrency: only update if current_quantity hasn't changed
+      const { data: updated, error: updateErr } = await supabase
+        .from('stock_lots')
+        .update({ current_quantity: newQty })
+        .eq('id', lot.id)
+        .eq('current_quantity', lot.current_quantity)
+        .select('id');
+
+      if (updateErr) throw new Error(`Failed to update lot ${lot.id}: ${updateErr.message}`);
+
+      // If no rows updated, another invocation changed this lot — skip and retry
+      if (!updated || updated.length === 0) {
+        continue;
+      }
+
+      // Record movement
+      const { error: movErr } = await supabase
+        .from('stock_movements')
+        .insert({
+          hotel_id: hotelId,
+          product_id: productId,
+          lot_id: lot.id,
+          movement_type: 'consumption',
+          quantity: deduction,
+          unit_id: unitId,
+          unit_cost: lot.unit_cost,
+        });
+
+      if (movErr) throw new Error(`Failed to insert stock_movement: ${movErr.message}`);
+
+      remaining -= deduction;
+      madeProgress = true;
+    }
+
+    // If we couldn't update any lot due to concurrency, retry with fresh data
+    if (!madeProgress && remaining > 0) {
+      retries++;
+      continue;
+    }
+
+    // If we made progress but still have remaining, loop to refetch fresh lots
+    if (remaining > 0) {
+      retries++;
+    }
   }
 
+  // Record shortage as an alert instead of silently succeeding
   if (remaining > 0) {
     console.warn(`Insufficient stock for product ${productId}: ${remaining} units short`);
+
+    await supabase.from('alerts').insert({
+      hotel_id: hotelId,
+      alert_type: 'stock_shortage',
+      severity: 'critical',
+      title: `Rotura de stock: producto ${productId}`,
+      message: `No hay stock suficiente para cubrir el consumo. Faltan ${remaining.toFixed(2)} unidades del producto ${productId}.`,
+    });
   }
+
+  return { shortage: remaining };
 }
 
 // ─── Consume Recipe Ingredients ────────────────────────────────────────────
@@ -261,16 +296,31 @@ async function checkStockLevels(
       avg_daily_consumption: Math.round(avgDaily * 100) / 100,
     });
 
-    // Insert alert
-    await supabase.from('alerts').insert({
-      hotel_id: hotelId,
-      alert_type: 'stock_low',
-      severity: urgency,
-      title: `Stock bajo: ${product.name}`,
-      message: urgency === 'critical'
-        ? `${product.name} en nivel CRITICO (${currentStock} uds). Pedir ${suggestedQty} uds.`
-        : `${product.name} por debajo del minimo (${currentStock}/${minStock} uds).`,
-    });
+    // Dedupe: only insert alert if no active (undismissed) stock_low alert exists for this product
+    const { data: existingAlert } = await supabase
+      .from('alerts')
+      .select('id')
+      .eq('hotel_id', hotelId)
+      .eq('alert_type', 'stock_low')
+      .eq('entity_type', 'product')
+      .eq('entity_id', product.id)
+      .eq('is_dismissed', false)
+      .limit(1)
+      .maybeSingle();
+
+    if (!existingAlert) {
+      await supabase.from('alerts').insert({
+        hotel_id: hotelId,
+        alert_type: 'stock_low',
+        severity: urgency,
+        title: `Stock bajo: ${product.name}`,
+        message: urgency === 'critical'
+          ? `${product.name} en nivel CRITICO (${currentStock} uds). Pedir ${suggestedQty} uds.`
+          : `${product.name} por debajo del minimo (${currentStock}/${minStock} uds).`,
+        entity_type: 'product',
+        entity_id: product.id,
+      });
+    }
   }
 
   return alerts;
@@ -328,15 +378,35 @@ async function createPurchaseSuggestions(
 
     const totalEstimated = lines.reduce((s, l) => s + l.line_total, 0);
 
-    // Insert purchase suggestion
-    await supabase.from('purchase_suggestions').insert({
-      hotel_id: hotelId,
-      supplier_id: supplierId,
-      status: 'pending',
-      lines,
-      total_estimated: Math.round(totalEstimated * 100) / 100,
-      reason: `Auto-generado: ${lines.length} productos bajo minimo`,
-    });
+    // Dedupe: check if a pending suggestion already exists for this hotel+supplier
+    const { data: existingSuggestion } = await supabase
+      .from('purchase_suggestions')
+      .select('id')
+      .eq('hotel_id', hotelId)
+      .eq('supplier_id', supplierId)
+      .eq('status', 'pending')
+      .limit(1)
+      .maybeSingle();
+
+    if (existingSuggestion) {
+      // Update existing pending suggestion with fresh data
+      await supabase.from('purchase_suggestions')
+        .update({
+          lines,
+          total_estimated: Math.round(totalEstimated * 100) / 100,
+          reason: `Auto-generado: ${lines.length} productos bajo minimo`,
+        })
+        .eq('id', existingSuggestion.id);
+    } else {
+      await supabase.from('purchase_suggestions').insert({
+        hotel_id: hotelId,
+        supplier_id: supplierId,
+        status: 'pending',
+        lines,
+        total_estimated: Math.round(totalEstimated * 100) / 100,
+        reason: `Auto-generado: ${lines.length} productos bajo minimo`,
+      });
+    }
 
     orders.push({
       supplier_id: supplierId,
@@ -409,6 +479,9 @@ Deno.serve(async (req: Request) => {
     const body: RequestBody = await req.json();
     const hotelId = ensureHotelId(body.hotel_id);
     const supabase = getSupabaseClient();
+
+    // Verify caller has access to this hotel
+    await verifyCallerHotelAccess(req, hotelId, supabase);
 
     // Step 1: If sale triggered, consume ingredients
     if (body.recipe_id && body.quantity_sold && body.quantity_sold > 0) {

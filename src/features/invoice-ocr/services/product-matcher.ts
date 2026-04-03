@@ -118,6 +118,8 @@ export async function saveAlias(
 
 /**
  * Update supplier_offers with new prices from the invoice.
+ * Uses select-then-insert/update because supplier_offers has no unique
+ * constraint on (supplier_id, product_id).
  */
 export async function updatePrices(
   hotelId: string,
@@ -128,15 +130,40 @@ export async function updatePrices(
   for (const line of lines) {
     if (!line.product_id || !line.unit_price) continue;
 
-    const { error } = await supabase.from("supplier_offers").upsert(
-      {
+    // Get the product's default unit for the required unit_id field
+    const { data: product } = await supabase
+      .from("products")
+      .select("default_unit_id")
+      .eq("id", line.product_id)
+      .single();
+
+    if (!product?.default_unit_id) continue;
+
+    // Check if an offer already exists for this supplier + product
+    const { data: existing } = await supabase
+      .from("supplier_offers")
+      .select("id")
+      .eq("hotel_id", hotelId)
+      .eq("supplier_id", supplierId)
+      .eq("product_id", line.product_id)
+      .limit(1)
+      .maybeSingle();
+
+    let error;
+    if (existing) {
+      ({ error } = await supabase
+        .from("supplier_offers")
+        .update({ price: line.unit_price })
+        .eq("id", existing.id));
+    } else {
+      ({ error } = await supabase.from("supplier_offers").insert({
+        hotel_id: hotelId,
         supplier_id: supplierId,
         product_id: line.product_id,
-        unit_price: line.unit_price,
-        notes: `Auto-updated from invoice OCR`,
-      },
-      { onConflict: "supplier_id,product_id" }
-    );
+        unit_id: product.default_unit_id,
+        price: line.unit_price,
+      }));
+    }
     if (!error) updated++;
   }
   return updated;

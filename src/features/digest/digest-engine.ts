@@ -184,7 +184,8 @@ export function formatDigestHTML(d: DigestSummary): string {
 
   html += `</div>`
   html += `<div style="padding:12px;text-align:center;background:#f5f5f5;border-radius:0 0 8px 8px;font-size:12px;color:#888">`
-  html += `RestoOS — <a href="http://localhost:3002" style="color:#F97316">Abrir dashboard</a>`
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+  html += `RestoOS — <a href="${appUrl}" style="color:#F97316">Abrir dashboard</a>`
   html += `</div></div>`
 
   return html

@@ -129,7 +129,15 @@ export function useReceiveGoods() {
   return useMutation({
     mutationFn: ({ orderId, lines, notes }: {
       orderId: string;
-      lines: Array<{ order_line_id: string; quantity_received: number; unit_cost: number; lot_number?: string; expiry_date?: string }>;
+      lines: Array<{
+        order_line_id: string;
+        quantity_received: number;
+        unit_cost: number;
+        lot_number?: string;
+        expiry_date?: string;
+        incident_type?: string;
+        incident_notes?: string;
+      }>;
       notes?: string;
     }) => procurementService.receiveGoods(hotelId!, orderId, lines, notes),
     onSuccess: () => {
@@ -139,6 +147,37 @@ export function useReceiveGoods() {
       queryClient.invalidateQueries({ queryKey: ["goods-receipts"] });
       queryClient.invalidateQueries({ queryKey: ["stock-levels"] });
       toast.success("Mercancia recibida");
+    },
+    onError: (err: Error) => toast.error(err.message),
+  });
+}
+
+export function useCreateOrderWithLines() {
+  const { hotelId } = useActiveHotel();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      supplierId,
+      expectedDelivery,
+      notes,
+      lines,
+    }: {
+      supplierId: string;
+      expectedDelivery?: string;
+      notes?: string;
+      lines: Array<{ product_id: string; unit_id?: string; quantity_ordered: number; unit_price: number }>;
+    }) => {
+      const result = await procurementService.createOrder(hotelId!, supplierId, expectedDelivery, notes);
+      const orderId = result?.order_id;
+      if (!orderId) throw new Error("No se pudo crear el pedido");
+      for (const line of lines) {
+        await procurementService.addOrderLine(hotelId!, orderId, line);
+      }
+      return result;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["purchase-orders", hotelId] });
+      toast.success("Pedido creado con todas las líneas");
     },
     onError: (err: Error) => toast.error(err.message),
   });

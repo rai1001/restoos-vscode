@@ -18,6 +18,10 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   enviada: Send,
   recibida: PackageCheck,
   cancelada: XCircle,
+  sent: Send,
+  confirmed_by_supplier: PackageCheck,
+  received: PackageCheck,
+  cancelled: XCircle,
 }
 
 interface POStatusActionsProps {
@@ -48,14 +52,14 @@ export function POStatusActions({ currentStatus, onStatusChange }: POStatusActio
     }
   }
 
-  const cancelTransition = transitions.find(([s]) => s === "cancelada")
+  const cancelTransition = transitions.find(([s]) => s === "cancelada" || s === "cancelled")
 
   return (
     <>
       <div className="flex items-center gap-1.5">
         {transitions.map(([newStatus, transition]) => {
           const Icon = ICONS[newStatus] ?? Send
-          const isDestructive = newStatus === "cancelada"
+          const isDestructive = newStatus === "cancelada" || newStatus === "cancelled"
 
           if (isDestructive) {
             return (
@@ -107,7 +111,7 @@ export function POStatusActions({ currentStatus, onStatusChange }: POStatusActio
               disabled={!!loading}
               onClick={() => {
                 if (cancelTransition) {
-                  handleTransition("cancelada", cancelTransition[1].label)
+                  handleTransition(cancelTransition[0], cancelTransition[1].label)
                 }
               }}
             >

@@ -79,14 +79,18 @@ export const procurementService = {
     return data ?? [];
   },
 
-  async getOrder(id: string): Promise<PurchaseOrder> {
+  async getOrder(id: string): Promise<PurchaseOrder & { supplier_name?: string }> {
     const { data, error } = await supabase
       .from("purchase_orders")
-      .select("*")
+      .select("*, suppliers(name)")
       .eq("id", id)
       .single();
     if (error) throw error;
-    return data;
+    const row = data as Record<string, unknown>;
+    return {
+      ...data,
+      supplier_name: (row.suppliers as { name: string } | null)?.name ?? undefined,
+    };
   },
 
   async createOrder(hotelId: string, supplierId: string, expectedDelivery?: string, notes?: string) {
@@ -126,14 +130,17 @@ export const procurementService = {
     return data;
   },
 
-  async getOrderLines(orderId: string): Promise<PurchaseOrderLine[]> {
+  async getOrderLines(orderId: string): Promise<(PurchaseOrderLine & { product_name?: string })[]> {
     const { data, error } = await supabase
       .from("purchase_order_lines")
-      .select("*")
+      .select("*, products(name)")
       .eq("order_id", orderId)
       .order("sort_order");
     if (error) throw error;
-    return data ?? [];
+    return (data ?? []).map((row: Record<string, unknown>) => ({
+      ...row,
+      product_name: (row.products as { name: string } | null)?.name ?? undefined,
+    })) as (PurchaseOrderLine & { product_name?: string })[];
   },
 
   async receiveGoods(hotelId: string, orderId: string, lines: Array<{
@@ -142,6 +149,8 @@ export const procurementService = {
     unit_cost: number;
     expiry_date?: string;
     lot_number?: string;
+    incident_type?: string;
+    incident_notes?: string;
   }>, notes?: string) {
     const { data, error } = await supabase.rpc("receive_goods", {
       p_hotel_id: hotelId,

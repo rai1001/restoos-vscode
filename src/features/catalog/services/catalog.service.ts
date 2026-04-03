@@ -171,6 +171,28 @@ export const catalogService = {
   },
 
   // --- Offers ---
+  async listOffersBySupplier(
+    hotelId: string,
+    supplierId: string
+  ): Promise<(SupplierOffer & { product_name: string; unit_abbreviation: string })[]> {
+    const { data, error } = await supabase
+      .from("supplier_offers")
+      .select("*, products(name), units_of_measure(abbreviation)")
+      .eq("hotel_id", hotelId)
+      .eq("supplier_id", supplierId)
+      .order("is_preferred", { ascending: false })
+      .order("price");
+    if (error) throw error;
+    return (data ?? []).map((row: Record<string, unknown>) => {
+      const { products, units_of_measure, ...rest } = row as Record<string, unknown>;
+      return {
+        ...rest,
+        product_name: (products as { name: string } | null)?.name ?? "Sin nombre",
+        unit_abbreviation: (units_of_measure as { abbreviation: string } | null)?.abbreviation ?? "ud",
+      } as unknown as SupplierOffer & { product_name: string; unit_abbreviation: string };
+    });
+  },
+
   async listOffers(hotelId: string, productId?: string): Promise<SupplierOffer[]> {
     let query = supabase
       .from("supplier_offers")

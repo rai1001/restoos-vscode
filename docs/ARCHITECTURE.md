@@ -2,7 +2,7 @@
 
 ## Overview
 
-RestoOS is a multi-local restaurant management platform built as a single Next.js 16 application with 46 dashboard pages, 6 pure calculation engines, 6 AI agents (Supabase Edge Functions + Gemini 2.0 Flash), 8 Remotion video compositions, and a dark-first design system (Calm Darkness).
+RestoOS is a multi-local restaurant management platform built as a single Next.js 16 application with 47 dashboard pages, 6 pure calculation engines, 7 AI agents (Supabase Edge Functions + Gemini 2.0 Flash), 8 Remotion video compositions, and a dark-first design system (Calm Darkness).
 
 ---
 
@@ -11,11 +11,11 @@ RestoOS is a multi-local restaurant management platform built as a single Next.j
 ```
 src/
 ├── app/                    # Next.js App Router
-│   ├── (dashboard)/        # 46 pages, 21 modules (authenticated)
+│   ├── (dashboard)/        # 47 pages, 22 modules (authenticated)
 │   ├── (auth)/login/       # Login page
 │   └── api/                # 4 API routes
 ├── components/             # Shared UI (shadcn/ui v4 + custom)
-├── contracts/              # Canonical enums (states, roles, types)
+├── contracts/              # Canonical enums, schemas, document-vault types
 ├── features/               # Business modules (co-located hooks, schemas, components)
 ├── hooks/                  # Global hooks (use-role, use-voice-input)
 ├── lib/                    # Core logic
@@ -26,7 +26,8 @@ src/
 │   ├── mock-data.ts        # Complete mock dataset
 │   ├── product-matcher.ts  # Fuzzy matching
 │   ├── voice-parser.ts     # Voice input parser
-│   └── rbac.ts             # Role-based access control
+│   ├── rbac/               # Role-based access control + module access
+│   └── document-vault/     # Vault service, integrity checker (SHA-256)
 ├── remotion/               # Video compositions (Remotion 4)
 │   ├── OnboardingVideo.tsx  # 19 scenes, 3m18s
 │   ├── pitch/              # 12 scenes, 2m35s
@@ -60,6 +61,7 @@ src/
 | Labeling | `/labeling` | 2 | Label generator, traceability inventory |
 | Feedback | `/my-tickets`, `/admin/tickets` | 2 | User tickets, admin ticket management |
 | Automations | `/automations` | 4 | Overview, jobs, dead-letter, integrations |
+| Documents | `/documents` | 1 | Document vault: invoices, delivery notes, APPCC records |
 | Settings | `/settings` | 3 | Overview, hotel config, team management |
 
 ---
@@ -108,18 +110,18 @@ history + events + stock
 | scalingEngine | `scaleRecipe`, `generateShoppingList` | 14 | Recipe scaling, shopping lists |
 | forecastEngine | `generateForecast` | 13 | 14-day demand forecast with seasonality |
 
-**Total: 149 unit tests** (Vitest, ~2s).
+**Total: 186 unit tests** (Vitest, ~4s).
 
 ---
 
 ## AI Agents (Supabase Edge Functions)
 
-6 agents in `supabase/functions/`, all using Gemini 2.0 Flash. Business logic separated from Supabase adapter for VPS portability.
+7 agents in `supabase/functions/`, all using Gemini 2.0 Flash. Business logic separated from Supabase adapter for VPS portability. All 11 edge functions protected with `verifyCallerHotelAccess` (JWT + membership check).
 
 ```
 supabase/functions/
 ├── _shared/              # Pure business logic (portable to Node.js)
-│   ├── utils.ts          # Shared: supabaseClient, callGemini, logAgent, tenantGuard
+│   ├── utils.ts          # Shared: supabaseClient, callGemini, logAgent, verifyCallerHotelAccess
 │   ├── types.ts          # Shared agent types
 │   ├── clara_types.ts    # CLARA types + ClaraDeps (injectable)
 │   ├── clara_prompts.ts  # 4 Gemini prompts (JSON-only output)
@@ -133,7 +135,8 @@ supabase/functions/
 ├── agent-menu-engineering/ # BCG matrix analysis
 ├── agent-ocr/            # Invoice OCR (standalone)
 ├── agent-appcc/          # Daily APPCC closure
-├── agent-inventario/     # FIFO stock + purchase suggestions
+├── agent-integrity/      # Document vault integrity verification (daily)
+├── agent-inventario/     # FIFO stock (optimistic concurrency) + purchase suggestions
 ├── clara-agent/          # CLARA orchestrator (thin adapter)
 ├── clara-collector/      # CLARA module 1 adapter
 ├── clara-ocr/            # CLARA module 2 adapter
@@ -176,8 +179,10 @@ Co-located business logic in `src/features/`:
 |-------|--------|---------|-------------|
 | `/api/ocr-recipe` | POST | Mistral Vision | Extract recipe from image |
 | `/api/ocr-albaran` | POST | Mistral Vision | Extract delivery note from image |
+| `/api/ocr` | POST | Gemini Vision | Invoice OCR extraction |
 | `/api/briefing` | POST | Google Gemini | Generate operational AI briefing |
-| `/api/notify-ticket` | POST | Resend | Send feedback ticket email notifications |
+| `/api/digest` | POST | Internal | Daily digest generation |
+| `/api/notify-ticket` | POST | Resend | Send feedback ticket email (identity from JWT, not body) |
 
 All routes return mock data when the corresponding API key is absent.
 
@@ -215,7 +220,7 @@ Dark-first, anti-gloss, instrument-grade design. Full reference in `docs/STITCH-
 | Cards | `#1A1A1A` |
 | Interactive | `#2A2A2A` |
 | Modals | `#353534` |
-| Primary accent | `#F97316` |
+| Primary accent | `#B8906F` (bronze) |
 | Text primary | `#E5E2E1` |
 | Text secondary | `#A78B7D` |
 | Ghost border | `#584237` at 15% opacity |

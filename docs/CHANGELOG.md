@@ -5,7 +5,45 @@
 
 ---
 
-## Sprint G5 - Agentes IA + CLARA (2026-04-03)
+## Sprint G5 - Agentes IA + CLARA + Security Hardening (2026-04-03)
+
+### fix(security): complete auth hardening
+Cierre completo de la auditoria de seguridad. Todas las edge functions y RPCs ahora verifican autenticacion y pertenencia al hotel antes de ejecutar.
+
+**Auth guards en edge functions:**
+- `verifyCallerHotelAccess()` en 11/11 edge functions (JWT + membership check)
+- Previene IDOR: un usuario autenticado ya no puede acceder a datos de otro hotel
+
+**RBAC en RPCs SQL:**
+- `get_active_hotel`, `switch_hotel`: verifican `auth.uid() = p_user_id`
+- `create_check_record`, `refresh_daily_closure`, `resolve_appcc_incident`: requieren `has_hotel_role`
+- `get_appcc_daily_summaries`: requiere `has_hotel_access`
+- `receive_goods`, `export_price_data_for_ml`: validacion de membership por rol
+- `invite_member`, `change_member_role`: solo admin/superadmin pueden asignar admin
+- `change_member_role`: bloquea self role change
+- `REVOKE/GRANT` en todas las funciones: solo `authenticated` puede ejecutar
+
+**CLARA reconciler mejorado:**
+- Fuzzy matching para lineas OCR sin product_id (normaliza y compara descripciones)
+- Nuevo enum `LineaSinConciliar` para lineas sin match (antes se ignoraban silenciosamente)
+
+**Agent-inventario hardening:**
+- FIFO stock deduction con optimistic concurrency (retry loop, max 3 intentos)
+- Deduplicacion de alertas stock_low (no duplica si ya existe una activa)
+- Purchase suggestions: upsert en vez de duplicar sugerencias pendientes
+- Alerta `stock_shortage` cuando no hay stock suficiente
+
+### chore: code health cleanup (5.3 → 8.6/10)
+Limpieza de calidad de codigo tras auditoria de seguridad.
+
+- TypeScript: 10 errores → 0
+- ESLint: 627 problemas → 5 warnings (excluido `.agents/` vendor)
+- Tests: 186/186 pass (excluido `.agents/` de vitest, eliminados 71 false failures)
+- Dead code: knip configurado, 91 → 21 unused files
+- Herramientas: knip instalado, eslint/vitest/tsconfig configurados
+
+---
+
 
 ### feat(agents): CLARA — agente de administracion financiera
 Pipeline completo de gestion de facturas: recoge del email, extrae datos con OCR (Gemini Vision), concilia contra albaranes, y redacta incidencias para proveedores.

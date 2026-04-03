@@ -6,40 +6,15 @@
 -- 4. product_aliases                    (Normalización proveedores)
 -- =============================================================================
 
--- ─── 1. RESERVATIONS ────────────────────────────────────────────────────────
+-- ─── 1. RESERVATIONS — extend existing table from m1_commercial ─────────────
+-- Table already created in migration 05 with column "date".
+-- Add new columns if missing, avoid re-creation conflict.
 
-CREATE TABLE IF NOT EXISTS reservations (
-  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  hotel_id          UUID NOT NULL REFERENCES hotels(id) ON DELETE CASCADE,
-  client_id         UUID REFERENCES clients(id) ON DELETE SET NULL,
-  contact_name      TEXT NOT NULL,
-  contact_phone     TEXT,
-  contact_email     TEXT,
-  party_size        INT NOT NULL CHECK (party_size > 0),
-  reservation_date  DATE NOT NULL,
-  reservation_time  TIME NOT NULL,
-  duration_min      INT NOT NULL DEFAULT 90,
-  status            TEXT NOT NULL DEFAULT 'confirmed' CHECK (status IN (
-                      'pending', 'confirmed', 'seated', 'completed', 'cancelled', 'no_show'
-                    )),
-  source            TEXT NOT NULL DEFAULT 'manual' CHECK (source IN (
-                      'manual', 'phone', 'web', 'third_party'
-                    )),
-  is_vip            BOOLEAN NOT NULL DEFAULT FALSE,
-  is_group          BOOLEAN NOT NULL DEFAULT FALSE,
-  notes             TEXT,
-  internal_notes    TEXT,
-  created_by        UUID REFERENCES auth.users(id),
-  created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
+ALTER TABLE reservations ADD COLUMN IF NOT EXISTS client_id UUID REFERENCES clients(id) ON DELETE SET NULL;
+ALTER TABLE reservations ADD COLUMN IF NOT EXISTS is_group BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE reservations ADD COLUMN IF NOT EXISTS internal_notes TEXT;
 
-CREATE INDEX idx_reservations_hotel_date ON reservations(hotel_id, reservation_date);
-CREATE INDEX idx_reservations_status ON reservations(hotel_id, status);
-CREATE INDEX idx_reservations_client ON reservations(client_id) WHERE client_id IS NOT NULL;
-CREATE TRIGGER trg_reservations_updated_at
-  BEFORE UPDATE ON reservations
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE INDEX IF NOT EXISTS idx_reservations_client ON reservations(client_id) WHERE client_id IS NOT NULL;
 
 -- ─── 2. STAFFING ────────────────────────────────────────────────────────────
 
@@ -115,41 +90,29 @@ CREATE INDEX idx_sales_hotel_date ON sales_data(hotel_id, sale_date);
 CREATE INDEX idx_sales_recipe ON sales_data(recipe_id, sale_date) WHERE recipe_id IS NOT NULL;
 CREATE INDEX idx_sales_menu ON sales_data(menu_id, sale_date) WHERE menu_id IS NOT NULL;
 
--- ─── 4. PRODUCT ALIASES (Normalización proveedores) ──────────────────────────
+-- ─── 4. PRODUCT ALIASES — extend existing table from m3_catalog ──────────────
+-- Table already created in migration 03. Add new columns if missing.
 
-CREATE TABLE IF NOT EXISTS product_aliases (
-  id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  hotel_id          UUID NOT NULL REFERENCES hotels(id) ON DELETE CASCADE,
-  product_id        UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
-  supplier_id       UUID REFERENCES suppliers(id) ON DELETE SET NULL,
-  alias_name        TEXT NOT NULL,
-  alias_sku         TEXT,
-  confidence        NUMERIC(3,2) DEFAULT 1.0 CHECK (confidence >= 0 AND confidence <= 1),
-  source            TEXT NOT NULL DEFAULT 'manual' CHECK (source IN (
-                      'manual', 'ocr_confirmed', 'ocr_suggested'
-                    )),
-  created_by        UUID REFERENCES auth.users(id),
-  created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
+ALTER TABLE product_aliases ADD COLUMN IF NOT EXISTS supplier_id UUID REFERENCES suppliers(id) ON DELETE SET NULL;
+ALTER TABLE product_aliases ADD COLUMN IF NOT EXISTS alias_sku TEXT;
+ALTER TABLE product_aliases ADD COLUMN IF NOT EXISTS confidence NUMERIC(3,2) DEFAULT 1.0;
+ALTER TABLE product_aliases ADD COLUMN IF NOT EXISTS created_by UUID REFERENCES auth.users(id);
 
-CREATE UNIQUE INDEX idx_aliases_unique ON product_aliases(hotel_id, supplier_id, alias_name)
+-- Extend source check to include new values
+ALTER TABLE product_aliases DROP CONSTRAINT IF EXISTS product_aliases_source_check;
+ALTER TABLE product_aliases ADD CONSTRAINT product_aliases_source_check
+  CHECK (source IN ('manual', 'ocr', 'voice', 'ocr_confirmed', 'ocr_suggested'));
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_aliases_unique ON product_aliases(hotel_id, supplier_id, alias_name)
   WHERE supplier_id IS NOT NULL;
-CREATE INDEX idx_aliases_product ON product_aliases(product_id);
-CREATE INDEX idx_aliases_search ON product_aliases(hotel_id, alias_name);
 
 -- ─── RLS ────────────────────────────────────────────────────────────────────
 
-ALTER TABLE reservations ENABLE ROW LEVEL SECURITY;
+-- reservations RLS already enabled in m1_commercial
 ALTER TABLE staff_members ENABLE ROW LEVEL SECURITY;
 ALTER TABLE staff_shifts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE sales_data ENABLE ROW LEVEL SECURITY;
-ALTER TABLE product_aliases ENABLE ROW LEVEL SECURITY;
-
--- Policies follow the same hotel-membership pattern as other tables
-CREATE POLICY "hotel_member_reservations" ON reservations
-  FOR ALL USING (
-    hotel_id IN (SELECT hotel_id FROM memberships WHERE user_id = auth.uid() AND is_active)
-  );
+-- product_aliases RLS already enabled in m3_catalog
 
 CREATE POLICY "hotel_member_staff" ON staff_members
   FOR ALL USING (
@@ -166,7 +129,4 @@ CREATE POLICY "hotel_member_sales" ON sales_data
     hotel_id IN (SELECT hotel_id FROM memberships WHERE user_id = auth.uid() AND is_active)
   );
 
-CREATE POLICY "hotel_member_aliases" ON product_aliases
-  FOR ALL USING (
-    hotel_id IN (SELECT hotel_id FROM memberships WHERE user_id = auth.uid() AND is_active)
-  );
+-- product_aliases policies already created in m3_catalog

@@ -1,6 +1,6 @@
 // ChefOS Service Worker — offline support for static assets and API caching
-const STATIC_CACHE = "chefos-static-v1"
-const API_CACHE = "chefos-api-v1"
+const STATIC_CACHE = "chefos-static-v2"
+const API_CACHE = "chefos-api-v2"
 
 // Assets to cache immediately on install
 const PRECACHE_URLS = [
@@ -69,7 +69,8 @@ self.addEventListener("fetch", (event) => {
         if (cached) return cached
         return fetch(request).then((response) => {
           if (response.ok) {
-            caches.open(STATIC_CACHE).then((cache) => cache.put(request, response.clone()))
+            const clone = response.clone()
+            caches.open(STATIC_CACHE).then((cache) => cache.put(request, clone))
           }
           return response
         })

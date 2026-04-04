@@ -15,11 +15,14 @@ git clone <repo-url> restoos && cd restoos
 cp .env.example .env.local          # editar con claves de supabase status
 npm install
 npx supabase start                  # PostgreSQL + Auth local
-npx supabase db reset               # aplicar 30 migraciones
+npx supabase db reset               # aplicar 39 migraciones
+npm run seed                        # datos demo (Grupo Culuca, 4 locales)
 npm run dev                         # http://localhost:3000
 ```
 
-### Cargar datos demo (Grupo Culuca — 4 locales)
+### Cargar datos demo (alternativa manual)
+
+Si prefieres control manual en lugar de `npm run seed`:
 
 ```bash
 # 1. Crear usuario demo
@@ -94,7 +97,7 @@ Tenant (grupo) → Hotels (locales)
 
 ---
 
-## Migraciones (30)
+## Migraciones (39)
 
 ```
 00000000000000  base_functions

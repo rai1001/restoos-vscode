@@ -134,6 +134,7 @@ export function ImportRecipeModal({ open, onOpenChange }: ImportRecipeModalProps
     const input: CreateRecipeInput = {
       name: excelName,
       servings: 4,
+      is_sub_recipe: false,
       description: `Importada con ${excelIngredients.length} ingredientes (${linkedCount} vinculados al catálogo)`,
     }
     const result = await createRecipe.mutateAsync(input)
@@ -186,6 +187,7 @@ export function ImportRecipeModal({ open, onOpenChange }: ImportRecipeModalProps
       name: ocrResult.name,
       category: ocrResult.category ?? undefined,
       servings: ocrResult.servings ?? 4,
+      is_sub_recipe: false,
       description: `${ocrResult.ingredients.length} ingredientes (${linkedCount} vinculados), ${ocrResult.steps.length} pasos`,
     }
     const result = await createRecipe.mutateAsync(input)
@@ -225,6 +227,7 @@ export function ImportRecipeModal({ open, onOpenChange }: ImportRecipeModalProps
       name: voiceParsed.name,
       category: voiceParsed.category ?? undefined,
       servings: voiceParsed.servings ?? 4,
+      is_sub_recipe: false,
     }
     const result = await createRecipe.mutateAsync(input)
     onOpenChange(false)

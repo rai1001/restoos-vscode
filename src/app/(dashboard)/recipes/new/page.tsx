@@ -342,6 +342,19 @@ export default function NewRecipePage() {
                 <Label htmlFor="notes" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Notas</Label>
                 <Input id="notes" {...form.register("notes")} placeholder="Notas adicionales" className="bg-sidebar border-border-subtle text-foreground placeholder:text-muted-foreground/50" />
               </div>
+
+              <div className="flex items-center gap-3 pt-2 pb-1">
+                <input
+                  type="checkbox"
+                  id="is_sub_recipe"
+                  {...form.register("is_sub_recipe")}
+                  className="h-4 w-4 rounded border-border-subtle accent-[#B8906F]"
+                />
+                <div>
+                  <Label htmlFor="is_sub_recipe" className="text-sm font-medium text-foreground cursor-pointer">Es una sub-receta / base</Label>
+                  <p className="text-xs text-muted-foreground">Sofrito, caldo, salsa... Se usa como ingrediente en otras recetas, no se vende directamente.</p>
+                </div>
+              </div>
             </div>
           </TabsContent>
 

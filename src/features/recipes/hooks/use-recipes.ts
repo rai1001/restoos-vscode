@@ -65,6 +65,7 @@ export function useCreateRecipe() {
           total_cost: null,
           cost_per_serving: null,
           notes: input.notes ?? null,
+          is_sub_recipe: input.is_sub_recipe ?? false,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
           created_by: null,

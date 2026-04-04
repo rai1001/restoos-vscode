@@ -52,6 +52,15 @@ export const recipeService = {
       p_notes: input.notes ?? null,
     });
     if (error) throw error;
+
+    // Set is_sub_recipe flag if needed (RPC doesn't support it yet)
+    if (input.is_sub_recipe && data?.recipe_id) {
+      await supabase
+        .from("recipes")
+        .update({ is_sub_recipe: true })
+        .eq("id", data.recipe_id);
+    }
+
     return data;
   },
 
@@ -88,6 +97,7 @@ export const recipeService = {
       servings: input.servings,
       category: input.category ?? "Base",
       description: `Sub-receta: ${input.name}`,
+      is_sub_recipe: true,
     });
 
     // Auto-approve so it's immediately available as sub-recipe

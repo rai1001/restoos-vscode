@@ -18,6 +18,7 @@ export const RecipeSchema = z.object({
   total_cost: z.number().nullable(),
   cost_per_serving: z.number().nullable(),
   notes: z.string().nullable(),
+  is_sub_recipe: z.boolean().default(false),
   created_at: z.string(),
   updated_at: z.string(),
   created_by: z.string().uuid().nullable(),
@@ -32,6 +33,7 @@ export const CreateRecipeSchema = z.object({
   prep_time_min: z.preprocess((v) => (v === "" || Number.isNaN(v) ? undefined : v), z.coerce.number().int().positive().optional()),
   cook_time_min: z.preprocess((v) => (v === "" || Number.isNaN(v) ? undefined : v), z.coerce.number().int().positive().optional()),
   notes: z.string().max(2000).optional(),
+  is_sub_recipe: z.boolean().optional().default(false),
 });
 export type CreateRecipeInput = z.infer<typeof CreateRecipeSchema>;
 

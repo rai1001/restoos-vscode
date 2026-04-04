@@ -95,6 +95,7 @@ export const MOCK_RECIPES: Recipe[] = [
     created_at: "2025-01-10T09:00:00Z",
     updated_at: "2025-02-15T11:30:00Z",
     created_by: null,
+    is_sub_recipe: false,
   },
   {
     id: "50000000-0000-0000-0000-000000000002",
@@ -113,6 +114,7 @@ export const MOCK_RECIPES: Recipe[] = [
     created_at: "2025-01-12T10:00:00Z",
     updated_at: "2025-03-01T08:00:00Z",
     created_by: null,
+    is_sub_recipe: false,
   },
   {
     id: "50000000-0000-0000-0000-000000000003",
@@ -131,6 +133,7 @@ export const MOCK_RECIPES: Recipe[] = [
     created_at: "2025-01-20T14:00:00Z",
     updated_at: "2025-01-20T14:00:00Z",
     created_by: null,
+    is_sub_recipe: false,
   },
   {
     id: "50000000-0000-0000-0000-000000000004",
@@ -149,6 +152,7 @@ export const MOCK_RECIPES: Recipe[] = [
     created_at: "2025-02-05T11:00:00Z",
     updated_at: "2025-03-10T09:45:00Z",
     created_by: null,
+    is_sub_recipe: false,
   },
   {
     id: "50000000-0000-0000-0000-000000000005",
@@ -167,6 +171,7 @@ export const MOCK_RECIPES: Recipe[] = [
     created_at: "2025-01-25T10:30:00Z",
     updated_at: "2025-02-20T12:00:00Z",
     created_by: null,
+    is_sub_recipe: false,
   },
   {
     id: "50000000-0000-0000-0000-000000000006",
@@ -185,6 +190,7 @@ export const MOCK_RECIPES: Recipe[] = [
     created_at: "2024-12-01T08:00:00Z",
     updated_at: "2025-03-05T10:00:00Z",
     created_by: null,
+    is_sub_recipe: false,
   },
   {
     id: "50000000-0000-0000-0000-000000000007",
@@ -203,6 +209,7 @@ export const MOCK_RECIPES: Recipe[] = [
     created_at: "2025-03-01T16:00:00Z",
     updated_at: "2025-03-01T16:00:00Z",
     created_by: null,
+    is_sub_recipe: false,
   },
   {
     id: "50000000-0000-0000-0000-000000000008",
@@ -221,6 +228,7 @@ export const MOCK_RECIPES: Recipe[] = [
     created_at: "2025-01-08T09:00:00Z",
     updated_at: "2025-02-10T11:00:00Z",
     created_by: null,
+    is_sub_recipe: false,
   },
   {
     id: "50000000-0000-0000-0000-000000000009",
@@ -239,6 +247,7 @@ export const MOCK_RECIPES: Recipe[] = [
     created_at: "2024-10-01T10:00:00Z",
     updated_at: "2025-01-15T14:00:00Z",
     created_by: null,
+    is_sub_recipe: false,
   },
   {
     id: "50000000-0000-0000-0000-000000000010",
@@ -257,6 +266,7 @@ export const MOCK_RECIPES: Recipe[] = [
     created_at: "2025-02-01T09:00:00Z",
     updated_at: "2025-02-01T09:00:00Z",
     created_by: null,
+    is_sub_recipe: false,
   },
 ];
 

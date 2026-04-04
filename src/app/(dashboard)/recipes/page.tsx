@@ -167,13 +167,18 @@ export default function RecipesPage() {
   const [search, setSearch] = useState("");
   const [activeSeason, setActiveSeason] = useState("otono");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"recipes" | "sub_recipes">("recipes");
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
   const filtered = useMemo(() => {
     if (!recipes) return [];
-    let result = recipes.filter((r) =>
-      r.name.toLowerCase().includes(search.toLowerCase())
-    );
+    let result = recipes.filter((r) => {
+      // Filter by tab: recipes vs sub-recipes
+      const isSubRecipe = r.is_sub_recipe ?? false;
+      if (activeTab === "recipes" && isSubRecipe) return false;
+      if (activeTab === "sub_recipes" && !isSubRecipe) return false;
+      return r.name.toLowerCase().includes(search.toLowerCase());
+    });
     if (activeCategory) {
       const catMap: Record<string, string[]> = {
         Entrantes: ["entrante"],
@@ -186,10 +191,12 @@ export default function RecipesPage() {
       result = result.filter((r) => keys.includes(getCategoryKey(r.category)));
     }
     return result;
-  }, [recipes, search, activeCategory]);
+  }, [recipes, search, activeCategory, activeTab]);
 
   const visible = filtered.slice(0, visibleCount);
   const totalCount = recipes?.length ?? 0;
+  const subRecipeCount = recipes?.filter((r) => r.is_sub_recipe).length ?? 0;
+  const recipeCount = totalCount - subRecipeCount;
 
   if (!isLoading && (!recipes || recipes.length === 0)) {
     return (
@@ -257,6 +264,30 @@ export default function RecipesPage() {
               </Link>
             </RoleGate>
           </div>
+        </div>
+
+        {/* ── Tabs: Recetas / Sub-recetas ──────────────────────────────── */}
+        <div className="flex gap-1 p-1 rounded-xl mb-6" style={{ backgroundColor: "#1A1A1A" }}>
+          <button
+            onClick={() => { setActiveTab("recipes"); setVisibleCount(ITEMS_PER_PAGE); }}
+            className="flex-1 px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-widest transition-colors"
+            style={{
+              backgroundColor: activeTab === "recipes" ? "#242424" : "transparent",
+              color: activeTab === "recipes" ? "#E5E2E1" : "#6B5B50",
+            }}
+          >
+            Recetas {recipeCount > 0 && <span className="ml-1 opacity-60">({recipeCount})</span>}
+          </button>
+          <button
+            onClick={() => { setActiveTab("sub_recipes"); setVisibleCount(ITEMS_PER_PAGE); }}
+            className="flex-1 px-4 py-2 rounded-lg text-xs font-semibold uppercase tracking-widest transition-colors"
+            style={{
+              backgroundColor: activeTab === "sub_recipes" ? "#242424" : "transparent",
+              color: activeTab === "sub_recipes" ? "#E5E2E1" : "#6B5B50",
+            }}
+          >
+            Sub-recetas {subRecipeCount > 0 && <span className="ml-1 opacity-60">({subRecipeCount})</span>}
+          </button>
         </div>
 
         {/* ── Search bar ─────────────────────────────────────────────────── */}
@@ -391,7 +422,7 @@ export default function RecipesPage() {
               className="text-[10px] font-bold uppercase tracking-[0.25em]"
               style={{ color: "#A78B7D" }}
             >
-              Mostrando {visible.length} de {totalCount} recetas magistrales
+              Mostrando {visible.length} de {filtered.length} {activeTab === "sub_recipes" ? "sub-recetas" : "recetas"}
             </p>
           </div>
         )}

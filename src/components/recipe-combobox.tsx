@@ -25,7 +25,7 @@ export function RecipeCombobox({
 
   const available = useMemo(() => {
     return (recipes ?? []).filter(
-      (r) => r.id !== excludeRecipeId
+      (r) => r.id !== excludeRecipeId && r.is_sub_recipe
     );
   }, [recipes, excludeRecipeId]);
 

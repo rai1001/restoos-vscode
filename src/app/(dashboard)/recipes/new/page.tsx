@@ -488,7 +488,7 @@ export default function NewRecipePage() {
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  <div className="col-span-2 sm:col-span-1">
+                  <div className="col-span-2">
                     {ingType === "product" ? (
                       <ProductCombobox
                         value={ingProductId}
@@ -500,7 +500,7 @@ export default function NewRecipePage() {
                         placeholder="Buscar producto del catalogo..."
                       />
                     ) : (
-                      <>
+                      <div className="space-y-1.5">
                         <RecipeCombobox
                           value={ingSubRecipeId}
                           onSelect={(r) => {
@@ -510,7 +510,7 @@ export default function NewRecipePage() {
                           placeholder="Buscar sub-receta..."
                         />
                         <CreateSubRecipeLink />
-                      </>
+                      </div>
                     )}
                   </div>
                   <div>

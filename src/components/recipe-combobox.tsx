@@ -25,7 +25,7 @@ export function RecipeCombobox({
 
   const available = useMemo(() => {
     return (recipes ?? []).filter(
-      (r) => r.id !== excludeRecipeId && r.status === "approved"
+      (r) => r.id !== excludeRecipeId
     );
   }, [recipes, excludeRecipeId]);
 
@@ -112,7 +112,7 @@ export function RecipeCombobox({
         <ul className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-lg border bg-popover text-popover-foreground shadow-md">
           {filtered.length === 0 ? (
             <li className="px-3 py-2 text-sm text-muted-foreground">
-              Sin recetas aprobadas
+              Sin recetas disponibles
             </li>
           ) : (
             filtered.map((recipe) => (

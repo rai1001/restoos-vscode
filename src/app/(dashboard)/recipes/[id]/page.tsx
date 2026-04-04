@@ -16,7 +16,7 @@ import {
 } from "@/features/recipes/hooks/use-recipes";
 import { ProductCombobox } from "@/components/product-combobox";
 import { RecipeCombobox } from "@/components/recipe-combobox";
-import { CreateSubRecipeDialog } from "@/components/create-sub-recipe-dialog";
+import { CreateSubRecipeLink } from "@/components/create-sub-recipe-dialog";
 import { MOCK_PRODUCTS, MOCK_SUPPLIER_OFFERS, MOCK_VOLUME_DISCOUNTS, MOCK_RECIPE_INGREDIENTS, getPreferredPrice } from "@/lib/mock-data";
 import { RECIPE_TRANSITIONS, type RecipeStatus } from "@/contracts/enums";
 import { calculateRecipeCost, collectAllergens } from "@/lib/calculations/costEngine";
@@ -724,23 +724,18 @@ export default function RecipeDetailPage({
                                 }}
                                 placeholder="Buscar receta aprobada..."
                               />
-                              <CreateSubRecipeDialog
-                                onCreated={(r) => {
-                                  setIngSubRecipeId(r.id);
-                                  setIngSubRecipeName(r.name);
-                                }}
-                              />
+                              <CreateSubRecipeLink />
                             </>
                           )}
                         </div>
                         <div className="space-y-2">
-                          <Label>{ingType === "sub_recipe" ? "Raciones" : "Cantidad"}</Label>
+                          <Label>Cantidad</Label>
                           <Input
                             type="number"
-                            step={ingType === "sub_recipe" ? "1" : "0.001"}
+                            step="0.001"
                             value={ingQuantity}
                             onChange={(e) => setIngQuantity(e.target.value)}
-                            placeholder={ingType === "sub_recipe" ? "Num. raciones de la sub-receta" : ""}
+                            placeholder={ingType === "sub_recipe" ? "Ej: 2 (kg), 0.5 (L)..." : ""}
                           />
                         </div>
                         <div className="space-y-2">

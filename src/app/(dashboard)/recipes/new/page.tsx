@@ -32,7 +32,7 @@ import { VoiceMicButton } from "@/components/voice-mic-button";
 import { cn } from "@/lib/utils";
 import { ProductCombobox } from "@/components/product-combobox";
 import { RecipeCombobox } from "@/components/recipe-combobox";
-import { CreateSubRecipeDialog } from "@/components/create-sub-recipe-dialog";
+import { CreateSubRecipeLink } from "@/components/create-sub-recipe-dialog";
 import { matchIngredientToProduct } from "@/lib/product-matcher";
 import { MOCK_PRODUCTS, getPreferredPrice } from "@/lib/mock-data";
 
@@ -490,17 +490,10 @@ export default function NewRecipePage() {
                           onSelect={(r) => {
                             setIngSubRecipeId(r?.id ?? null);
                             setNewIngName(r?.name ?? "");
-                            setNewIngUnit("ud");
                           }}
                           placeholder="Buscar sub-receta..."
                         />
-                        <CreateSubRecipeDialog
-                          onCreated={(r) => {
-                            setIngSubRecipeId(r.id);
-                            setNewIngName(r.name);
-                            setNewIngUnit("ud");
-                          }}
-                        />
+                        <CreateSubRecipeLink />
                       </>
                     )}
                   </div>

@@ -77,7 +77,7 @@ function mermaColor(yieldPct: number): string {
 
 function DonutChart({ totalCost }: { totalCost: number }) {
   const segments = [
-    { label: "Proteina Principal", pct: 64, color: "#F97316" },
+    { label: "Proteina Principal", pct: 64, color: "#B8906F" },
     { label: "Guarnicion & Salsas", pct: 21, color: "#3B82F6" },
     { label: "Costes Indirectos", pct: 15, color: "#8B5CF6" },
   ]

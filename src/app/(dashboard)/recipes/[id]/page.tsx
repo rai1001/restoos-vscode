@@ -51,7 +51,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 const T = {
   bg: "#0A0A0A",
   card: "#1A1A1A",
-  primary: "#F97316",
+  primary: "#B8906F",
   text: "#E5E2E1",
   secondary: "#A78B7D",
   muted: "#6B5B50",
@@ -68,7 +68,7 @@ const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
 };
 
 /* ─── Donut chart colors ──────────────────────────────────── */
-const DONUT_COLORS = ["#F97316", "#A78B7D", "#6B5B50", "#D97706", "#92400E"];
+const DONUT_COLORS = ["#B8906F", "#A78B7D", "#6B5B50", "#D97706", "#92400E"];
 
 export default function RecipeDetailPage({
   params,

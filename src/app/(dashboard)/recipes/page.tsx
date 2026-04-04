@@ -249,7 +249,7 @@ export default function RecipesPage() {
               <Link href="/recipes/new">
                 <button
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest text-white transition-colors hover:brightness-110"
-                  style={{ backgroundColor: "#F97316" }}
+                  style={{ backgroundColor: "#B8906F" }}
                 >
                   <Plus className="h-4 w-4" />
                   Nueva Receta
@@ -295,7 +295,7 @@ export default function RecipesPage() {
                   onClick={() => setActiveSeason(s.key)}
                   className="px-4 py-2 rounded-lg text-xs font-semibold transition-colors"
                   style={{
-                    backgroundColor: activeSeason === s.key ? "#F97316" : "#1A1A1A",
+                    backgroundColor: activeSeason === s.key ? "#B8906F" : "#1A1A1A",
                     color: activeSeason === s.key ? "#FFFFFF" : "#A78B7D",
                   }}
                 >
@@ -317,7 +317,7 @@ export default function RecipesPage() {
                   }}
                   className="px-4 py-2 rounded-lg text-xs font-semibold transition-colors"
                   style={{
-                    backgroundColor: activeCategory === cat ? "#F97316" : "#1A1A1A",
+                    backgroundColor: activeCategory === cat ? "#B8906F" : "#1A1A1A",
                     color: activeCategory === cat ? "#FFFFFF" : "#A78B7D",
                   }}
                 >
@@ -360,7 +360,7 @@ export default function RecipesPage() {
             <Link href="/recipes/new">
               <button
                 className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest text-white"
-                style={{ backgroundColor: "#F97316" }}
+                style={{ backgroundColor: "#B8906F" }}
               >
                 <Plus className="h-4 w-4" />
                 Crear Receta
@@ -382,7 +382,7 @@ export default function RecipesPage() {
               <button
                 onClick={() => setVisibleCount((c) => c + ITEMS_PER_PAGE)}
                 className="px-8 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors hover:brightness-110"
-                style={{ backgroundColor: "#1A1A1A", color: "#F97316" }}
+                style={{ backgroundColor: "#1A1A1A", color: "#B8906F" }}
               >
                 Cargar mas creaciones
               </button>

@@ -70,7 +70,7 @@ const T = {
   bg: "#0A0A0A",
   card: "#1A1A1A",
   cardHover: "#222222",
-  primary: "#F97316",
+  primary: "#B8906F",
   text: "#E5E2E1",
   secondary: "#A78B7D",
   ghostBorder: "rgba(88, 66, 55, 0.15)",
@@ -728,7 +728,7 @@ export default function ReportsPage() {
                     <span className="w-20 text-xs text-muted-foreground text-right">{item.name}</span>
                     <div className="flex-1 h-6 rounded bg-accent relative overflow-hidden">
                       <div
-                        className="h-full rounded bg-gradient-to-r from-[#F97316] to-[#F97316]/60"
+                        className="h-full rounded bg-gradient-to-r from-[#B8906F] to-[#B8906F]/60"
                         style={{ width: `${item.pct}%` }}
                       />
                     </div>

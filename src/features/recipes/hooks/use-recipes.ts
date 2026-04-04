@@ -147,7 +147,7 @@ export function useTechSheet(recipeId: string) {
 }
 
 // --- In-memory mock stores for dev mode ---
-const mockIngredientStore = new Map<string, Array<{ id: string; recipe_id: string; hotel_id: string; product_id: string; unit_id: string | null; quantity: number; notes: string | null; sort_order: number; created_at: string }>>();
+const mockIngredientStore = new Map<string, Array<{ id: string; recipe_id: string; hotel_id: string; product_id: string | null; sub_recipe_id?: string | null; unit_id: string | null; quantity: number; notes: string | null; sort_order: number; created_at: string }>>();
 const mockStepStore = new Map<string, Array<{ id: string; recipe_id: string; hotel_id: string; step_number: number; instruction: string; duration_min: number | null; notes: string | null; created_at: string }>>();
 
 // --- Ingredients ---
@@ -180,7 +180,8 @@ export function useAddIngredient(recipeId: string) {
           id: crypto.randomUUID(),
           recipe_id: recipeId,
           hotel_id: "00000000-0000-0000-0000-000000000001",
-          product_id: input.product_id,
+          product_id: input.product_id ?? null,
+          sub_recipe_id: input.sub_recipe_id ?? null,
           unit_id: input.unit_id ?? null,
           quantity: input.quantity,
           notes: input.notes ?? null,

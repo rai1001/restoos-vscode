@@ -121,11 +121,14 @@ export const recipeService = {
   async listIngredients(recipeId: string): Promise<RecipeIngredient[]> {
     const { data, error } = await supabase
       .from("recipe_ingredients")
-      .select("*")
+      .select("*, sub_recipe:recipes!sub_recipe_id(id, name)")
       .eq("recipe_id", recipeId)
       .order("sort_order");
     if (error) throw error;
-    return data ?? [];
+    return (data ?? []).map((d) => ({
+      ...d,
+      sub_recipe_name: (d.sub_recipe as { name: string } | null)?.name ?? null,
+    }));
   },
 
   async addIngredient(hotelId: string, recipeId: string, input: CreateIngredientInput) {
@@ -134,7 +137,8 @@ export const recipeService = {
       .insert({
         recipe_id: recipeId,
         hotel_id: hotelId,
-        product_id: input.product_id,
+        product_id: input.product_id ?? null,
+        sub_recipe_id: input.sub_recipe_id ?? null,
         unit_id: input.unit_id ?? null,
         quantity: input.quantity,
         notes: input.notes ?? null,

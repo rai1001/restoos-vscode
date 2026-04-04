@@ -15,6 +15,7 @@ import {
   useRemoveStep,
 } from "@/features/recipes/hooks/use-recipes";
 import { ProductCombobox } from "@/components/product-combobox";
+import { RecipeCombobox } from "@/components/recipe-combobox";
 import { MOCK_PRODUCTS, MOCK_SUPPLIER_OFFERS, MOCK_VOLUME_DISCOUNTS, MOCK_RECIPE_INGREDIENTS, getPreferredPrice } from "@/lib/mock-data";
 import { RECIPE_TRANSITIONS, type RecipeStatus } from "@/contracts/enums";
 import { calculateRecipeCost, collectAllergens } from "@/lib/calculations/costEngine";
@@ -93,7 +94,10 @@ export default function RecipeDetailPage({
   const [viewMode, setViewMode] = useState<"base" | "racion">("base");
 
   // Ingredient form state
+  const [ingType, setIngType] = useState<"product" | "sub_recipe">("product");
   const [ingProductId, setIngProductId] = useState("");
+  const [ingSubRecipeId, setIngSubRecipeId] = useState("");
+  const [ingSubRecipeName, setIngSubRecipeName] = useState("");
   const [ingQuantity, setIngQuantity] = useState("");
   const [ingNotes, setIngNotes] = useState("");
 
@@ -166,9 +170,9 @@ export default function RecipeDetailPage({
     return MOCK_PRODUCTS.find(p => p.id === productId)?.name ?? productId.slice(0, 8) + "..."
   }
 
-  const getIngredientName = (ing: { product_id: string | null; sub_recipe_id?: string | null; notes?: string | null }) => {
+  const getIngredientName = (ing: { product_id: string | null; sub_recipe_id?: string | null; sub_recipe_name?: string | null; notes?: string | null }) => {
     if (ing.sub_recipe_id) {
-      return ing.notes || `Sub-receta ${ing.sub_recipe_id.slice(0, 8)}...`;
+      return ing.sub_recipe_name || ing.notes || `Sub-receta`;
     }
     return getProductName(ing.product_id);
   }
@@ -187,18 +191,25 @@ export default function RecipeDetailPage({
   const statusCfg = STATUS_CONFIG[recipe.status] ?? { label: recipe.status.toUpperCase(), color: "#6B7280" };
 
   function handleAddIngredient() {
-    if (!ingProductId || !ingQuantity) return;
-    addIngredient.mutate(
-      { product_id: ingProductId, quantity: parseFloat(ingQuantity), notes: ingNotes || undefined },
-      {
-        onSuccess: () => {
-          setIngredientDialog(false);
-          setIngProductId("");
-          setIngQuantity("");
-          setIngNotes("");
-        },
-      }
-    );
+    if (!ingQuantity) return;
+    if (ingType === "product" && !ingProductId) return;
+    if (ingType === "sub_recipe" && !ingSubRecipeId) return;
+
+    const input = ingType === "product"
+      ? { product_id: ingProductId, sub_recipe_id: null, quantity: parseFloat(ingQuantity), notes: ingNotes || undefined }
+      : { product_id: null, sub_recipe_id: ingSubRecipeId, quantity: parseFloat(ingQuantity), notes: ingNotes || ingSubRecipeName || undefined };
+
+    addIngredient.mutate(input, {
+      onSuccess: () => {
+        setIngredientDialog(false);
+        setIngType("product");
+        setIngProductId("");
+        setIngSubRecipeId("");
+        setIngSubRecipeName("");
+        setIngQuantity("");
+        setIngNotes("");
+      },
+    });
   }
 
   function handleAddStep() {
@@ -668,21 +679,59 @@ export default function RecipeDetailPage({
                         <DialogTitle>Anadir ingrediente</DialogTitle>
                       </DialogHeader>
                       <div className="space-y-4">
+                        <div className="flex gap-1 p-0.5 rounded-lg" style={{ backgroundColor: `${T.muted}15` }}>
+                          <button
+                            type="button"
+                            onClick={() => { setIngType("product"); setIngSubRecipeId(""); setIngSubRecipeName(""); }}
+                            className="flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors"
+                            style={{
+                              backgroundColor: ingType === "product" ? T.card : "transparent",
+                              color: ingType === "product" ? T.text : T.secondary,
+                            }}
+                          >
+                            Producto
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => { setIngType("sub_recipe"); setIngProductId(""); }}
+                            className="flex-1 px-3 py-1.5 rounded-md text-xs font-medium transition-colors"
+                            style={{
+                              backgroundColor: ingType === "sub_recipe" ? T.card : "transparent",
+                              color: ingType === "sub_recipe" ? T.text : T.secondary,
+                            }}
+                          >
+                            Sub-receta
+                          </button>
+                        </div>
+
                         <div className="space-y-2">
-                          <Label>Producto</Label>
-                          <ProductCombobox
-                            value={ingProductId || null}
-                            onSelect={(p) => setIngProductId(p?.id ?? "")}
-                            placeholder="Buscar producto del catalogo..."
-                          />
+                          <Label>{ingType === "product" ? "Producto" : "Sub-receta"}</Label>
+                          {ingType === "product" ? (
+                            <ProductCombobox
+                              value={ingProductId || null}
+                              onSelect={(p) => setIngProductId(p?.id ?? "")}
+                              placeholder="Buscar producto del catalogo..."
+                            />
+                          ) : (
+                            <RecipeCombobox
+                              value={ingSubRecipeId || null}
+                              excludeRecipeId={id}
+                              onSelect={(r) => {
+                                setIngSubRecipeId(r?.id ?? "");
+                                setIngSubRecipeName(r?.name ?? "");
+                              }}
+                              placeholder="Buscar receta aprobada..."
+                            />
+                          )}
                         </div>
                         <div className="space-y-2">
-                          <Label>Cantidad</Label>
+                          <Label>{ingType === "sub_recipe" ? "Raciones" : "Cantidad"}</Label>
                           <Input
                             type="number"
-                            step="0.001"
+                            step={ingType === "sub_recipe" ? "1" : "0.001"}
                             value={ingQuantity}
                             onChange={(e) => setIngQuantity(e.target.value)}
+                            placeholder={ingType === "sub_recipe" ? "Num. raciones de la sub-receta" : ""}
                           />
                         </div>
                         <div className="space-y-2">
@@ -694,7 +743,7 @@ export default function RecipeDetailPage({
                           />
                         </div>
                         <Button onClick={handleAddIngredient} disabled={addIngredient.isPending} className="w-full">
-                          {addIngredient.isPending ? "Anadiendo..." : "Anadir ingrediente"}
+                          {addIngredient.isPending ? "Anadiendo..." : ingType === "sub_recipe" ? "Anadir sub-receta" : "Anadir ingrediente"}
                         </Button>
                       </div>
                     </DialogContent>

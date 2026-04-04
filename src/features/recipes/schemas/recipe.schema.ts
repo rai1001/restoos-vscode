@@ -47,6 +47,7 @@ export const RecipeIngredientSchema = z.object({
   hotel_id: z.string().uuid(),
   product_id: z.string().uuid().nullable(),
   sub_recipe_id: z.string().uuid().nullable().optional(),
+  sub_recipe_name: z.string().nullable().optional(),
   unit_id: z.string().uuid().nullable(),
   quantity: z.number(),
   notes: z.string().nullable(),
@@ -56,11 +57,15 @@ export const RecipeIngredientSchema = z.object({
 export type RecipeIngredient = z.infer<typeof RecipeIngredientSchema>;
 
 export const CreateIngredientSchema = z.object({
-  product_id: z.string().uuid("Producto obligatorio"),
+  product_id: z.string().uuid().nullable().optional(),
+  sub_recipe_id: z.string().uuid().nullable().optional(),
   unit_id: z.string().uuid().optional(),
   quantity: z.number({ error: "Cantidad obligatoria" }).positive(),
   notes: z.string().max(500).optional(),
-});
+}).refine(
+  (d) => (d.product_id && !d.sub_recipe_id) || (!d.product_id && d.sub_recipe_id),
+  { message: "Debe seleccionar un producto o una sub-receta" }
+);
 export type CreateIngredientInput = z.infer<typeof CreateIngredientSchema>;
 
 // --- Recipe Step ---

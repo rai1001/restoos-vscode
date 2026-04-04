@@ -47,10 +47,13 @@ export default function NewRecipePage() {
   const router = useRouter();
   const createRecipe = useCreateRecipe();
 
+  // Preselect sub-recipe if coming from ?sub=1
+  const isSubFromUrl = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("sub") === "1";
+
   const form = useForm<CreateRecipeInput>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(CreateRecipeSchema) as any,
-    defaultValues: { servings: 4 },
+    defaultValues: { servings: 4, is_sub_recipe: isSubFromUrl },
   });
 
   // -- Local state for ingredients, steps, photo --
@@ -212,7 +215,7 @@ export default function NewRecipePage() {
           <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-0.5">
             RECETARIO
           </p>
-          <h1 className="text-2xl font-bold text-foreground">Nueva receta</h1>
+          <h1 className="text-2xl font-bold text-foreground">{isSubFromUrl ? "Nueva sub-receta" : "Nueva receta"}</h1>
         </div>
       </div>
 

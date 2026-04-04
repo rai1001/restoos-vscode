@@ -253,13 +253,13 @@ export default function RecipesPage() {
               Importar
             </button>
             <RoleGate permission="recipe:create">
-              <Link href="/recipes/new">
+              <Link href={activeTab === "sub_recipes" ? "/recipes/new?sub=1" : "/recipes/new"}>
                 <button
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest text-white transition-colors hover:brightness-110"
                   style={{ backgroundColor: "#B8906F" }}
                 >
                   <Plus className="h-4 w-4" />
-                  Nueva Receta
+                  {activeTab === "sub_recipes" ? "Nueva Sub-receta" : "Nueva Receta"}
                 </button>
               </Link>
             </RoleGate>
@@ -383,10 +383,12 @@ export default function RecipesPage() {
               <Search className="h-7 w-7" style={{ color: "#A78B7D" }} />
             </div>
             <h3 className="text-lg font-semibold mb-1" style={{ color: "#E5E2E1" }}>
-              No hay recetas
+              {activeTab === "sub_recipes" ? "No hay sub-recetas" : "No hay recetas"}
             </h3>
             <p className="text-sm mb-6" style={{ color: "#A78B7D" }}>
-              Crea tu primera receta para empezar
+              {activeTab === "sub_recipes"
+                ? "Crea tu primera sub-receta (sofrito, caldo, salsa...) para usarla como ingrediente"
+                : "Crea tu primera receta para empezar"}
             </p>
             <Link href="/recipes/new">
               <button

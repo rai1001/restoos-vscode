@@ -9,32 +9,12 @@ import { ImportRecipeModal } from "@/features/recipes/components/ImportRecipeMod
 import { RoleGate } from "@/components/role-gate";
 
 // ── Category config ──────────────────────────────────────────────────────────
-const CATEGORY_CONFIG: Record<string, { label: string; color: string; gradient: string }> = {
-  entrante: {
-    label: "Entrantes",
-    color: "bg-emerald-600",
-    gradient: "from-emerald-900/80 via-emerald-800/40 to-stone-900/90",
-  },
-  principal: {
-    label: "Carnes",
-    color: "bg-red-600",
-    gradient: "from-red-900/80 via-red-800/40 to-stone-900/90",
-  },
-  pescado: {
-    label: "Pescados",
-    color: "bg-sky-600",
-    gradient: "from-sky-900/80 via-sky-800/40 to-stone-900/90",
-  },
-  postre: {
-    label: "Postres",
-    color: "bg-purple-600",
-    gradient: "from-purple-900/80 via-purple-800/40 to-stone-900/90",
-  },
-  vegano: {
-    label: "Vegano",
-    color: "bg-lime-600",
-    gradient: "from-lime-900/80 via-lime-800/40 to-stone-900/90",
-  },
+const CATEGORY_CONFIG: Record<string, { label: string }> = {
+  entrante: { label: "Entrantes" },
+  principal: { label: "Carnes" },
+  pescado: { label: "Pescados" },
+  postre: { label: "Postres" },
+  vegano: { label: "Vegano" },
 };
 
 const SEASON_FILTERS = [
@@ -60,7 +40,7 @@ function getCategoryKey(category: string | null): string {
 
 function getCategoryConfig(category: string | null) {
   const key = getCategoryKey(category);
-  const fallback = { label: "Entrantes", color: "bg-emerald-600", gradient: "from-emerald-900/80 via-emerald-800/40 to-stone-900/90" };
+  const fallback = { label: "Entrantes" };
   return CATEGORY_CONFIG[key] ?? fallback;
 }
 
@@ -111,15 +91,12 @@ function RecipeCard({ recipe }: { recipe: {
         style={{ backgroundColor: "#1A1A1A" }}
       >
         {/* Photo placeholder */}
-        <div className={`relative aspect-[4/3] bg-gradient-to-br ${config.gradient}`}>
-          {/* Subtle food pattern overlay */}
-          <div className="absolute inset-0 opacity-10" style={{
-            backgroundImage: `radial-gradient(circle at 30% 40%, rgba(255,255,255,0.15) 0%, transparent 50%),
-                              radial-gradient(circle at 70% 60%, rgba(255,255,255,0.1) 0%, transparent 40%)`,
-          }} />
-
-          {/* Category badge */}
-          <span className={`absolute top-3 left-3 ${config.color} text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md`}>
+        <div className="relative aspect-[4/3]" style={{ backgroundColor: "#141414" }}>
+          {/* Category badge — neutral per DESIGN.md */}
+          <span
+            className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md"
+            style={{ backgroundColor: "rgba(255,255,255,0.06)", color: "#8A8078" }}
+          >
             {config.label}
           </span>
 
@@ -162,7 +139,7 @@ function RecipeCard({ recipe }: { recipe: {
               </span>
               <span
                 className="text-sm font-bold"
-                style={{ color: "#F97316" }}
+                style={{ color: "#B8906F" }}
               >
                 {recipe.cost_per_serving != null
                   ? `${recipe.cost_per_serving.toFixed(2)} \u20AC`

@@ -6,11 +6,13 @@ import type {
   Profile,
 } from "@/contracts/schemas/identity.schema";
 
-const supabase = createClient();
+function getSupabase() {
+  return createClient();
+}
 
 export const authService = {
   async signInWithEmail(email: string, password: string) {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await getSupabase().auth.signInWithPassword({
       email,
       password,
     });
@@ -19,7 +21,7 @@ export const authService = {
   },
 
   async signUp(email: string, password: string, fullName: string) {
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await getSupabase().auth.signUp({
       email,
       password,
       options: { data: { full_name: fullName } },
@@ -29,12 +31,12 @@ export const authService = {
   },
 
   async signOut() {
-    const { error } = await supabase.auth.signOut();
+    const { error } = await getSupabase().auth.signOut();
     if (error) throw error;
   },
 
   async getProfile(): Promise<Profile | null> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from("profiles")
       .select("*")
       .single();
@@ -43,10 +45,10 @@ export const authService = {
   },
 
   async updateProfile(input: { full_name?: string; phone?: string }) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from("profiles")
       .update(input)
-      .eq("id", (await supabase.auth.getUser()).data.user?.id ?? "")
+      .eq("id", (await getSupabase().auth.getUser()).data.user?.id ?? "")
       .select()
       .single();
     if (error) throw error;
@@ -54,7 +56,7 @@ export const authService = {
   },
 
   async getActiveHotel(userId: string): Promise<ActiveHotel | null> {
-    const { data, error } = await supabase.rpc("get_active_hotel", {
+    const { data, error } = await getSupabase().rpc("get_active_hotel", {
       p_user_id: userId,
     });
     if (error) throw error;
@@ -63,7 +65,7 @@ export const authService = {
   },
 
   async switchHotel(userId: string, hotelId: string) {
-    const { data, error } = await supabase.rpc("switch_active_hotel", {
+    const { data, error } = await getSupabase().rpc("switch_active_hotel", {
       p_user_id: userId,
       p_hotel_id: hotelId,
     });
@@ -72,7 +74,7 @@ export const authService = {
   },
 
   async getMyMemberships(): Promise<Membership[]> {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from("memberships")
       .select("*")
       .eq("is_active", true);
@@ -81,7 +83,7 @@ export const authService = {
   },
 
   async getHotelMembers(hotelId: string) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabase()
       .from("memberships")
       .select("*, profiles(full_name, avatar_url)")
       .eq("hotel_id", hotelId)
@@ -91,7 +93,7 @@ export const authService = {
   },
 
   async inviteMember(hotelId: string, input: InviteMemberInput) {
-    const { data, error } = await supabase.rpc("invite_member", {
+    const { data, error } = await getSupabase().rpc("invite_member", {
       p_hotel_id: hotelId,
       p_email: input.email,
       p_role: input.role,
@@ -105,7 +107,7 @@ export const authService = {
     targetUserId: string,
     newRole: string
   ) {
-    const { data, error } = await supabase.rpc("update_member_role", {
+    const { data, error } = await getSupabase().rpc("update_member_role", {
       p_hotel_id: hotelId,
       p_target_user_id: targetUserId,
       p_new_role: newRole,
@@ -115,7 +117,7 @@ export const authService = {
   },
 
   async deactivateMember(hotelId: string, targetUserId: string) {
-    const { data, error } = await supabase.rpc("deactivate_member", {
+    const { data, error } = await getSupabase().rpc("deactivate_member", {
       p_hotel_id: hotelId,
       p_target_user_id: targetUserId,
     });

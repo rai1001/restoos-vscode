@@ -31,6 +31,8 @@ import { parseRecipeVoice, parseIngredientVoice } from "@/lib/voice-parser";
 import { VoiceMicButton } from "@/components/voice-mic-button";
 import { cn } from "@/lib/utils";
 import { ProductCombobox } from "@/components/product-combobox";
+import { RecipeCombobox } from "@/components/recipe-combobox";
+import { CreateSubRecipeDialog } from "@/components/create-sub-recipe-dialog";
 import { matchIngredientToProduct } from "@/lib/product-matcher";
 import { MOCK_PRODUCTS, getPreferredPrice } from "@/lib/mock-data";
 
@@ -61,7 +63,9 @@ export default function NewRecipePage() {
   const [newIngQty, setNewIngQty] = useState("");
   const [newIngUnit, setNewIngUnit] = useState("g");
   const [newIngNotes, setNewIngNotes] = useState("");
+  const [ingType, setIngType] = useState<"product" | "sub_recipe">("product");
   const [ingProductId, setIngProductId] = useState<string | null>(null);
+  const [ingSubRecipeId, setIngSubRecipeId] = useState<string | null>(null);
 
   // -- Inline step editing --
   const [newStepInstruction, setNewStepInstruction] = useState("");
@@ -137,7 +141,8 @@ export default function NewRecipePage() {
       {
         id: crypto.randomUUID(),
         name: newIngName.trim(),
-        product_id: ingProductId ?? undefined,
+        product_id: ingType === "product" ? (ingProductId ?? undefined) : undefined,
+        sub_recipe_id: ingType === "sub_recipe" ? (ingSubRecipeId ?? undefined) : undefined,
         quantity: qty,
         unit: newIngUnit,
         notes: newIngNotes.trim() || undefined,
@@ -148,6 +153,8 @@ export default function NewRecipePage() {
     setNewIngUnit("g");
     setNewIngNotes("");
     setIngProductId(null);
+    setIngSubRecipeId(null);
+    setIngType("product");
   }
 
   function removeIngredient(id: string) {
@@ -389,10 +396,15 @@ export default function NewRecipePage() {
                         return (
                           <TableRow key={ing.id} className="border-b border-card-hover hover:bg-card-hover/50">
                             <TableCell className="font-medium text-foreground">
-                              {ing.name}
-                              {ing.product_id && (
-                                <span className="ml-1.5 inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" title="Vinculado al catalogo" />
-                              )}
+                              <span className="flex items-center gap-1.5">
+                                {ing.sub_recipe_id && (
+                                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400">SUB</span>
+                                )}
+                                {ing.name}
+                                {ing.product_id && !ing.sub_recipe_id && (
+                                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" title="Vinculado al catalogo" />
+                                )}
+                              </span>
                             </TableCell>
                             <TableCell className="text-right text-foreground">{ing.quantity}</TableCell>
                             <TableCell className="text-muted-foreground">{ing.unit}</TableCell>
@@ -440,18 +452,57 @@ export default function NewRecipePage() {
 
               {/* Add ingredient row */}
               <div className="rounded-lg bg-sidebar p-4 space-y-3 border border-border-subtle">
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Anadir ingrediente</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Anadir ingrediente</p>
+                  <div className="flex gap-0.5 p-0.5 rounded-md bg-muted/30">
+                    <button
+                      type="button"
+                      onClick={() => { setIngType("product"); setIngSubRecipeId(null); }}
+                      className={cn("px-2.5 py-1 rounded text-[11px] font-medium transition-colors", ingType === "product" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground")}
+                    >
+                      Producto
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setIngType("sub_recipe"); setIngProductId(null); }}
+                      className={cn("px-2.5 py-1 rounded text-[11px] font-medium transition-colors", ingType === "sub_recipe" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground")}
+                    >
+                      Sub-receta
+                    </button>
+                  </div>
+                </div>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                   <div className="col-span-2 sm:col-span-1">
-                    <ProductCombobox
-                      value={ingProductId}
-                      onSelect={(p) => {
-                        setIngProductId(p?.id ?? null);
-                        setNewIngName(p?.name ?? "");
-                        if (p?.unit) setNewIngUnit(p.unit);
-                      }}
-                      placeholder="Buscar producto del catalogo..."
-                    />
+                    {ingType === "product" ? (
+                      <ProductCombobox
+                        value={ingProductId}
+                        onSelect={(p) => {
+                          setIngProductId(p?.id ?? null);
+                          setNewIngName(p?.name ?? "");
+                          if (p?.unit) setNewIngUnit(p.unit);
+                        }}
+                        placeholder="Buscar producto del catalogo..."
+                      />
+                    ) : (
+                      <>
+                        <RecipeCombobox
+                          value={ingSubRecipeId}
+                          onSelect={(r) => {
+                            setIngSubRecipeId(r?.id ?? null);
+                            setNewIngName(r?.name ?? "");
+                            setNewIngUnit("ud");
+                          }}
+                          placeholder="Buscar sub-receta..."
+                        />
+                        <CreateSubRecipeDialog
+                          onCreated={(r) => {
+                            setIngSubRecipeId(r.id);
+                            setNewIngName(r.name);
+                            setNewIngUnit("ud");
+                          }}
+                        />
+                      </>
+                    )}
                   </div>
                   <div>
                     <Input

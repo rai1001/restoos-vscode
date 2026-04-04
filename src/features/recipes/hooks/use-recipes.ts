@@ -83,6 +83,20 @@ export function useCreateRecipe() {
   });
 }
 
+export function useCreateQuickSubRecipe() {
+  const { hotelId } = useActiveHotel();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (input: { name: string; servings: number; category?: string }) =>
+      recipeService.createQuickSubRecipe(hotelId!, input),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["recipes"] });
+      toast.success("Sub-receta creada y aprobada");
+    },
+    onError: (err: Error) => toast.error(err.message),
+  });
+}
+
 export function useSubmitForReview() {
   const { hotelId } = useActiveHotel();
   const queryClient = useQueryClient();

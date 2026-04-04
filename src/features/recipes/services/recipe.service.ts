@@ -81,6 +81,36 @@ export const recipeService = {
     return data;
   },
 
+  async createQuickSubRecipe(hotelId: string, input: { name: string; servings: number; category?: string }) {
+    // Create as draft
+    const result = await this.create(hotelId, {
+      name: input.name,
+      servings: input.servings,
+      category: input.category ?? "Base",
+      description: `Sub-receta: ${input.name}`,
+    });
+
+    // Auto-approve so it's immediately available as sub-recipe
+    if (result?.recipe_id) {
+      // Submit for review first, then approve
+      try {
+        await supabase.rpc("submit_recipe_for_review", {
+          p_hotel_id: hotelId,
+          p_recipe_id: result.recipe_id,
+        });
+      } catch { /* ignore if already in review */ }
+
+      try {
+        await supabase.rpc("approve_recipe", {
+          p_hotel_id: hotelId,
+          p_recipe_id: result.recipe_id,
+        });
+      } catch { /* ignore if approval fails - still usable as draft */ }
+    }
+
+    return result;
+  },
+
   async approve(hotelId: string, recipeId: string) {
     const { data, error } = await supabase.rpc("approve_recipe", {
       p_hotel_id: hotelId,

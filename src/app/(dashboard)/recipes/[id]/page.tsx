@@ -16,6 +16,7 @@ import {
 } from "@/features/recipes/hooks/use-recipes";
 import { ProductCombobox } from "@/components/product-combobox";
 import { RecipeCombobox } from "@/components/recipe-combobox";
+import { CreateSubRecipeDialog } from "@/components/create-sub-recipe-dialog";
 import { MOCK_PRODUCTS, MOCK_SUPPLIER_OFFERS, MOCK_VOLUME_DISCOUNTS, MOCK_RECIPE_INGREDIENTS, getPreferredPrice } from "@/lib/mock-data";
 import { RECIPE_TRANSITIONS, type RecipeStatus } from "@/contracts/enums";
 import { calculateRecipeCost, collectAllergens } from "@/lib/calculations/costEngine";
@@ -713,15 +714,23 @@ export default function RecipeDetailPage({
                               placeholder="Buscar producto del catalogo..."
                             />
                           ) : (
-                            <RecipeCombobox
-                              value={ingSubRecipeId || null}
-                              excludeRecipeId={id}
-                              onSelect={(r) => {
-                                setIngSubRecipeId(r?.id ?? "");
-                                setIngSubRecipeName(r?.name ?? "");
-                              }}
-                              placeholder="Buscar receta aprobada..."
-                            />
+                            <>
+                              <RecipeCombobox
+                                value={ingSubRecipeId || null}
+                                excludeRecipeId={id}
+                                onSelect={(r) => {
+                                  setIngSubRecipeId(r?.id ?? "");
+                                  setIngSubRecipeName(r?.name ?? "");
+                                }}
+                                placeholder="Buscar receta aprobada..."
+                              />
+                              <CreateSubRecipeDialog
+                                onCreated={(r) => {
+                                  setIngSubRecipeId(r.id);
+                                  setIngSubRecipeName(r.name);
+                                }}
+                              />
+                            </>
                           )}
                         </div>
                         <div className="space-y-2">

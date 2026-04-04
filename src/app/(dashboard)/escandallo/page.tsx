@@ -326,7 +326,14 @@ function DetailDialog({
                         const merma = 100 - ing.yield_pct
                         return (
                           <TableRow key={ing.id} className="border-b border-gray-100 dark:border-accent/20 hover:bg-gray-50 dark:hover:bg-card/80">
-                            <TableCell className="font-medium text-gray-900 dark:text-gray-100">{ing.ingredient_name}</TableCell>
+                            <TableCell className="font-medium text-gray-900 dark:text-gray-100">
+                              <span className="flex items-center gap-1.5">
+                                {ing.sub_recipe_id && (
+                                  <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400">SUB</span>
+                                )}
+                                {ing.ingredient_name}
+                              </span>
+                            </TableCell>
                             <TableCell className="text-center text-gray-500 dark:text-gray-500 text-sm">{ing.unit}</TableCell>
                             <TableCell className="text-right text-gray-700 dark:text-gray-300">{ing.quantity}</TableCell>
                             <TableCell className="text-right text-gray-700 dark:text-gray-300">{fmt(ing.current_unit_price)}</TableCell>

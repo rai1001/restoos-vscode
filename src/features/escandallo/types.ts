@@ -9,6 +9,7 @@ export interface EscandalloIngredient {
   id: string
   ingredient_id: string
   ingredient_name: string
+  sub_recipe_id?: string | null
   unit: string                    // "kg", "L", "ud", "g"
   quantity: number                // cantidad necesaria
   yield_pct: number               // rendimiento 0-100 (100 = no merma)

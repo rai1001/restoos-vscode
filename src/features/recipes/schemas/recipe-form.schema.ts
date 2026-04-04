@@ -7,6 +7,7 @@ export const LocalIngredientSchema = z.object({
   unit: z.string().min(1, "Unidad requerida"),
   notes: z.string().optional(),
   product_id: z.string().uuid().optional(),
+  sub_recipe_id: z.string().uuid().optional(),
 });
 export type LocalIngredient = z.infer<typeof LocalIngredientSchema>;
 

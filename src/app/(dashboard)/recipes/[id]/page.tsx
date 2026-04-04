@@ -161,11 +161,20 @@ export default function RecipeDetailPage({
     );
   }
 
-  const getProductName = (productId: string) => {
+  const getProductName = (productId: string | null) => {
+    if (!productId) return "Desconocido";
     return MOCK_PRODUCTS.find(p => p.id === productId)?.name ?? productId.slice(0, 8) + "..."
   }
 
+  const getIngredientName = (ing: { product_id: string | null; sub_recipe_id?: string | null; notes?: string | null }) => {
+    if (ing.sub_recipe_id) {
+      return ing.notes || `Sub-receta ${ing.sub_recipe_id.slice(0, 8)}...`;
+    }
+    return getProductName(ing.product_id);
+  }
+
   const ingredientsCost = (ingredients ?? []).reduce((sum, ing) => {
+    if (!ing.product_id) return sum; // sub-recipes calculated separately
     const price = getPreferredPrice(ing.product_id)
     return sum + (price ? ing.quantity * price : 0)
   }, 0)
@@ -223,7 +232,7 @@ export default function RecipeDetailPage({
           id: ing.id,
           product_id: ing.product_id,
           product_name: getProductName(ing.product_id),
-          sub_recipe_id: null,
+          sub_recipe_id: ing.sub_recipe_id ?? null,
           quantity: ing.quantity,
           unit: {
             id: "unit-kg",
@@ -713,7 +722,7 @@ export default function RecipeDetailPage({
                   </thead>
                   <tbody>
                     {ingredients.map((ing) => {
-                      const price = getPreferredPrice(ing.product_id);
+                      const price = ing.product_id ? getPreferredPrice(ing.product_id) : null;
                       const qty = viewMode === "racion" ? ing.quantity / (recipe.servings || 1) : ing.quantity;
                       const costFinal = price ? qty * price : 0;
                       return (
@@ -723,7 +732,14 @@ export default function RecipeDetailPage({
                           className="group"
                         >
                           <td className="py-3 font-medium" style={{ color: T.text }}>
-                            {getProductName(ing.product_id)}
+                            <span className="flex items-center gap-2">
+                              {ing.sub_recipe_id && (
+                                <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded" style={{ background: `${T.secondary}20`, color: T.secondary }}>
+                                  SUB
+                                </span>
+                              )}
+                              {getIngredientName(ing)}
+                            </span>
                           </td>
                           <td className="py-3" style={{ color: T.secondary }}>
                             {qty.toFixed(3)} kg

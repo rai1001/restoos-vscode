@@ -213,6 +213,7 @@ export interface MenuEngineeringItem {
 
 export interface RecipeIngredient {
   product_id: string | null;
+  sub_recipe_id?: string | null;
   product_name?: string;
   unit_id: string;
   unit?: MeasurementUnit;

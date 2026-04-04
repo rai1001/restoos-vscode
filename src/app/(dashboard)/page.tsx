@@ -904,7 +904,7 @@ export default function DashboardPage() {
       {/* ── Header ─────────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-bold text-foreground" style={{ fontSize: "28px", letterSpacing: "-0.01em" }}>
+          <h1 className="text-[28px] font-bold text-foreground tracking-tight">
             {greeting}, Chef <span role="img" aria-label="wave">👋</span>
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">

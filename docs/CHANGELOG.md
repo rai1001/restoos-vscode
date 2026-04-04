@@ -33,6 +33,17 @@ Cierre completo de la auditoria de seguridad. Todas las edge functions y RPCs ah
 - Purchase suggestions: upsert en vez de duplicar sugerencias pendientes
 - Alerta `stock_shortage` cuando no hay stock suficiente
 
+### fix(build): deploy a producción en Vercel
+Primera puesta en producción de RestoOS.
+
+- Proyecto Supabase `restoos` creado en eu-west-1
+- Env vars configuradas en Vercel (production + development)
+- Fix: placeholder Supabase URL para static export (pages pre-rendered at build time)
+- Fix: lazy-init Supabase client en auth/service.ts (module-level → function-level)
+- Fix: middleware tolerante a env vars faltantes durante build
+- `.vercelignore` para excluir .agents/ del deploy (>100MB)
+- URL producción: https://restoos-vscode-8sri.vercel.app/
+
 ### chore: code health cleanup (5.3 → 8.6/10)
 Limpieza de calidad de codigo tras auditoria de seguridad.
 

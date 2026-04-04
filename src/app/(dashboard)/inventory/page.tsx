@@ -105,7 +105,7 @@ const CATEGORY_TABS = ["TODOS", "CARNES", "PESCADOS", "BODEGA", "LACTEOS"] as co
 
 // Status badge config
 const statusConfig: Record<string, { label: string; className: string }> = {
-  OPTIMO: { label: "OPTIMO", className: "bg-emerald-500/15 text-emerald-400 border-0" },
+  OPTIMO: { label: "OPTIMO", className: "bg-[rgba(255,255,255,0.03)] text-[#8A8078] border-0" },
   CRITICO: { label: "CRITICO", className: "bg-red-500/15 text-red-400 border-0" },
   AVISO: { label: "AVISO", className: "bg-primary/15 text-[var(--alert-warning)] border-0" },
 };
@@ -201,7 +201,7 @@ export default function InventoryPage() {
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold text-foreground">8.4x</span>
           </div>
-          <p className="text-xs text-emerald-400 mt-1">Óptimo para restaurante</p>
+          <p className="text-xs text-muted-foreground mt-1">Óptimo para restaurante</p>
         </div>
 
         {/* Gestion de Mermas */}
@@ -211,12 +211,12 @@ export default function InventoryPage() {
           </p>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold text-foreground">1.2%</span>
-            <span className="text-xs text-emerald-400">Objetivo &lt;2%</span>
+            <span className="text-xs text-muted-foreground">Objetivo &lt;2%</span>
           </div>
           {/* Mini progress bar */}
           <div className="mt-2 h-1.5 w-full rounded-full bg-border-subtle">
             <div
-              className="h-1.5 rounded-full bg-emerald-500"
+              className="h-1.5 rounded-full bg-[#B8906F]"
               style={{ width: "60%" }}
             />
           </div>

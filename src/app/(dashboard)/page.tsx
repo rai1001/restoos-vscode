@@ -233,8 +233,8 @@ function RevenueChart() {
           <ComposedChart data={revenueData} margin={CHART_MARGINS.default}>
             <defs>
               <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#F97316" stopOpacity={0.3} />
-                <stop offset="100%" stopColor="#F97316" stopOpacity={0} />
+                <stop offset="0%" stopColor="#B8906F" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#B8906F" stopOpacity={0} />
               </linearGradient>
             </defs>
             <CartesianGrid
@@ -265,7 +265,7 @@ function RevenueChart() {
             />
             <Bar
               dataKey="ingresos"
-              fill="#F97316"
+              fill="#B8906F"
               fillOpacity={0.8}
               radius={[4, 4, 0, 0]}
               barSize={24}
@@ -360,10 +360,10 @@ function FoodCostChart() {
           <Line
             type="monotone"
             dataKey="foodCost"
-            stroke="#F97316"
+            stroke="#B8906F"
             strokeWidth={2}
-            dot={{ r: 4, fill: "#F97316", strokeWidth: 0 }}
-            activeDot={{ r: 6, fill: "#F97316" }}
+            dot={{ r: 4, fill: "#B8906F", strokeWidth: 0 }}
+            activeDot={{ r: 6, fill: "#B8906F" }}
           />
         </LineChart>
       </ResponsiveContainer>
@@ -374,7 +374,7 @@ function FoodCostChart() {
 // ── Top 5 Dishes Horizontal Bar Chart ────────────────────────────────────────
 
 function TopDishesChart() {
-  const barColors = ["#F97316", "#E24B4A", "#1D9E75", "#BA7517", "#378ADD"];
+  const barColors = ["#B8906F", "#9A7A62", "#7D6550", "#615040", "#4A3D32"];
   return (
     <div className="rounded-lg bg-card p-5">
       <div className="mb-3 flex items-center gap-2">
@@ -524,7 +524,7 @@ const EVENT_STATUS_STYLE: Record<
 > = {
   confirmado: {
     label: "Confirmado",
-    cls: "bg-green-900/30 text-green-400",
+    cls: "bg-[rgba(255,255,255,0.06)] text-[#C8C2BF]",
   },
   en_preparacion: {
     label: "En preparacion",
@@ -673,8 +673,8 @@ const STATUS_DOT: Record<ModuleStatus["status"], string> = {
 };
 
 const STATUS_LABEL_COLOR: Record<ModuleStatus["status"], string> = {
-  ok: "text-green-400",
-  warning: "text-yellow-400",
+  ok: "text-[#8A8078]",
+  warning: "text-[var(--alert-warning)]",
   critical: "text-red-400",
   inactive: "text-muted-foreground",
 };
@@ -737,7 +737,7 @@ const QUICK_ACTIONS = [
     label: "Nuevo Pedido",
     href: "/procurement/orders",
     Icon: ShoppingCart,
-    accent: "text-green-400",
+    accent: "text-[#B8906F]",
   },
   {
     label: "Merma Diario",
@@ -904,7 +904,7 @@ export default function DashboardPage() {
       {/* ── Header ─────────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-foreground">
+          <h1 className="font-bold text-foreground" style={{ fontSize: "28px", letterSpacing: "-0.01em" }}>
             {greeting}, Chef <span role="img" aria-label="wave">👋</span>
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">

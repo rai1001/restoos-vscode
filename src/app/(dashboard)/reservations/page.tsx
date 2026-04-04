@@ -51,12 +51,12 @@ const DAY_NAMES = ["L", "M", "X", "J", "V", "S", "D"]
 const DAY_NAMES_LONG = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"]
 
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-  pending: { label: "Pendiente", color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400" },
-  confirmed: { label: "Confirmada", color: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" },
-  seated: { label: "En mesa", color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400" },
-  completed: { label: "Completada", color: "bg-gray-100 text-gray-700 dark:bg-gray-800/50 dark:text-gray-400" },
-  no_show: { label: "No show", color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400" },
-  cancelled: { label: "Cancelada", color: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400" },
+  pending: { label: "Pendiente", color: "bg-[rgba(255,255,255,0.04)] text-[#8A8078] border-0" },
+  confirmed: { label: "Confirmada", color: "bg-[rgba(255,255,255,0.06)] text-[#C8C2BF] border-0" },
+  seated: { label: "En mesa", color: "bg-[rgba(184,144,111,0.15)] text-[#B8906F] border-0" },
+  completed: { label: "Completada", color: "bg-[rgba(255,255,255,0.03)] text-[#706860] border-0" },
+  no_show: { label: "No show", color: "bg-red-500/15 text-red-400 border-0" },
+  cancelled: { label: "Cancelada", color: "bg-red-500/15 text-red-400 border-0" },
 }
 
 const SOURCE_LABELS: Record<string, string> = {
@@ -125,12 +125,12 @@ function ReservationPill({
   onClick: (r: Reservation) => void
 }) {
   const statusColors: Record<string, string> = {
-    confirmed: "bg-green-50 text-green-800 border-green-200 dark:bg-green-950/30 dark:text-green-400 dark:border-green-800",
-    pending: "bg-yellow-50 text-yellow-800 border-yellow-200 dark:bg-yellow-950/30 dark:text-yellow-400 dark:border-yellow-800",
-    seated: "bg-blue-50 text-blue-800 border-blue-200 dark:bg-blue-950/30 dark:text-blue-400 dark:border-blue-800",
-    completed: "bg-gray-50 text-gray-700 border-gray-200 dark:bg-gray-900/30 dark:text-gray-400 dark:border-gray-700",
-    no_show: "bg-red-50 text-red-700 border-red-200 dark:bg-red-950/30 dark:text-red-400 dark:border-red-800",
-    cancelled: "bg-red-50 text-red-600 border-red-200 dark:bg-red-950/30 dark:text-red-400 dark:border-red-800",
+    confirmed: "bg-[rgba(255,255,255,0.06)] text-[#C8C2BF] border-[rgba(255,255,255,0.08)]",
+    pending: "bg-[rgba(255,255,255,0.04)] text-[#8A8078] border-[rgba(255,255,255,0.06)]",
+    seated: "bg-[rgba(184,144,111,0.15)] text-[#B8906F] border-[rgba(184,144,111,0.2)]",
+    completed: "bg-[rgba(255,255,255,0.03)] text-[#706860] border-[rgba(255,255,255,0.04)]",
+    no_show: "bg-red-500/15 text-red-400 border-red-800",
+    cancelled: "bg-red-500/15 text-red-400 border-red-800",
   }
 
   return (
@@ -172,7 +172,7 @@ function ReservationDetailDialog({
           <div className="flex flex-wrap gap-2 pt-1">
             <StatusBadge status={reservation.status} />
             {reservation.is_vip && (
-              <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
+              <span className="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold" style={{ backgroundColor: "rgba(184,144,111,0.15)", color: "#B8906F" }}>
                 VIP
               </span>
             )}

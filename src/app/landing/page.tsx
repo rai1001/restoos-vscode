@@ -16,6 +16,26 @@ import {
   ArrowRight,
   Star,
   ChevronRight,
+  BookOpen,
+  BarChart3,
+  Brain,
+  FileText,
+  ScanLine,
+  Users,
+  CalendarDays,
+  Warehouse,
+  Tag,
+  QrCode,
+  Building2,
+  Lock,
+  ClipboardCheck,
+  Bot,
+  MailSearch,
+  TrendingUp,
+  Scale,
+  Utensils,
+  MessageSquareWarning,
+  LayoutDashboard,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -75,13 +95,13 @@ function Hero() {
       <div className="absolute inset-0">
         <MeshGradient
           className="absolute inset-0 h-full w-full"
-          colors={["#000000", "#7C2D12", "#F97316", "#1C1917", "#431407"]}
+          colors={["#000000", "#3D2B1F", "#B8906F", "#1C1917", "#2C1E14"]}
           speed={0.3}
           backgroundColor="#0A0A0A"
         />
         <MeshGradient
           className="absolute inset-0 h-full w-full opacity-40"
-          colors={["#000000", "#FFFFFF", "#F97316", "#000000"]}
+          colors={["#000000", "#FFFFFF", "#B8906F", "#000000"]}
           speed={0.2}
           wireframe
           backgroundColor="transparent"
@@ -154,42 +174,213 @@ function Hero() {
 
 /* ─────────────────────── Features ─────────────────────── */
 
-const features = [
+const featureSections = [
   {
-    icon: ChefHat,
-    title: "Recetas y Escandallos",
-    description:
-      "Calcula el coste por ración en segundos. Importa recetas con IA y genera fichas técnicas profesionales.",
+    title: "Cocina & Recetas",
+    subtitle: "Tu conocimiento culinario, digitalizado y rentabilizado.",
+    features: [
+      {
+        icon: BookOpen,
+        title: "Recetas con Versionado",
+        description: "Gestiona recetas con historial de versiones, ingredientes con rendimiento y merma, e instrucciones paso a paso.",
+      },
+      {
+        icon: Calculator,
+        title: "Escandallo Automático",
+        description: "Coste por ración calculado al instante. Actualizado automáticamente cuando cambian los precios de proveedor.",
+      },
+      {
+        icon: BarChart3,
+        title: "Ingeniería de Menú",
+        description: "Matriz de Boston automática. Identifica estrellas, caballos de batalla, puzzles y perros. Recomendaciones IA semanales.",
+      },
+      {
+        icon: Scale,
+        title: "Escalado de Recetas",
+        description: "Escala cualquier receta por factor o comensales con conversión automática de unidades.",
+      },
+      {
+        icon: ScanLine,
+        title: "OCR de Recetas",
+        description: "Fotografía una receta en papel y la IA la convierte en ficha técnica digital con ingredientes y pasos.",
+      },
+      {
+        icon: Utensils,
+        title: "Menús y Secciones",
+        description: "Crea menús con secciones organizadas. Asigna recetas, calcula costes del menú completo y analiza rentabilidad.",
+      },
+    ],
   },
   {
-    icon: Calculator,
-    title: "Control de Costes",
-    description:
-      "Food cost en tiempo real. Matriz Boston para ingeniería de menú. Detecta platos que no rinden.",
+    title: "Operaciones",
+    subtitle: "Del proveedor al plato, todo bajo control.",
+    features: [
+      {
+        icon: Package,
+        title: "Catálogo de Productos",
+        description: "Catálogo centralizado con categorías, unidades y aliases. Búsqueda inteligente y matching automático con proveedores.",
+      },
+      {
+        icon: Truck,
+        title: "Compras Inteligentes",
+        description: "Solicitudes, pedidos y recepción de mercancía. Sugerencias automáticas basadas en stock + previsión + lead time.",
+      },
+      {
+        icon: Warehouse,
+        title: "Inventario FIFO",
+        description: "Trazabilidad completa por lotes. Movimientos de stock: recepción, consumo, merma, ajuste y transferencia entre locales.",
+      },
+      {
+        icon: Users,
+        title: "Gestión de Proveedores",
+        description: "Base de proveedores con ofertas de precio por ubicación. Compara precios, historial y gestiona comunicaciones.",
+      },
+      {
+        icon: ScanLine,
+        title: "OCR de Albaranes",
+        description: "Digitaliza albaranes con una foto. Extracción automática de productos, cantidades y precios para entrada rápida.",
+      },
+      {
+        icon: TrendingUp,
+        title: "Motor de Previsión",
+        description: "Forecasting por patrones día/semana, estacionalidad y eventos confirmados. Anticipa la demanda antes de que llegue.",
+      },
+    ],
   },
   {
-    icon: Package,
-    title: "Inventario Inteligente",
-    description:
-      "FIFO automático, alertas de caducidad, control de merma. Sabe qué tienes y cuándo caduca.",
+    title: "Cumplimiento & Seguridad Alimentaria",
+    subtitle: "APPCC digital. Siempre listo para inspección.",
+    features: [
+      {
+        icon: ShieldCheck,
+        title: "APPCC Completo",
+        description: "40+ plantillas de control: temperaturas, limpieza, recepción. Validación automática contra límites críticos.",
+      },
+      {
+        icon: ClipboardCheck,
+        title: "Cierre Diario Automático",
+        description: "Agente IA que cierra el día APPCC, genera hash SHA-256 de integridad y detecta anomalías en los registros.",
+      },
+      {
+        icon: Tag,
+        title: "Etiquetado y Lotes",
+        description: "Crea lotes de producción con alertas de alérgenos y caducidad. Imprime etiquetas con QR y código de barras.",
+      },
+      {
+        icon: FileText,
+        title: "Bóveda de Documentos",
+        description: "Archivo legal inmutable para facturas, albaranes y registros APPCC. Cadena de custodia y retención legal automática.",
+      },
+      {
+        icon: MessageSquareWarning,
+        title: "Incidencias y Correctivas",
+        description: "Registro de incidencias APPCC con acciones correctivas. Historial completo para auditorías y visitas de Sanidad.",
+      },
+      {
+        icon: Lock,
+        title: "Integridad Verificable",
+        description: "Cada documento sellado con hash. Verificación de integridad en cualquier momento. Cumple normativa fiscal española.",
+      },
+    ],
   },
   {
-    icon: Truck,
-    title: "Compras y Proveedores",
-    description:
-      "Órdenes de compra automáticas basadas en stock mínimo. OCR de albaranes para entrada rápida.",
+    title: "Sala & Comercial",
+    subtitle: "Reservas, clientes y ventas conectados con la cocina.",
+    features: [
+      {
+        icon: CalendarDays,
+        title: "Reservas con Calendario",
+        description: "Gestión visual de reservas por día y turno. Asignación de mesas y personal por servicio.",
+      },
+      {
+        icon: Users,
+        title: "Base de Clientes",
+        description: "Historial de visitas, preferencias y gasto por cliente. Datos que informan tu menú y tu marketing.",
+      },
+      {
+        icon: LayoutDashboard,
+        title: "Dashboard Multi-Local",
+        description: "Compara KPIs entre locales en tiempo real. Alertas configurables cuando un indicador se sale de rango.",
+      },
+    ],
   },
   {
-    icon: ShieldCheck,
-    title: "APPCC y Cumplimiento",
-    description:
-      "Checklists digitales, registro de temperaturas, exportación PDF lista para Sanidad.",
+    title: "CLARA — IA de Facturación",
+    subtitle: "Tu administrativa que nunca duerme. Facturas en piloto automático.",
+    features: [
+      {
+        icon: MailSearch,
+        title: "Ingesta Automática",
+        description: "CLARA recoge facturas del email, las clasifica y extrae datos con OCR Gemini Vision + validación de NIF.",
+      },
+      {
+        icon: Bot,
+        title: "Reconciliación Inteligente",
+        description: "Cruza cada factura con albaranes (±7 días, 2% tolerancia). Detecta discrepancias de precio, cantidad y duplicados.",
+      },
+      {
+        icon: FileText,
+        title: "Comunicación a Proveedores",
+        description: "Genera mensajes profesionales automáticos para reclamar discrepancias. Cola de reintentos para operaciones fallidas.",
+      },
+    ],
   },
   {
-    icon: Flame,
-    title: "Modo Cocina",
-    description:
-      "Vista tablet para el servicio. Mise en place, tareas por estación, temporizadores integrados.",
+    title: "6 Agentes IA Autónomos",
+    subtitle: "Trabajan por ti 24/7. Tú decides, ellos ejecutan.",
+    features: [
+      {
+        icon: Calculator,
+        title: "Agente Escandallo",
+        description: "Recalcula costes de todas las recetas afectadas cuando un proveedor cambia precios.",
+      },
+      {
+        icon: BarChart3,
+        title: "Agente Menu Engineering",
+        description: "Análisis semanal con Matriz de Boston y recomendaciones de IA para optimizar tu carta.",
+      },
+      {
+        icon: Warehouse,
+        title: "Agente Inventario",
+        description: "Gestión FIFO automática y sugerencias de compra agrupadas por proveedor.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Agente APPCC",
+        description: "Cierre diario con sellado criptográfico y detección de anomalías en registros.",
+      },
+      {
+        icon: ScanLine,
+        title: "Agente OCR",
+        description: "Digitalización de facturas con visión artificial y validación fiscal automática.",
+      },
+      {
+        icon: Brain,
+        title: "Briefing Diario IA",
+        description: "Resumen ejecutivo cada mañana: KPIs, alertas, pendientes y recomendaciones de acción.",
+      },
+    ],
+  },
+  {
+    title: "Plataforma Enterprise",
+    subtitle: "Multi-local, multi-rol, auditable. Crece sin fricción.",
+    features: [
+      {
+        icon: Building2,
+        title: "Multi-Tenant",
+        description: "Grupos con múltiples locales. Cada hotel/restaurante con su configuración, pero datos consolidados arriba.",
+      },
+      {
+        icon: Lock,
+        title: "9 Roles, 15 Permisos",
+        description: "Desde superadmin hasta recepción. Control granular con Row Level Security en cada tabla de la base de datos.",
+      },
+      {
+        icon: Flame,
+        title: "Modo Cocina",
+        description: "Vista optimizada para tablet durante el servicio. Mise en place, tareas por estación, acceso rápido.",
+      },
+    ],
   },
 ];
 
@@ -199,12 +390,13 @@ function Features() {
       <div className="absolute inset-0 -z-10">
         <MeshGradient
           className="absolute inset-0 h-full w-full opacity-20"
-          colors={["#0A0A0A", "#431407", "#F97316", "#1C1917", "#0A0A0A"]}
+          colors={["#0A0A0A", "#3D2B1F", "#B8906F", "#1C1917", "#0A0A0A"]}
           speed={0.12}
           backgroundColor="#0A0A0A"
         />
       </div>
-      <div className="mx-auto max-w-5xl space-y-16 px-6">
+      <div className="mx-auto max-w-6xl space-y-24 px-6">
+        {/* Section header */}
         <motion.div
           className="mx-auto max-w-xl space-y-4 text-center"
           initial="hidden"
@@ -216,30 +408,69 @@ function Features() {
             Todo lo que tu cocina necesita, en una sola plataforma
           </motion.h2>
           <motion.p variants={fadeUp} className="text-muted-foreground">
-            6 módulos diseñados por un chef con 27 años de experiencia en cocinas profesionales.
+            10 módulos + 6 agentes IA diseñados por un chef con 30 años de experiencia en cocinas profesionales.
           </motion.p>
         </motion.div>
 
+        {/* Feature sections */}
+        {featureSections.map((section, sectionIdx) => (
+          <motion.div
+            key={section.title}
+            className="space-y-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            variants={stagger}
+          >
+            <motion.div variants={fadeUp} className="space-y-2">
+              <h3 className="text-2xl font-bold">{section.title}</h3>
+              <p className="text-muted-foreground">{section.subtitle}</p>
+            </motion.div>
+
+            <motion.div
+              className={`grid gap-px rounded-xl border bg-border ${
+                section.features.length <= 3
+                  ? "sm:grid-cols-2 lg:grid-cols-3"
+                  : "sm:grid-cols-2 lg:grid-cols-3"
+              }`}
+              variants={stagger}
+            >
+              {section.features.map((f) => (
+                <motion.div
+                  key={f.title}
+                  variants={fadeUp}
+                  className="group space-y-3 bg-background p-7 transition-colors hover:bg-card"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <f.icon className="size-5 text-primary" />
+                    <h4 className="text-sm font-semibold">{f.title}</h4>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {f.description}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+        ))}
+
+        {/* Numbers bar */}
         <motion.div
-          className="mx-auto grid max-w-4xl gap-px rounded-xl border bg-border sm:grid-cols-2 lg:grid-cols-3"
+          className="mx-auto grid max-w-4xl grid-cols-2 gap-8 rounded-xl border bg-card p-8 md:grid-cols-4"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.3 }}
           variants={stagger}
         >
-          {features.map((f) => (
-            <motion.div
-              key={f.title}
-              variants={fadeUp}
-              className="group cursor-pointer space-y-3 bg-background p-8 transition-colors hover:bg-card"
-            >
-              <div className="flex items-center gap-2.5">
-                <f.icon className="size-5 text-primary" />
-                <h3 className="text-sm font-semibold">{f.title}</h3>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {f.description}
-              </p>
+          {[
+            { value: "50+", label: "Tablas en la base de datos" },
+            { value: "6", label: "Agentes IA autónomos" },
+            { value: "6", label: "Motores de cálculo" },
+            { value: "9", label: "Roles configurables" },
+          ].map((stat) => (
+            <motion.div key={stat.label} variants={fadeUp} className="space-y-1 text-center">
+              <p className="text-3xl font-bold tabular-nums">{stat.value}</p>
+              <p className="text-xs text-muted-foreground">{stat.label}</p>
             </motion.div>
           ))}
         </motion.div>
@@ -277,7 +508,7 @@ function Testimonials() {
       <div className="absolute inset-0 -z-10">
         <MeshGradient
           className="absolute inset-0 h-full w-full opacity-25"
-          colors={["#0A0A0A", "#7C2D12", "#0A0A0A", "#F97316", "#1C1917"]}
+          colors={["#0A0A0A", "#3D2B1F", "#0A0A0A", "#B8906F", "#1C1917"]}
           speed={0.18}
           backgroundColor="#0A0A0A"
         />
@@ -345,61 +576,180 @@ function Testimonials() {
 
 const plans = [
   {
-    name: "Fundador",
-    badge: "Plazas limitadas",
-    price: "59",
-    period: "/mes",
-    description: "Para los primeros 20 restaurantes. Precio de por vida.",
+    name: "Control",
+    badge: "",
+    price: "99",
+    annualPrice: "89",
+    period: "/local/mes",
+    description: "Deja Excel y recupera control de coste.",
+    target: "1 restaurante independiente",
     featured: false,
-    features: [
-      "5 módulos completos",
-      "Hasta 200 recetas",
-      "Inventario FIFO",
-      "Alertas de caducidad",
-      "OCR albaranes",
-      "Soporte por email",
-      "Acceso tablet (PWA)",
+    sections: [
+      {
+        label: "Cocina",
+        items: [
+          "Recetas con versionado",
+          "Escandallo automático",
+          "Escalado de recetas",
+          "OCR de recetas (foto a ficha)",
+          "Menús y secciones",
+        ],
+      },
+      {
+        label: "Operaciones",
+        items: [
+          "Catálogo de productos",
+          "Gestión de proveedores",
+          "Solicitudes y pedidos de compra",
+          "Recepción de mercancía",
+          "Inventario FIFO",
+          "Control de mermas",
+          "OCR de albaranes",
+        ],
+      },
+      {
+        label: "Gestión",
+        items: [
+          "Dashboard con KPIs",
+          "Alertas básicas",
+          "Modo Cocina (tablet)",
+          "Soporte por email",
+        ],
+      },
     ],
-    cta: "Reservar plaza",
+    excluded: [
+      "Ingeniería de Menú",
+      "Forecasting y previsión",
+      "Multi-local",
+      "APPCC y compliance",
+      "Facturación IA",
+      "API / SSO",
+    ],
+    onboarding: "300",
+    cta: "Solicitar demo",
   },
   {
-    name: "Profesional",
-    badge: "Más popular",
-    price: "79",
-    period: "/mes",
-    description: "Todo lo que necesitas. Sin permanencia.",
+    name: "Operaciones",
+    badge: "Recomendado",
+    price: "149",
+    annualPrice: "129",
+    period: "/local/mes",
+    description: "Estandariza compras, stock y margen.",
+    target: "Premium independiente o grupo pequeño",
     featured: true,
-    features: [
-      "Todo en Fundador",
-      "Recetas ilimitadas",
-      "Modo Cocina completo",
-      "APPCC y cumplimiento",
-      "Menu Engineering",
-      "Informes mensuales PDF",
-      "Soporte prioritario",
-      "API acceso datos",
+    sections: [
+      {
+        label: "Todo en Control, más:",
+        items: [],
+      },
+      {
+        label: "Cocina avanzada",
+        items: [
+          "Ingeniería de Menú (Matriz Boston)",
+          "Recomendaciones IA semanales",
+          "Motor de previsión de demanda",
+        ],
+      },
+      {
+        label: "Operaciones avanzadas",
+        items: [
+          "Motor de compras inteligente",
+          "Sugerencias automáticas por proveedor",
+          "Alertas avanzadas y aprobaciones",
+          "Bóveda documental básica",
+        ],
+      },
+      {
+        label: "Facturación IA (Lite)",
+        items: [
+          "OCR de facturas con Gemini Vision",
+          "Reconciliación factura ↔ albarán",
+          "Detección de discrepancias",
+          "50 documentos OCR/mes incluidos",
+        ],
+      },
+      {
+        label: "Gestión",
+        items: [
+          "Onboarding asistido",
+          "3 integraciones",
+          "Soporte prioritario",
+        ],
+      },
     ],
-    cta: "Empezar prueba gratis",
+    excluded: [
+      "Multi-local corporativo",
+      "APPCC completo",
+      "SSO / 2FA",
+      "API abierta",
+    ],
+    onboarding: "600",
+    cta: "Solicitar demo",
   },
   {
-    name: "Combo",
-    badge: "Máximo valor",
-    price: "199",
-    period: "/mes",
-    description: "RestoOS + AutoChef. Gestión + automatización.",
+    name: "Grupo",
+    badge: "Multi-local",
+    price: "249",
+    annualPrice: "219",
+    period: "/local/mes",
+    description: "Gobierna varios locales con trazabilidad y control central.",
+    target: "Grupos de 3+ locales",
     featured: false,
-    features: [
-      "Todo en Profesional",
-      "Contenido semanal IA",
-      "Gestión de reseñas",
-      "Chatbot reservas WhatsApp",
-      "Analytics avanzados",
-      "Dashboard reputación",
-      "Soporte dedicado",
-      "Onboarding personalizado",
+    sections: [
+      {
+        label: "Todo en Operaciones, más:",
+        items: [],
+      },
+      {
+        label: "Multi-local",
+        items: [
+          "Vista multi-local y benchmarking",
+          "Catálogos y precios por ubicación",
+          "Permisos avanzados por rol y local",
+        ],
+      },
+      {
+        label: "Compliance incluido",
+        items: [
+          "APPCC completo (40+ plantillas)",
+          "Cierre diario automático con hash",
+          "Incidencias y acciones correctivas",
+          "Lotes, etiquetas QR y códigos de barras",
+          "Bóveda documental inmutable",
+          "Retención legal automática",
+        ],
+      },
+      {
+        label: "Facturación IA (Pro)",
+        items: [
+          "300 documentos OCR/mes incluidos",
+          "Ingesta automática por email",
+          "Mensajes a proveedores automáticos",
+          "Cola de reintentos",
+        ],
+      },
+      {
+        label: "Plataforma",
+        items: [
+          "API abierta",
+          "SSO / 2FA",
+          "Soporte dedicado",
+          "SLA prioritario",
+        ],
+      },
     ],
-    cta: "Contactar ventas",
+    excluded: [],
+    onboarding: "1.500",
+    cta: "Hablar con ventas",
   },
+];
+
+const addons = [
+  { name: "Compliance Pack", price: "59", unit: "/local/mes", note: "Para Control y Operaciones. Incluido en Grupo." },
+  { name: "Pack Reservas y Clientes", price: "79", unit: "/local/mes", note: "Reservas, clientes, mesas, turnos y tracking de ventas." },
+  { name: "Producción Central", price: "149", unit: "/central/mes", note: "Para obradores, dark kitchens y cocinas centrales." },
+  { name: "Docs OCR extra", price: "25", unit: "/100 docs", note: "Cuando superes los docs incluidos en tu plan." },
+  { name: "AutoChef", price: "79", unit: "/mes", note: "Contenido semanal IA, gestión de reseñas, chatbot WhatsApp y dashboard reputación." },
 ];
 
 function Pricing() {
@@ -409,13 +759,14 @@ function Pricing() {
       <div className="absolute inset-0 -z-10">
         <MeshGradient
           className="absolute inset-0 h-full w-full opacity-30"
-          colors={["#0A0A0A", "#1C1917", "#F97316", "#0A0A0A", "#431407"]}
+          colors={["#0A0A0A", "#1C1917", "#B8906F", "#0A0A0A", "#2C1E14"]}
           speed={0.15}
           backgroundColor="#0A0A0A"
         />
       </div>
 
-      <div className="mx-auto max-w-5xl px-6">
+      <div className="mx-auto max-w-6xl px-6">
+        {/* Header */}
         <motion.div
           className="mx-auto max-w-xl space-y-4 text-center"
           initial="hidden"
@@ -427,74 +778,121 @@ function Pricing() {
             variants={fadeUp}
             className="text-4xl font-extralight tracking-tight lg:text-5xl"
           >
-            Encuentra el{" "}
-            <span className="text-primary font-medium">plan perfecto</span>
+            Precio por local.{" "}
+            <span className="text-primary font-medium">Sin sorpresas.</span>
           </motion.h2>
           <motion.p variants={fadeUp} className="text-lg text-muted-foreground">
-            Sin sorpresas. Sin permanencia. Cancela cuando quieras.
+            Usuarios ilimitados. Sin permanencia. 10-12% descuento anual.
           </motion.p>
         </motion.div>
 
+        {/* Plan cards */}
         <motion.div
-          className="mt-12 flex flex-col items-center justify-center gap-6 md:mt-20 md:flex-row md:gap-6"
+          className="mt-12 grid gap-6 md:mt-20 md:grid-cols-3"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.1 }}
           variants={stagger}
         >
           {plans.map((plan) => (
             <motion.div
               key={plan.name}
               variants={fadeUp}
-              whileHover={{ scale: 1.03, y: -4 }}
-              transition={{ duration: 0.3, ease: "easeOut" as const }}
               className={`
-                relative flex max-w-xs flex-1 flex-col rounded-2xl px-7 py-8
-                backdrop-blur-[14px] shadow-xl transition-shadow
+                relative flex flex-col rounded-2xl px-7 py-8
+                backdrop-blur-[14px] shadow-xl
                 bg-gradient-to-br from-white/[0.08] to-white/[0.02]
                 border border-white/10
                 ${plan.featured
-                  ? "scale-105 ring-2 ring-primary/30 from-white/[0.15] to-white/[0.06] border-primary/30 shadow-2xl shadow-primary/10"
-                  : "hover:shadow-lg"
+                  ? "ring-2 ring-primary/30 from-white/[0.15] to-white/[0.06] border-primary/30 shadow-2xl shadow-primary/10"
+                  : ""
                 }
               `}
             >
-              {plan.featured && (
-                <div className="absolute -top-3.5 right-4 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
+              {plan.badge && (
+                <div className={`absolute -top-3.5 right-4 rounded-full px-3 py-1 text-xs font-semibold ${
+                  plan.featured
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-white/10 text-foreground border border-white/20"
+                }`}>
                   {plan.badge}
                 </div>
               )}
 
-              <div className="mb-3">
-                <h3 className="text-[2.5rem] font-extralight tracking-tight leading-tight">
+              {/* Plan name and target */}
+              <div className="mb-4">
+                <h3 className="text-3xl font-extralight tracking-tight leading-tight">
                   {plan.name}
                 </h3>
                 <p className="mt-1 text-sm text-muted-foreground">{plan.description}</p>
+                <p className="mt-0.5 text-xs text-muted-foreground/70">{plan.target}</p>
               </div>
 
-              <div className="my-5 flex items-baseline gap-2">
-                <span className="text-[2.5rem] font-extralight tracking-tight">
-                  €{plan.price}
+              {/* Price */}
+              <div className="mb-1 flex items-baseline gap-2">
+                <span className="text-4xl font-extralight tracking-tight tabular-nums">
+                  {plan.price}€
                 </span>
                 <span className="text-sm text-muted-foreground">{plan.period}</span>
               </div>
+              <p className="mb-5 text-xs text-muted-foreground">
+                {plan.annualPrice}€ con plan anual
+              </p>
 
               {/* Glassy divider */}
               <div className="mb-5 h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-              <ul className="mb-6 flex flex-col gap-2.5 text-sm text-foreground/80">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-center gap-2.5">
-                    <Check className="size-4 shrink-0 text-primary" />
-                    <span>{feature}</span>
-                  </li>
+              {/* Feature sections */}
+              <div className="mb-6 flex flex-1 flex-col gap-4">
+                {plan.sections.map((section) => (
+                  <div key={section.label}>
+                    <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                      {section.label}
+                    </p>
+                    {section.items.length > 0 && (
+                      <ul className="flex flex-col gap-1.5">
+                        {section.items.map((item) => (
+                          <li key={item} className="flex items-start gap-2 text-sm text-foreground/80">
+                            <Check className="mt-0.5 size-3.5 shrink-0 text-primary" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                 ))}
-              </ul>
 
+                {/* Excluded */}
+                {plan.excluded.length > 0 && (
+                  <div>
+                    <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground/50">
+                      No incluido
+                    </p>
+                    <ul className="flex flex-col gap-1">
+                      {plan.excluded.map((item) => (
+                        <li key={item} className="flex items-center gap-2 text-xs text-muted-foreground/50">
+                          <span className="size-3.5 shrink-0 text-center">—</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+
+              {/* Onboarding */}
+              <div className="mb-4 rounded-lg bg-white/[0.03] px-4 py-2.5 text-center">
+                <p className="text-xs text-muted-foreground">
+                  Onboarding asistido: <span className="font-semibold text-foreground/80">{plan.onboarding}€</span>
+                  <span className="text-muted-foreground/50"> (una vez)</span>
+                </p>
+              </div>
+
+              {/* CTA */}
               <a
                 href="#contacto"
                 className={`
-                  mt-auto w-full block cursor-pointer rounded-xl py-3 text-sm font-semibold text-center transition-all duration-200
+                  w-full block cursor-pointer rounded-xl py-3 text-sm font-semibold text-center transition-all duration-200
                   ${plan.featured
                     ? "bg-primary text-primary-foreground hover:bg-primary/90"
                     : "border border-white/20 bg-white/10 text-foreground hover:bg-white/20"
@@ -505,6 +903,71 @@ function Pricing() {
               </a>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* Enterprise */}
+        <motion.div
+          className="mx-auto mt-8 max-w-2xl rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.02] px-8 py-6 text-center backdrop-blur-[14px]"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeUp}
+        >
+          <h3 className="text-xl font-semibold">Enterprise</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Cadenas, hoteles, central kitchens. Integraciones custom, data migration, CSM dedicado, SLA y formación.
+          </p>
+          <a href="#contacto" className="mt-4 inline-block rounded-xl border border-white/20 bg-white/10 px-6 py-2.5 text-sm font-semibold text-foreground transition-all hover:bg-white/20">
+            Hablar con ventas
+          </a>
+        </motion.div>
+
+        {/* Add-ons */}
+        <motion.div
+          className="mx-auto mt-16 max-w-4xl"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={stagger}
+        >
+          <motion.h3 variants={fadeUp} className="mb-6 text-center text-xl font-semibold">
+            Add-ons
+          </motion.h3>
+          <motion.div className="grid gap-px rounded-xl border bg-border sm:grid-cols-2" variants={stagger}>
+            {addons.map((addon) => (
+              <motion.div key={addon.name} variants={fadeUp} className="flex items-start justify-between gap-4 bg-background p-5">
+                <div>
+                  <p className="text-sm font-semibold">{addon.name}</p>
+                  <p className="mt-0.5 text-xs text-muted-foreground">{addon.note}</p>
+                </div>
+                <p className="shrink-0 text-sm font-semibold tabular-nums">
+                  {addon.price}€<span className="font-normal text-muted-foreground">{addon.unit}</span>
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        {/* Founding Partner */}
+        <motion.div
+          className="mx-auto mt-12 max-w-2xl rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.08] to-primary/[0.02] px-8 py-6 text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={fadeUp}
+        >
+          <p className="text-xs font-semibold uppercase tracking-wider text-primary">Programa limitado</p>
+          <h3 className="mt-2 text-2xl font-semibold">Founding Partner</h3>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Plan Operaciones a <span className="font-semibold text-foreground">119€/local/mes</span> durante 12 meses.
+            Compliance Pack incluido 6 meses. Onboarding al 50%.
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground/70">
+            10 plazas. Hasta 3 locales por cuenta. Compromiso anual.
+          </p>
+          <a href="#contacto" className="mt-4 inline-block rounded-xl bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90">
+            Solicitar plaza
+          </a>
         </motion.div>
       </div>
     </section>
@@ -519,7 +982,7 @@ function CTASection() {
       <div className="absolute inset-0 -z-10">
         <MeshGradient
           className="absolute inset-0 h-full w-full opacity-35"
-          colors={["#0A0A0A", "#F97316", "#7C2D12", "#0A0A0A", "#431407"]}
+          colors={["#0A0A0A", "#B8906F", "#3D2B1F", "#0A0A0A", "#2C1E14"]}
           speed={0.25}
           backgroundColor="#0A0A0A"
         />

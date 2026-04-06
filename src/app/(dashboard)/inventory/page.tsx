@@ -106,7 +106,7 @@ const CATEGORY_TABS = ["TODOS", "CARNES", "PESCADOS", "BODEGA", "LACTEOS"] as co
 // Status badge config
 const statusConfig: Record<string, { label: string; className: string }> = {
   OPTIMO: { label: "OPTIMO", className: "bg-[rgba(255,255,255,0.03)] text-[#8A8078] border-0" },
-  CRITICO: { label: "CRITICO", className: "bg-red-500/15 text-red-400 border-0" },
+  CRITICO: { label: "CRITICO", className: "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0" },
   AVISO: { label: "AVISO", className: "bg-primary/15 text-[var(--alert-warning)] border-0" },
 };
 
@@ -185,12 +185,12 @@ export default function InventoryPage() {
           </p>
           <div className="flex items-baseline gap-2">
             <span className="text-2xl font-bold text-foreground">12</span>
-            <span className="flex items-center gap-0.5 text-xs text-red-400">
+            <span className="flex items-center gap-0.5 text-xs text-[var(--alert-critical)]">
               <TrendingDown className="h-3 w-3" />
               +3
             </span>
           </div>
-          <p className="text-xs text-red-400 mt-1">Accion requerida inmediata</p>
+          <p className="text-xs text-[var(--alert-critical)] mt-1">Accion requerida inmediata</p>
         </div>
 
         {/* Rotacion de Stock */}
@@ -249,7 +249,7 @@ export default function InventoryPage() {
                   </span>
                   <Badge className={
                     item.days_to_expiry <= 0
-                      ? "bg-red-500/15 text-red-400 border-0"
+                      ? "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0"
                       : item.days_to_expiry <= 3
                       ? "bg-primary/15 text-[var(--alert-warning)] border-0"
                       : "bg-amber-500/15 text-amber-400 border-0"

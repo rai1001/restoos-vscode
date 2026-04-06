@@ -39,8 +39,8 @@ const QUICK_PRODUCTS = [
 ]
 
 const WASTE_REASONS = [
-  { id: "expired", label: "Caducado", icon: "⏰", color: "border-red-700 bg-red-950/30" },
-  { id: "damaged", label: "Deteriorado", icon: "💔", color: "border-yellow-700 bg-yellow-950/30" },
+  { id: "expired", label: "Caducado", icon: "⏰", color: "border-[var(--alert-critical)] bg-[var(--alert-critical)]/10" },
+  { id: "damaged", label: "Deteriorado", icon: "💔", color: "border-[var(--alert-warning)] bg-[var(--alert-warning)]/10" },
   { id: "accident", label: "Accidente", icon: "💥", color: "border-[var(--alert-warning)] bg-[var(--alert-warning)]/30" },
   { id: "overproduction", label: "Sobreproducción", icon: "📦", color: "border-blue-700 bg-blue-950/30" },
 ]
@@ -96,7 +96,7 @@ export default function KitchenModePage() {
 
 function HomeView({ onNavigate }: { onNavigate: (v: KitchenView) => void }) {
   const actions = [
-    { id: "merma" as KitchenView, label: "Merma", icon: "🗑️", desc: "2 toques", color: "border-red-800 hover:bg-red-950/20" },
+    { id: "merma" as KitchenView, label: "Merma", icon: "🗑️", desc: "2 toques", color: "border-[var(--alert-critical)] hover:bg-[var(--alert-critical)]/10" },
     { id: "appcc" as KitchenView, label: "APPCC", icon: "🌡️", desc: "3 toques", color: "border-emerald-800 hover:bg-emerald-950/20" },
     { id: "entrada" as KitchenView, label: "Entrada", icon: "📦", desc: "Recepción rápida", color: "border-blue-800 hover:bg-blue-950/20" },
     { id: "produccion" as KitchenView, label: "Producción", icon: "👨‍🍳", desc: "Consumo por receta", color: "border-purple-800 hover:bg-purple-950/20" },
@@ -368,7 +368,7 @@ function AppccFlow({ onDone }: { onDone: () => void }) {
                         toast.error(`${check.name}: no OK`)
                         markDone(check, "NO OK")
                       }}
-                      className="border-red-800 text-red-400 h-10 w-10 p-0"
+                      className="border-[var(--alert-critical)] text-[var(--alert-critical)] h-10 w-10 p-0"
                     >
                       <X className="h-5 w-5" />
                     </Button>

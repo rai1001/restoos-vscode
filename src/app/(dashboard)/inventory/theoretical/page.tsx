@@ -34,8 +34,8 @@ const MOCK_COMPARISON = [
 
 function DiffBadge({ pct }: { pct: number }) {
   if (pct === 0) return <Badge className="bg-emerald-500/15 text-emerald-400 border-0">OK</Badge>
-  if (Math.abs(pct) <= 10) return <Badge className="bg-yellow-500/15 text-yellow-400 border-0">{pct.toFixed(1)}%</Badge>
-  return <Badge className="bg-red-500/15 text-red-400 border-0">{pct.toFixed(1)}%</Badge>
+  if (Math.abs(pct) <= 10) return <Badge className="bg-[var(--alert-warning)]/15 text-[var(--alert-warning)] border-0">{pct.toFixed(1)}%</Badge>
+  return <Badge className="bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0">{pct.toFixed(1)}%</Badge>
 }
 
 export default function TheoreticalInventoryPage() {
@@ -80,11 +80,11 @@ export default function TheoreticalInventoryPage() {
         </div>
         <div className="rounded-lg bg-card p-4">
           <p className="text-xs text-muted-foreground uppercase tracking-wide">Con desviación</p>
-          <p className="text-2xl font-bold text-yellow-400">{withDiff}</p>
+          <p className="text-2xl font-bold text-[var(--alert-warning)]">{withDiff}</p>
         </div>
         <div className="rounded-lg bg-card p-4">
           <p className="text-xs text-muted-foreground uppercase tracking-wide">Críticos (&gt;20%)</p>
-          <p className="text-2xl font-bold text-red-400">{critical}</p>
+          <p className="text-2xl font-bold text-[var(--alert-critical)]">{critical}</p>
         </div>
         <div className="rounded-lg bg-card p-4">
           <p className="text-xs text-muted-foreground uppercase tracking-wide">Pérdida estimada</p>
@@ -94,10 +94,10 @@ export default function TheoreticalInventoryPage() {
 
       {/* Alert */}
       {critical > 0 && (
-        <div className="rounded-lg bg-red-950/20 border border-red-800/30 p-4 flex items-start gap-3">
-          <AlertTriangle className="h-5 w-5 text-red-400 shrink-0 mt-0.5" />
+        <div className="rounded-lg bg-[var(--alert-critical)]/10 border border-[var(--alert-critical)] p-4 flex items-start gap-3">
+          <AlertTriangle className="h-5 w-5 text-[var(--alert-critical)] shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-medium text-red-400">
+            <p className="text-sm font-medium text-[var(--alert-critical)]">
               {critical} producto{critical > 1 ? "s" : ""} con desviación superior al 20%
             </p>
             <p className="text-xs text-muted-foreground mt-1">
@@ -126,7 +126,7 @@ export default function TheoreticalInventoryPage() {
               .map((item, idx) => (
               <TableRow key={idx} className={cn(
                 "border-border-subtle",
-                Math.abs(item.diffPct) > 20 && "bg-red-950/10"
+                Math.abs(item.diffPct) > 20 && "bg-[var(--alert-critical)]/10"
               )}>
                 <TableCell className="font-medium text-foreground">{item.product}</TableCell>
                 <TableCell className="text-right text-muted-foreground">
@@ -137,7 +137,7 @@ export default function TheoreticalInventoryPage() {
                 </TableCell>
                 <TableCell className="text-right">
                   {item.diff !== 0 ? (
-                    <span className={item.diff < 0 ? "text-red-400" : "text-emerald-400"}>
+                    <span className={item.diff < 0 ? "text-[var(--alert-critical)]" : "text-emerald-400"}>
                       {item.diff > 0 ? "+" : ""}{item.diff} {item.unit}
                     </span>
                   ) : (
@@ -148,7 +148,7 @@ export default function TheoreticalInventoryPage() {
                 <TableCell className="text-xs text-muted-foreground">
                   {item.reason && (
                     <span className="flex items-center gap-1">
-                      <TrendingDown className="h-3 w-3 text-red-400" />
+                      <TrendingDown className="h-3 w-3 text-[var(--alert-critical)]" />
                       {item.reason}
                     </span>
                   )}

@@ -245,7 +245,7 @@ export default function NewRecipePage() {
                 <div className={cn(
                   "rounded-lg p-4 transition-all",
                   voice.status === "listening"
-                    ? "bg-red-500/10 border border-red-500/30"
+                    ? "bg-[var(--alert-critical)]/10 border border-[var(--alert-critical)]"
                     : "bg-sidebar border border-border-subtle"
                 )}>
                   <div className="flex items-start gap-3">
@@ -261,7 +261,7 @@ export default function NewRecipePage() {
                         <p className={cn(
                           "mt-2 text-sm rounded px-2 py-1 italic",
                           voice.status === "listening"
-                            ? "bg-red-500/10 text-red-400"
+                            ? "bg-[var(--alert-critical)]/10 text-[var(--alert-critical)]"
                             : "bg-sidebar text-muted-foreground"
                         )}>
                           &quot;{voice.transcript}&quot;
@@ -283,7 +283,7 @@ export default function NewRecipePage() {
                 <Label htmlFor="name" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Nombre de la receta</Label>
                 <Input id="name" {...form.register("name")} placeholder="Risotto de setas" className="bg-sidebar border-border-subtle text-foreground placeholder:text-muted-foreground/50" />
                 {form.formState.errors.name && (
-                  <p className="text-red-400 text-sm">{form.formState.errors.name.message}</p>
+                  <p className="text-[var(--alert-critical)] text-sm">{form.formState.errors.name.message}</p>
                 )}
               </div>
 
@@ -310,7 +310,7 @@ export default function NewRecipePage() {
                     className="bg-sidebar border-border-subtle text-foreground"
                   />
                   {form.formState.errors.servings && (
-                    <p className="text-red-400 text-sm">{form.formState.errors.servings.message}</p>
+                    <p className="text-[var(--alert-critical)] text-sm">{form.formState.errors.servings.message}</p>
                   )}
                 </div>
               </div>
@@ -385,7 +385,7 @@ export default function NewRecipePage() {
                 <p className={cn(
                   "text-sm rounded px-2 py-1 italic",
                   ingredientVoice.status === "listening"
-                    ? "bg-red-500/10 text-red-400"
+                    ? "bg-[var(--alert-critical)]/10 text-[var(--alert-critical)]"
                     : "bg-sidebar text-muted-foreground"
                 )}>
                   &quot;{ingredientVoice.transcript}&quot;
@@ -434,7 +434,7 @@ export default function NewRecipePage() {
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => removeIngredient(ing.id)}
-                                className="text-muted-foreground hover:text-red-400 hover:bg-red-500/10"
+                                className="text-muted-foreground hover:text-[var(--alert-critical)] hover:bg-[var(--alert-critical)]/10"
                               >
                                 <Trash2 className="h-4 w-4" />
                               </Button>
@@ -577,7 +577,7 @@ export default function NewRecipePage() {
                         variant="ghost"
                         size="sm"
                         onClick={() => removeStep(step.id)}
-                        className="text-muted-foreground hover:text-red-400 hover:bg-red-500/10"
+                        className="text-muted-foreground hover:text-[var(--alert-critical)] hover:bg-[var(--alert-critical)]/10"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -650,7 +650,7 @@ export default function NewRecipePage() {
                       variant="ghost"
                       size="sm"
                       onClick={() => setPhotoUrl(null)}
-                      className="text-muted-foreground hover:text-red-400 hover:bg-red-500/10"
+                      className="text-muted-foreground hover:text-[var(--alert-critical)] hover:bg-[var(--alert-critical)]/10"
                     >
                       <Trash2 className="mr-1 h-4 w-4" />
                       Eliminar foto

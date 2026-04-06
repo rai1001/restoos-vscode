@@ -111,7 +111,7 @@ function RecipeCard({ recipe }: { recipe: {
             style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
           >
             <Heart
-              className={`h-4 w-4 transition-colors ${liked ? "fill-red-500 text-red-500" : "text-white/70"}`}
+              className={`h-4 w-4 transition-colors ${liked ? "fill-red-500 text-[var(--alert-critical)]" : "text-white/70"}`}
             />
           </button>
 

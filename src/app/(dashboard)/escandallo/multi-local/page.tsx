@@ -178,7 +178,7 @@ export default function EscandalloMultiLocalPage() {
                 </div>
               </div>
               {hasDiff && cheapest && mostExpensive && (
-                <Badge className="bg-yellow-500/15 text-yellow-400 border-0 text-xs">
+                <Badge className="bg-[var(--alert-warning)]/15 text-[var(--alert-warning)] border-0 text-xs">
                   <AlertTriangle className="h-3 w-3 mr-1" />
                   {(((mostExpensive - cheapest) / cheapest) * 100).toFixed(0)}% desviación
                 </Badge>
@@ -203,13 +203,13 @@ export default function EscandalloMultiLocalPage() {
                   const savingTotal = savingPerUnit * local.monthlyVolume
 
                   return (
-                    <TableRow key={li} className={cn("border-border", isMostExpensive && "bg-red-950/5")}>
+                    <TableRow key={li} className={cn("border-border", isMostExpensive && "bg-[var(--alert-critical)]/10")}>
                       <TableCell className="text-sm font-medium text-foreground">{local.shortName}</TableCell>
                       <TableCell className="text-right">
                         <span className={cn(
                           "text-sm font-mono",
                           isCheapest ? "text-emerald-400 font-semibold" :
-                          isMostExpensive ? "text-red-400 font-semibold" : "text-foreground"
+                          isMostExpensive ? "text-[var(--alert-critical)] font-semibold" : "text-foreground"
                         )}>
                           {local.costPerPortion.toFixed(2)}€
                         </span>
@@ -217,14 +217,14 @@ export default function EscandalloMultiLocalPage() {
                           <TrendingDown className="h-3 w-3 text-emerald-400 inline ml-1" />
                         )}
                         {isMostExpensive && (
-                          <TrendingUp className="h-3 w-3 text-red-400 inline ml-1" />
+                          <TrendingUp className="h-3 w-3 text-[var(--alert-critical)] inline ml-1" />
                         )}
                       </TableCell>
                       <TableCell className="text-center">
                         <Badge className={cn(
                           "text-xs border-0",
-                          local.foodCostPct > 32 ? "bg-red-500/15 text-red-400" :
-                          local.foodCostPct > 28 ? "bg-yellow-500/15 text-yellow-400" :
+                          local.foodCostPct > 32 ? "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)]" :
+                          local.foodCostPct > 28 ? "bg-[var(--alert-warning)]/15 text-[var(--alert-warning)]" :
                           "bg-emerald-500/15 text-emerald-400"
                         )}>
                           {local.foodCostPct.toFixed(1)}%

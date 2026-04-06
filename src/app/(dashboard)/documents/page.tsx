@@ -84,12 +84,12 @@ const STATUS_CONFIG: Record<
   },
   necesita_revision: {
     label: "Necesita revisión",
-    className: "bg-yellow-500/10 text-yellow-400",
+    className: "bg-[var(--alert-warning)]/10 text-[var(--alert-warning)]",
     icon: AlertCircle,
   },
   rechazado: {
     label: "Rechazado",
-    className: "bg-red-500/10 text-red-400",
+    className: "bg-[var(--alert-critical)]/10 text-[var(--alert-critical)]",
     icon: XCircle,
   },
   eliminado: {
@@ -429,13 +429,13 @@ export default function DocumentsPage() {
           className={cn(
             "rounded-lg border p-4 text-left transition-all",
             statusFilter === "necesita_revision"
-              ? "border-yellow-500/50 bg-yellow-500/5"
+              ? "border-[var(--alert-warning)] bg-[var(--alert-warning)]/5"
               : "border-border bg-card hover:border-border-hover"
           )}
         >
           <div className="flex items-center gap-2 mb-2">
-            <AlertCircle className="h-4 w-4 text-yellow-400" />
-            <span className="text-xs font-medium text-yellow-400">
+            <AlertCircle className="h-4 w-4 text-[var(--alert-warning)]" />
+            <span className="text-xs font-medium text-[var(--alert-warning)]">
               Necesitan revisión
             </span>
           </div>
@@ -483,13 +483,13 @@ export default function DocumentsPage() {
           className={cn(
             "rounded-lg border p-4 text-left transition-all",
             statusFilter === "rechazado"
-              ? "border-red-500/50 bg-red-500/5"
+              ? "border-[var(--alert-critical)] bg-[var(--alert-critical)]/5"
               : "border-border bg-card hover:border-border-hover"
           )}
         >
           <div className="flex items-center gap-2 mb-2">
-            <XCircle className="h-4 w-4 text-red-400" />
-            <span className="text-xs font-medium text-red-400">
+            <XCircle className="h-4 w-4 text-[var(--alert-critical)]" />
+            <span className="text-xs font-medium text-[var(--alert-critical)]">
               Rechazados
             </span>
           </div>
@@ -871,7 +871,7 @@ export default function DocumentsPage() {
         </div>
         <div className="rounded-lg border border-border bg-card p-4 space-y-1">
           <div className="flex items-center gap-2">
-            <AlertCircle className="h-4 w-4 text-yellow-400" />
+            <AlertCircle className="h-4 w-4 text-[var(--alert-warning)]" />
             <span className="text-xs font-semibold text-foreground">
               Necesitan revisión
             </span>

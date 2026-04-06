@@ -217,7 +217,7 @@ function UrgencyBadge({ urgency }: { urgency: ForecastSummary["urgency"] }) {
   switch (urgency) {
     case "critical":
       return (
-        <span className="inline-flex items-center gap-1 rounded-md bg-red-500/10 px-2 py-0.5 text-xs font-medium uppercase tracking-widest text-red-400">
+        <span className="inline-flex items-center gap-1 rounded-md bg-[var(--alert-critical)]/10 px-2 py-0.5 text-xs font-medium uppercase tracking-widest text-[var(--alert-critical)]">
           <AlertTriangle className="h-3 w-3" />
           Critico
         </span>
@@ -231,7 +231,7 @@ function UrgencyBadge({ urgency }: { urgency: ForecastSummary["urgency"] }) {
       )
     case "ok":
       return (
-        <span className="inline-flex items-center gap-1 rounded-md bg-green-500/10 px-2 py-0.5 text-xs font-medium uppercase tracking-widest text-green-400">
+        <span className="inline-flex items-center gap-1 rounded-md bg-[var(--alert-ok)]/10 px-2 py-0.5 text-xs font-medium uppercase tracking-widest text-[var(--alert-ok)]">
           <CheckCircle className="h-3 w-3" />
           OK
         </span>
@@ -318,7 +318,7 @@ export default function ForecastingPage() {
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
               Productos criticos
             </p>
-            <p className="mt-1 text-2xl font-bold text-red-400">
+            <p className="mt-1 text-2xl font-bold text-[var(--alert-critical)]">
               {stats.critical}
             </p>
           </div>
@@ -334,7 +334,7 @@ export default function ForecastingPage() {
             <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">
               Productos OK
             </p>
-            <p className="mt-1 text-2xl font-bold text-green-400">
+            <p className="mt-1 text-2xl font-bold text-[var(--alert-ok)]">
               {stats.ok}
             </p>
           </div>
@@ -373,7 +373,7 @@ export default function ForecastingPage() {
                     key={row.product_id}
                     className={cn(
                       "border-b border-muted-foreground/10 hover:bg-card-hover transition-colors",
-                      row.urgency === "critical" && "bg-red-950/20",
+                      row.urgency === "critical" && "bg-[var(--alert-critical)]/10",
                       row.urgency === "warning" && "bg-[var(--alert-warning)]/10",
                     )}
                   >
@@ -395,7 +395,7 @@ export default function ForecastingPage() {
                     <TableCell
                       className={cn(
                         "text-right tabular-nums font-semibold",
-                        row.deficit > 0 ? "text-red-400" : "text-green-400",
+                        row.deficit > 0 ? "text-[var(--alert-critical)]" : "text-[var(--alert-ok)]",
                       )}
                     >
                       {row.deficit > 0 ? row.deficit.toFixed(1) : "—"}
@@ -525,7 +525,7 @@ function DailyDetailGrid({ daily }: { daily: DailyForecast[] }) {
                     key={day.date}
                     className={cn(
                       "px-2 py-1.5 text-center tabular-nums text-xs text-foreground",
-                      deficit > 0 && "bg-red-950/30 font-semibold text-red-400",
+                      deficit > 0 && "bg-[var(--alert-critical)]/10 font-semibold text-[var(--alert-critical)]",
                       day.day_of_week === 0 || day.day_of_week === 6
                         ? deficit > 0
                           ? ""

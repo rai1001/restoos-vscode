@@ -74,7 +74,7 @@ const ALERT_CONFIG: Record<
   expired: {
     emoji: "\uD83D\uDD34",
     border: "border-l-red-500",
-    bg: "bg-red-950/20",
+    bg: "bg-[var(--alert-critical)]/10",
     label: (a) =>
       `CADUCADO: ${a.prep_batches?.prep_name} — vencio el ${
         a.prep_batches ? format(parseISO(a.prep_batches.expiry_date), "dd/MM/yyyy", { locale: es }) : ""
@@ -92,7 +92,7 @@ const ALERT_CONFIG: Record<
   expiry_48h: {
     emoji: "\uD83D\uDFE1",
     border: "border-l-yellow-500",
-    bg: "bg-yellow-950/20",
+    bg: "bg-[var(--alert-warning)]/10",
     label: (a) => `Caduca manana: ${a.prep_batches?.prep_name}`,
   },
   expiry_72h: {
@@ -141,7 +141,7 @@ function AlertCard({
 const STATUS_STYLE: Record<string, { label: string; cls: string }> = {
   active: {
     label: "Activo",
-    cls: "bg-green-900/30 text-green-400",
+    cls: "bg-[var(--alert-ok)]/10 text-[var(--alert-ok)]",
   },
   consumed: {
     label: "Consumido",
@@ -149,7 +149,7 @@ const STATUS_STYLE: Record<string, { label: string; cls: string }> = {
   },
   expired: {
     label: "Caducado",
-    cls: "bg-red-900/30 text-red-400",
+    cls: "bg-[var(--alert-critical)]/10 text-[var(--alert-critical)]",
   },
   discarded: {
     label: "Desechado",
@@ -339,7 +339,7 @@ export default function PrepInventoryPage() {
             </h1>
           </div>
           {alertCount > 0 && (
-            <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-red-500 px-2 text-xs font-bold text-white">
+            <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-[var(--alert-critical)] px-2 text-xs font-bold text-white">
               {alertCount}
             </span>
           )}
@@ -467,11 +467,11 @@ export default function PrepInventoryPage() {
                 const level = getExpiryLevel(batch.expiry_date);
                 const rowTint =
                   batch.status === "expired" || level === "expired"
-                    ? "bg-red-900/20"
+                    ? "bg-[var(--alert-critical)]/10"
                     : level === "expiry_24h" || level === "expiry_48h"
-                    ? "bg-yellow-900/20"
+                    ? "bg-[var(--alert-warning)]/10"
                     : batch.status === "active"
-                    ? "bg-green-900/20"
+                    ? "bg-[var(--alert-ok)]/10"
                     : "";
                 return (
                   <TableRow key={batch.id} className={cn("border-white/5 hover:bg-white/5", rowTint)}>
@@ -515,7 +515,7 @@ export default function PrepInventoryPage() {
                               className="hover:bg-white/5"
                               onClick={() => setDiscardBatch(batch)}
                             >
-                              <Trash2 className="h-3.5 w-3.5 text-red-400" />
+                              <Trash2 className="h-3.5 w-3.5 text-[var(--alert-critical)]" />
                             </Button>
                           </>
                         )}
@@ -596,7 +596,7 @@ export default function PrepInventoryPage() {
                 Cancelar
               </AlertDialogCancel>
               <AlertDialogAction
-                className="bg-red-500 hover:bg-red-600 text-white"
+                className="bg-[var(--alert-critical)] hover:bg-[var(--alert-critical)] text-white"
                 onClick={() => {
                   updateBatchStatus(discardBatch.id, "discarded");
                   setDiscardBatch(null);

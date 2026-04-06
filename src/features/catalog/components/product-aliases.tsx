@@ -144,7 +144,7 @@ export function ProductAliases({ productId, initialAliases = [] }: ProductAliase
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-6 w-6 text-muted-foreground hover:text-red-600"
+                className="h-6 w-6 text-muted-foreground hover:text-[var(--alert-critical)]"
                 onClick={() => handleRemove(a.id)}
               >
                 <Trash2 className="h-3.5 w-3.5" />

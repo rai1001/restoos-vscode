@@ -208,7 +208,7 @@ export function CSVImportSales({ onImportComplete }: { onImportComplete?: (rows:
                 {matchedCount} mapeadas
               </Badge>
               {unmatchedCount > 0 && (
-                <Badge className="bg-yellow-500/15 text-yellow-400 border-0">
+                <Badge className="bg-[var(--alert-warning)]/15 text-[var(--alert-warning)] border-0">
                   {unmatchedCount} sin mapear
                 </Badge>
               )}
@@ -248,7 +248,7 @@ export function CSVImportSales({ onImportComplete }: { onImportComplete?: (rows:
                       </TableCell>
                       <TableCell>
                         {row.matchConfidence === "high" && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />}
-                        {row.matchConfidence === "low" && <AlertTriangle className="h-3.5 w-3.5 text-yellow-400" />}
+                        {row.matchConfidence === "low" && <AlertTriangle className="h-3.5 w-3.5 text-[var(--alert-warning)]" />}
                       </TableCell>
                     </TableRow>
                   ))}

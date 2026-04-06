@@ -90,7 +90,7 @@ export function PriceHistory({ productName }: { productName: string }) {
         <div className="flex items-center gap-2">
           <Sparkline points={prices} />
           <Badge className={`text-xs ${
-            totalVariation > 2 ? "bg-red-500/15 text-red-400 border-0" :
+            totalVariation > 2 ? "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0" :
             totalVariation < -2 ? "bg-emerald-500/15 text-emerald-400 border-0" :
             "bg-accent text-muted-foreground border-0"
           }`}>
@@ -108,7 +108,7 @@ export function PriceHistory({ productName }: { productName: string }) {
             <span className="w-14 text-right">
               {point.variation !== 0 ? (
                 <span className={`inline-flex items-center gap-0.5 ${
-                  point.variation > 0 ? "text-red-400" : "text-emerald-400"
+                  point.variation > 0 ? "text-[var(--alert-critical)]" : "text-emerald-400"
                 }`}>
                   {point.variation > 0 ? <TrendingUp className="h-2.5 w-2.5" /> : <TrendingDown className="h-2.5 w-2.5" />}
                   {Math.abs(point.variation).toFixed(1)}%
@@ -148,7 +148,7 @@ export function PriceAlertsSummary() {
             <span className="text-xs text-muted-foreground font-mono">{p.price.toFixed(2)}€</span>
             <Badge className={`text-xs ${
               p.variation > 0
-                ? "bg-red-500/15 text-red-400 border-0"
+                ? "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0"
                 : "bg-emerald-500/15 text-emerald-400 border-0"
             }`}>
               {p.variation > 0 ? "↑" : "↓"}{Math.abs(p.variation).toFixed(1)}%

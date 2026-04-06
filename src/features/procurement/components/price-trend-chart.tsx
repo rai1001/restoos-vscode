@@ -102,7 +102,7 @@ export function PriceTrendChart({
           </div>
           <div className="flex items-center gap-1">
             {stats.trend === "up" ? (
-              <TrendingUp className="h-3.5 w-3.5 text-red-400" />
+              <TrendingUp className="h-3.5 w-3.5 text-[var(--alert-critical)]" />
             ) : stats.trend === "down" ? (
               <TrendingDown className="h-3.5 w-3.5 text-emerald-500" />
             ) : (
@@ -111,7 +111,7 @@ export function PriceTrendChart({
             <span
               className={cn(
                 "font-semibold tabular-nums",
-                stats.trend === "up" && "text-red-400",
+                stats.trend === "up" && "text-[var(--alert-critical)]",
                 stats.trend === "down" && "text-emerald-500",
                 stats.trend === "stable" && "text-muted-foreground"
               )}

@@ -10,7 +10,7 @@ const FAB_ACTIONS = [
     icon: ChefHat,
     label: "Nueva receta",
     href: "/recipes/new",
-    color: "bg-green-500 hover:bg-green-600",
+    color: "bg-[var(--alert-ok)] hover:bg-[var(--alert-ok)]",
   },
   {
     icon: CalendarDays,

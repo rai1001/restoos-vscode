@@ -7,16 +7,16 @@ import type { Recommendation } from "../types"
 const TYPE_CONFIG: Record<Recommendation["type"], { icon: React.ComponentType<{ className?: string }>; color: string; label: string }> = {
   price_up: { icon: TrendingUp, color: "text-emerald-400", label: "Subir precio" },
   price_down: { icon: TrendingDown, color: "text-blue-400", label: "Bajar precio" },
-  reduce_cost: { icon: Zap, color: "text-yellow-400", label: "Reducir coste" },
+  reduce_cost: { icon: Zap, color: "text-[var(--alert-warning)]", label: "Reducir coste" },
   move_position: { icon: ArrowRight, color: "text-purple-400", label: "Reposicionar" },
   batch_optimize: { icon: Clock, color: "text-blue-400", label: "Optimizar batch" },
-  remove: { icon: Trash2, color: "text-red-400", label: "Retirar" },
+  remove: { icon: Trash2, color: "text-[var(--alert-critical)]", label: "Retirar" },
   promote: { icon: Eye, color: "text-purple-400", label: "Promocionar" },
 }
 
 const SEVERITY_CONFIG = {
-  high: { label: "Alto impacto", color: "bg-red-500/15 text-red-400 border-0" },
-  medium: { label: "Impacto medio", color: "bg-yellow-500/15 text-yellow-400 border-0" },
+  high: { label: "Alto impacto", color: "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0" },
+  medium: { label: "Impacto medio", color: "bg-[var(--alert-warning)]/15 text-[var(--alert-warning)] border-0" },
   low: { label: "Optimización", color: "bg-blue-500/15 text-blue-400 border-0" },
 }
 
@@ -53,7 +53,7 @@ export function RecommendationsTab({ recommendations }: { recommendations: Recom
       {/* High severity */}
       {high.length > 0 && (
         <div className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-widest text-red-400">Acciones prioritarias</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-[var(--alert-critical)]">Acciones prioritarias</p>
           {high.map((rec, idx) => (
             <RecommendationCard key={idx} rec={rec} />
           ))}
@@ -63,7 +63,7 @@ export function RecommendationsTab({ recommendations }: { recommendations: Recom
       {/* Medium severity */}
       {medium.length > 0 && (
         <div className="space-y-2">
-          <p className="text-xs font-semibold uppercase tracking-widest text-yellow-400">Oportunidades de mejora</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-[var(--alert-warning)]">Oportunidades de mejora</p>
           {medium.map((rec, idx) => (
             <RecommendationCard key={idx} rec={rec} />
           ))}

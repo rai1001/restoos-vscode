@@ -260,8 +260,8 @@ export function StockEntryForm({ onSuccess }: { onSuccess?: () => void }) {
 
           {/* Price alerts summary */}
           {linesWithAlert.length > 0 && (
-            <div className="rounded-md bg-yellow-950/20 border border-yellow-800/30 px-3 py-2">
-              <p className="text-xs font-medium text-yellow-400">
+            <div className="rounded-md bg-[var(--alert-warning)]/10 border border-[var(--alert-warning)] px-3 py-2">
+              <p className="text-xs font-medium text-[var(--alert-warning)]">
                 ⚠ {linesWithAlert.length} producto{linesWithAlert.length > 1 ? "s" : ""} con variación de precio &gt;5% vs último pedido
               </p>
             </div>
@@ -288,7 +288,7 @@ export function StockEntryForm({ onSuccess }: { onSuccess?: () => void }) {
                 key={line.id}
                 className={`rounded-md border p-3 space-y-2 ${
                   line.priceVariation !== null && Math.abs(line.priceVariation) > 5
-                    ? "border-yellow-700/50 bg-yellow-950/10"
+                    ? "border-[var(--alert-warning)] bg-[var(--alert-warning)]/10"
                     : "border-border-subtle"
                 }`}
               >
@@ -298,7 +298,7 @@ export function StockEntryForm({ onSuccess }: { onSuccess?: () => void }) {
                     {line.priceVariation !== null && Math.abs(line.priceVariation) > 5 && (
                       <Badge className={`text-xs ${
                         line.priceVariation > 0
-                          ? "bg-red-500/15 text-red-400 border-0"
+                          ? "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0"
                           : "bg-emerald-500/15 text-emerald-400 border-0"
                       }`}>
                         {line.priceVariation > 0 ? (
@@ -315,7 +315,7 @@ export function StockEntryForm({ onSuccess }: { onSuccess?: () => void }) {
                       size="sm"
                       onClick={() => removeLine(line.id)}
                       disabled={lines.length <= 1}
-                      className="h-6 w-6 p-0 text-muted-foreground hover:text-red-400"
+                      className="h-6 w-6 p-0 text-muted-foreground hover:text-[var(--alert-critical)]"
                     >
                       <Trash2 className="h-3 w-3" />
                     </Button>

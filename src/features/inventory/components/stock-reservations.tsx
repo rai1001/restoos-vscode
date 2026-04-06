@@ -47,7 +47,7 @@ const STATUS_CONFIG: Record<
   { label: string; icon: React.ElementType; class: string }
 > = {
   pendiente:  { label: "Pendiente",  icon: Clock,        class: "text-amber-600 bg-amber-50 dark:bg-amber-950/30" },
-  confirmada: { label: "Confirmada", icon: CheckCircle,  class: "text-green-600 bg-green-50 dark:bg-green-950/30" },
+  confirmada: { label: "Confirmada", icon: CheckCircle,  class: "text-[var(--alert-ok)] bg-[var(--alert-ok)]/10 dark:bg-[var(--alert-ok)]/10" },
   liberada:   { label: "Liberada",   icon: Unlock,       class: "text-gray-500 bg-gray-100 dark:bg-gray-800" },
 }
 

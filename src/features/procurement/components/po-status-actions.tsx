@@ -67,7 +67,7 @@ export function POStatusActions({ currentStatus, onStatusChange }: POStatusActio
                 key={newStatus}
                 variant="outline"
                 size="sm"
-                className="text-red-600 border-red-200 hover:bg-red-50 dark:border-red-800 dark:hover:bg-red-950"
+                className="text-[var(--alert-critical)] border-[var(--alert-critical)] hover:bg-[var(--alert-critical)]/10 dark:border-[var(--alert-critical)] dark:hover:bg-[var(--alert-critical)]/10"
                 onClick={() => setConfirmOpen(true)}
               >
                 <Icon className="h-3.5 w-3.5 mr-1" />
@@ -107,7 +107,7 @@ export function POStatusActions({ currentStatus, onStatusChange }: POStatusActio
               Volver
             </Button>
             <Button
-              className="bg-red-600 hover:bg-red-700"
+              className="bg-[var(--alert-critical)] hover:bg-[var(--alert-critical)]"
               disabled={!!loading}
               onClick={() => {
                 if (cancelTransition) {

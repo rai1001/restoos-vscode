@@ -15,7 +15,7 @@ const ALERT_STYLE: Record<
   { dot: string; label: (a: PrepAlert) => string }
 > = {
   expired: {
-    dot: "bg-red-500",
+    dot: "bg-[var(--alert-critical)]",
     label: (a) =>
       `CADUCADO: ${a.prep_batches?.prep_name} — vencio ${
         a.prep_batches
@@ -28,7 +28,7 @@ const ALERT_STYLE: Record<
     label: (a) => `Caduca HOY: ${a.prep_batches?.prep_name}`,
   },
   expiry_48h: {
-    dot: "bg-yellow-400",
+    dot: "bg-[var(--alert-warning)]/10",
     label: (a) => `Caduca manana: ${a.prep_batches?.prep_name}`,
   },
   expiry_72h: {
@@ -52,7 +52,7 @@ export function PrepAlertsWidget() {
             Alertas de Etiquetado
           </h3>
           {top5.length > 0 && (
-            <span className="rounded-full bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-700 dark:bg-red-900/30 dark:text-red-400">
+            <span className="rounded-full bg-[var(--alert-critical)]/10 px-2 py-0.5 text-xs font-semibold text-[var(--alert-critical)] dark:bg-[var(--alert-critical)]/10 dark:text-[var(--alert-critical)]">
               {alertCount}
             </span>
           )}
@@ -62,7 +62,7 @@ export function PrepAlertsWidget() {
       <div className="flex flex-col gap-1.5 p-3">
         {top5.length === 0 ? (
           <div className="flex items-center justify-center gap-2 py-6 text-sm text-muted-foreground">
-            <CheckCircle2 className="h-5 w-5 text-green-500" />
+            <CheckCircle2 className="h-5 w-5 text-[var(--alert-ok)]" />
             Todo en orden
           </div>
         ) : (

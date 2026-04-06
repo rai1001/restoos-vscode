@@ -809,7 +809,7 @@ export default function RecipeDetailPage({
                           {isEditable && (
                             <td className="py-3">
                               <button
-                                className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-red-500/10"
+                                className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-[var(--alert-critical)]/10"
                                 onClick={() => removeIngredient.mutate(ing.id)}
                               >
                                 <Trash2 className="h-3.5 w-3.5" style={{ color: "#EF4444" }} />
@@ -1079,7 +1079,7 @@ export default function RecipeDetailPage({
                   </div>
                   {isEditable && (
                     <button
-                      className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded hover:bg-red-500/10"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded hover:bg-[var(--alert-critical)]/10"
                       onClick={() => removeStep.mutate(step.id)}
                     >
                       <Trash2 className="h-3.5 w-3.5" style={{ color: "#EF4444" }} />

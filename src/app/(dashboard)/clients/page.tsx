@@ -77,7 +77,7 @@ export default function ClientsPage() {
                 <Label htmlFor="client-name" className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Nombre</Label>
                 <Input id="client-name" {...form.register("name")} placeholder="Nombre del cliente" className="bg-sidebar border-border-subtle text-foreground placeholder:text-muted-foreground/50" />
                 {form.formState.errors.name && (
-                  <p className="text-red-400 text-sm">{form.formState.errors.name.message}</p>
+                  <p className="text-[var(--alert-critical)] text-sm">{form.formState.errors.name.message}</p>
                 )}
               </div>
               <div className="space-y-2">

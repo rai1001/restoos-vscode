@@ -55,8 +55,8 @@ const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
   confirmed: { label: "Confirmada", color: "bg-[rgba(255,255,255,0.06)] text-[#C8C2BF] border-0" },
   seated: { label: "En mesa", color: "bg-[rgba(184,144,111,0.15)] text-[#B8906F] border-0" },
   completed: { label: "Completada", color: "bg-[rgba(255,255,255,0.03)] text-[#706860] border-0" },
-  no_show: { label: "No show", color: "bg-red-500/15 text-red-400 border-0" },
-  cancelled: { label: "Cancelada", color: "bg-red-500/15 text-red-400 border-0" },
+  no_show: { label: "No show", color: "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0" },
+  cancelled: { label: "Cancelada", color: "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0" },
 }
 
 const SOURCE_LABELS: Record<string, string> = {
@@ -129,8 +129,8 @@ function ReservationPill({
     pending: "bg-[rgba(255,255,255,0.04)] text-[#8A8078] border-[rgba(255,255,255,0.06)]",
     seated: "bg-[rgba(184,144,111,0.15)] text-[#B8906F] border-[rgba(184,144,111,0.2)]",
     completed: "bg-[rgba(255,255,255,0.03)] text-[#706860] border-[rgba(255,255,255,0.04)]",
-    no_show: "bg-red-500/15 text-red-400 border-red-800",
-    cancelled: "bg-red-500/15 text-red-400 border-red-800",
+    no_show: "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-[var(--alert-critical)]",
+    cancelled: "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-[var(--alert-critical)]",
   }
 
   return (

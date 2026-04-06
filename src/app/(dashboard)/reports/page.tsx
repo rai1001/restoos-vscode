@@ -220,18 +220,18 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 function FoodCostBadge({ pct }: { pct: number }) {
   if (pct <= 30)
     return (
-      <span className="inline-flex items-center rounded-full bg-green-900/30 px-2.5 py-0.5 text-xs font-medium text-green-400">
+      <span className="inline-flex items-center rounded-full bg-[var(--alert-ok)]/10 px-2.5 py-0.5 text-xs font-medium text-[var(--alert-ok)]">
         {formatPercent(pct)}
       </span>
     )
   if (pct <= 35)
     return (
-      <span className="inline-flex items-center rounded-full bg-yellow-900/30 px-2.5 py-0.5 text-xs font-medium text-yellow-400">
+      <span className="inline-flex items-center rounded-full bg-[var(--alert-warning)]/10 px-2.5 py-0.5 text-xs font-medium text-[var(--alert-warning)]">
         {formatPercent(pct)}
       </span>
     )
   return (
-    <span className="inline-flex items-center rounded-full bg-red-900/30 px-2.5 py-0.5 text-xs font-medium text-red-400">
+    <span className="inline-flex items-center rounded-full bg-[var(--alert-critical)]/10 px-2.5 py-0.5 text-xs font-medium text-[var(--alert-critical)]">
       {formatPercent(pct)}
     </span>
   )
@@ -246,7 +246,7 @@ function StatusBadge({ status }: { status: string }) {
       className={cn(
         "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
         isReceived
-          ? "bg-green-900/30 text-green-400"
+          ? "bg-[var(--alert-ok)]/10 text-[var(--alert-ok)]"
           : "bg-amber-900/30 text-amber-400"
       )}
     >
@@ -258,10 +258,10 @@ function StatusBadge({ status }: { status: string }) {
 // ─── Category Badge ───────────────────────────────────────────────────────────
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Estrella: "bg-green-900/30 text-green-400",
+  Estrella: "bg-[var(--alert-ok)]/10 text-[var(--alert-ok)]",
   Caballo: "bg-blue-900/30 text-blue-400",
   Puzzle: "bg-amber-900/30 text-amber-400",
-  Perro: "bg-red-900/30 text-red-400",
+  Perro: "bg-[var(--alert-critical)]/10 text-[var(--alert-critical)]",
 }
 
 function CategoryBadge({ cat }: { cat: string }) {
@@ -275,9 +275,9 @@ function CategoryBadge({ cat }: { cat: string }) {
 // ─── Margin color helper ──────────────────────────────────────────────────────
 
 function marginColor(pct: number) {
-  if (pct >= 65) return "text-green-400"
+  if (pct >= 65) return "text-[var(--alert-ok)]"
   if (pct >= 55) return "text-amber-400"
-  return "text-red-400"
+  return "text-[var(--alert-critical)]"
 }
 
 // ─── KPI Card (Stitch Matte with 4px left border) ───────────────────────────
@@ -337,7 +337,7 @@ function HallazgoCard({
     optimization: "border-l-blue-500",
   }
   const iconMap = {
-    opportunity: <Lightbulb className="h-4 w-4 text-green-400" />,
+    opportunity: <Lightbulb className="h-4 w-4 text-[var(--alert-ok)]" />,
     warning: <AlertTriangle className="h-4 w-4 text-[var(--alert-warning)]" />,
     optimization: <BarChart3 className="h-4 w-4 text-blue-400" />,
   }
@@ -712,8 +712,8 @@ export default function ReportsPage() {
               </AreaChart>
             </ResponsiveContainer>
             <div className="mt-2 flex items-center gap-4 text-[10px] text-muted-foreground">
-              <span className="flex items-center gap-1"><span className="inline-block h-2 w-2 rounded-full bg-green-500/40" /> &lt;30% Optimo</span>
-              <span className="flex items-center gap-1"><span className="inline-block h-2 w-2 rounded-full bg-red-500/40" /> &gt;35% Alerta</span>
+              <span className="flex items-center gap-1"><span className="inline-block h-2 w-2 rounded-full bg-[var(--alert-ok)]/40" /> &lt;30% Optimo</span>
+              <span className="flex items-center gap-1"><span className="inline-block h-2 w-2 rounded-full bg-[var(--alert-critical)]/40" /> &gt;35% Alerta</span>
             </div>
           </MCard>
 
@@ -792,9 +792,9 @@ export default function ReportsPage() {
                 <p className="text-4xl font-bold text-foreground">€{(totalRevenue).toLocaleString("es-ES")}</p>
                 <p className="mt-1 text-xs text-muted-foreground">Ventas acumuladas del periodo</p>
               </div>
-              <div className="flex items-center gap-1.5 rounded-full bg-green-900/30 px-3 py-1">
-                <ArrowUpRight className="h-3.5 w-3.5 text-green-400" />
-                <span className="text-sm font-semibold text-green-400">+8.5% vs Plan</span>
+              <div className="flex items-center gap-1.5 rounded-full bg-[var(--alert-ok)]/10 px-3 py-1">
+                <ArrowUpRight className="h-3.5 w-3.5 text-[var(--alert-ok)]" />
+                <span className="text-sm font-semibold text-[var(--alert-ok)]">+8.5% vs Plan</span>
               </div>
             </div>
           </MCard>
@@ -1179,7 +1179,7 @@ export default function ReportsPage() {
                       <TableCell
                         className={cn(
                           "text-right font-medium",
-                          overBudget ? "text-red-400" : "text-foreground"
+                          overBudget ? "text-[var(--alert-critical)]" : "text-foreground"
                         )}
                       >
                         {formatCurrency(row.real_cost)}
@@ -1188,7 +1188,7 @@ export default function ReportsPage() {
                         {formatCurrency(row.margin)}
                       </TableCell>
                       <TableCell className="text-center">
-                        <span className="inline-flex items-center rounded-full bg-green-900/30 px-2.5 py-0.5 text-xs font-medium text-green-400">
+                        <span className="inline-flex items-center rounded-full bg-[var(--alert-ok)]/10 px-2.5 py-0.5 text-xs font-medium text-[var(--alert-ok)]">
                           {formatPercent(row.margin_pct)}
                         </span>
                       </TableCell>
@@ -1321,7 +1321,7 @@ export default function ReportsPage() {
                     <TableCell className="text-right text-muted-foreground">
                       {formatCurrency(row.cost_per_unit)}
                     </TableCell>
-                    <TableCell className="text-right font-semibold text-red-400">
+                    <TableCell className="text-right font-semibold text-[var(--alert-critical)]">
                       {formatCurrency(row.total_cost)}
                     </TableCell>
                     <TableCell className="text-sm text-muted-foreground">

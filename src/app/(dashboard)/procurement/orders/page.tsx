@@ -176,7 +176,7 @@ function getUpcomingConfirmedServices(days: number): EventWithMenu[] {
 }
 
 const URGENCY_STYLES: Record<PurchaseSuggestion["urgency"], { label: string; className: string }> = {
-  critical: { label: "CRITICO", className: "bg-red-500/15 text-red-400 border-0" },
+  critical: { label: "CRITICO", className: "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0" },
   urgent: { label: "URGENTE", className: "bg-primary/15 text-primary border-0" },
   normal: { label: "NORMAL", className: "bg-[rgba(255,255,255,0.03)] text-muted-foreground border-0" },
 };

@@ -50,15 +50,15 @@ function fmt(n: number) {
 }
 
 function foodCostColor(pct: number): string {
-  if (pct <= 30) return "bg-green-500/10 text-green-400 border-green-500/20"
-  if (pct <= 35) return "bg-yellow-500/10 text-yellow-400 border-yellow-500/20"
-  return "bg-red-500/10 text-red-400 border-red-500/20"
+  if (pct <= 30) return "bg-[var(--alert-ok)]/10 text-[var(--alert-ok)] border-[var(--alert-ok)]"
+  if (pct <= 35) return "bg-[var(--alert-warning)]/10 text-[var(--alert-warning)] border-[var(--alert-warning)]"
+  return "bg-[var(--alert-critical)]/10 text-[var(--alert-critical)] border-[var(--alert-critical)]"
 }
 
 function foodCostColorLight(pct: number): string {
-  if (pct <= 30) return "bg-green-100 text-green-800 border-green-200 dark:bg-green-500/10 dark:text-green-400 dark:border-green-500/20"
-  if (pct <= 35) return "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-500/10 dark:text-yellow-400 dark:border-yellow-500/20"
-  return "bg-red-100 text-red-800 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20"
+  if (pct <= 30) return "bg-[var(--alert-ok)]/10 text-[var(--alert-ok)] border-[var(--alert-ok)] dark:bg-[var(--alert-ok)]/10 dark:text-[var(--alert-ok)] dark:border-[var(--alert-ok)]"
+  if (pct <= 35) return "bg-[var(--alert-warning)]/10 text-[var(--alert-warning)] border-[var(--alert-warning)] dark:bg-[var(--alert-warning)]/10 dark:text-[var(--alert-warning)] dark:border-[var(--alert-warning)]"
+  return "bg-[var(--alert-critical)]/10 text-[var(--alert-critical)] border-[var(--alert-critical)] dark:bg-[var(--alert-critical)]/10 dark:text-[var(--alert-critical)] dark:border-[var(--alert-critical)]"
 }
 
 function avg(arr: number[]): number {
@@ -68,9 +68,9 @@ function avg(arr: number[]): number {
 
 function mermaColor(yieldPct: number): string {
   const merma = 100 - yieldPct
-  if (merma >= 20) return "bg-red-500/10 text-red-400 border border-red-500/20"
-  if (merma >= 10) return "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20"
-  return "bg-green-500/10 text-green-400 border border-green-500/20"
+  if (merma >= 20) return "bg-[var(--alert-critical)]/10 text-[var(--alert-critical)] border border-[var(--alert-critical)]"
+  if (merma >= 10) return "bg-[var(--alert-warning)]/10 text-[var(--alert-warning)] border border-[var(--alert-warning)]"
+  return "bg-[var(--alert-ok)]/10 text-[var(--alert-ok)] border border-[var(--alert-ok)]"
 }
 
 // ─── Donut Chart (pure CSS) ─────────────────────────────────────────────────
@@ -251,15 +251,15 @@ function DetailDialog({
                 label="Coste Total por Racion"
                 value={fmt(escandallo.cost_per_portion)}
                 subtitle={`${evolutionChangePct >= 0 ? "+" : ""}${evolutionChangePct.toFixed(1)}% vs mes anterior`}
-                subtitleColor={evolutionChangePct > 0 ? "text-red-400" : "text-green-400"}
+                subtitleColor={evolutionChangePct > 0 ? "text-[var(--alert-critical)]" : "text-[var(--alert-ok)]"}
                 borderColor="bg-primary"
               />
               <KpiCard
                 label="Margen Objetivo"
                 value={`${targetMarginPct.toFixed(1)}%`}
                 subtitle="Optimizado"
-                subtitleColor="text-green-400"
-                borderColor="bg-green-500"
+                subtitleColor="text-[var(--alert-ok)]"
+                borderColor="bg-[var(--alert-ok)]"
               />
               <KpiCard
                 label="Precio Recomendado (PVP)"
@@ -272,8 +272,8 @@ function DetailDialog({
                 label="Margen Real vs Teorico"
                 value={`${marginPct.toFixed(1)}%`}
                 subtitle={`Desviacion ${marginDeviation >= 0 ? "+" : ""}${marginDeviation.toFixed(1)}%`}
-                subtitleColor={Math.abs(marginDeviation) > 3 ? "text-yellow-400" : "text-green-400"}
-                borderColor={Math.abs(marginDeviation) > 3 ? "bg-yellow-500" : "bg-green-500"}
+                subtitleColor={Math.abs(marginDeviation) > 3 ? "text-[var(--alert-warning)]" : "text-[var(--alert-ok)]"}
+                borderColor={Math.abs(marginDeviation) > 3 ? "bg-[var(--alert-warning)]" : "bg-[var(--alert-ok)]"}
               />
             </div>
 
@@ -286,7 +286,7 @@ function DetailDialog({
                   <div className={cn(
                     "rounded-xl border p-3 transition-all",
                     voice.status === "listening"
-                      ? "border-red-500/30 bg-red-500/5 dark:bg-red-950/20"
+                      ? "border-[var(--alert-critical)] bg-[var(--alert-critical)]/5 dark:bg-[var(--alert-critical)]/10"
                       : "border-dashed border-gray-300 dark:border-accent/50"
                   )}>
                     <div className="flex items-center justify-between gap-3">
@@ -417,8 +417,8 @@ function DetailDialog({
                 {/* Tip de Rentabilidad */}
                 <div className="rounded-xl border border-gray-200 dark:border-accent/30 bg-white dark:bg-card p-5">
                   <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-yellow-500/10 flex items-center justify-center">
-                      <Lightbulb className="h-4 w-4 text-yellow-500" />
+                    <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-[var(--alert-warning)]/10 flex items-center justify-center">
+                      <Lightbulb className="h-4 w-4 text-[var(--alert-warning)]" />
                     </div>
                     <div>
                       <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-1">Tip de Rentabilidad</h4>
@@ -438,7 +438,7 @@ function DetailDialog({
                   <span className="text-gray-500 dark:text-gray-400"> con objetivo {escandallo.target_food_cost_pct}% food cost: </span>
                   <span className="text-lg font-bold text-primary">{fmt(escandallo.suggested_price)}</span>
                   {Math.abs(escandallo.suggested_price - escandallo.selling_price) > escandallo.selling_price * 0.1 && (
-                    <p className="mt-1 text-xs text-yellow-400">
+                    <p className="mt-1 text-xs text-[var(--alert-warning)]">
                       Precio actual {fmt(escandallo.selling_price)} — diferencia &gt;10%
                     </p>
                   )}
@@ -511,7 +511,7 @@ function DetailDialog({
                               <div
                                 className={cn(
                                   "w-full rounded-t transition-all",
-                                  isAboveTarget ? "bg-red-500/70" : "bg-primary/70"
+                                  isAboveTarget ? "bg-[var(--alert-critical)]/70" : "bg-primary/70"
                                 )}
                                 style={{ height: `${heightPct}%` }}
                                 title={`${point.date}: ${fmt(point.cost_per_portion)} (food cost ${point.food_cost_pct}%)`}
@@ -537,7 +537,7 @@ function DetailDialog({
                 <div className="mt-4 flex flex-wrap gap-3 text-sm">
                   <div className="rounded-lg border border-gray-200 dark:border-accent/30 bg-gray-50 dark:bg-card px-3 py-2">
                     <span className="text-gray-500 dark:text-gray-500">Variacion 6 meses: </span>
-                    <span className={cn("font-semibold", evolutionChangePct > 0 ? "text-red-400" : "text-green-400")}>
+                    <span className={cn("font-semibold", evolutionChangePct > 0 ? "text-[var(--alert-critical)]" : "text-[var(--alert-ok)]")}>
                       {evolutionChangePct > 0 ? "+" : ""}
                       {evolutionChangePct.toFixed(1)}%
                     </span>
@@ -674,7 +674,7 @@ export default function EscandalloPage() {
         </div>
 
         <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-500" />
+          <div className="absolute left-0 top-0 bottom-0 w-1 bg-[var(--alert-ok)]" />
           <div className="pl-3">
             <div className="flex items-center gap-2 mb-2">
               <TrendingUp className="h-4 w-4 text-gray-400 dark:text-gray-600" />
@@ -684,7 +684,7 @@ export default function EscandalloPage() {
             </div>
             <p className={cn(
               "text-3xl font-bold",
-              avgFoodCostPct <= 30 ? "text-green-400" : avgFoodCostPct <= 35 ? "text-yellow-400" : "text-red-400"
+              avgFoodCostPct <= 30 ? "text-[var(--alert-ok)]" : avgFoodCostPct <= 35 ? "text-[var(--alert-warning)]" : "text-[var(--alert-critical)]"
             )}>
               {avgFoodCostPct.toFixed(1)}%
             </p>
@@ -692,7 +692,7 @@ export default function EscandalloPage() {
         </div>
 
         <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
-          <div className={cn("absolute left-0 top-0 bottom-0 w-1", alertCount > 0 ? "bg-red-500" : "bg-green-500")} />
+          <div className={cn("absolute left-0 top-0 bottom-0 w-1", alertCount > 0 ? "bg-[var(--alert-critical)]" : "bg-[var(--alert-ok)]")} />
           <div className="pl-3">
             <div className="flex items-center gap-2 mb-2">
               <AlertTriangle className="h-4 w-4 text-gray-400 dark:text-gray-600" />
@@ -700,7 +700,7 @@ export default function EscandalloPage() {
                 Con alerta de precio
               </p>
             </div>
-            <p className={cn("text-3xl font-bold", alertCount > 0 ? "text-red-400" : "text-green-400")}>
+            <p className={cn("text-3xl font-bold", alertCount > 0 ? "text-[var(--alert-critical)]" : "text-[var(--alert-ok)]")}>
               {alertCount}
             </p>
           </div>
@@ -762,9 +762,9 @@ export default function EscandalloPage() {
                   </TableCell>
                   <TableCell className="text-center">
                     {recipe.has_price_alert ? (
-                      <span className="inline-flex h-2.5 w-2.5 rounded-full bg-red-500 animate-pulse" title="Variacion >5% en algun ingrediente" />
+                      <span className="inline-flex h-2.5 w-2.5 rounded-full bg-[var(--alert-critical)] animate-pulse" title="Variacion >5% en algun ingrediente" />
                     ) : (
-                      <span className="inline-flex h-2.5 w-2.5 rounded-full bg-green-500" title="Sin alertas de precio" />
+                      <span className="inline-flex h-2.5 w-2.5 rounded-full bg-[var(--alert-ok)]" title="Sin alertas de precio" />
                     )}
                   </TableCell>
                   <TableCell className="text-center">

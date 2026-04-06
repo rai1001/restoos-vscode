@@ -110,7 +110,7 @@ export default function CompliancePage() {
 
         <div className="rounded-lg bg-card border border-border-subtle p-5 space-y-3">
           <div className="flex items-center gap-2">
-            <Wheat className="h-5 w-5 text-yellow-400" />
+            <Wheat className="h-5 w-5 text-[var(--alert-warning)]" />
             <h3 className="text-sm font-semibold text-foreground">Tabla alérgenos</h3>
           </div>
           <p className="text-xs text-muted-foreground">
@@ -119,7 +119,7 @@ export default function CompliancePage() {
           <Button
             onClick={exportAllergens}
             disabled={exportingAllergens}
-            className="w-full bg-yellow-600 hover:bg-yellow-700 text-white"
+            className="w-full bg-[var(--alert-warning)] hover:bg-[var(--alert-warning)] text-white"
           >
             {exportingAllergens ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <Download className="h-4 w-4 mr-1.5" />}
             Exportar PDF
@@ -176,7 +176,7 @@ export default function CompliancePage() {
                   {ALLERGENS.map(a => (
                     <td key={a.id} className="px-1.5 py-2 text-center">
                       {dish.allergens.includes(a.id) ? (
-                        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-red-500/20 text-red-400 text-[10px] font-bold">✓</span>
+                        <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[var(--alert-critical)]/20 text-[var(--alert-critical)] text-[10px] font-bold">✓</span>
                       ) : (
                         <span className="text-muted-foreground/40">—</span>
                       )}
@@ -217,7 +217,7 @@ export default function CompliancePage() {
                 {sheet.allergens.map(a => {
                   const allergen = ALLERGENS.find(al => al.id === a)
                   return (
-                    <Badge key={a} className="bg-red-500/10 text-red-400 border-0 text-xs">
+                    <Badge key={a} className="bg-[var(--alert-critical)]/10 text-[var(--alert-critical)] border-0 text-xs">
                       {allergen?.icon} {allergen?.label}
                     </Badge>
                   )

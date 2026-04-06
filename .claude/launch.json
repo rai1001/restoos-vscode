@@ -6,7 +6,6 @@
       "runtimeExecutable": "node.exe",
       "runtimeArgs": ["C:/RestoOsvscode/node_modules/next/dist/bin/next", "dev"],
       "port": 3002,
-      "autoPort": true,
       "env": {
         "SKIP_AUTH": "true",
         "NEXT_PUBLIC_SKIP_AUTH": "true",

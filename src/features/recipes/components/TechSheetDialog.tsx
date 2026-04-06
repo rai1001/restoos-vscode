@@ -71,9 +71,9 @@ function fmt(n: number) {
 }
 
 function foodCostColor(pct: number): string {
-  if (pct <= 30) return "bg-green-100 text-green-800 border-green-200 dark:bg-green-950/30 dark:text-green-300 dark:border-green-800"
-  if (pct <= 35) return "bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-950/30 dark:text-yellow-300 dark:border-yellow-800"
-  return "bg-red-100 text-red-800 border-red-200 dark:bg-red-950/30 dark:text-red-300 dark:border-red-800"
+  if (pct <= 30) return "bg-[var(--alert-ok)]/10 text-[var(--alert-ok)] border-[var(--alert-ok)] dark:bg-[var(--alert-ok)]/10 dark:text-[var(--alert-ok)] dark:border-[var(--alert-ok)]"
+  if (pct <= 35) return "bg-[var(--alert-warning)]/10 text-[var(--alert-warning)] border-[var(--alert-warning)] dark:bg-[var(--alert-warning)]/10 dark:text-[var(--alert-warning)] dark:border-[var(--alert-warning)]"
+  return "bg-[var(--alert-critical)]/10 text-[var(--alert-critical)] border-[var(--alert-critical)] dark:bg-[var(--alert-critical)]/10 dark:text-[var(--alert-critical)] dark:border-[var(--alert-critical)]"
 }
 
 export function TechSheetDialog({ recipeId, recipeName, open, onOpenChange }: TechSheetDialogProps) {

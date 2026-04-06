@@ -94,7 +94,7 @@ export default function PricesPage() {
                   <span
                     className={cn(
                       "flex items-center gap-0.5 text-xs font-semibold tabular-nums",
-                      alert.changePercent > 0 ? "text-red-400" : "text-emerald-500"
+                      alert.changePercent > 0 ? "text-[var(--alert-critical)]" : "text-emerald-500"
                     )}
                   >
                     {alert.changePercent > 0 ? (

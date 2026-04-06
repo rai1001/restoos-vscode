@@ -57,15 +57,15 @@ export function getRowTint(batch: PrepBatch): string {
   const level = getExpiryLevel(batch.expiry_date);
   switch (level) {
     case "expired":
-      return "bg-red-50 dark:bg-red-950/20";
+      return "bg-[var(--alert-critical)]/10 dark:bg-[var(--alert-critical)]/10";
     case "expiry_24h":
-      return "bg-red-50 dark:bg-red-950/20";
+      return "bg-[var(--alert-critical)]/10 dark:bg-[var(--alert-critical)]/10";
     case "expiry_48h":
-      return "bg-yellow-50 dark:bg-yellow-950/20";
+      return "bg-[var(--alert-warning)]/10 dark:bg-[var(--alert-warning)]/10";
     case "expiry_72h":
-      return "bg-yellow-50/60 dark:bg-yellow-950/10";
+      return "bg-[var(--alert-warning)]/10 dark:bg-[var(--alert-warning)]/10";
     default:
-      return "bg-green-50/40 dark:bg-green-950/10";
+      return "bg-[var(--alert-ok)]/10 dark:bg-[var(--alert-ok)]/10";
   }
 }
 

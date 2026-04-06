@@ -25,8 +25,8 @@ interface AuditEntry {
 const ACTION_CONFIG: Record<AuditEntry["action"], { label: string; icon: typeof FileEdit; color: string }> = {
   create: { label: "Creado", icon: Plus, color: "text-emerald-400" },
   update: { label: "Editado", icon: FileEdit, color: "text-blue-400" },
-  delete: { label: "Eliminado", icon: Trash2, color: "text-red-400" },
-  approve: { label: "Aprobado", icon: CheckCircle2, color: "text-yellow-400" },
+  delete: { label: "Eliminado", icon: Trash2, color: "text-[var(--alert-critical)]" },
+  approve: { label: "Aprobado", icon: CheckCircle2, color: "text-[var(--alert-warning)]" },
   send: { label: "Enviado", icon: Send, color: "text-purple-400" },
   view: { label: "Visto", icon: Eye, color: "text-muted-foreground" },
 }
@@ -71,7 +71,7 @@ export default function AuditLogPage() {
         <Badge className="bg-blue-500/15 text-blue-400 border-0">
           {MOCK_AUDIT.filter(a => a.action === "update").length} ediciones
         </Badge>
-        <Badge className="bg-yellow-500/15 text-yellow-400 border-0">
+        <Badge className="bg-[var(--alert-warning)]/15 text-[var(--alert-warning)] border-0">
           {MOCK_AUDIT.filter(a => a.action === "approve").length} aprobaciones
         </Badge>
       </div>

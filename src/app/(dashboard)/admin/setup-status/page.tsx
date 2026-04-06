@@ -108,15 +108,15 @@ const MOCK_PILOTS: PilotRestaurant[] = [
 ]
 
 function StepIcon({ done }: { done: boolean | "pending_review" }) {
-  if (done === "pending_review") return <AlertTriangle className="h-4 w-4 text-yellow-400" />
+  if (done === "pending_review") return <AlertTriangle className="h-4 w-4 text-[var(--alert-warning)]" />
   if (done) return <CheckCircle2 className="h-4 w-4 text-emerald-400" />
   return <Clock className="h-4 w-4 text-muted-foreground" />
 }
 
 const STATUS_CONFIG = {
-  onboarding: { label: "En setup", color: "bg-yellow-500/15 text-yellow-400 border-0" },
+  onboarding: { label: "En setup", color: "bg-[var(--alert-warning)]/15 text-[var(--alert-warning)] border-0" },
   active: { label: "Activo", color: "bg-emerald-500/15 text-emerald-400 border-0" },
-  churned: { label: "Abandonado", color: "bg-red-500/15 text-red-400 border-0" },
+  churned: { label: "Abandonado", color: "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0" },
 }
 
 export default function SetupStatusPage() {
@@ -150,7 +150,7 @@ export default function SetupStatusPage() {
         </div>
         <div className="rounded-lg bg-card p-4">
           <p className="text-xs text-muted-foreground uppercase tracking-wide">En setup</p>
-          <p className="text-2xl font-bold text-yellow-400">{onboardingCount}</p>
+          <p className="text-2xl font-bold text-[var(--alert-warning)]">{onboardingCount}</p>
         </div>
         <div className="rounded-lg bg-card p-4">
           <p className="text-xs text-muted-foreground uppercase tracking-wide">Pendiente revisar</p>
@@ -218,7 +218,7 @@ export default function SetupStatusPage() {
                           className={cn(
                             "h-full rounded-full",
                             pilot.completionPct >= 80 ? "bg-emerald-500" :
-                            pilot.completionPct >= 50 ? "bg-yellow-500" : "bg-primary"
+                            pilot.completionPct >= 50 ? "bg-[var(--alert-warning)]" : "bg-primary"
                           )}
                           style={{ width: `${pilot.completionPct}%` }}
                         />
@@ -281,7 +281,7 @@ export default function SetupStatusPage() {
                       <div className="flex items-center gap-2">
                         <StepIcon done={val} />
                         {val === "pending_review" && (
-                          <Badge className="bg-yellow-500/15 text-yellow-400 border-0 text-xs">Revisar</Badge>
+                          <Badge className="bg-[var(--alert-warning)]/15 text-[var(--alert-warning)] border-0 text-xs">Revisar</Badge>
                         )}
                       </div>
                     </div>

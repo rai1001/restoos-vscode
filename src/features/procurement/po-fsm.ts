@@ -46,7 +46,7 @@ export const PO_VISUAL_CONFIG: Record<POVisualStatus, { label: string; badge: st
   compartido: { label: "Compartido", badge: "bg-primary/15 text-primary", step: 1 },
   confirmado: { label: "Confirmado", badge: "bg-[rgba(255,255,255,0.03)] text-[#C8C2BF]", step: 2 },
   recibido:   { label: "Recibido",   badge: "bg-emerald-500/10 text-emerald-500", step: 3 },
-  cancelado:  { label: "Cancelado",  badge: "bg-red-500/10 text-red-400", step: -1 },
+  cancelado:  { label: "Cancelado",  badge: "bg-[var(--alert-critical)]/10 text-[var(--alert-critical)]", step: -1 },
 }
 
 // ── Stepper steps (for the visual progress indicator) ───────────────────────

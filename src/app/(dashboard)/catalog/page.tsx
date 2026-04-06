@@ -122,7 +122,7 @@ const HOMOLOGATED_SUPPLIERS = [
     specialty: "Frutas & Verduras",
     badges: [
       { label: "LOCAL", color: "bg-emerald-500/15 text-emerald-400" },
-      { label: "ECO-CERT", color: "bg-green-500/15 text-green-400" },
+      { label: "ECO-CERT", color: "bg-[var(--alert-ok)]/15 text-[var(--alert-ok)]" },
       { label: "FRESCO", color: "bg-emerald-500/15 text-emerald-400" },
     ],
     initials: "FG",
@@ -148,7 +148,7 @@ const RECENT_ORDERS = [
   { ref: "PO-2024-0087", supplier: "Makro España", total: "1.245,80€", status: "ENTREGADO", statusColor: "bg-emerald-500/15 text-emerald-400" },
   { ref: "PO-2024-0086", supplier: "Sysco España", total: "892,40€", status: "EN TRANSITO", statusColor: "bg-blue-500/15 text-blue-400" },
   { ref: "PO-2024-0085", supplier: "Frutas Garcia S.L.", total: "342,10€", status: "CONFIRMADO", statusColor: "bg-primary/15 text-primary" },
-  { ref: "PO-2024-0084", supplier: "Pesqueria del Norte", total: "1.580,00€", status: "PENDIENTE", statusColor: "bg-yellow-500/15 text-yellow-400" },
+  { ref: "PO-2024-0084", supplier: "Pesqueria del Norte", total: "1.580,00€", status: "PENDIENTE", statusColor: "bg-[var(--alert-warning)]/15 text-[var(--alert-warning)]" },
 ];
 
 // ── Component ───────────────────────────────────────────────────────────────
@@ -238,8 +238,8 @@ export default function CatalogPage() {
                   <span className="inline-block h-2 w-2 rounded-full bg-emerald-400" />
                   Mejor precio
                 </span>
-                <span className="flex items-center gap-1 text-xs text-red-400 ml-3">
-                  <span className="inline-block h-2 w-2 rounded-full bg-red-400" />
+                <span className="flex items-center gap-1 text-xs text-[var(--alert-critical)] ml-3">
+                  <span className="inline-block h-2 w-2 rounded-full bg-[var(--alert-critical)]/10" />
                   Mas caro
                 </span>
               </div>
@@ -296,7 +296,7 @@ export default function CatalogPage() {
                               isMin
                                 ? "text-emerald-400"
                                 : isMax
-                                ? "text-red-400"
+                                ? "text-[var(--alert-critical)]"
                                 : "text-foreground"
                             }`}
                           >
@@ -435,7 +435,7 @@ export default function CatalogPage() {
                       </button>
                       <button
                         onClick={() => removeItem(idx)}
-                        className="h-6 w-6 rounded flex items-center justify-center text-red-400/60 hover:text-red-400 hover:bg-red-500/10 transition-colors ml-1"
+                        className="h-6 w-6 rounded flex items-center justify-center text-[var(--alert-critical)]/60 hover:text-[var(--alert-critical)] hover:bg-[var(--alert-critical)]/10 transition-colors ml-1"
                       >
                         <Trash2 className="h-3 w-3" />
                       </button>

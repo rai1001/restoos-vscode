@@ -88,7 +88,7 @@ const FREQUENCY_LABELS: Record<CheckFrequency, string> = {
 function StatusBadge({ status }: { status: CheckStatus }) {
   if (status === "ok") {
     return (
-      <Badge className="bg-green-900/30 text-green-400 border-0">
+      <Badge className="bg-[var(--alert-ok)]/10 text-[var(--alert-ok)] border-0">
         <CheckCircle2 className="mr-1 h-3 w-3" />
         OK
       </Badge>
@@ -96,14 +96,14 @@ function StatusBadge({ status }: { status: CheckStatus }) {
   }
   if (status === "alerta") {
     return (
-      <Badge className="bg-yellow-900/30 text-yellow-400 border-0">
+      <Badge className="bg-[var(--alert-warning)]/10 text-[var(--alert-warning)] border-0">
         <AlertTriangle className="mr-1 h-3 w-3" />
         Alerta
       </Badge>
     )
   }
   return (
-    <Badge className="bg-red-900/30 text-red-400 border-0">
+    <Badge className="bg-[var(--alert-critical)]/10 text-[var(--alert-critical)] border-0">
       <XCircle className="mr-1 h-3 w-3" />
       Crítico
     </Badge>
@@ -271,7 +271,7 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
                   onChange={(e) => setValue(e.target.value)}
                   className={cn(
                     "bg-background border-white/10 text-foreground",
-                    isOutOfRange && "border-red-400 focus-visible:ring-red-400/50"
+                    isOutOfRange && "border-[var(--alert-critical)] focus-visible:ring-red-400/50"
                   )}
                 />
                 {selectedTemplate?.unit && (
@@ -279,7 +279,7 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
                 )}
               </div>
               {selectedTemplate && (selectedTemplate.min_value !== null || selectedTemplate.max_value !== null) && (
-                <p className={cn("text-xs", isOutOfRange ? "text-red-400 font-medium" : "text-muted-foreground")}>
+                <p className={cn("text-xs", isOutOfRange ? "text-[var(--alert-critical)] font-medium" : "text-muted-foreground")}>
                   {isOutOfRange ? "Valor fuera del rango permitido — " : "Rango: "}
                   <LimitsCell template={selectedTemplate} />
                 </p>
@@ -306,7 +306,7 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
 
           {isOutOfRange && (
             <div className="space-y-1.5">
-              <Label htmlFor="record-corrective" className="text-xs font-medium uppercase tracking-widest text-red-400">
+              <Label htmlFor="record-corrective" className="text-xs font-medium uppercase tracking-widest text-[var(--alert-critical)]">
                 Acción correctiva <span className="font-normal">(requerida)</span>
               </Label>
               <textarea
@@ -316,9 +316,9 @@ function NewRecordDialog({ open, onOpenChange, templates, selectedDate }: NewRec
                 value={correctiveAction}
                 onChange={(e) => setCorrectiveAction(e.target.value)}
                 className={cn(
-                  "flex min-h-[60px] w-full rounded-lg border border-red-500/30 bg-background px-3 py-2 text-sm text-foreground",
+                  "flex min-h-[60px] w-full rounded-lg border border-[var(--alert-critical)] bg-background px-3 py-2 text-sm text-foreground",
                   "placeholder:text-muted-foreground/50",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400/50 focus-visible:border-red-400",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400/50 focus-visible:border-[var(--alert-critical)]",
                   "resize-none"
                 )}
               />
@@ -391,7 +391,7 @@ function ValidateDialog({ open, onOpenChange, date }: { open: boolean; onOpenCha
           <Button variant="outline" onClick={() => onOpenChange(false)} className="border-white/10 text-muted-foreground hover:bg-white/5">
             Cancelar
           </Button>
-          <Button onClick={handleValidate} className="bg-green-600 hover:bg-green-700 text-white" disabled={validate.isPending}>
+          <Button onClick={handleValidate} className="bg-[var(--alert-ok)] hover:bg-[var(--alert-ok)] text-white" disabled={validate.isPending}>
             <FileCheck className="mr-2 h-4 w-4" />
             {validate.isPending ? "Validando..." : "Validar y firmar"}
           </Button>
@@ -448,8 +448,8 @@ function RecordsTab({ date }: { date: string }) {
                 className={cn(
                   "border-white/5 hover:bg-white/5",
                   hasDetails && "cursor-pointer select-none",
-                  record.status === "critico" && "bg-red-900/20",
-                  record.status === "alerta" && "bg-yellow-900/20"
+                  record.status === "critico" && "bg-[var(--alert-critical)]/10",
+                  record.status === "alerta" && "bg-[var(--alert-warning)]/10"
                 )}
                 onClick={() => {
                   if (hasDetails) setExpandedId(isExpanded ? null : record.id)
@@ -474,7 +474,7 @@ function RecordsTab({ date }: { date: string }) {
                 <TableCell>
                   {record.value !== null
                     ? <span className="font-mono text-foreground">{record.value} {template.unit}</span>
-                    : <span className="text-green-400">OK</span>
+                    : <span className="text-[var(--alert-ok)]">OK</span>
                   }
                 </TableCell>
                 <TableCell className="text-muted-foreground">
@@ -503,9 +503,9 @@ function RecordsTab({ date }: { date: string }) {
                       )}
                       {record.corrective_action && (
                         <div className="flex items-start gap-2">
-                          <AlertTriangle className="h-4 w-4 text-red-400 mt-0.5 shrink-0" />
+                          <AlertTriangle className="h-4 w-4 text-[var(--alert-critical)] mt-0.5 shrink-0" />
                           <div className="text-foreground">
-                            <span className="font-medium text-red-400">Acción correctiva: </span>
+                            <span className="font-medium text-[var(--alert-critical)]">Acción correctiva: </span>
                             {record.corrective_action}
                           </div>
                         </div>
@@ -751,9 +751,9 @@ function HistoryTab() {
                   style={{ height: `${Math.max(totalPct, 8)}%` }}
                   title={`${s.closure_date}: ${s.ok_count} OK, ${s.alert_count} alertas, ${s.critical_count} críticos`}
                 >
-                  {criticalPct > 0 && <div className="w-full bg-red-500" style={{ height: `${criticalPct}%` }} />}
-                  {alertPct > 0 && <div className="w-full bg-yellow-500" style={{ height: `${alertPct}%` }} />}
-                  {okPct > 0 && <div className="w-full bg-green-500" style={{ height: `${okPct}%` }} />}
+                  {criticalPct > 0 && <div className="w-full bg-[var(--alert-critical)]" style={{ height: `${criticalPct}%` }} />}
+                  {alertPct > 0 && <div className="w-full bg-[var(--alert-warning)]" style={{ height: `${alertPct}%` }} />}
+                  {okPct > 0 && <div className="w-full bg-[var(--alert-ok)]" style={{ height: `${okPct}%` }} />}
                 </div>
                 <span className="text-[10px] text-muted-foreground">{formatShortDate(s.closure_date)}</span>
               </div>
@@ -761,9 +761,9 @@ function HistoryTab() {
           })}
         </div>
         <div className="flex items-center gap-4 mt-3 text-xs text-muted-foreground">
-          <span className="flex items-center gap-1.5"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-green-500" /> OK</span>
-          <span className="flex items-center gap-1.5"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-yellow-500" /> Alerta</span>
-          <span className="flex items-center gap-1.5"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-red-500" /> Crítico</span>
+          <span className="flex items-center gap-1.5"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-[var(--alert-ok)]" /> OK</span>
+          <span className="flex items-center gap-1.5"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-[var(--alert-warning)]" /> Alerta</span>
+          <span className="flex items-center gap-1.5"><span className="inline-block w-2.5 h-2.5 rounded-sm bg-[var(--alert-critical)]" /> Crítico</span>
         </div>
       </div>
 
@@ -786,16 +786,16 @@ function HistoryTab() {
                 {new Date(s.closure_date).toLocaleDateString("es", { weekday: "short", day: "numeric", month: "short" })}
               </TableCell>
               <TableCell className="text-foreground">{s.total_checks}</TableCell>
-              <TableCell><span className="text-green-400 font-medium">{s.ok_count}</span></TableCell>
+              <TableCell><span className="text-[var(--alert-ok)] font-medium">{s.ok_count}</span></TableCell>
               <TableCell>
                 {s.alert_count > 0
-                  ? <span className="text-yellow-400 font-medium">{s.alert_count}</span>
+                  ? <span className="text-[var(--alert-warning)] font-medium">{s.alert_count}</span>
                   : <span className="text-muted-foreground">0</span>
                 }
               </TableCell>
               <TableCell>
                 {s.critical_count > 0
-                  ? <span className="text-red-400 font-medium">{s.critical_count}</span>
+                  ? <span className="text-[var(--alert-critical)] font-medium">{s.critical_count}</span>
                   : <span className="text-muted-foreground">0</span>
                 }
               </TableCell>
@@ -803,7 +803,7 @@ function HistoryTab() {
                 <div className="flex items-center gap-2">
                   <div className="h-1.5 w-20 rounded-full bg-white/10 overflow-hidden">
                     <div
-                      className={cn("h-full rounded-full", s.completion_pct >= 100 ? "bg-green-500" : "bg-primary")}
+                      className={cn("h-full rounded-full", s.completion_pct >= 100 ? "bg-[var(--alert-ok)]" : "bg-primary")}
                       style={{ width: `${Math.min(s.completion_pct, 100)}%` }}
                     />
                   </div>
@@ -812,7 +812,7 @@ function HistoryTab() {
               </TableCell>
               <TableCell>
                 {s.status === "validated" ? (
-                  <Badge className="bg-green-900/30 text-green-400 border-0">
+                  <Badge className="bg-[var(--alert-ok)]/10 text-[var(--alert-ok)] border-0">
                     <Lock className="mr-1 h-3 w-3" /> Validado
                   </Badge>
                 ) : s.status === "completed" ? (
@@ -846,7 +846,7 @@ function IncidentsTab() {
   if (incidents.length === 0) {
     return (
       <div className="text-center py-8">
-        <CheckCircle2 className="mx-auto h-10 w-10 text-green-500/30 mb-3" />
+        <CheckCircle2 className="mx-auto h-10 w-10 text-[var(--alert-ok)]/30 mb-3" />
         <p className="text-muted-foreground text-sm">Sin incidencias abiertas.</p>
       </div>
     )
@@ -866,8 +866,8 @@ function IncidentsTab() {
               <div className="flex items-center gap-2">
                 <AlertCircle className={cn(
                   "h-4 w-4",
-                  inc.severity === "critical" ? "text-red-400" :
-                  inc.severity === "high" ? "text-[var(--alert-warning)]" : "text-yellow-400"
+                  inc.severity === "critical" ? "text-[var(--alert-critical)]" :
+                  inc.severity === "high" ? "text-[var(--alert-warning)]" : "text-[var(--alert-warning)]"
                 )} />
                 <span className="font-medium text-foreground">{inc.title}</span>
                 <Badge className="bg-white/5 text-muted-foreground border-0 text-xs">{inc.severity}</Badge>
@@ -901,7 +901,7 @@ function IncidentsTab() {
               <div className="flex gap-2">
                 <Button
                   size="sm"
-                  className="bg-green-600 hover:bg-green-700 text-white"
+                  className="bg-[var(--alert-ok)] hover:bg-[var(--alert-ok)] text-white"
                   disabled={!resolveAction.trim() || resolveIncident.isPending}
                   onClick={() => {
                     resolveIncident.mutate(
@@ -996,14 +996,14 @@ export default function AppccPage() {
             <Button
               variant="outline"
               onClick={() => setValidateDialogOpen(true)}
-              className="border-green-500/30 text-green-400 hover:bg-green-500/10"
+              className="border-[var(--alert-ok)] text-[var(--alert-ok)] hover:bg-[var(--alert-ok)]/10"
             >
               <FileCheck className="mr-2 h-4 w-4" />
               Validar día
             </Button>
           )}
           {isValidated && (
-            <Badge className="bg-green-900/30 text-green-400 border-0 h-9 px-3">
+            <Badge className="bg-[var(--alert-ok)]/10 text-[var(--alert-ok)] border-0 h-9 px-3">
               <Lock className="mr-1.5 h-3.5 w-3.5" />
               Validado por {closure?.validated_by_name}
             </Badge>
@@ -1067,18 +1067,18 @@ export default function AppccPage() {
 
         <div className="rounded-lg bg-card p-4">
           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-1.5 mb-2">
-            <AlertTriangle className="h-4 w-4 text-yellow-500" /> Alertas
+            <AlertTriangle className="h-4 w-4 text-[var(--alert-warning)]" /> Alertas
           </p>
-          <span className={cn("text-3xl font-bold", stats.alerts > 0 ? "text-yellow-400" : "text-muted-foreground")}>
+          <span className={cn("text-3xl font-bold", stats.alerts > 0 ? "text-[var(--alert-warning)]" : "text-muted-foreground")}>
             {stats.alerts}
           </span>
         </div>
 
         <div className="rounded-lg bg-card p-4">
           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-1.5 mb-2">
-            <XCircle className="h-4 w-4 text-red-500" /> Críticos
+            <XCircle className="h-4 w-4 text-[var(--alert-critical)]" /> Críticos
           </p>
-          <span className={cn("text-3xl font-bold", stats.critical > 0 ? "text-red-400" : "text-muted-foreground")}>
+          <span className={cn("text-3xl font-bold", stats.critical > 0 ? "text-[var(--alert-critical)]" : "text-muted-foreground")}>
             {stats.critical}
           </span>
         </div>
@@ -1092,7 +1092,7 @@ export default function AppccPage() {
             {!isFuture && (
               <div className="h-1.5 w-full rounded-full bg-white/10 overflow-hidden">
                 <div
-                  className={cn("h-full rounded-full transition-all", stats.pct >= 100 ? "bg-green-500" : "bg-primary")}
+                  className={cn("h-full rounded-full transition-all", stats.pct >= 100 ? "bg-[var(--alert-ok)]" : "bg-primary")}
                   style={{ width: `${Math.min(stats.pct, 100)}%` }}
                 />
               </div>
@@ -1120,12 +1120,12 @@ export default function AppccPage() {
               </p>
               <p className="text-sm text-muted-foreground">
                 {isValidated && (
-                  <span className="text-green-400 font-medium">
+                  <span className="text-[var(--alert-ok)] font-medium">
                     Día validado por {closure?.validated_by_name}.{" "}
                   </span>
                 )}
                 {stats.critical > 0 && (
-                  <span className="text-red-400 font-medium">
+                  <span className="text-[var(--alert-critical)] font-medium">
                     {stats.critical} registro(s) con valor crítico.{" "}
                   </span>
                 )}

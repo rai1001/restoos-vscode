@@ -19,8 +19,8 @@ function AppccBadge({ pct }: { pct: number }) {
     <Badge className={cn(
       "text-xs border-0",
       pct >= 100 ? "bg-emerald-500/15 text-emerald-400" :
-      pct >= 80 ? "bg-yellow-500/15 text-yellow-400" :
-      "bg-red-500/15 text-red-400"
+      pct >= 80 ? "bg-[var(--alert-warning)]/15 text-[var(--alert-warning)]" :
+      "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)]"
     )}>
       {Math.round(pct)}%
     </Badge>
@@ -130,11 +130,11 @@ export default function MultiLocalPage() {
         </div>
         <div className="rounded-lg bg-card p-4">
           <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Merma 30d</p>
-          <p className="text-xl font-bold text-red-400">{eurFmt(totalWaste)}</p>
+          <p className="text-xl font-bold text-[var(--alert-critical)]">{eurFmt(totalWaste)}</p>
         </div>
         <div className="rounded-lg bg-card p-4">
           <p className="text-[10px] text-muted-foreground uppercase tracking-wide">Alertas</p>
-          <p className="text-xl font-bold text-yellow-400">{totalAlerts}</p>
+          <p className="text-xl font-bold text-[var(--alert-warning)]">{totalAlerts}</p>
         </div>
       </div>
 
@@ -160,7 +160,7 @@ export default function MultiLocalPage() {
           </TableHeader>
           <TableBody>
             {hotels.map((h: HotelOverview) => (
-              <TableRow key={h.hotel_id} className={cn("border-border", h.alerts_active > 0 && "bg-red-950/5")}>
+              <TableRow key={h.hotel_id} className={cn("border-border", h.alerts_active > 0 && "bg-[var(--alert-critical)]/10")}>
                 <TableCell>
                   <div className="flex items-center gap-2">
                     {h.slug.includes("obrador") ? (
@@ -182,7 +182,7 @@ export default function MultiLocalPage() {
                 <TableCell className="text-right text-sm text-foreground">{eurFmt(Number(h.stock_value))}</TableCell>
                 <TableCell className="text-right">
                   {Number(h.waste_30d_cost) > 0 ? (
-                    <span className="text-sm text-red-400">{eurFmt(Number(h.waste_30d_cost))}</span>
+                    <span className="text-sm text-[var(--alert-critical)]">{eurFmt(Number(h.waste_30d_cost))}</span>
                   ) : (
                     <span className="text-sm text-muted-foreground">{eurFmt(0)}</span>
                   )}
@@ -191,7 +191,7 @@ export default function MultiLocalPage() {
                   <div className="flex items-center justify-center gap-1.5">
                     <AppccBadge pct={Number(h.appcc_today_pct)} />
                     {h.appcc_incidents_open > 0 && (
-                      <Badge className="bg-red-500/15 text-red-400 border-0 text-[10px]">
+                      <Badge className="bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0 text-[10px]">
                         {h.appcc_incidents_open} inc.
                       </Badge>
                     )}
@@ -200,8 +200,8 @@ export default function MultiLocalPage() {
                 <TableCell className="text-right">
                   {h.alerts_active > 0 ? (
                     <div className="flex items-center justify-end gap-1">
-                      <AlertTriangle className="h-3 w-3 text-yellow-400" />
-                      <span className="text-sm text-yellow-400">{h.alerts_active}</span>
+                      <AlertTriangle className="h-3 w-3 text-[var(--alert-warning)]" />
+                      <span className="text-sm text-[var(--alert-warning)]">{h.alerts_active}</span>
                     </div>
                   ) : (
                     <span className="text-xs text-emerald-400">OK</span>
@@ -219,11 +219,11 @@ export default function MultiLocalPage() {
           <div className="px-5 py-4 border-b border-border">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <DollarSign className="h-4 w-4 text-red-400" />
+                <DollarSign className="h-4 w-4 text-[var(--alert-critical)]" />
                 <h2 className="text-sm font-semibold text-foreground">Desviaciones de precio entre locales</h2>
               </div>
               {priceIssues > 0 && (
-                <Badge className="bg-red-500/15 text-red-400 border-0">
+                <Badge className="bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0">
                   {priceIssues} productos con &gt;10% desviacion
                 </Badge>
               )}
@@ -247,7 +247,7 @@ export default function MultiLocalPage() {
                 group.prices.map((p, idx) => (
                   <TableRow
                     key={`${group.product}-${p.hotel}`}
-                    className={cn("border-border", idx === 0 && group.diffPct > 10 && "bg-red-950/5")}
+                    className={cn("border-border", idx === 0 && group.diffPct > 10 && "bg-[var(--alert-critical)]/10")}
                   >
                     {idx === 0 && (
                       <TableCell rowSpan={group.prices.length} className="text-sm font-medium text-foreground align-top">
@@ -260,7 +260,7 @@ export default function MultiLocalPage() {
                       <span className={cn(
                         "text-sm font-mono",
                         p.price === group.minPrice ? "text-emerald-400" :
-                        p.price > group.minPrice * 1.1 ? "text-red-400 font-semibold" :
+                        p.price > group.minPrice * 1.1 ? "text-[var(--alert-critical)] font-semibold" :
                         "text-foreground"
                       )}>
                         {p.price.toFixed(2)}
@@ -272,8 +272,8 @@ export default function MultiLocalPage() {
                         {group.diffPct > 0 ? (
                           <Badge className={cn(
                             "text-xs border-0",
-                            group.diffPct > 20 ? "bg-red-500/15 text-red-400" :
-                            group.diffPct > 10 ? "bg-yellow-500/15 text-yellow-400" :
+                            group.diffPct > 20 ? "bg-[var(--alert-critical)]/15 text-[var(--alert-critical)]" :
+                            group.diffPct > 10 ? "bg-[var(--alert-warning)]/15 text-[var(--alert-warning)]" :
                             "bg-muted text-muted-foreground"
                           )}>
                             {group.diffPct.toFixed(1)}%

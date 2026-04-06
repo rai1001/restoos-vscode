@@ -430,14 +430,14 @@ const ALERT_STYLES: Record<
   { bg: string; dot: string; badge: string }
 > = {
   critico: {
-    bg: "bg-red-500/5",
-    dot: "bg-red-500",
-    badge: "bg-red-900/30 text-red-400",
+    bg: "bg-[var(--alert-critical)]/5",
+    dot: "bg-[var(--alert-critical)]",
+    badge: "bg-[var(--alert-critical)]/10 text-[var(--alert-critical)]",
   },
   alerta: {
-    bg: "bg-yellow-500/5",
-    dot: "bg-yellow-500",
-    badge: "bg-yellow-900/30 text-yellow-400",
+    bg: "bg-[var(--alert-warning)]/5",
+    dot: "bg-[var(--alert-warning)]",
+    badge: "bg-[var(--alert-warning)]/10 text-[var(--alert-warning)]",
   },
   info: {
     bg: "bg-blue-500/5",
@@ -492,7 +492,7 @@ function AlertsPanel({ items }: { items: AlertItem[] }) {
           <AlertTriangle className="h-4 w-4 text-primary" />
           <SectionLabel>Centro de Alertas</SectionLabel>
           {urgentCount > 0 && (
-            <span className="rounded-full bg-red-900/30 px-2 py-0.5 text-xs font-semibold text-red-400">
+            <span className="rounded-full bg-[var(--alert-critical)]/10 px-2 py-0.5 text-xs font-semibold text-[var(--alert-critical)]">
               {urgentCount}
             </span>
           )}
@@ -532,7 +532,7 @@ const EVENT_STATUS_STYLE: Record<
   },
   pendiente: {
     label: "Pendiente",
-    cls: "bg-yellow-900/30 text-yellow-400",
+    cls: "bg-[var(--alert-warning)]/10 text-[var(--alert-warning)]",
   },
 };
 
@@ -624,10 +624,10 @@ function EventsTable({ items }: { items: UpcomingEvent[] }) {
                             className={cn(
                               "h-full rounded-full transition-all",
                               staffRatio === 100
-                                ? "bg-green-500"
+                                ? "bg-[var(--alert-ok)]"
                                 : staffRatio >= 50
-                                  ? "bg-yellow-400"
-                                  : "bg-red-400"
+                                  ? "bg-[var(--alert-warning)]/10"
+                                  : "bg-[var(--alert-critical)]/10"
                             )}
                             style={{ width: `${staffRatio}%` }}
                           />
@@ -666,16 +666,16 @@ function EventsTable({ items }: { items: UpcomingEvent[] }) {
 // ── Module status grid ────────────────────────────────────────────────────────
 
 const STATUS_DOT: Record<ModuleStatus["status"], string> = {
-  ok: "bg-green-500",
-  warning: "bg-yellow-400",
-  critical: "bg-red-500",
+  ok: "bg-[var(--alert-ok)]",
+  warning: "bg-[var(--alert-warning)]/10",
+  critical: "bg-[var(--alert-critical)]",
   inactive: "bg-muted-foreground",
 };
 
 const STATUS_LABEL_COLOR: Record<ModuleStatus["status"], string> = {
   ok: "text-[#8A8078]",
   warning: "text-[var(--alert-warning)]",
-  critical: "text-red-400",
+  critical: "text-[var(--alert-critical)]",
   inactive: "text-muted-foreground",
 };
 
@@ -743,7 +743,7 @@ const QUICK_ACTIONS = [
     label: "Merma Diario",
     href: "/inventory/waste",
     Icon: Trash2,
-    accent: "text-red-400",
+    accent: "text-[var(--alert-critical)]",
   },
   {
     label: "Etiquetado",
@@ -761,7 +761,7 @@ const QUICK_ACTIONS = [
     label: "Registro APPCC",
     href: "/appcc",
     Icon: ClipboardList,
-    accent: "text-yellow-400",
+    accent: "text-[var(--alert-warning)]",
   },
   {
     label: "Asignar Turno",
@@ -922,7 +922,7 @@ export default function DashboardPage() {
           {/* Notification bell — hidden on mobile */}
           <button className="hidden sm:flex relative rounded-lg bg-card p-2 transition-colors hover:bg-card-hover" aria-label="Notificaciones">
             <Bell className="h-4 w-4 text-muted-foreground" />
-            <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-red-500" />
+            <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-[var(--alert-critical)]" />
           </button>
           {/* Settings gear */}
           <button className="hidden sm:flex rounded-lg bg-card p-2 transition-colors hover:bg-card-hover" aria-label="Configuración">

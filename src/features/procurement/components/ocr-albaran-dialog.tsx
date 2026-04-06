@@ -176,7 +176,7 @@ export function OCRAlbaranDialog({ open, onClose, onApply }: OCRAlbaranDialogPro
 
               <div className="rounded-lg border bg-muted/30 p-4 space-y-3">
                 <div className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  <CheckCircle className="h-5 w-5 text-[var(--alert-ok)]" />
                   <span className="font-medium text-sm">Albarán detectado</span>
                 </div>
 
@@ -191,7 +191,7 @@ export function OCRAlbaranDialog({ open, onClose, onApply }: OCRAlbaranDialogPro
                     <div><span className="text-muted-foreground">Fecha:</span> <span className="font-medium">{result.delivery_date}</span></div>
                   )}
                   {result.total_amount && (
-                    <div><span className="text-muted-foreground">Total:</span> <span className="font-medium text-green-600">€{result.total_amount.toFixed(2)}</span></div>
+                    <div><span className="text-muted-foreground">Total:</span> <span className="font-medium text-[var(--alert-ok)]">€{result.total_amount.toFixed(2)}</span></div>
                   )}
                 </div>
 

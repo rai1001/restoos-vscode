@@ -64,7 +64,7 @@ export type UpdateTicketInput = z.infer<typeof UpdateTicketSchema>;
 // ─── UI constants ───────────────────────────────────────────
 
 export const TYPE_CONFIG: Record<TicketType, { label: string; emoji: string; color: string }> = {
-  bug: { label: "Bug", emoji: "🐛", color: "text-red-500" },
+  bug: { label: "Bug", emoji: "🐛", color: "text-[var(--alert-critical)]" },
   design: { label: "Diseño", emoji: "🎨", color: "text-purple-500" },
   feature: { label: "Funcionalidad", emoji: "✨", color: "text-blue-500" },
   other: { label: "Otro", emoji: "💬", color: "text-gray-500" },
@@ -72,13 +72,13 @@ export const TYPE_CONFIG: Record<TicketType, { label: string; emoji: string; col
 
 export const STATUS_CONFIG: Record<TicketStatus, { label: string; color: string; bgColor: string }> = {
   open: { label: "Abierto", color: "text-blue-700 dark:text-blue-300", bgColor: "bg-blue-100 dark:bg-blue-950/30" },
-  in_progress: { label: "En progreso", color: "text-yellow-700 dark:text-yellow-300", bgColor: "bg-yellow-100 dark:bg-yellow-950/30" },
-  resolved: { label: "Resuelto", color: "text-green-700 dark:text-green-300", bgColor: "bg-green-100 dark:bg-green-950/30" },
+  in_progress: { label: "En progreso", color: "text-[var(--alert-warning)] dark:text-[var(--alert-warning)]", bgColor: "bg-[var(--alert-warning)]/10 dark:bg-[var(--alert-warning)]/10" },
+  resolved: { label: "Resuelto", color: "text-[var(--alert-ok)] dark:text-[var(--alert-ok)]", bgColor: "bg-[var(--alert-ok)]/10 dark:bg-[var(--alert-ok)]/10" },
   needs_info: { label: "Necesita info", color: "text-orange-700 dark:text-orange-300", bgColor: "bg-orange-100 dark:bg-orange-950/30" },
 };
 
 export const PRIORITY_CONFIG: Record<TicketPriority, { label: string; color: string }> = {
   low: { label: "Baja", color: "text-gray-500" },
-  medium: { label: "Media", color: "text-yellow-500" },
-  high: { label: "Alta", color: "text-red-500" },
+  medium: { label: "Media", color: "text-[var(--alert-warning)]" },
+  high: { label: "Alta", color: "text-[var(--alert-critical)]" },
 };

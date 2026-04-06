@@ -123,7 +123,7 @@ export function WasteRecordForm({ onSuccess }: WasteRecordFormProps) {
           <Button
             variant="outline"
             size="sm"
-            className="text-red-600 border-red-200 hover:bg-red-50 dark:border-red-800 dark:hover:bg-red-950"
+            className="text-[var(--alert-critical)] border-[var(--alert-critical)] hover:bg-[var(--alert-critical)]/10 dark:border-[var(--alert-critical)] dark:hover:bg-[var(--alert-critical)]/10"
           />
         }
       >
@@ -142,7 +142,7 @@ export function WasteRecordForm({ onSuccess }: WasteRecordFormProps) {
             <div className={cn(
               "rounded-md border p-3 transition-all",
               voice.status === "listening"
-                ? "border-red-300 bg-red-50 dark:bg-red-950/20"
+                ? "border-[var(--alert-critical)] bg-[var(--alert-critical)]/10 dark:bg-[var(--alert-critical)]/10"
                 : "border-dashed"
             )}>
               <div className="flex items-center justify-between gap-3">
@@ -250,8 +250,8 @@ export function WasteRecordForm({ onSuccess }: WasteRecordFormProps) {
 
           {/* Total loss preview */}
           {totalLoss > 0 && (
-            <div className="rounded-md bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-800 px-3 py-2">
-              <p className="text-sm font-semibold text-red-700 dark:text-red-400">
+            <div className="rounded-md bg-[var(--alert-critical)]/10 dark:bg-[var(--alert-critical)]/10 border border-[var(--alert-critical)] dark:border-[var(--alert-critical)] px-3 py-2">
+              <p className="text-sm font-semibold text-[var(--alert-critical)] dark:text-[var(--alert-critical)]">
                 Pérdida total estimada: {totalLoss.toFixed(2)} €
               </p>
             </div>
@@ -269,7 +269,7 @@ export function WasteRecordForm({ onSuccess }: WasteRecordFormProps) {
             <Button
               type="submit"
               disabled={loading}
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className="bg-[var(--alert-critical)] hover:bg-[var(--alert-critical)] text-white"
             >
               {loading ? "Registrando..." : "Registrar merma"}
             </Button>

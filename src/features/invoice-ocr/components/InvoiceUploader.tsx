@@ -169,8 +169,8 @@ export function InvoiceUploader() {
 
   // ─── Step 3: Done ────────────────────────────────────────────────
   return (
-    <div className="rounded-xl bg-green-500/10 p-6 text-center space-y-3">
-      <Check className="mx-auto h-10 w-10 text-green-500" />
+    <div className="rounded-xl bg-[var(--alert-ok)]/10 p-6 text-center space-y-3">
+      <Check className="mx-auto h-10 w-10 text-[var(--alert-ok)]" />
       <p className="text-sm font-medium text-foreground">
         Precios actualizados correctamente
       </p>
@@ -214,9 +214,9 @@ function InvoiceLine({
             className={cn(
               "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium",
               line.match_source === "alias"
-                ? "bg-green-500/10 text-green-400"
+                ? "bg-[var(--alert-ok)]/10 text-[var(--alert-ok)]"
                 : line.match_source === "fuzzy"
-                  ? "bg-yellow-500/10 text-yellow-400"
+                  ? "bg-[var(--alert-warning)]/10 text-[var(--alert-warning)]"
                   : "bg-blue-500/10 text-blue-400"
             )}
           >

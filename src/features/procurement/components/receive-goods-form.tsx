@@ -75,7 +75,7 @@ export function ReceiveGoodsForm({ lines: initialLines, onSubmit, isPending }: R
             className={cn(
               "rounded-lg border p-4 space-y-3 transition-colors",
               hasIncident
-                ? "border-red-500/30 bg-red-500/5"
+                ? "border-[var(--alert-critical)] bg-[var(--alert-critical)]/5"
                 : "border-border bg-card"
             )}
           >
@@ -83,7 +83,7 @@ export function ReceiveGoodsForm({ lines: initialLines, onSubmit, isPending }: R
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 {hasIncident ? (
-                  <AlertTriangle className="h-4 w-4 text-red-400 shrink-0" />
+                  <AlertTriangle className="h-4 w-4 text-[var(--alert-critical)] shrink-0" />
                 ) : (
                   <Check className="h-4 w-4 text-emerald-500 shrink-0" />
                 )}
@@ -195,7 +195,7 @@ export function ReceiveGoodsForm({ lines: initialLines, onSubmit, isPending }: R
       {/* Summary + submit */}
       <div className="flex items-center justify-between pt-2">
         {hasIncidents && (
-          <span className="text-xs text-red-400">
+          <span className="text-xs text-[var(--alert-critical)]">
             {incidentCount} {incidentCount === 1 ? "incidencia" : "incidencias"} reportadas
           </span>
         )}

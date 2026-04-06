@@ -170,11 +170,11 @@ export default function NotificationsSettingsPage() {
         <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">Qué incluye el digest</p>
         <div className="grid grid-cols-2 gap-2 text-sm">
           <div className="flex items-center gap-2 text-foreground">
-            <Badge className="bg-red-500/15 text-red-400 border-0 text-xs">Precio</Badge>
+            <Badge className="bg-[var(--alert-critical)]/15 text-[var(--alert-critical)] border-0 text-xs">Precio</Badge>
             Subidas de precio &gt;5%
           </div>
           <div className="flex items-center gap-2 text-foreground">
-            <Badge className="bg-yellow-500/15 text-yellow-400 border-0 text-xs">Caducidad</Badge>
+            <Badge className="bg-[var(--alert-warning)]/15 text-[var(--alert-warning)] border-0 text-xs">Caducidad</Badge>
             Productos próximos a caducar
           </div>
           <div className="flex items-center gap-2 text-foreground">

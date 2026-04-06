@@ -336,7 +336,7 @@ export function ImportRecipeModal({ open, onOpenChange }: ImportRecipeModalProps
                                 <TableCell>
                                   {ing.product_id ? (
                                     <span className="flex items-center gap-1">
-                                      <span className="text-green-500">&#10003;</span>
+                                      <span className="text-[var(--alert-ok)]">&#10003;</span>
                                       {ing.product_name}
                                     </span>
                                   ) : (
@@ -494,7 +494,7 @@ export function ImportRecipeModal({ open, onOpenChange }: ImportRecipeModalProps
                                 <TableCell>
                                   {ing.product_id ? (
                                     <span className="flex items-center gap-1">
-                                      <span className="text-green-500">&#10003;</span>
+                                      <span className="text-[var(--alert-ok)]">&#10003;</span>
                                       {ing.product_name}
                                     </span>
                                   ) : (
@@ -545,7 +545,7 @@ export function ImportRecipeModal({ open, onOpenChange }: ImportRecipeModalProps
               <div className={cn(
                 "rounded-lg border-2 p-4 transition-all",
                 voice.status === "listening"
-                  ? "border-red-400 bg-red-50 dark:bg-red-950/20"
+                  ? "border-[var(--alert-critical)] bg-[var(--alert-critical)]/10 dark:bg-[var(--alert-critical)]/10"
                   : "border-dashed border-border bg-muted/30"
               )}>
                 <div className="flex items-center justify-between gap-3">

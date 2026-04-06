@@ -67,7 +67,7 @@ export default function LotsPage() {
                     <TableCell>{lot.lot_number ?? "—"}</TableCell>
                     <TableCell>{lot.initial_quantity}</TableCell>
                     <TableCell>
-                      <span className={isLow ? "text-red-500 font-medium" : ""}>
+                      <span className={isLow ? "text-[var(--alert-critical)] font-medium" : ""}>
                         {lot.current_quantity}
                       </span>
                     </TableCell>

@@ -47,10 +47,10 @@ const QUADRANT_META: Record<Quadrant, QuadrantMeta> = {
     emoji: "⭐",
     subtitle: "Alta rentabilidad · Alta popularidad",
     tip: "Promociona estos platos. Son tu motor de negocio.",
-    bgClass: "bg-green-50",
-    borderClass: "border-green-200",
-    badgeClass: "bg-green-100 text-green-800 border-green-300",
-    textClass: "text-green-700",
+    bgClass: "bg-[var(--alert-ok)]/10",
+    borderClass: "border-[var(--alert-ok)]",
+    badgeClass: "bg-[var(--alert-ok)]/10 text-[var(--alert-ok)] border-[var(--alert-ok)]",
+    textClass: "text-[var(--alert-ok)]",
   },
   caballo: {
     label: "Caballos de batalla",
@@ -67,20 +67,20 @@ const QUADRANT_META: Record<Quadrant, QuadrantMeta> = {
     emoji: "🧩",
     subtitle: "Alta rentabilidad · Baja popularidad",
     tip: "Rentables pero poco pedidos. Mejora su visibilidad.",
-    bgClass: "bg-yellow-50",
-    borderClass: "border-yellow-200",
-    badgeClass: "bg-yellow-100 text-yellow-800 border-yellow-300",
-    textClass: "text-yellow-700",
+    bgClass: "bg-[var(--alert-warning)]/10",
+    borderClass: "border-[var(--alert-warning)]",
+    badgeClass: "bg-[var(--alert-warning)]/10 text-[var(--alert-warning)] border-[var(--alert-warning)]",
+    textClass: "text-[var(--alert-warning)]",
   },
   perro: {
     label: "Perros",
     emoji: "🐕",
     subtitle: "Baja rentabilidad · Baja popularidad",
     tip: "Poco pedidos y poco rentables. Considera eliminarlos.",
-    bgClass: "bg-red-50",
-    borderClass: "border-red-200",
-    badgeClass: "bg-red-100 text-red-800 border-red-300",
-    textClass: "text-red-700",
+    bgClass: "bg-[var(--alert-critical)]/10",
+    borderClass: "border-[var(--alert-critical)]",
+    badgeClass: "bg-[var(--alert-critical)]/10 text-[var(--alert-critical)] border-[var(--alert-critical)]",
+    textClass: "text-[var(--alert-critical)]",
   },
 };
 
@@ -379,8 +379,8 @@ export default function MenuEngineeringPage() {
                                   <span
                                     className={
                                       item.contributionMargin >= 0
-                                        ? "text-green-700 font-medium"
-                                        : "text-red-600 font-medium"
+                                        ? "text-[var(--alert-ok)] font-medium"
+                                        : "text-[var(--alert-critical)] font-medium"
                                     }
                                   >
                                     {item.contributionMargin >= 0 ? "+" : ""}

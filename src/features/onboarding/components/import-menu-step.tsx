@@ -190,7 +190,7 @@ export function ImportMenuStep({ items, onItemsChange }: ImportMenuStepProps) {
                   variant="ghost"
                   size="sm"
                   onClick={() => removeItem(idx)}
-                  className="h-7 w-7 p-0 text-muted-foreground hover:text-red-400"
+                  className="h-7 w-7 p-0 text-muted-foreground hover:text-[var(--alert-critical)]"
                 >
                   <Trash2 className="h-3 w-3" />
                 </Button>

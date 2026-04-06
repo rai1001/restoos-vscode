@@ -29,14 +29,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="es" className={dmSans.variable} suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#09090b" />
         <link rel="apple-touch-icon" href="/icons/apple-touch-icon.svg" />
       </head>
-      <body
-        className={`${dmSans.variable} antialiased`}
-      >
+      <body className="antialiased">
         <Providers>{children}</Providers>
         <PWARegister />
         <PWAInstallPrompt />

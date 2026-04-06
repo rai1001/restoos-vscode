@@ -148,7 +148,7 @@ export function formatDigestHTML(d: DigestSummary): string {
   const severityColor = { critical: "#ef4444", warning: "#f59e0b", info: "#3b82f6" }
 
   let html = `<div style="font-family:system-ui,sans-serif;max-width:600px;margin:0 auto;color:#333">`
-  html += `<div style="background:#F97316;color:white;padding:20px;border-radius:8px 8px 0 0">`
+  html += `<div style="background:#B8906F;color:white;padding:20px;border-radius:8px 8px 0 0">`
   html += `<h1 style="margin:0;font-size:20px">${escapeHtml(d.greeting)}, Chef 👋</h1>`
   html += `<p style="margin:4px 0 0;opacity:0.9;font-size:14px">Resumen diario — ${escapeHtml(d.restaurantName)}</p>`
   html += `<p style="margin:2px 0 0;opacity:0.7;font-size:12px">${escapeHtml(d.date)}</p>`
@@ -185,7 +185,7 @@ export function formatDigestHTML(d: DigestSummary): string {
   html += `</div>`
   html += `<div style="padding:12px;text-align:center;background:#f5f5f5;border-radius:0 0 8px 8px;font-size:12px;color:#888">`
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
-  html += `RestoOS — <a href="${appUrl}" style="color:#F97316">Abrir dashboard</a>`
+  html += `RestoOS — <a href="${appUrl}" style="color:#B8906F">Abrir dashboard</a>`
   html += `</div></div>`
 
   return html

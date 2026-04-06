@@ -830,7 +830,7 @@ function buildKpisFromLive(data: DashboardData | null): KpiMetric[] {
       subvalue: `${c.stock_expiring_3d} lotes por caducar`,
       trend: 0,
       icon: "ShoppingCart",
-      color: "orange",
+      color: "muted",
     },
     {
       label: "Recetas por revisar",

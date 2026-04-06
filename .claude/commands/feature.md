@@ -17,7 +17,7 @@ Implementa una feature siguiendo el patrón del proyecto.
    ```
 4. **Página**: crear en `src/app/(dashboard)/[ruta]/page.tsx`
 5. **Sidebar**: añadir enlace en `src/components/sidebar.tsx`
-6. **Dark mode**: usar colores del design system (#0A0A0A, #1A1A1A, #F97316)
+6. **Dark mode**: usar colores del design system (#090909, #141414, accent #B8906F)
 7. **skipAuth**: añadir bypass en hooks para modo demo
 8. **Verificar**: build + lint + test
 9. **Commit**: con mensaje descriptivo

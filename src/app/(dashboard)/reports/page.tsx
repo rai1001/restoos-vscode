@@ -191,7 +191,7 @@ const DONUT_COLORS = [
   CHART_COLORS.red,
   CHART_COLORS.green,
   CHART_COLORS.amber,
-  CHART_COLORS.orange,
+  CHART_COLORS.bronze,
 ]
 
 const darkTooltipStyle = {
@@ -1267,7 +1267,7 @@ export default function ReportsPage() {
                   <XAxis type="number" tick={darkAxisStyle} axisLine={false} tickLine={false} tickFormatter={(v: number) => formatKg(v)} />
                   <YAxis type="category" dataKey="name" tick={darkAxisStyle} axisLine={false} tickLine={false} width={95} />
                   <Tooltip contentStyle={darkTooltipStyle} formatter={((value: number) => [formatKg(value), "Merma"]) as any} />
-                  <Bar dataKey="kg" fill={CHART_COLORS.orange} radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="kg" fill={CHART_COLORS.bronze} radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </MCard>

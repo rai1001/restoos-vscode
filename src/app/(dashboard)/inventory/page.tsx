@@ -73,10 +73,10 @@ const expiryItems = [
 // --- Mock table data for Stitch-style display ---
 const inventoryTableData = [
   { id: "1", producto: "Solomillo de Ternera", categoria: "Carnes", existencias: 24, unidad: "kg", precio: 42.50, estado: "OPTIMO", thumb: "from-red-800 to-red-600" },
-  { id: "2", producto: "Salmon Noruego Premium", categoria: "Pescados", existencias: 8, unidad: "kg", precio: 38.90, estado: "CRITICO", thumb: "from-orange-700 to-pink-600" },
+  { id: "2", producto: "Salmon Noruego Premium", categoria: "Pescados", existencias: 8, unidad: "kg", precio: 38.90, estado: "CRITICO", thumb: "from-amber-700 to-pink-600" },
   { id: "3", producto: "Aceite Trufa Negra", categoria: "Bodega", existencias: 12, unidad: "bot", precio: 89.00, estado: "OPTIMO", thumb: "from-amber-800 to-yellow-600" },
   { id: "4", producto: "Foie Gras Mi-Cuit", categoria: "Carnes", existencias: 5, unidad: "ud", precio: 65.20, estado: "AVISO", thumb: "from-pink-800 to-rose-500" },
-  { id: "5", producto: "Gambas Rojas Denia", categoria: "Pescados", existencias: 3, unidad: "kg", precio: 72.00, estado: "CRITICO", thumb: "from-rose-700 to-orange-500" },
+  { id: "5", producto: "Gambas Rojas Denia", categoria: "Pescados", existencias: 3, unidad: "kg", precio: 72.00, estado: "CRITICO", thumb: "from-rose-700 to-amber-500" },
   { id: "6", producto: "Queso Idiazabal", categoria: "Lacteos", existencias: 18, unidad: "ud", precio: 28.50, estado: "OPTIMO", thumb: "from-yellow-700 to-amber-500" },
   { id: "7", producto: "Rioja Gran Reserva 2018", categoria: "Bodega", existencias: 36, unidad: "bot", precio: 54.00, estado: "OPTIMO", thumb: "from-purple-900 to-red-700" },
   { id: "8", producto: "Jamon Iberico 5J", categoria: "Carnes", existencias: 2, unidad: "pza", precio: 420.00, estado: "AVISO", thumb: "from-red-900 to-rose-700" },

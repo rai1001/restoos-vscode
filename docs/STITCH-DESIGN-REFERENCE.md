@@ -24,7 +24,7 @@
 - Cards: #1A1A1A
 - Interactive: #2A2A2A
 - Modals: #353534
-- Primary accent: #F97316
+- Primary accent: #B8906F
 - Text primary: #E5E2E1
 - Text secondary: #A78B7D
 - Ghost border: #584237 at 15% opacity

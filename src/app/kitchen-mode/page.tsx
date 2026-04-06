@@ -41,7 +41,7 @@ const QUICK_PRODUCTS = [
 const WASTE_REASONS = [
   { id: "expired", label: "Caducado", icon: "⏰", color: "border-red-700 bg-red-950/30" },
   { id: "damaged", label: "Deteriorado", icon: "💔", color: "border-yellow-700 bg-yellow-950/30" },
-  { id: "accident", label: "Accidente", icon: "💥", color: "border-orange-700 bg-[var(--alert-warning)]/30" },
+  { id: "accident", label: "Accidente", icon: "💥", color: "border-[var(--alert-warning)] bg-[var(--alert-warning)]/30" },
   { id: "overproduction", label: "Sobreproducción", icon: "📦", color: "border-blue-700 bg-blue-950/30" },
 ]
 

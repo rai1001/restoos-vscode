@@ -117,7 +117,7 @@ public/manifest.json
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0A0A0A",
-  "theme_color": "#F97316",
+  "theme_color": "#B8906F",
   "orientation": "portrait",
   "icons": [
     { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
@@ -146,7 +146,7 @@ const config = withPWA({
 
 ```html
 <link rel="manifest" href="/manifest.json" />
-<meta name="theme-color" content="#F97316" />
+<meta name="theme-color" content="#B8906F" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <link rel="apple-touch-icon" href="/icons/icon-192.png" />

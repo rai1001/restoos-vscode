@@ -7,7 +7,7 @@
 export const CHART_COLORS = {
   blue: "#378ADD",      // KPIs, primary series
   green: "#1D9E75",     // Stock ok, profit, success
-  orange: "#D85A30",    // Moderate warnings
+  bronze: "#B8906F",    // Accent / secondary series
   amber: "#BA7517",     // Attention required
   red: "#E24B4A",       // Critical alerts, errors
   gray: "#888780",      // Secondary text, neutral
@@ -19,7 +19,7 @@ export const SERIES_COLORS = [
   CHART_COLORS.red,
   CHART_COLORS.green,
   CHART_COLORS.amber,
-  CHART_COLORS.orange,
+  CHART_COLORS.bronze,
 ] as const;
 
 // Semantic colors

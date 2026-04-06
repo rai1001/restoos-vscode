@@ -103,7 +103,7 @@ const HOMOLOGATED_SUPPLIERS = [
       { label: "GLOBAL", color: "bg-purple-500/15 text-purple-400" },
     ],
     initials: "MK",
-    gradient: "from-orange-700 to-amber-600",
+    gradient: "from-amber-700 to-amber-600",
   },
   {
     id: "sup-sysco",

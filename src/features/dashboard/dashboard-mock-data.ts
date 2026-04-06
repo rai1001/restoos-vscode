@@ -7,7 +7,7 @@ export interface KpiMetric {
   trend: number          // % change vs previous period (positive = good, negative = bad)
   trendInverted?: boolean // for cost metrics: lower is better
   icon: string           // lucide icon name as string (for display logic)
-  color: "green" | "blue" | "orange" | "purple" | "red" | "yellow"
+  color: "green" | "blue" | "muted" | "purple" | "red" | "yellow"
 }
 
 export interface AlertItem {
@@ -66,7 +66,7 @@ export const DASHBOARD_KPIS: KpiMetric[] = [
     subvalue: "2 pendientes de recibir",
     trend: 0,
     icon: "ShoppingCart",
-    color: "orange",
+    color: "muted",
   },
   {
     label: "Controles APPCC hoy",

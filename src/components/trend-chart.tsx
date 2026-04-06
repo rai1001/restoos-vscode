@@ -27,7 +27,7 @@ const METRICS = [
   { key: "tasks_pending", label: "Tareas pendientes", color: "#f59e0b" },
   { key: "tasks_blocked", label: "Tareas bloqueadas", color: "#ef4444" },
   { key: "po_pending", label: "Pedidos pendientes", color: "#8b5cf6" },
-  { key: "stock_expiring_3d", label: "Stock por caducar", color: "#f97316" },
+  { key: "stock_expiring_3d", label: "Stock por caducar", color: "#B8906F" },
   { key: "alerts_active", label: "Alertas activas", color: "#ec4899" },
 ] as const;
 

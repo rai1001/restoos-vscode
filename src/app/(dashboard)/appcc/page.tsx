@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { EmptyState } from "@/components/empty-state"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -413,11 +414,11 @@ function RecordsTab({ date }: { date: string }) {
 
   if (records.length === 0) {
     return (
-      <div className="text-center py-8">
-        <ShieldCheck className="mx-auto h-10 w-10 text-muted-foreground/30 mb-3" />
-        <p className="text-muted-foreground text-sm">No hay registros para este día.</p>
-        <p className="text-muted-foreground/60 text-xs mt-1">Pulsa &ldquo;Nuevo registro&rdquo; para empezar.</p>
-      </div>
+      <EmptyState
+        icon={ShieldCheck}
+        title="No hay registros para este día"
+        description="Pulsa «Nuevo registro» para empezar a documentar los controles APPCC."
+      />
     )
   }
 

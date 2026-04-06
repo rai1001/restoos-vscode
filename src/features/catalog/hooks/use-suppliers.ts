@@ -63,6 +63,34 @@ export function useSupplierOffers(supplierId: string | undefined) {
   });
 }
 
+export function useAllOffers() {
+  const { hotelId } = useActiveHotel();
+  const isDev = process.env.NODE_ENV === "development";
+  const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
+
+  return useQuery({
+    queryKey: ["all-offers", hotelId],
+    queryFn: () => {
+      if ((isDev && skipAuth) || (!hotelId && isDev)) return Promise.resolve(MOCK_SUPPLIER_OFFERS.map((o) => ({
+        id: o.id,
+        hotel_id: "",
+        supplier_id: o.supplier_id,
+        product_id: o.product_id,
+        unit_id: "",
+        price: o.price,
+        min_order_qty: null,
+        lead_time_days: null,
+        is_preferred: o.is_preferred,
+        valid_from: null,
+        valid_until: null,
+      })));
+      return catalogService.listOffers(hotelId!);
+    },
+    enabled: isDev ? true : !!hotelId,
+    staleTime: 5 * 60_000,
+  });
+}
+
 export function useCreateSupplier() {
   const { hotelId } = useActiveHotel();
   const queryClient = useQueryClient();

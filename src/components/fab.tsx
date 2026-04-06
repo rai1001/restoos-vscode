@@ -49,7 +49,7 @@ export function FAB() {
                 setOpen(false);
               }}
               className={cn(
-                "flex h-10 w-10 items-center justify-center rounded-full text-white shadow-lg transition-all",
+                "flex h-11 w-11 items-center justify-center rounded-full text-white shadow-lg transition-all",
                 action.color
               )}
               aria-label={action.label}

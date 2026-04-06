@@ -34,7 +34,8 @@ import { ProductCombobox } from "@/components/product-combobox";
 import { RecipeCombobox } from "@/components/recipe-combobox";
 import { CreateSubRecipeLink } from "@/components/create-sub-recipe-dialog";
 import { matchIngredientToProduct } from "@/lib/product-matcher";
-import { MOCK_PRODUCTS, getPreferredPrice } from "@/lib/mock-data";
+import { useProducts } from "@/features/catalog/hooks/use-products";
+import { useAllOffers } from "@/features/catalog/hooks/use-suppliers";
 
 const CATEGORIES = [
   "entrante", "principal", "postre", "guarnicion", "salsa",
@@ -46,6 +47,14 @@ const UNITS = ["kg", "g", "L", "ml", "ud", "manojo", "diente", "cucharada", "cuc
 export default function NewRecipePage() {
   const router = useRouter();
   const createRecipe = useCreateRecipe();
+  const { data: products } = useProducts();
+  const { data: offers } = useAllOffers();
+
+  const getPreferredPrice = (productId: string): number | null => {
+    const productOffers = (offers ?? []).filter(o => o.product_id === productId);
+    const preferred = productOffers.find(o => o.is_preferred);
+    return preferred?.price ?? productOffers[0]?.price ?? null;
+  };
 
   // Preselect sub-recipe if coming from ?sub=1
   const isSubFromUrl = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("sub") === "1";
@@ -105,7 +114,7 @@ export default function NewRecipePage() {
       if (parsed) {
         const matches = matchIngredientToProduct(
           parsed.name,
-          MOCK_PRODUCTS.map((p) => ({ id: p.id, name: p.name }))
+          (products ?? []).map((p) => ({ id: p.id, name: p.name }))
         );
         let matchedProductId: string | undefined;
         let displayName = parsed.name;

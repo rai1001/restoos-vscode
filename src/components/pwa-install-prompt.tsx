@@ -54,10 +54,10 @@ export function PWAInstallPrompt() {
             Accede más rápido desde tu tablet o móvil de cocina
           </p>
           <div className="flex gap-2 mt-3">
-            <Button size="sm" onClick={handleInstall} className="h-7 text-xs">
+            <Button size="sm" onClick={handleInstall}>
               Instalar
             </Button>
-            <Button size="sm" variant="ghost" onClick={() => setDismissed(true)} className="h-7 text-xs">
+            <Button size="sm" variant="ghost" onClick={() => setDismissed(true)}>
               Ahora no
             </Button>
           </div>

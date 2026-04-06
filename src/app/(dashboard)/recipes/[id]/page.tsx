@@ -17,7 +17,8 @@ import {
 import { ProductCombobox } from "@/components/product-combobox";
 import { RecipeCombobox } from "@/components/recipe-combobox";
 import { CreateSubRecipeLink } from "@/components/create-sub-recipe-dialog";
-import { MOCK_PRODUCTS, MOCK_SUPPLIER_OFFERS, MOCK_VOLUME_DISCOUNTS, MOCK_RECIPE_INGREDIENTS, getPreferredPrice } from "@/lib/mock-data";
+import { useProducts } from "@/features/catalog/hooks/use-products";
+import { useAllOffers } from "@/features/catalog/hooks/use-suppliers";
 import { RECIPE_TRANSITIONS, type RecipeStatus } from "@/contracts/enums";
 import { calculateRecipeCost, collectAllergens } from "@/lib/calculations/costEngine";
 import { calculatePricingByChannel } from "@/lib/calculations/marginEngine";
@@ -88,6 +89,8 @@ export default function RecipeDetailPage({
   const removeIngredient = useRemoveIngredient(id);
   const addStep = useAddStep(id);
   const removeStep = useRemoveStep(id);
+  const { data: products } = useProducts();
+  const { data: offers } = useAllOffers();
 
   const [ingredientDialog, setIngredientDialog] = useState(false);
   const [stepDialog, setStepDialog] = useState(false);
@@ -168,7 +171,7 @@ export default function RecipeDetailPage({
 
   const getProductName = (productId: string | null) => {
     if (!productId) return "Desconocido";
-    return MOCK_PRODUCTS.find(p => p.id === productId)?.name ?? productId.slice(0, 8) + "..."
+    return (products ?? []).find(p => p.id === productId)?.name ?? productId.slice(0, 8) + "..."
   }
 
   const getIngredientName = (ing: { product_id: string | null; sub_recipe_id?: string | null; sub_recipe_name?: string | null; notes?: string | null }) => {
@@ -178,8 +181,14 @@ export default function RecipeDetailPage({
     return getProductName(ing.product_id);
   }
 
+  const getPreferredPrice = (productId: string): number | null => {
+    const productOffers = (offers ?? []).filter(o => o.product_id === productId);
+    const preferred = productOffers.find(o => o.is_preferred);
+    return preferred?.price ?? productOffers[0]?.price ?? null;
+  };
+
   const ingredientsCost = (ingredients ?? []).reduce((sum, ing) => {
-    if (!ing.product_id) return sum; // sub-recipes calculated separately
+    if (!ing.product_id) return sum;
     const price = getPreferredPrice(ing.product_id)
     return sum + (price ? ing.quantity * price : 0)
   }, 0)
@@ -233,32 +242,25 @@ export default function RecipeDetailPage({
   }
 
   function handleCalculateCost() {
-    const mockIngredientsRaw = MOCK_RECIPE_INGREDIENTS[id as keyof typeof MOCK_RECIPE_INGREDIENTS];
-    const mockIngredients: RecipeIngredientCalc[] | undefined = mockIngredientsRaw
-      ? (mockIngredientsRaw as unknown as RecipeIngredientCalc[])
-      : undefined;
-
-    const recipeIngredients: RecipeIngredientCalc[] = mockIngredients
-      ? [...mockIngredients]
-      : (ingredients ?? []).map((ing) => ({
-          id: ing.id,
-          product_id: ing.product_id,
-          product_name: getProductName(ing.product_id),
-          sub_recipe_id: ing.sub_recipe_id ?? null,
-          quantity: ing.quantity,
-          unit: {
-            id: "unit-kg",
-            name: "Kilogramo",
-            abbreviation: "kg",
-          },
-          unit_id: "unit-kg",
-          waste_percent: 0.05,
-          catalog_entry_id: null,
-          notes: ing.notes ?? null,
-        }));
+    const recipeIngredients: RecipeIngredientCalc[] = (ingredients ?? []).map((ing) => ({
+      id: ing.id,
+      product_id: ing.product_id,
+      product_name: getProductName(ing.product_id),
+      sub_recipe_id: ing.sub_recipe_id ?? null,
+      quantity: ing.quantity,
+      unit: {
+        id: "unit-kg",
+        name: "Kilogramo",
+        abbreviation: "kg",
+      },
+      unit_id: "unit-kg",
+      waste_percent: 0.05,
+      catalog_entry_id: null,
+      notes: ing.notes ?? null,
+    }));
 
     if (recipeIngredients.length === 0) {
-      toast.info("Anade ingredientes primero");
+      toast.info("Añade ingredientes primero");
       return;
     }
 
@@ -275,7 +277,7 @@ export default function RecipeDetailPage({
     };
 
     const productMap: ProductMap = {};
-    for (const p of MOCK_PRODUCTS) {
+    for (const p of (products ?? [])) {
       productMap[p.id] = {
         id: p.id,
         name: p.name,
@@ -285,20 +287,20 @@ export default function RecipeDetailPage({
     }
 
     const catalogMap: CatalogMap = {};
-    for (const offer of MOCK_SUPPLIER_OFFERS) {
+    for (const offer of (offers ?? [])) {
       if (!catalogMap[offer.product_id]) {
         catalogMap[offer.product_id] = [];
       }
       catalogMap[offer.product_id]!.push({
         id: offer.id,
         supplier_id: offer.supplier_id,
-        supplier_name: offer.supplier_name,
+        supplier_name: "",
         product_id: offer.product_id,
         unit_price: offer.price,
-        min_order_qty: 1,
+        min_order_qty: offer.min_order_qty ?? 1,
         pack_size: 1,
         is_preferred: offer.is_preferred,
-        volume_discounts: MOCK_VOLUME_DISCOUNTS[offer.id] ?? [],
+        volume_discounts: [],
       });
     }
 
@@ -326,37 +328,26 @@ export default function RecipeDetailPage({
 
   function buildScalingCatalogMap(): CatalogMap {
     const catalogMap: CatalogMap = {};
-    for (const offer of MOCK_SUPPLIER_OFFERS) {
+    for (const offer of (offers ?? [])) {
       if (!catalogMap[offer.product_id]) {
         catalogMap[offer.product_id] = [];
       }
       catalogMap[offer.product_id]!.push({
         id: offer.id,
         supplier_id: offer.supplier_id,
-        supplier_name: offer.supplier_name,
+        supplier_name: "",
         product_id: offer.product_id,
         unit_price: offer.price,
-        min_order_qty: 1,
+        min_order_qty: offer.min_order_qty ?? 1,
         pack_size: 1,
         is_preferred: offer.is_preferred,
-        volume_discounts: MOCK_VOLUME_DISCOUNTS[offer.id] ?? [],
+        volume_discounts: [],
       });
     }
     return catalogMap;
   }
 
   function buildScalingIngredients(): RecipeIngredient[] {
-    const mockIngredientsRaw = MOCK_RECIPE_INGREDIENTS[id as keyof typeof MOCK_RECIPE_INGREDIENTS];
-    if (mockIngredientsRaw) {
-      return (mockIngredientsRaw as unknown as RecipeIngredientCalc[]).map((ing) => ({
-        product_id: ing.product_id,
-        product_name: ing.product_name,
-        unit_id: ing.unit_id,
-        unit: ing.unit,
-        quantity: ing.quantity,
-        waste_percent: ing.waste_percent,
-      }));
-    }
     return (ingredients ?? []).map((ing) => ({
       product_id: ing.product_id,
       product_name: getProductName(ing.product_id),

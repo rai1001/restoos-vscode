@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCreateRecipe } from "@/features/recipes/hooks/use-recipes";
+import { recipeService } from "@/features/recipes/services/recipe.service";
+import { useActiveHotel } from "@/lib/auth/hooks";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -46,6 +48,7 @@ const UNITS = ["kg", "g", "L", "ml", "ud", "manojo", "diente", "cucharada", "cuc
 
 export default function NewRecipePage() {
   const router = useRouter();
+  const { hotelId } = useActiveHotel();
   const createRecipe = useCreateRecipe();
   const { data: products } = useProducts();
   const { data: offers } = useAllOffers();
@@ -202,9 +205,41 @@ export default function NewRecipePage() {
 
   async function onSubmit(data: CreateRecipeInput) {
     const result = await createRecipe.mutateAsync(data);
+    const recipeId = result?.recipe_id;
+
+    if (recipeId && hotelId) {
+      // Save ingredients
+      for (const ing of ingredients) {
+        try {
+          await recipeService.addIngredient(hotelId, recipeId, {
+            product_id: ing.product_id,
+            sub_recipe_id: ing.sub_recipe_id,
+            unit_id: undefined,
+            quantity: ing.quantity,
+            notes: ing.notes,
+          });
+        } catch (err) {
+          console.error("Error saving ingredient:", err);
+        }
+      }
+
+      // Save steps
+      for (const [i, step] of steps.entries()) {
+        try {
+          await recipeService.addStep(hotelId, recipeId, {
+            step_number: i + 1,
+            instruction: step.instruction,
+            duration_min: step.duration_min,
+          });
+        } catch (err) {
+          console.error("Error saving step:", err);
+        }
+      }
+    }
+
     toast.success(`Receta "${data.name}" creada con ${ingredients.length} ingredientes y ${steps.length} pasos`);
-    if (result?.recipe_id) {
-      router.push(`/recipes/${result.recipe_id}`);
+    if (recipeId) {
+      router.push(`/recipes/${recipeId}`);
     } else {
       router.push("/recipes");
     }

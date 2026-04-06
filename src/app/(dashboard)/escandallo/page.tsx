@@ -128,23 +128,20 @@ function KpiCard({
   label,
   value,
   subtitle,
-  subtitleColor = "text-gray-400",
-  borderColor = "bg-primary",
+  subtitleColor = "text-[var(--muted)]",
 }: {
   label: string
   value: string
   subtitle: string
   subtitleColor?: string
-  borderColor?: string
 }) {
   return (
-    <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
-      <div className={cn("absolute left-0 top-0 bottom-0 w-1", borderColor)} />
-      <p className="text-[11px] uppercase tracking-widest text-gray-500 dark:text-gray-500 font-medium mb-2 pl-3">
+    <div className="rounded-xl bg-card border border-border p-5">
+      <p className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium mb-2">
         {label}
       </p>
-      <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 pl-3">{value}</p>
-      <p className={cn("text-xs mt-1 pl-3", subtitleColor)}>{subtitle}</p>
+      <p className="text-2xl font-bold text-[var(--fg-strong)]">{value}</p>
+      <p className={cn("text-xs mt-1", subtitleColor)}>{subtitle}</p>
     </div>
   )
 }
@@ -251,29 +248,23 @@ function DetailDialog({
                 label="Coste Total por Racion"
                 value={fmt(escandallo.cost_per_portion)}
                 subtitle={`${evolutionChangePct >= 0 ? "+" : ""}${evolutionChangePct.toFixed(1)}% vs mes anterior`}
-                subtitleColor={evolutionChangePct > 0 ? "text-[var(--alert-critical)]" : "text-[var(--alert-ok)]"}
-                borderColor="bg-primary"
+                subtitleColor={evolutionChangePct > 5 ? "text-[var(--alert-critical)]" : "text-[var(--muted)]"}
               />
               <KpiCard
                 label="Margen Objetivo"
                 value={`${targetMarginPct.toFixed(1)}%`}
                 subtitle="Optimizado"
-                subtitleColor="text-[var(--alert-ok)]"
-                borderColor="bg-[var(--alert-ok)]"
               />
               <KpiCard
                 label="Precio Recomendado (PVP)"
                 value={fmt(escandallo.suggested_price)}
                 subtitle="Inc. IVA 10%"
-                subtitleColor="text-gray-400 dark:text-gray-500"
-                borderColor="bg-primary"
               />
               <KpiCard
                 label="Margen Real vs Teorico"
                 value={`${marginPct.toFixed(1)}%`}
                 subtitle={`Desviacion ${marginDeviation >= 0 ? "+" : ""}${marginDeviation.toFixed(1)}%`}
-                subtitleColor={Math.abs(marginDeviation) > 3 ? "text-[var(--alert-warning)]" : "text-[var(--alert-ok)]"}
-                borderColor={Math.abs(marginDeviation) > 3 ? "bg-[var(--alert-warning)]" : "bg-[var(--alert-ok)]"}
+                subtitleColor={Math.abs(marginDeviation) > 3 ? "text-[var(--alert-warning)]" : "text-[var(--muted)]"}
               />
             </div>
 
@@ -645,65 +636,53 @@ export default function EscandalloPage() {
       {/* ── Invoice OCR Upload ── */}
       <InvoiceUploader />
 
-      {/* ── Summary KPI Cards with colored left border ── */}
+      {/* ── Summary KPI Cards — Calm Darkness: no colored borders, color only on alerts ── */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
-          <div className="pl-3">
-            <div className="flex items-center gap-2 mb-2">
-              <UtensilsCrossed className="h-4 w-4 text-gray-400 dark:text-gray-600" />
-              <p className="text-[11px] uppercase tracking-widest text-gray-500 dark:text-gray-500 font-medium">
-                Recetas analizadas
-              </p>
-            </div>
-            <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">{escandallos.length}</p>
-          </div>
-        </div>
-
-        <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary" />
-          <div className="pl-3">
-            <div className="flex items-center gap-2 mb-2">
-              <Calculator className="h-4 w-4 text-gray-400 dark:text-gray-600" />
-              <p className="text-[11px] uppercase tracking-widest text-gray-500 dark:text-gray-500 font-medium">
-                Coste medio / racion
-              </p>
-            </div>
-            <p className="text-3xl font-bold text-primary">{fmt(avgCostPerPortion)}</p>
-          </div>
-        </div>
-
-        <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
-          <div className="absolute left-0 top-0 bottom-0 w-1 bg-[var(--alert-ok)]" />
-          <div className="pl-3">
-            <div className="flex items-center gap-2 mb-2">
-              <TrendingUp className="h-4 w-4 text-gray-400 dark:text-gray-600" />
-              <p className="text-[11px] uppercase tracking-widest text-gray-500 dark:text-gray-500 font-medium">
-                Food cost medio
-              </p>
-            </div>
-            <p className={cn(
-              "text-3xl font-bold",
-              avgFoodCostPct <= 30 ? "text-[var(--alert-ok)]" : avgFoodCostPct <= 35 ? "text-[var(--alert-warning)]" : "text-[var(--alert-critical)]"
-            )}>
-              {avgFoodCostPct.toFixed(1)}%
+        <div className="rounded-xl bg-card border border-border p-5">
+          <div className="flex items-center gap-2 mb-2">
+            <UtensilsCrossed className="h-4 w-4 text-[var(--muted)]" />
+            <p className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">
+              Recetas analizadas
             </p>
           </div>
+          <p className="text-3xl font-bold text-[var(--fg-strong)]">{escandallos.length}</p>
         </div>
 
-        <div className="relative overflow-hidden rounded-xl bg-white dark:bg-card border border-gray-200 dark:border-accent/30 p-5">
-          <div className={cn("absolute left-0 top-0 bottom-0 w-1", alertCount > 0 ? "bg-[var(--alert-critical)]" : "bg-[var(--alert-ok)]")} />
-          <div className="pl-3">
-            <div className="flex items-center gap-2 mb-2">
-              <AlertTriangle className="h-4 w-4 text-gray-400 dark:text-gray-600" />
-              <p className="text-[11px] uppercase tracking-widest text-gray-500 dark:text-gray-500 font-medium">
-                Con alerta de precio
-              </p>
-            </div>
-            <p className={cn("text-3xl font-bold", alertCount > 0 ? "text-[var(--alert-critical)]" : "text-[var(--alert-ok)]")}>
-              {alertCount}
+        <div className="rounded-xl bg-card border border-border p-5">
+          <div className="flex items-center gap-2 mb-2">
+            <Calculator className="h-4 w-4 text-[var(--muted)]" />
+            <p className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">
+              Coste medio / racion
             </p>
           </div>
+          <p className="text-3xl font-bold text-[var(--fg-strong)]">{fmt(avgCostPerPortion)}</p>
+        </div>
+
+        <div className="rounded-xl bg-card border border-border p-5">
+          <div className="flex items-center gap-2 mb-2">
+            <TrendingUp className="h-4 w-4 text-[var(--muted)]" />
+            <p className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">
+              Food cost medio
+            </p>
+          </div>
+          <p className={cn(
+            "text-3xl font-bold",
+            avgFoodCostPct > 35 ? "text-[var(--alert-critical)]" : avgFoodCostPct > 30 ? "text-[var(--alert-warning)]" : "text-[var(--fg-strong)]"
+          )}>
+            {avgFoodCostPct.toFixed(1)}%
+          </p>
+        </div>
+
+        <div className="rounded-xl bg-card border border-border p-5">
+          <div className="flex items-center gap-2 mb-2">
+            <AlertTriangle className="h-4 w-4 text-[var(--muted)]" />
+            <p className="text-[11px] uppercase tracking-widest text-[var(--muted)] font-medium">
+              Con alerta de precio
+            </p>
+          </div>
+          <p className={cn("text-3xl font-bold", alertCount > 0 ? "text-[var(--alert-critical)]" : "text-[var(--fg-strong)]")}>
+            {alertCount}
+          </p>
         </div>
       </div>
 
@@ -764,7 +743,7 @@ export default function EscandalloPage() {
                     {recipe.has_price_alert ? (
                       <span className="inline-flex h-2.5 w-2.5 rounded-full bg-[var(--alert-critical)] animate-pulse" title="Variacion >5% en algun ingrediente" />
                     ) : (
-                      <span className="inline-flex h-2.5 w-2.5 rounded-full bg-[var(--alert-ok)]" title="Sin alertas de precio" />
+                      <span className="inline-flex h-2.5 w-2.5 rounded-full bg-[var(--muted-light)]" title="Sin alertas de precio" />
                     )}
                   </TableCell>
                   <TableCell className="text-center">

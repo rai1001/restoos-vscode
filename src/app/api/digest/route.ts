@@ -35,12 +35,13 @@ export async function POST() {
       }
     }
 
-    // Fallback: return the digest content (for preview / mock mode)
+    // No Resend key — return preview with explicit warning
     return NextResponse.json({
       sent: false,
       mock: true,
+      warning: "Digest generado con datos de ejemplo. Falta RESEND_API_KEY para envío real.",
       digest: {
-        subject: `📋 Resumen diario — ${digest.restaurantName} — ${digest.date}`,
+        subject: `Resumen diario — ${digest.restaurantName} — ${digest.date}`,
         html,
         text,
         itemCount: digest.items.length,

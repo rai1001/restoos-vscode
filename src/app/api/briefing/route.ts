@@ -35,8 +35,10 @@ export async function POST(request: Request) {
     const apiKey = process.env.GEMINI_API_KEY
 
     if (!apiKey || apiKey === "your_gemini_api_key") {
-      await new Promise(r => setTimeout(r, 800))
-      return NextResponse.json({ briefing: generateMockBriefing(body), mock: true })
+      return NextResponse.json(
+        { error: "Briefing IA no configurado. Falta GEMINI_API_KEY en el servidor.", mock: true },
+        { status: 503 }
+      )
     }
 
     // Real Gemini call

@@ -1,5 +1,5 @@
 /**
- * Chart color palette and configuration for CulinaryOS
+ * Chart color palette and configuration for RestoOS
  * Based on the Data Visualization Guide v1.0
  */
 

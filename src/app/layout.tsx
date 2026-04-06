@@ -32,10 +32,6 @@ export const metadata: Metadata = {
     siteName: "RestoOS",
     locale: "es_ES",
   },
-  robots: {
-    index: false,
-    follow: false,
-  },
 };
 
 export default function RootLayout({

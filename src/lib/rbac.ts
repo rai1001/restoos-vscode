@@ -1,4 +1,4 @@
-// Role hierarchy and permissions for ChefOS
+// Role hierarchy and permissions for RestoOS
 // Maps to the canonical Role values from contracts/enums.ts
 
 import { ROLE, type Role } from "@/contracts/enums";

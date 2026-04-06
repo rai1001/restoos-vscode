@@ -3,7 +3,7 @@
  * @description Engine-specific types (independent of Supabase/Zod schemas).
  *
  * These are the "universal" types the calculation engines work with.
- * They bridge the OLD CULINARY engine types with the NEW ChefOS app types.
+ * They bridge the OLD CULINARY engine types with the NEW RestoOS app types.
  * Pure data structures — no runtime dependencies.
  */
 

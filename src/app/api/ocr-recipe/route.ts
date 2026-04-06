@@ -67,10 +67,11 @@ export async function POST(request: NextRequest) {
 
     const apiKey = process.env.MISTRAL_API_KEY
 
-    // If no API key, return mock result
     if (!apiKey || apiKey === "your_mistral_api_key") {
-      await new Promise(r => setTimeout(r, 1500)) // simulate processing
-      return NextResponse.json({ result: mockOCRResult(), mock: true })
+      return NextResponse.json(
+        { error: "OCR no configurado. Falta MISTRAL_API_KEY en el servidor.", mock: true },
+        { status: 503 }
+      )
     }
 
     // Real Mistral Vision call

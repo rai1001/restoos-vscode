@@ -67,7 +67,7 @@ function buildEmailHtml(ticket: TicketPayload): string {
         <tr>
           <td style="background:#111827;padding:24px 32px;">
             <span style="font-size:20px;font-weight:700;color:#FFFFFF;letter-spacing:-0.5px;">
-              CulinaryOS
+              RestoOS
             </span>
             <span style="font-size:14px;color:#9CA3AF;margin-left:8px;">Feedback</span>
           </td>
@@ -129,7 +129,7 @@ function buildEmailHtml(ticket: TicketPayload): string {
         <tr>
           <td style="background:#F9FAFB;border-top:1px solid #E5E7EB;padding:16px 32px;text-align:center;">
             <p style="margin:0;font-size:12px;color:#9CA3AF;">
-              Este email fue generado automaticamente por CulinaryOS
+              Este email fue generado automaticamente por RestoOS
             </p>
           </td>
         </tr>
@@ -171,7 +171,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ sent: false, reason: "no_api_key" })
     }
 
-    const to = process.env.NOTIFY_EMAIL ?? "admin@culinaryos.com"
+    const to = process.env.NOTIFY_EMAIL ?? "admin@restoos.app"
 
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -180,9 +180,9 @@ export async function POST(request: NextRequest) {
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        from: "CulinaryOS Feedback <feedback@culinaryos.com>",
+        from: "RestoOS Feedback <feedback@restoos.app>",
         to,
-        subject: `[CulinaryOS Feedback] ${escapeHtml(ticket.type)} · ${escapeHtml(ticket.priority)} — ${escapeHtml(ticket.title)}`,
+        subject: `[RestoOS Feedback] ${escapeHtml(ticket.type)} · ${escapeHtml(ticket.priority)} — ${escapeHtml(ticket.title)}`,
         html: buildEmailHtml(ticket),
       }),
     })

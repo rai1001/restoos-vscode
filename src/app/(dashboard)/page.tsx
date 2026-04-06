@@ -816,7 +816,7 @@ function QuickActionsBar() {
 // ── Build KPIs from live data (fallback to mock) ─────────────────────────────
 
 function buildKpisFromLive(data: DashboardData | null): KpiMetric[] {
-  if (!data) return DASHBOARD_KPIS;
+  if (!data?.current) return DASHBOARD_KPIS;
 
   const c = data.current;
   return [
@@ -905,8 +905,12 @@ export default function DashboardPage() {
   // Use live data when available, fallback to mock
   const isLive = liveData !== null && !liveError;
   const kpis = buildKpisFromLive(liveData);
-  const alerts = isLive ? mapLiveAlerts(liveData!.active_alerts) : DASHBOARD_ALERTS;
-  const events = isLive ? mapLiveEvents(liveData!.upcoming_events) : UPCOMING_EVENTS;
+  const alerts = isLive && Array.isArray(liveData?.active_alerts)
+    ? mapLiveAlerts(liveData.active_alerts)
+    : DASHBOARD_ALERTS;
+  const events = isLive && Array.isArray(liveData?.upcoming_events)
+    ? mapLiveEvents(liveData.upcoming_events)
+    : UPCOMING_EVENTS;
 
   // Split KPIs: first 3 large, rest smaller
   const primaryKpis = kpis.slice(0, 3);

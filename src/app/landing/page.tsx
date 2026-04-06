@@ -1023,16 +1023,10 @@ function Footer() {
           <span className="font-semibold">RestoOS</span>
         </div>
         <p className="text-sm text-muted-foreground">
-          © 2026 CulinaryOS. Hecho en A Coruña con experiencia real de cocina.
+          © 2026 RestoOS. Hecho en A Coruña con experiencia real de cocina.
         </p>
         <div className="flex gap-6 text-sm text-muted-foreground">
-          <a href="#" className="transition-colors hover:text-foreground">
-            Privacidad
-          </a>
-          <a href="#" className="transition-colors hover:text-foreground">
-            Términos
-          </a>
-          <a href="#" className="transition-colors hover:text-foreground">
+          <a href="mailto:hola@restoos.app" className="transition-colors hover:text-foreground">
             Contacto
           </a>
         </div>

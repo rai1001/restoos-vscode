@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import {
@@ -65,15 +66,26 @@ import {
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
-const hour = new Date().getHours();
-const greeting =
-  hour < 12 ? "Buenos días" : hour < 20 ? "Buenas tardes" : "Buenas noches";
+function useGreeting() {
+  const [greeting, setGreeting] = useState("Bienvenido");
+  const [todayLabel, setTodayLabel] = useState("");
 
-const todayLabel = new Intl.DateTimeFormat("es-ES", {
-  weekday: "long",
-  day: "numeric",
-  month: "long",
-}).format(new Date());
+  useEffect(() => {
+    const hour = new Date().getHours();
+    setGreeting(
+      hour < 12 ? "Buenos días" : hour < 20 ? "Buenas tardes" : "Buenas noches"
+    );
+    setTodayLabel(
+      new Intl.DateTimeFormat("es-ES", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+      }).format(new Date())
+    );
+  }, []);
+
+  return { greeting, todayLabel };
+}
 
 function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -887,6 +899,7 @@ function mapLiveEvents(events: DashboardEvent[]): UpcomingEvent[] {
 }
 
 export default function DashboardPage() {
+  const { greeting, todayLabel } = useGreeting();
   const { data: liveData, loading: liveLoading, error: liveError } = useDashboardData();
 
   // Use live data when available, fallback to mock
@@ -905,7 +918,7 @@ export default function DashboardPage() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-[28px] font-bold text-foreground tracking-tight">
-            {greeting}, Chef <span role="img" aria-label="wave">👋</span>
+            {greeting}, Chef
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {isLive ? "Datos en vivo" : "Vista previa (datos de ejemplo)"} · Hoy,{" "}

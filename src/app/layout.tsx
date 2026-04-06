@@ -11,15 +11,30 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://restoos.app";
+
 export const metadata: Metadata = {
-  title: "RestoOS",
+  title: {
+    default: "RestoOS",
+    template: "%s — RestoOS",
+  },
   description:
-    "Plataforma SaaS para gestión integral de restaurantes",
+    "Plataforma SaaS para gestión integral de restaurantes. Escandallos, APPCC, inventario, compras y 6 agentes IA.",
+  metadataBase: new URL(BASE_URL),
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
     title: "RestoOS",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "RestoOS",
+    locale: "es_ES",
+  },
+  robots: {
+    index: false,
+    follow: false,
   },
 };
 

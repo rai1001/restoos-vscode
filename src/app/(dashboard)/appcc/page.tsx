@@ -1057,10 +1057,10 @@ export default function AppccPage() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-lg bg-card p-4">
           <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-1.5 mb-2">
-            <CheckCircle2 className="h-4 w-4 text-green-500" /> Controles OK
+            <CheckCircle2 className="h-4 w-4 text-[var(--alert-ok)]" /> Controles OK
           </p>
           <div>
-            <span className="text-3xl font-bold text-green-400">{stats.ok}</span>
+            <span className={cn("text-3xl font-bold", stats.ok > 0 ? "text-[var(--alert-ok)]" : "text-foreground")}>{stats.ok}</span>
             <span className="text-muted-foreground text-sm ml-1">/ {stats.total}</span>
           </div>
         </div>

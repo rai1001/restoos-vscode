@@ -39,6 +39,7 @@ import {
   Truck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { DemoBanner } from "@/components/demo-banner";
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -415,6 +416,8 @@ export default function DocumentsPage() {
           Subir documento
         </Button>
       </div>
+
+      <DemoBanner module="Documentos" />
 
       {/* Status cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">

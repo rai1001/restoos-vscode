@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { DemoBanner } from "@/components/demo-banner"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -77,6 +78,8 @@ export default function CompliancePage() {
 
   return (
     <div className="space-y-8">
+      <DemoBanner module="Alérgenos y fichas técnicas" />
+
       {/* Header */}
       <div>
         <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-1">

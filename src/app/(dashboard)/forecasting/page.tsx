@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
+import { DemoBanner } from "@/components/demo-banner"
 import {
   generateForecast,
   type HistoricalConsumption,
@@ -295,6 +296,8 @@ export default function ForecastingPage() {
           {loading ? "Calculando..." : "Generar prevision"}
         </Button>
       </div>
+
+      <DemoBanner module="Forecasting" />
 
       {/* ── Empty state ── */}
       {!forecastResult && !loading && (

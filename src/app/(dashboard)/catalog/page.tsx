@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useProducts } from "@/features/catalog/hooks/use-products";
+import { DemoBanner } from "@/components/demo-banner";
 import { useSuppliers } from "@/features/catalog/hooks/use-suppliers";
 import { Button } from "@/components/ui/button";
 import {
@@ -186,6 +187,8 @@ export default function CatalogPage() {
 
   return (
     <div className="space-y-8">
+      <DemoBanner module="Comparativa de precios y pedidos" />
+
       {/* ── Header ──────────────────────────────────────────── */}
       <div className="flex items-start justify-between">
         <div>

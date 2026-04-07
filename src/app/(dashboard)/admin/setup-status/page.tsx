@@ -29,6 +29,7 @@ import {
   Users,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { DemoBanner } from "@/components/demo-banner"
 
 // ── Mock pilot restaurants ──────────────────────────────────────────────────
 interface PilotRestaurant {
@@ -141,6 +142,8 @@ export default function SetupStatusPage() {
           Seguimiento de restaurantes en piloto gratuito
         </p>
       </div>
+
+      <DemoBanner module="Setup" />
 
       {/* KPIs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

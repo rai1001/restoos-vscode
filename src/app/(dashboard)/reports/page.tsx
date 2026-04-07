@@ -63,6 +63,7 @@ import {
   formatKg,
 } from "@/lib/chart-config"
 import { cn } from "@/lib/utils"
+import { DemoBanner } from "@/components/demo-banner"
 
 // ─── Design tokens (Stitch Matte Kitchen) ─────────────────────────────────────
 
@@ -573,6 +574,8 @@ export default function ReportsPage() {
           Informes y Analitica
         </h1>
       </div>
+
+      <DemoBanner module="Informes" />
 
       {/* -- Print-only title -- */}
       <div className="hidden print:block mb-4">

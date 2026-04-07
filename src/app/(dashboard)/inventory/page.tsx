@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useStockLevels, useStockAlerts } from "@/features/inventory/hooks/use-inventory";
+import { DemoBanner } from "@/components/demo-banner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -129,6 +130,8 @@ export default function InventoryPage() {
 
   return (
     <div className="space-y-8">
+      <DemoBanner module="Gráficos y entregas programadas" />
+
       {/* ---- Header ---- */}
       <div className="flex items-start justify-between">
         <div>

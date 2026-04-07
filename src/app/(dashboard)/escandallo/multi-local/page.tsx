@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft, AlertTriangle, TrendingUp, TrendingDown, Building2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
+import { DemoBanner } from "@/components/demo-banner"
 
 // ── Mock: misma receta, coste diferente por local ────────────────────────────
 
@@ -141,6 +142,8 @@ export default function EscandalloMultiLocalPage() {
           Misma receta, diferente coste — ¿dónde se escapa el margen?
         </p>
       </div>
+
+      <DemoBanner module="Multi-local" />
 
       {/* Saving opportunity */}
       <div className="rounded-lg bg-primary/5 border border-primary/20 p-5 flex items-start gap-4">

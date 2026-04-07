@@ -15,6 +15,7 @@ import {
 import { ArrowLeft, AlertTriangle, TrendingDown } from "lucide-react"
 import { CSVImportSales } from "@/features/sales/components/csv-import-sales"
 import { cn } from "@/lib/utils"
+import { DemoBanner } from "@/components/demo-banner"
 
 // Mock data: theoretical vs real stock comparison
 const MOCK_COMPARISON = [
@@ -71,6 +72,8 @@ export default function TheoreticalInventoryPage() {
         </div>
         <CSVImportSales />
       </div>
+
+      <DemoBanner module="Inventario teórico" />
 
       {/* KPIs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

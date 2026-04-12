@@ -38,7 +38,7 @@ export const MODULE_ACCESS: ModuleAccess[] = [
   // Gestión
   { href: "/reports", roles: ["superadmin", "direction", "admin"] },
   { href: "/staffing", roles: ["superadmin", "direction", "admin"] },
-  { href: "/settings/hotel", roles: ["superadmin", "direction", "admin"] },
+  { href: "/settings/restaurant", roles: ["superadmin", "direction", "admin"] },
 
   // Admin only
   { href: "/onboarding", roles: ["superadmin", "direction", "admin"] },

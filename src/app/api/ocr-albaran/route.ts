@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { requireAuth } from "@/lib/api/require-auth"
+import { checkRateLimit } from "@/lib/api/rate-limit"
 
 interface OCRResult {
   supplier_name: string | null
@@ -36,6 +37,9 @@ export async function POST(request: NextRequest) {
   try {
     const auth = await requireAuth()
     if (auth.error) return auth.error
+
+    const limited = await checkRateLimit(auth.user.id, "ai")
+    if (limited) return limited
 
     const formData = await request.formData()
     const file = formData.get("file") as File | null

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCreateRecipe } from "@/features/recipes/hooks/use-recipes";
 import { recipeService } from "@/features/recipes/services/recipe.service";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -48,7 +48,7 @@ const UNITS = ["kg", "g", "L", "ml", "ud", "manojo", "diente", "cucharada", "cuc
 
 export default function NewRecipePage() {
   const router = useRouter();
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const createRecipe = useCreateRecipe();
   const { data: products } = useProducts();
   const { data: offers } = useAllOffers();

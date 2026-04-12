@@ -1,14 +1,14 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { priceHistoryService } from "../services/price-history.service";
 
 export function usePriceHistory(
   productId: string | undefined,
   filters: { supplierId?: string; dateFrom?: string; dateTo?: string } = {}
 ) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   return useQuery({
     queryKey: ["price-history", hotelId, productId, filters],
     queryFn: () => priceHistoryService.getPriceHistory(hotelId!, productId!, filters),
@@ -18,7 +18,7 @@ export function usePriceHistory(
 }
 
 export function useLatestPrices(productIds: string[]) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   return useQuery({
     queryKey: ["latest-prices", hotelId, productIds],
     queryFn: () => priceHistoryService.getLatestPrices(hotelId!, productIds),
@@ -28,7 +28,7 @@ export function useLatestPrices(productIds: string[]) {
 }
 
 export function usePriceStats(productId: string | undefined) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   return useQuery({
     queryKey: ["price-stats", hotelId, productId],
     queryFn: () => priceHistoryService.getPriceStats(hotelId!, productId!),
@@ -38,7 +38,7 @@ export function usePriceStats(productId: string | undefined) {
 }
 
 export function usePriceAlerts(threshold: number = 15) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   return useQuery({
     queryKey: ["price-alerts", hotelId, threshold],
     queryFn: () => priceHistoryService.getPriceAlerts(hotelId!, threshold),

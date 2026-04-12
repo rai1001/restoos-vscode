@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { extractInvoice } from "@/features/invoice-ocr/services/ocr-provider";
 import { requireAuth } from "@/lib/api/require-auth";
+import { checkRateLimit } from "@/lib/api/rate-limit";
 
 export async function POST(request: NextRequest) {
   try {
     const auth = await requireAuth();
     if (auth.error) return auth.error;
+
+    const limited = await checkRateLimit(auth.user.id, "ai");
+    if (limited) return limited;
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
 
@@ -46,8 +50,7 @@ export async function POST(request: NextRequest) {
     const result = await extractInvoice(base64, file.type);
 
     return NextResponse.json(result);
-  } catch (error) {
-    console.error("OCR error:", error);
+  } catch {
     return NextResponse.json(
       { error: "Error procesando la factura. Inténtalo de nuevo." },
       { status: 500 }

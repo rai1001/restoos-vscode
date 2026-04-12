@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { matchProducts, saveAlias, updatePrices } from "../services/product-matcher";
 import type { MatchedLine } from "../services/product-matcher";
 import type { OcrResult } from "../services/ocr-provider";
@@ -11,7 +11,7 @@ import { toast } from "sonner";
 export type OcrStep = "upload" | "review" | "confirm" | "done";
 
 export function useInvoiceOcr() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   const [step, setStep] = useState<OcrStep>("upload");
   const [ocrResult, setOcrResult] = useState<OcrResult | null>(null);

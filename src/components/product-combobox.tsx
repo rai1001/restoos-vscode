@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { Input } from "@/components/ui/input";
 import { MOCK_PRODUCTS, MOCK_CATEGORIES } from "@/lib/mock-data";
 import { useProducts } from "@/features/catalog/hooks/use-products";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { ALLERGENS } from "@/features/catalog/allergen-types";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
@@ -41,7 +41,7 @@ export function ProductCombobox({
   placeholder = "Buscar producto...",
   className,
 }: ProductComboboxProps) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const { data: remoteProducts } = useProducts();
 
   // Choose data source: remote when hotelId exists, otherwise mock

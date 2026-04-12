@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { reservationService } from "../services/reservation.service";
 import type { ReservationRow } from "../services/reservation.service";
 import { MOCK_RESERVATIONS, MOCK_TABLES, MOCK_TURNS } from "@/lib/resto-mock-data";
@@ -34,7 +34,7 @@ function rowToReservation(row: ReservationRow): Reservation {
 }
 
 export function useReservations(date?: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
 
   const { data, isLoading } = useQuery({
     queryKey: ["reservations", hotelId, date],
@@ -56,7 +56,7 @@ export function useReservations(date?: string) {
 }
 
 export function useReservationsByDateRange(startDate: string, endDate: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
 
   const { data: reservations = [] } = useQuery({
     queryKey: ["reservations-range", hotelId, startDate, endDate],
@@ -86,7 +86,7 @@ export function useReservationsByDateRange(startDate: string, endDate: string) {
 }
 
 export function useReservationsCalendar(year: number, month: number) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
 
   const { data: reservationsInMonth = [] } = useQuery({
     queryKey: ["reservations-calendar", hotelId, year, month],
@@ -171,7 +171,7 @@ export function useTurns() {
 }
 
 export function useCreateReservation() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
 
   const mutation = useMutation({

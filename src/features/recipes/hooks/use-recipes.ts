@@ -1,14 +1,14 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { recipeService } from "../services/recipe.service";
 import type { CreateRecipeInput, CreateIngredientInput, CreateStepInput } from "../schemas/recipe.schema";
 import { toast } from "sonner";
 import { MOCK_RECIPES } from "@/lib/mock-data";
 
 export function useRecipes() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   return useQuery({
@@ -23,7 +23,7 @@ export function useRecipes() {
 }
 
 export function useRecipe(recipeId: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   return useQuery({
@@ -41,7 +41,7 @@ export function useRecipe(recipeId: string) {
 }
 
 export function useCreateRecipe() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   const queryClient = useQueryClient();
@@ -85,7 +85,7 @@ export function useCreateRecipe() {
 }
 
 export function useCreateQuickSubRecipe() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: { name: string; servings: number; category?: string }) =>
@@ -99,7 +99,7 @@ export function useCreateQuickSubRecipe() {
 }
 
 export function useSubmitForReview() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (recipeId: string) => recipeService.submitForReview(hotelId!, recipeId),
@@ -112,7 +112,7 @@ export function useSubmitForReview() {
 }
 
 export function useApproveRecipe() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (recipeId: string) => recipeService.approve(hotelId!, recipeId),
@@ -125,7 +125,7 @@ export function useApproveRecipe() {
 }
 
 export function useDeprecateRecipe() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (recipeId: string) => recipeService.deprecate(hotelId!, recipeId),
@@ -138,7 +138,7 @@ export function useDeprecateRecipe() {
 }
 
 export function useCalculateRecipeCost() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (recipeId: string) => recipeService.calculateCost(hotelId!, recipeId),
@@ -152,7 +152,7 @@ export function useCalculateRecipeCost() {
 }
 
 export function useTechSheet(recipeId: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   return useQuery({
     queryKey: ["tech-sheet", recipeId, hotelId],
     queryFn: () => recipeService.getTechSheet(hotelId!, recipeId),
@@ -167,7 +167,7 @@ const mockStepStore = new Map<string, Array<{ id: string; recipe_id: string; hot
 
 // --- Ingredients ---
 export function useRecipeIngredients(recipeId: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   return useQuery({
@@ -182,7 +182,7 @@ export function useRecipeIngredients(recipeId: string) {
 }
 
 export function useAddIngredient(recipeId: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   const queryClient = useQueryClient();
@@ -218,7 +218,7 @@ export function useAddIngredient(recipeId: string) {
 }
 
 export function useRemoveIngredient(recipeId: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   const queryClient = useQueryClient();
@@ -241,7 +241,7 @@ export function useRemoveIngredient(recipeId: string) {
 
 // --- Steps ---
 export function useRecipeSteps(recipeId: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   return useQuery({
@@ -256,7 +256,7 @@ export function useRecipeSteps(recipeId: string) {
 }
 
 export function useAddStep(recipeId: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   const queryClient = useQueryClient();
@@ -290,7 +290,7 @@ export function useAddStep(recipeId: string) {
 }
 
 export function useRemoveStep(recipeId: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   const queryClient = useQueryClient();

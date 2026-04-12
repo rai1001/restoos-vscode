@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useActiveHotel, useSession } from "@/lib/auth/hooks";
+import { useActiveRestaurant, useSession } from "@/lib/auth/hooks";
 import { MOCK_FEEDBACK_TICKETS } from "../mock/feedback-mock-data";
 import type {
   FeedbackTicket,
@@ -28,7 +28,7 @@ export function useFeedbackTickets(filters?: {
   status?: string;
   type?: string;
 }) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
 
@@ -58,7 +58,7 @@ export function useFeedbackTickets(filters?: {
 }
 
 export function useMyTickets() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const { user } = useSession();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
@@ -87,7 +87,7 @@ export function useMyTickets() {
 }
 
 export function useOpenTicketCount() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
 
@@ -110,7 +110,7 @@ export function useOpenTicketCount() {
 // ─── Mutations ───────────────────────────────────────────────
 
 export function useCreateTicket() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const { user } = useSession();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
@@ -166,7 +166,7 @@ export function useCreateTicket() {
 }
 
 export function useUpdateTicket() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   const queryClient = useQueryClient();
@@ -212,7 +212,7 @@ export function useUpdateTicket() {
 }
 
 export function useDeleteTicket() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   const queryClient = useQueryClient();

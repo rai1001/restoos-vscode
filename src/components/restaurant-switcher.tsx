@@ -12,16 +12,16 @@ import {
 import { ChevronsUpDown, Check } from "lucide-react";
 import { toast } from "sonner";
 
-interface HotelOption {
+interface RestaurantOption {
   hotel_id: string;
   hotel_name: string;
   role: string;
   is_default: boolean;
 }
 
-export function HotelSwitcher() {
-  const [hotels, setHotels] = useState<HotelOption[]>([]);
-  const [activeHotelId, setActiveHotelId] = useState<string | null>(null);
+export function RestaurantSwitcher() {
+  const [restaurants, setRestaurants] = useState<RestaurantOption[]>([]);
+  const [activeRestaurantId, setActiveRestaurantId] = useState<string | null>(null);
   const supabase = createClient();
 
   useEffect(() => {
@@ -37,22 +37,24 @@ export function HotelSwitcher() {
         .eq("is_active", true);
 
       if (memberships) {
-        const options = memberships.map((m) => ({
+        const restaurantOptions = memberships.map((m) => ({
           hotel_id: m.hotel_id as string,
           hotel_name: ((m as Record<string, unknown>).hotels as { name: string } | null)?.name ?? "Restaurante",
           role: m.role as string,
           is_default: m.is_default as boolean,
         }));
-        setHotels(options);
+        setRestaurants(restaurantOptions);
 
-        const defaultHotel = options.find((h) => h.is_default);
-        setActiveHotelId(defaultHotel?.hotel_id ?? options[0]?.hotel_id ?? null);
+        const defaultRestaurant = restaurantOptions.find((option) => option.is_default);
+        setActiveRestaurantId(
+          defaultRestaurant?.hotel_id ?? restaurantOptions[0]?.hotel_id ?? null
+        );
       }
     }
     load();
   }, [supabase]);
 
-  async function switchHotel(hotelId: string) {
+  async function switchRestaurant(restaurantId: string) {
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -60,7 +62,7 @@ export function HotelSwitcher() {
 
     const { error } = await supabase.rpc("switch_active_hotel", {
       p_user_id: user.id,
-      p_hotel_id: hotelId,
+      p_hotel_id: restaurantId,
     });
 
     if (error) {
@@ -68,13 +70,15 @@ export function HotelSwitcher() {
       return;
     }
 
-    setActiveHotelId(hotelId);
+    setActiveRestaurantId(restaurantId);
     window.location.reload();
   }
 
-  const activeHotel = hotels.find((h) => h.hotel_id === activeHotelId);
+  const activeRestaurant = restaurants.find(
+    (restaurant) => restaurant.hotel_id === activeRestaurantId
+  );
 
-  if (hotels.length === 0) {
+  if (restaurants.length === 0) {
     const isDemo = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
     return (
       <div className="px-3 py-2 text-sm font-medium flex items-center gap-2">
@@ -88,10 +92,10 @@ export function HotelSwitcher() {
     );
   }
 
-  if (hotels.length === 1) {
+  if (restaurants.length === 1) {
     return (
       <div className="px-3 py-2 text-sm font-medium">
-        {activeHotel?.hotel_name}
+        {activeRestaurant?.hotel_name}
       </div>
     );
   }
@@ -101,23 +105,23 @@ export function HotelSwitcher() {
       <DropdownMenuTrigger
         render={<Button variant="ghost" className="w-full justify-between" />}
       >
-        <span className="truncate">{activeHotel?.hotel_name}</span>
+        <span className="truncate">{activeRestaurant?.hotel_name}</span>
         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">
-        {hotels.map((hotel) => (
+        {restaurants.map((restaurant) => (
           <DropdownMenuItem
-            key={hotel.hotel_id}
-            onClick={() => switchHotel(hotel.hotel_id)}
+            key={restaurant.hotel_id}
+            onClick={() => switchRestaurant(restaurant.hotel_id)}
           >
             <Check
               className={`mr-2 h-4 w-4 ${
-                hotel.hotel_id === activeHotelId ? "opacity-100" : "opacity-0"
+                restaurant.hotel_id === activeRestaurantId ? "opacity-100" : "opacity-0"
               }`}
             />
-            <span>{hotel.hotel_name}</span>
+            <span>{restaurant.hotel_name}</span>
             <span className="text-muted-foreground ml-auto text-xs">
-              {hotel.role}
+              {restaurant.role}
             </span>
           </DropdownMenuItem>
         ))}

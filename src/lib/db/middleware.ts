@@ -58,5 +58,34 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Redirect new users (no membership) to onboarding
+  if (user && !isPublic && !pathname.startsWith("/onboarding") && !pathname.startsWith("/api/")) {
+    const onboarded = request.cookies.get("ro_onboarded")?.value;
+    if (!onboarded) {
+      // Check if user has any active membership
+      const { data: membership } = await supabase
+        .from("memberships")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("is_active", true)
+        .limit(1)
+        .single();
+
+      if (!membership) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/onboarding";
+        return NextResponse.redirect(url);
+      }
+
+      // User has membership — set cookie to skip this check next time
+      supabaseResponse.cookies.set("ro_onboarded", "1", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        maxAge: 60 * 60 * 24 * 365, // 1 year
+      });
+    }
+  }
+
   return supabaseResponse;
 }

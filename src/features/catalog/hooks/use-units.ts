@@ -1,13 +1,13 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { catalogService } from "../services/catalog.service";
 import type { CreateUnitInput } from "../schemas/catalog.schema";
 import { toast } from "sonner";
 
 export function useUnits() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
 
   return useQuery({
     queryKey: ["units", hotelId],
@@ -18,7 +18,7 @@ export function useUnits() {
 }
 
 export function useCreateUnit() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
 
   return useMutation({

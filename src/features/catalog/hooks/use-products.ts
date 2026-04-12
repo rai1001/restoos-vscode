@@ -1,14 +1,14 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { catalogService } from "../services/catalog.service";
 import type { CreateProductInput } from "../schemas/catalog.schema";
 import { toast } from "sonner";
 import { MOCK_PRODUCTS } from "@/lib/mock-data";
 
 export function useProducts() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
 
@@ -24,7 +24,7 @@ export function useProducts() {
 }
 
 export function useCreateProduct() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -41,7 +41,7 @@ export function useCreateProduct() {
 }
 
 export function useSearchProducts(query: string, categoryId?: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
 
   return useQuery({
     queryKey: ["products", "search", hotelId, query, categoryId],

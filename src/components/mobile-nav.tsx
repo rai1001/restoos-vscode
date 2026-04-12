@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Sidebar } from "@/components/sidebar";
-import { HotelSwitcher } from "@/components/hotel-switcher";
+import { RestaurantSwitcher } from "@/components/restaurant-switcher";
 import { Menu } from "lucide-react";
 
 export function MobileNav() {
@@ -32,7 +32,7 @@ export function MobileNav() {
           <SheetTitle className="text-lg font-bold">RestoOS</SheetTitle>
         </SheetHeader>
         <div className="px-3 pt-2">
-          <HotelSwitcher />
+          <RestaurantSwitcher />
         </div>
         <Separator className="my-2" />
         <div className="flex-1 overflow-y-auto" onClick={() => setOpen(false)}>

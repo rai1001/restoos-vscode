@@ -162,7 +162,7 @@ const featureSections = [
     title: "Plataforma Enterprise",
     subtitle: "Multi-local, multi-rol, auditable. Crece sin fricción.",
     features: [
-      { icon: Building2, title: "Multi-Tenant", description: "Grupos con múltiples locales. Cada hotel/restaurante con su configuración, pero datos consolidados arriba." },
+      { icon: Building2, title: "Multi-Tenant", description: "Grupos con múltiples locales. Cada restaurante con su configuración, pero datos consolidados arriba." },
       { icon: Lock, title: "9 Roles, 15 Permisos", description: "Desde superadmin hasta recepción. Control granular con Row Level Security en cada tabla de la base de datos." },
       { icon: Flame, title: "Modo Cocina", description: "Vista optimizada para tablet durante el servicio. Mise en place, tareas por estación, acceso rápido." },
     ],

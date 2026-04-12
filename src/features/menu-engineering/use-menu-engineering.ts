@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { menuEngineeringService } from "./services/menu-engineering.service";
 import { MOCK_DISHES, analyzeMenu } from "./menu-engineering-mock-data";
 import type { MenuCategory } from "./types";
@@ -12,7 +12,7 @@ const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
 const useMock = isDev && skipAuth;
 
 export function useMenuEngineering(category?: MenuCategory) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
 
   const { data: dishes, isLoading: dishesLoading } = useQuery({
     queryKey: ["menu-engineering-dishes", hotelId],

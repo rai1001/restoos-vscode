@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/db/client";
 import type { User } from "@supabase/supabase-js";
 
-const EMPTY_ACTIVE_HOTEL = {
+const EMPTY_ACTIVE_RESTAURANT = {
   hotelId: null,
   hotelName: null,
   role: null,
@@ -46,32 +46,34 @@ export function useSession() {
   return { user, loading };
 }
 
-interface ActiveHotel {
+interface ActiveRestaurant {
   hotelId: string | null;
   hotelName: string | null;
   role: string | null;
   tenantId: string | null;
 }
 
-export function useActiveHotel() {
-  const [hotel, setHotel] = useState<ActiveHotel>(EMPTY_ACTIVE_HOTEL);
-  const [hotelLoading, setHotelLoading] = useState(true);
+export function useActiveRestaurant() {
+  const [restaurant, setRestaurant] = useState<ActiveRestaurant>(
+    EMPTY_ACTIVE_RESTAURANT
+  );
+  const [restaurantLoading, setRestaurantLoading] = useState(true);
   const { user, loading: sessionLoading } = useSession();
   const [supabase] = useState(() => createClient());
 
   useEffect(() => {
     let active = true;
 
-    const fetchActiveHotel = async () => {
+    const fetchActiveRestaurant = async () => {
       if (!user) {
         if (active) {
-          setHotel(EMPTY_ACTIVE_HOTEL);
-          setHotelLoading(false);
+          setRestaurant(EMPTY_ACTIVE_RESTAURANT);
+          setRestaurantLoading(false);
         }
         return;
       }
 
-      setHotelLoading(true);
+      setRestaurantLoading(true);
       const { data, error } = await supabase.rpc("get_active_hotel", {
         p_user_id: user.id,
       });
@@ -79,24 +81,24 @@ export function useActiveHotel() {
       if (!active) return;
 
       if (!error && data) {
-        setHotel({
+        setRestaurant({
           hotelId: data.hotel_id,
           hotelName: data.hotel_name,
           role: data.role,
           tenantId: data.tenant_id,
         });
       } else {
-        setHotel(EMPTY_ACTIVE_HOTEL);
+        setRestaurant(EMPTY_ACTIVE_RESTAURANT);
       }
-      setHotelLoading(false);
+      setRestaurantLoading(false);
     };
 
-    void fetchActiveHotel();
+    void fetchActiveRestaurant();
 
     return () => {
       active = false;
     };
   }, [user, supabase]);
 
-  return { ...hotel, loading: sessionLoading || hotelLoading };
+  return { ...restaurant, loading: sessionLoading || restaurantLoading };
 }

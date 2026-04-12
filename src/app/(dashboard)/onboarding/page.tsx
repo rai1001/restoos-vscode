@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -17,8 +18,20 @@ const STEPS = [
   { id: 4, label: "Listo", icon: CheckCircle2 },
 ]
 
+const CUISINE_OPTIONS = [
+  { value: "", label: "Seleccionar..." },
+  { value: "gallega", label: "Gallega / Atlántica" },
+  { value: "mediterranea", label: "Mediterránea" },
+  { value: "tapas", label: "Tapas / Raciones" },
+  { value: "internacional", label: "Fusión / Internacional" },
+  { value: "otro", label: "Otro" },
+]
+
 export default function OnboardingPage() {
+  const router = useRouter()
   const [step, setStep] = useState(1)
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
 
   // Step 1 state
   const [restaurantName, setRestaurantName] = useState("")
@@ -34,22 +47,95 @@ export default function OnboardingPage() {
     supplier: string; products: Array<{ name: string; quantity: number; unit: string; price: number }>
   }>>([])
 
-  function nextStep() {
+  // Load saved state on mount
+  useEffect(() => {
+    fetch("/api/onboarding")
+      .then(res => res.json())
+      .then(state => {
+        if (state.completed) {
+          router.replace("/")
+          return
+        }
+        if (state.step > 0) {
+          setStep(state.step)
+          const d = state.data || {}
+          if (d.restaurantName) setRestaurantName(d.restaurantName)
+          if (d.address) setAddress(d.address)
+          if (d.cuisineType) setCuisineType(d.cuisineType)
+          if (d.avgCovers) setAvgCovers(d.avgCovers)
+          if (d.menuItems) setMenuItems(d.menuItems)
+          if (d.invoiceItems) setInvoiceItems(d.invoiceItems)
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [router])
+
+  const saveProgress = useCallback(async (nextStep: number) => {
+    setSaving(true)
+    try {
+      await fetch("/api/onboarding", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          step: nextStep,
+          data: {
+            restaurantName,
+            address,
+            cuisineType,
+            avgCovers,
+            menuItems,
+            invoiceItems,
+          },
+        }),
+      })
+    } catch {
+      // Non-blocking — continue even if save fails
+    } finally {
+      setSaving(false)
+    }
+  }, [restaurantName, address, cuisineType, avgCovers, menuItems, invoiceItems])
+
+  async function nextStep() {
     if (step === 1 && !restaurantName.trim()) {
       toast.error("Introduce el nombre de tu restaurante")
       return
     }
-    setStep(s => Math.min(s + 1, 4))
+    const next = Math.min(step + 1, 4)
+    await saveProgress(next)
+    setStep(next)
   }
 
   function prevStep() {
     setStep(s => Math.max(s - 1, 1))
   }
 
+  async function completeOnboarding() {
+    setSaving(true)
+    try {
+      const res = await fetch("/api/onboarding", { method: "PUT" })
+      if (!res.ok) throw new Error()
+      toast.success("Onboarding completado — bienvenido a RestoOS")
+      router.push("/")
+    } catch {
+      toast.error("Error al completar el onboarding")
+    } finally {
+      setSaving(false)
+    }
+  }
+
   const completionPct = step === 4 ? 100 : Math.round(((step - 1) / 3) * 100 +
     (step === 1 && restaurantName ? 10 : 0) +
     (menuItems.length > 0 ? 15 : 0) +
     (invoiceItems.length > 0 ? 15 : 0))
+
+  if (loading) {
+    return (
+      <div className="max-w-3xl mx-auto py-20 text-center text-muted-foreground">
+        Cargando...
+      </div>
+    )
+  }
 
   return (
     <div className="max-w-3xl mx-auto space-y-8">
@@ -128,14 +214,15 @@ export default function OnboardingPage() {
                   value={cuisineType}
                   onChange={e => setCuisineType(e.target.value)}
                 >
-                  <option value="">Seleccionar...</option>
-                  <option value="gallega">Gallega / Atlántica</option>
-                  <option value="mediterranea">Mediterránea</option>
-                  <option value="fusion">Fusión</option>
-                  <option value="tapas">Tapas / Raciones</option>
-                  <option value="internacional">Internacional</option>
-                  <option value="otro">Otro</option>
+                  {CUISINE_OPTIONS.map(opt => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                  ))}
                 </select>
+                {cuisineType && cuisineType !== "otro" && (
+                  <p className="text-xs text-primary">
+                    Se pre-cargarán categorías y productos tipo para tu cocina
+                  </p>
+                )}
               </div>
               <div className="space-y-1.5 sm:col-span-2">
                 <Label>Dirección</Label>
@@ -180,6 +267,9 @@ export default function OnboardingPage() {
             <h2 className="text-xl font-semibold text-foreground">
               {restaurantName || "Tu restaurante"} está listo
             </h2>
+            <p className="text-sm text-primary font-medium">
+              Tu prueba gratuita de 7 días empieza ahora
+            </p>
             <div className="text-sm text-muted-foreground space-y-1">
               {menuItems.length > 0 && (
                 <p>{menuItems.length} platos importados de tu carta</p>
@@ -193,12 +283,10 @@ export default function OnboardingPage() {
             </div>
             <Button
               className="bg-primary hover:bg-primary/90 text-white mt-4"
-              onClick={() => {
-                toast.success("Onboarding completado")
-                window.location.href = "/"
-              }}
+              disabled={saving}
+              onClick={completeOnboarding}
             >
-              Ir al Dashboard
+              {saving ? "Configurando..." : "Ir al Dashboard"}
             </Button>
           </div>
         )}
@@ -221,6 +309,7 @@ export default function OnboardingPage() {
                 variant="ghost"
                 onClick={nextStep}
                 className="text-muted-foreground"
+                disabled={saving}
               >
                 Saltar paso
               </Button>
@@ -228,9 +317,10 @@ export default function OnboardingPage() {
             <Button
               onClick={nextStep}
               className="bg-primary hover:bg-primary/90 text-white"
+              disabled={saving}
             >
-              {step === 3 ? "Finalizar" : "Siguiente"}
-              <ChevronRight className="h-4 w-4 ml-1" />
+              {saving ? "Guardando..." : step === 3 ? "Finalizar" : "Siguiente"}
+              {!saving && <ChevronRight className="h-4 w-4 ml-1" />}
             </Button>
           </div>
         </div>

@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server"
 import { generateMockDigest, formatDigestHTML, formatDigestText } from "@/features/digest/digest-engine"
 import { requireAuth } from "@/lib/api/require-auth"
+import { checkRateLimit } from "@/lib/api/rate-limit"
 
 export async function POST() {
   try {
     const auth = await requireAuth()
     if (auth.error) return auth.error
+
+    const limited = await checkRateLimit(auth.user.id, "general")
+    if (limited) return limited
 
     const digest = generateMockDigest()
     const html = formatDigestHTML(digest)

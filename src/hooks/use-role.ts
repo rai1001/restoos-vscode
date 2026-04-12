@@ -1,6 +1,6 @@
 "use client";
 
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { ROLE } from "@/contracts/enums";
 import type { AppRole } from "@/lib/rbac";
 
@@ -10,7 +10,7 @@ import type { AppRole } from "@/lib/rbac";
  * In development without Supabase, returns ROLE.ADMIN so all features are visible.
  */
 export function useRole(): AppRole {
-  const { role } = useActiveHotel();
+  const { role } = useActiveRestaurant();
 
   if (!role) {
     // In dev without Supabase, grant admin so all features are visible

@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { useActiveHotel } from "@/lib/auth/hooks"
+import { useActiveRestaurant } from "@/lib/auth/hooks"
 import { multiLocalService } from "../services/multi-local.service"
 import type { HotelOverview, PriceComparison } from "../services/multi-local.service"
 
@@ -108,7 +108,7 @@ const MOCK_PRICES: PriceComparison[] = [
 // ── Hooks ────────────────────────────────────────────────────────────────────
 
 export function useTenantOverview() {
-  const { tenantId } = useActiveHotel()
+  const { tenantId } = useActiveRestaurant()
 
   return useQuery({
     queryKey: ["tenant-overview", tenantId],
@@ -123,7 +123,7 @@ export function useTenantOverview() {
 }
 
 export function usePriceComparisons() {
-  const { tenantId } = useActiveHotel()
+  const { tenantId } = useActiveRestaurant()
 
   return useQuery({
     queryKey: ["price-comparisons", tenantId],

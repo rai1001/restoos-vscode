@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { Building2, Users2, Bell, ChevronRight } from "lucide-react";
+import { Building2, Users2, CreditCard, Bell, ChevronRight } from "lucide-react";
 
 const SETTINGS_SECTIONS = [
   {
     title: "Restaurante",
     description: "Nombre, zona horaria, moneda y datos generales del establecimiento.",
-    href: "/settings/hotel",
+    href: "/settings/restaurant",
     icon: Building2,
   },
   {
@@ -15,6 +15,12 @@ const SETTINGS_SECTIONS = [
     description: "Gestiona los miembros, roles y permisos del equipo.",
     href: "/settings/team",
     icon: Users2,
+  },
+  {
+    title: "Facturación",
+    description: "Gestiona tu plan, el periodo de prueba y la suscripción de Stripe.",
+    href: "/settings/billing",
+    icon: CreditCard,
   },
   {
     title: "Notificaciones",
@@ -34,7 +40,7 @@ export default function SettingsPage() {
         </p>
         <h1 className="text-3xl font-bold text-foreground">Ajustes</h1>
         <p className="text-muted-foreground text-sm mt-1">
-          Configura tu establecimiento y equipo
+          Configura tu establecimiento, equipo y facturación
         </p>
       </div>
 

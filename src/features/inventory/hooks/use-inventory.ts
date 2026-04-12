@@ -1,13 +1,13 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { inventoryService } from "../services/inventory.service";
 import { toast } from "sonner";
 import { MOCK_STOCK_LOTS, MOCK_STOCK_MOVEMENTS } from "@/lib/mock-data";
 
 export function useStockLevels() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   return useQuery({
     queryKey: ["stock-levels", hotelId],
     queryFn: () => inventoryService.getStockLevels(hotelId!),
@@ -17,7 +17,7 @@ export function useStockLevels() {
 }
 
 export function useStockLots(productId?: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   return useQuery({
@@ -37,7 +37,7 @@ export function useStockLots(productId?: string) {
 }
 
 export function useStockMovements(productId?: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   return useQuery({
@@ -57,7 +57,7 @@ export function useStockMovements(productId?: string) {
 }
 
 export function useRecordWaste() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ productId, lotId, quantity, notes }: {
@@ -74,7 +74,7 @@ export function useRecordWaste() {
 }
 
 export function useStockAlerts() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   return useQuery({
     queryKey: ["stock-alerts", hotelId],
     queryFn: () => inventoryService.checkAlerts(hotelId!),

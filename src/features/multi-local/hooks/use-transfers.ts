@@ -1,11 +1,11 @@
 "use client"
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { useActiveHotel } from "@/lib/auth/hooks"
+import { useActiveRestaurant } from "@/lib/auth/hooks"
 import { transferService, type CreateTransferLineInput } from "../services/transfer.service"
 
 export function useTransfers() {
-  const { tenantId } = useActiveHotel()
+  const { tenantId } = useActiveRestaurant()
 
   return useQuery({
     queryKey: ["transfers", tenantId],

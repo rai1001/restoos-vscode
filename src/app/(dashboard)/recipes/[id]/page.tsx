@@ -48,6 +48,7 @@ import {
 import { ArrowLeft, Clock, Users, Calculator, Plus, Trash2, FileText, Scale3D, ShoppingCart, Copy, Download, RefreshCw } from "lucide-react";
 import { RoleGate } from "@/components/role-gate";
 import { TechSheetDialog } from "@/features/recipes/components/TechSheetDialog";
+import { FoodPromptPanel } from "@/components/food-prompt-panel";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 /* ─── Design Tokens ──────────────────────────────────────────── */
@@ -523,6 +524,11 @@ export default function RecipeDetailPage({
               <Scale3D className="h-4 w-4" />
               Escalar
             </button>
+            <FoodPromptPanel
+              recipeId={id}
+              hotelId={recipe.hotel_id}
+              recipeName={recipe.name}
+            />
             {canSubmit && (
               <button
                 className="px-4 py-2 rounded-lg text-sm font-medium"

@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { createClient } from "@/lib/db/client"
-import { useActiveHotel } from "@/lib/auth/hooks"
+import { useActiveRestaurant } from "@/lib/auth/hooks"
 import { Badge } from "@/components/ui/badge"
 import {
   Table,
@@ -38,7 +38,7 @@ const ACTION_CONFIG: Record<AuditEntry["action"], { label: string; icon: typeof 
 const supabase = createClient()
 
 function useAuditLogs() {
-  const { hotelId } = useActiveHotel()
+  const { hotelId } = useActiveRestaurant()
   return useQuery({
     queryKey: ["audit-logs", hotelId],
     queryFn: async () => {

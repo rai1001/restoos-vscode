@@ -1,12 +1,12 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { reportingService } from "../services/reporting.service";
 import { toast } from "sonner";
 
 export function useDashboardData() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   return useQuery({
     queryKey: ["dashboard", hotelId],
     queryFn: () => reportingService.getDashboardData(hotelId!),
@@ -16,7 +16,7 @@ export function useDashboardData() {
 }
 
 export function useGenerateSnapshot() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (date?: string) => reportingService.generateSnapshot(hotelId!, date),
@@ -29,7 +29,7 @@ export function useGenerateSnapshot() {
 }
 
 export function useCheckAlerts() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => reportingService.checkAlertThresholds(hotelId!),
@@ -43,7 +43,7 @@ export function useCheckAlerts() {
 }
 
 export function useDismissAlert() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (alertId: string) => reportingService.dismissAlert(hotelId!, alertId),
@@ -57,7 +57,7 @@ export function useDismissAlert() {
 }
 
 export function useAlerts(dismissed?: boolean) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   return useQuery({
     queryKey: ["alerts", hotelId, dismissed],
     queryFn: () => reportingService.listAlerts(hotelId!, dismissed),

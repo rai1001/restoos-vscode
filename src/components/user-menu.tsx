@@ -50,7 +50,7 @@ export function UserMenu() {
           </div>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => router.push("/settings/hotel")}>
+        <DropdownMenuItem onClick={() => router.push("/settings/restaurant")}>
           <Settings className="mr-2 h-4 w-4" />
           Configuración
         </DropdownMenuItem>

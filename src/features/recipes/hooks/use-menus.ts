@@ -1,13 +1,13 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { recipeService } from "../services/recipe.service";
 import type { CreateMenuInput, CreateMenuSectionInput } from "../schemas/recipe.schema";
 import { toast } from "sonner";
 
 export function useMenus() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   return useQuery({
     queryKey: ["menus", hotelId],
     queryFn: () => recipeService.listMenus(hotelId!),
@@ -26,7 +26,7 @@ export function useMenu(menuId: string) {
 }
 
 export function useCreateMenu() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: CreateMenuInput) => recipeService.createMenu(hotelId!, input),
@@ -39,7 +39,7 @@ export function useCreateMenu() {
 }
 
 export function useCalculateMenuCost() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (menuId: string) => recipeService.calculateMenuCost(hotelId!, menuId),
@@ -62,7 +62,7 @@ export function useMenuSections(menuId: string) {
 }
 
 export function useAddSection(menuId: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: CreateMenuSectionInput) =>
@@ -89,7 +89,7 @@ export function useRemoveSection(menuId: string) {
 
 // --- Section Recipes ---
 export function useAddRecipeToSection(menuId: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ sectionId, recipeId, price }: { sectionId: string; recipeId: string; price?: number }) =>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import { useActiveHotel } from "@/lib/auth/hooks"
+import { useActiveRestaurant } from "@/lib/auth/hooks"
 import { appccService } from "./services/appcc.service"
 import type {
   CreateCheckRecordInput,
@@ -22,7 +22,7 @@ const keys = {
 // ─── Templates ───────────────────────────────────────────────
 
 export function useAppccTemplates() {
-  const { hotelId } = useActiveHotel()
+  const { hotelId } = useActiveRestaurant()
 
   const { data, isLoading } = useQuery({
     queryKey: keys.templates(hotelId ?? ""),
@@ -34,7 +34,7 @@ export function useAppccTemplates() {
 }
 
 export function useCreateTemplate() {
-  const { hotelId } = useActiveHotel()
+  const { hotelId } = useActiveRestaurant()
   const qc = useQueryClient()
 
   return useMutation({
@@ -47,7 +47,7 @@ export function useCreateTemplate() {
 }
 
 export function useUpdateTemplate() {
-  const { hotelId } = useActiveHotel()
+  const { hotelId } = useActiveRestaurant()
   const qc = useQueryClient()
 
   return useMutation({
@@ -64,7 +64,7 @@ export function useUpdateTemplate() {
 // ─── Records ─────────────────────────────────────────────────
 
 export function useAppccRecords(date: string) {
-  const { hotelId } = useActiveHotel()
+  const { hotelId } = useActiveRestaurant()
 
   const { data, isLoading } = useQuery({
     queryKey: keys.records(hotelId ?? "", date),
@@ -76,7 +76,7 @@ export function useAppccRecords(date: string) {
 }
 
 export function useCreateRecord() {
-  const { hotelId } = useActiveHotel()
+  const { hotelId } = useActiveRestaurant()
   const qc = useQueryClient()
 
   return useMutation({
@@ -94,7 +94,7 @@ export function useCreateRecord() {
 // ─── Daily Closure ───────────────────────────────────────────
 
 export function useAppccDailyClosure(date: string) {
-  const { hotelId } = useActiveHotel()
+  const { hotelId } = useActiveRestaurant()
 
   const { data, isLoading } = useQuery({
     queryKey: keys.closure(hotelId ?? "", date),
@@ -106,7 +106,7 @@ export function useAppccDailyClosure(date: string) {
 }
 
 export function useValidateDayClosure() {
-  const { hotelId } = useActiveHotel()
+  const { hotelId } = useActiveRestaurant()
   const qc = useQueryClient()
 
   return useMutation({
@@ -122,7 +122,7 @@ export function useValidateDayClosure() {
 // ─── Daily Summaries (Historical) ────────────────────────────
 
 export function useAppccDailySummary(daysBack = 7) {
-  const { hotelId } = useActiveHotel()
+  const { hotelId } = useActiveRestaurant()
 
   const { data, isLoading } = useQuery({
     queryKey: keys.summaries(hotelId ?? "", daysBack),
@@ -136,7 +136,7 @@ export function useAppccDailySummary(daysBack = 7) {
 // ─── Incidents ───────────────────────────────────────────────
 
 export function useAppccIncidents(filters?: { status?: string; date?: string }) {
-  const { hotelId } = useActiveHotel()
+  const { hotelId } = useActiveRestaurant()
 
   const { data, isLoading } = useQuery({
     queryKey: [...keys.incidents(hotelId ?? ""), filters],
@@ -148,7 +148,7 @@ export function useAppccIncidents(filters?: { status?: string; date?: string }) 
 }
 
 export function useCreateIncident() {
-  const { hotelId } = useActiveHotel()
+  const { hotelId } = useActiveRestaurant()
   const qc = useQueryClient()
 
   return useMutation({
@@ -162,7 +162,7 @@ export function useCreateIncident() {
 }
 
 export function useResolveIncident() {
-  const { hotelId } = useActiveHotel()
+  const { hotelId } = useActiveRestaurant()
   const qc = useQueryClient()
 
   return useMutation({

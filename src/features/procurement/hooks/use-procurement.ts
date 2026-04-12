@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { procurementService } from "../services/procurement.service";
 import type { CreateOrderLineInput } from "../schemas/procurement.schema";
 import { toast } from "sonner";
@@ -9,7 +9,7 @@ import { MOCK_PURCHASE_ORDERS } from "@/lib/mock-data";
 
 // --- Purchase Requests ---
 export function usePurchaseRequests() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   return useQuery({
     queryKey: ["purchase-requests", hotelId],
     queryFn: () => procurementService.listRequests(hotelId!),
@@ -19,7 +19,7 @@ export function usePurchaseRequests() {
 }
 
 export function useCreatePurchaseRequest() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ notes }: { notes?: string } = {}) =>
@@ -33,7 +33,7 @@ export function useCreatePurchaseRequest() {
 }
 
 export function useApprovePurchaseRequest() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (requestId: string) => procurementService.approveRequest(hotelId!, requestId),
@@ -47,7 +47,7 @@ export function useApprovePurchaseRequest() {
 
 // --- Purchase Orders ---
 export function usePurchaseOrders() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   return useQuery({
@@ -71,7 +71,7 @@ export function usePurchaseOrder(orderId: string) {
 }
 
 export function useCreatePurchaseOrder() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ supplierId, expectedDelivery, notes }: {
@@ -88,7 +88,7 @@ export function useCreatePurchaseOrder() {
 }
 
 export function useSendPurchaseOrder() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (orderId: string) => procurementService.sendOrder(hotelId!, orderId),
@@ -110,7 +110,7 @@ export function useOrderLines(orderId: string) {
 }
 
 export function useAddOrderLine(orderId: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (input: CreateOrderLineInput) =>
@@ -124,7 +124,7 @@ export function useAddOrderLine(orderId: string) {
 }
 
 export function useReceiveGoods() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ orderId, lines, notes }: {
@@ -153,7 +153,7 @@ export function useReceiveGoods() {
 }
 
 export function useCreateOrderWithLines() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({
@@ -184,7 +184,7 @@ export function useCreateOrderWithLines() {
 }
 
 export function useGoodsReceipts(orderId?: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   return useQuery({
     queryKey: ["goods-receipts", hotelId, orderId],
     queryFn: () => procurementService.listReceipts(hotelId!, orderId),

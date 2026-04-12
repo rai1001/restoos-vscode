@@ -27,7 +27,7 @@ import {
   Warehouse,
 } from "lucide-react";
 import { useCommandPalette } from "@/components/command-palette-provider";
-import { HotelSwitcher } from "@/components/hotel-switcher";
+import { RestaurantSwitcher } from "@/components/restaurant-switcher";
 import { useSidebar } from "@/lib/sidebar-context";
 import { AssistantButton } from "@/features/assistant/components/AssistantButton";
 import { AssistantPanel } from "@/features/assistant/components/AssistantPanel";
@@ -84,7 +84,7 @@ const navigationGroups: NavGroup[] = [
     label: "Gestión",
     items: [
       { name: "Documentos", href: "/documents", icon: FileText },
-      { name: "Configuración", href: "/settings/hotel", icon: Settings },
+      { name: "Configuración", href: "/settings/restaurant", icon: Settings },
       // Informes: oculto hasta conectar datos reales
       // Personal: oculto hasta crear tablas de staffing
     ],
@@ -160,7 +160,7 @@ export function Sidebar() {
         {/* Hotel switcher — hidden when collapsed */}
         {!collapsed && (
           <div className="px-3 pt-2 shrink-0">
-            <HotelSwitcher />
+            <RestaurantSwitcher />
           </div>
         )}
 

@@ -22,15 +22,14 @@ interface ImportInvoicesStepProps {
   onInvoicesChange: (invoices: Invoice[]) => void
 }
 
+const MAX_CONCURRENT = 3
+
 export function ImportInvoicesStep({ invoices, onInvoicesChange }: ImportInvoicesStepProps) {
-  const [loading, setLoading] = useState(false)
+  const [processing, setProcessing] = useState(0)
+  const [total, setTotal] = useState(0)
   const fileRef = useRef<HTMLInputElement>(null)
 
-  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    setLoading(true)
+  async function processFile(file: File): Promise<Invoice | null> {
     try {
       const formData = new FormData()
       formData.append("file", file)
@@ -39,7 +38,7 @@ export function ImportInvoicesStep({ invoices, onInvoicesChange }: ImportInvoice
       const data = await res.json()
 
       if (data.result) {
-        const newInvoice: Invoice = {
+        return {
           supplier: data.result.supplier_name || "Proveedor desconocido",
           products: data.result.items.map((item: { description: string; quantity: number; unit: string; unit_price: number }) => ({
             name: item.description,
@@ -48,19 +47,46 @@ export function ImportInvoicesStep({ invoices, onInvoicesChange }: ImportInvoice
             price: item.unit_price,
           })),
         }
-        onInvoicesChange([...invoices, newInvoice])
-        toast.success(
-          `Albarán de "${newInvoice.supplier}" — ${newInvoice.products.length} productos${data.mock ? " (datos demo)" : ""}`
-        )
       }
     } catch {
-      toast.error("Error al procesar el albarán")
-    } finally {
-      setLoading(false)
-      if (fileRef.current) fileRef.current.value = ""
+      toast.error(`Error procesando ${file.name}`)
     }
+    return null
   }
 
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files || [])
+    if (files.length === 0) return
+
+    setTotal(files.length)
+    setProcessing(0)
+
+    const newInvoices: Invoice[] = []
+
+    // Process in batches of MAX_CONCURRENT
+    for (let i = 0; i < files.length; i += MAX_CONCURRENT) {
+      const batch = files.slice(i, i + MAX_CONCURRENT)
+      const results = await Promise.all(batch.map(f => processFile(f)))
+
+      for (const result of results) {
+        if (result) newInvoices.push(result)
+      }
+
+      setProcessing(Math.min(i + MAX_CONCURRENT, files.length))
+    }
+
+    if (newInvoices.length > 0) {
+      onInvoicesChange([...invoices, ...newInvoices])
+      const totalProducts = newInvoices.reduce((sum, inv) => sum + inv.products.length, 0)
+      toast.success(`${newInvoices.length} albarán(es) procesados — ${totalProducts} productos extraídos`)
+    }
+
+    setTotal(0)
+    setProcessing(0)
+    if (fileRef.current) fileRef.current.value = ""
+  }
+
+  const isLoading = total > 0
   const totalProducts = invoices.reduce((sum, inv) => sum + inv.products.length, 0)
   const totalSuppliers = new Set(invoices.map(inv => inv.supplier)).size
 
@@ -69,35 +95,45 @@ export function ImportInvoicesStep({ invoices, onInvoicesChange }: ImportInvoice
       <div>
         <h2 className="text-lg font-semibold text-foreground">Importar albaranes / facturas</h2>
         <p className="text-sm text-muted-foreground mt-1">
-          Sube fotos de 2-3 albaranes recientes y crearemos tu catálogo de productos con precios reales
+          Sube fotos de 2-3 albaranes recientes y crearemos tu catálogo de productos con precios reales.
+          Puedes seleccionar varios archivos a la vez.
         </p>
       </div>
 
       {/* Upload area */}
       <div
         className="border-2 border-dashed border-border-subtle rounded-lg p-6 text-center hover:border-primary/50 transition-colors cursor-pointer"
-        onClick={() => fileRef.current?.click()}
+        onClick={() => !isLoading && fileRef.current?.click()}
       >
         <input
           ref={fileRef}
           type="file"
           accept="image/*,application/pdf"
           className="hidden"
+          multiple
           onChange={handleFileUpload}
         />
-        {loading ? (
+        {isLoading ? (
           <div className="space-y-2">
             <Loader2 className="h-6 w-6 mx-auto text-primary animate-spin" />
-            <p className="text-sm text-muted-foreground">Analizando albarán con IA...</p>
+            <p className="text-sm text-muted-foreground">
+              Procesando {processing} de {total} albarán(es)...
+            </p>
+            <div className="h-1.5 bg-muted rounded-full overflow-hidden max-w-xs mx-auto">
+              <div
+                className="h-full bg-primary rounded-full transition-all duration-300"
+                style={{ width: `${total > 0 ? (processing / total) * 100 : 0}%` }}
+              />
+            </div>
           </div>
         ) : (
           <div className="space-y-1">
             <Upload className="h-6 w-6 mx-auto text-muted-foreground" />
             <p className="text-sm text-foreground font-medium">
-              {invoices.length === 0 ? "Sube tu primer albarán" : "Añadir otro albarán"}
+              {invoices.length === 0 ? "Sube tus albaranes" : "Añadir más albaranes"}
             </p>
             <p className="text-xs text-muted-foreground">
-              Foto del albarán o factura de proveedor. Max 10MB.
+              Fotos de albaranes o facturas de proveedor. Puedes seleccionar varios. Max 10MB cada uno.
             </p>
           </div>
         )}
@@ -135,9 +171,10 @@ export function ImportInvoicesStep({ invoices, onInvoicesChange }: ImportInvoice
             size="sm"
             onClick={() => fileRef.current?.click()}
             className="border-border-subtle"
+            disabled={isLoading}
           >
             <Plus className="h-3 w-3 mr-1" />
-            Añadir otro albarán
+            Añadir más albaranes
           </Button>
         </div>
       )}

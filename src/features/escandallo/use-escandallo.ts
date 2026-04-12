@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import { recipeService } from "@/features/recipes/services/recipe.service";
 import { MOCK_ESCANDALLOS, getCostEvolution } from "./escandallo-mock-data";
 import { MOCK_RECIPES } from "@/lib/mock-data";
@@ -65,7 +65,7 @@ function buildMockEscandallos(): EscandalloRecipe[] {
 }
 
 export function useEscandallos() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
 
   const { data, isLoading } = useQuery({
     queryKey: ["escandallos", hotelId],
@@ -86,7 +86,7 @@ export function useEscandallos() {
 }
 
 export function useEscandallo(id: string) {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
 
   const { data: escandallo, isLoading } = useQuery({
     queryKey: ["escandallo", id, hotelId],

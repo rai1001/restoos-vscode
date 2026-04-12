@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/card";
 import { toast } from "sonner";
 
-export default function HotelSettingsPage() {
+export default function RestaurantSettingsPage() {
   const [loading, setLoading] = useState(true);
   const [hotelId, setHotelId] = useState<string | null>(null);
   const supabase = createClient();

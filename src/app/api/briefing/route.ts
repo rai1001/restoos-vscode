@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { requireAuth } from "@/lib/api/require-auth"
+import { checkRateLimit } from "@/lib/api/rate-limit"
 
 interface BriefingData {
   date: string
@@ -31,6 +32,9 @@ export async function POST(request: Request) {
     const auth = await requireAuth()
     if (auth.error) return auth.error
 
+    const limited = await checkRateLimit(auth.user.id, "ai")
+    if (limited) return limited
+
     const body = await request.json() as BriefingData
     const apiKey = process.env.GEMINI_API_KEY
 
@@ -58,10 +62,13 @@ Datos del día:
 Formato: usa emojis, secciones claras, máximo 200 palabras. Sé directo y práctico.`
 
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey,
+        },
         body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
       }
     )

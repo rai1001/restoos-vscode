@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 import {
   differenceInHours,
   isPast,
@@ -101,7 +101,7 @@ let mockAlerts: PrepAlert[] = [...MOCK_PREP_ALERTS];
 // ── Hook ──────────────────────────────────────────────────────────────────────
 
 export function usePrepBatches() {
-  const { hotelId } = useActiveHotel();
+  const { hotelId } = useActiveRestaurant();
   const isDev = process.env.NODE_ENV === "development";
   const skipAuth = process.env.NEXT_PUBLIC_SKIP_AUTH === "true";
   const queryClient = useQueryClient();

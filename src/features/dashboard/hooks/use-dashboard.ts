@@ -2,7 +2,7 @@
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createClient } from "@/lib/db/client";
-import { useActiveHotel } from "@/lib/auth/hooks";
+import { useActiveRestaurant } from "@/lib/auth/hooks";
 
 // ── Types matching the get_dashboard_data RPC response ───────────────────────
 
@@ -61,7 +61,7 @@ export interface DashboardData {
 const supabase = createClient();
 
 export function useDashboardData() {
-  const { hotelId, loading: hotelLoading } = useActiveHotel();
+  const { hotelId, loading: hotelLoading } = useActiveRestaurant();
   const queryClient = useQueryClient();
 
   const query = useQuery<DashboardData>({

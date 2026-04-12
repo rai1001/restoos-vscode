@@ -110,8 +110,6 @@ async function googleDocumentAI(
     );
   }
 
-  // TODO: Implement actual Google Document AI call
-  // For now, fall back to mock
-  console.warn("Google Document AI not yet implemented, using mock");
+  // Google Document AI not yet implemented — fall back to mock
   return mockExtraction();
 }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createServerSupabaseClient } from "@/lib/db/server"
+import { checkRateLimit } from "@/lib/api/rate-limit"
 
 // Escapa HTML para prevenir XSS en emails generados con datos del usuario
 function escapeHtml(str: string): string {
@@ -149,6 +150,9 @@ export async function POST(request: NextRequest) {
     if (!user) {
       return NextResponse.json({ error: "No autorizado" }, { status: 401 })
     }
+
+    const limited = await checkRateLimit(user.id, "general")
+    if (limited) return limited
 
     // RO-APPSEC-214: parse only untrusted content fields; derive identity from session
     const raw = (await request.json()) as Partial<TicketPayload>

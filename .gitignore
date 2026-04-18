@@ -44,3 +44,6 @@ next-env.d.ts
 .gstack-screenshots/
 
 .vercel
+
+# Local Claude Code settings may contain credentials or tokens
+.claude/settings.local.json

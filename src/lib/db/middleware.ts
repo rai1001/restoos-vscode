@@ -8,10 +8,29 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.next({ request });
   }
 
-  // Skip if Supabase env vars are not configured (e.g., during static export)
+  // RO-APPSEC-MW-001: fail-closed when Supabase env vars are missing.
+  // In development/static-export we tolerate missing vars so `next build`
+  // can run without a live backend. In production this is a deployment
+  // misconfiguration and we must NOT silently skip auth — redirect to /login.
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!supabaseUrl || !supabaseKey) {
+    if (process.env.NODE_ENV === "production") {
+      const { pathname } = request.nextUrl;
+      const isPublic =
+        pathname.startsWith("/login") ||
+        pathname.startsWith("/callback") ||
+        pathname.startsWith("/auth") ||
+        pathname.startsWith("/landing") ||
+        pathname.startsWith("/blog") ||
+        pathname === "/robots.txt" ||
+        pathname === "/sitemap.xml";
+      if (!isPublic) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/login";
+        return NextResponse.redirect(url);
+      }
+    }
     return NextResponse.next({ request });
   }
 

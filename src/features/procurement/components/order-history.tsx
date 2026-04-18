@@ -58,6 +58,18 @@ export function OrderHistory({ orders, isLoading: _isLoading }: OrderHistoryProp
     })
   }, [orders, supplierFilter, statusFilter, dateFrom, dateTo])
 
+  // RO-APPSEC-CSV-001: prevent CSV formula injection. Fields starting with
+  // =, +, -, @, tab, or carriage return are executed as formulas by Excel /
+  // Google Sheets. We prefix a single quote and also wrap every cell in
+  // double quotes (doubling any inner quotes) so field separators/newlines
+  // inside data cannot escape the cell.
+  function csvEscape(value: unknown): string {
+    const s = value === null || value === undefined ? "" : String(value)
+    const needsPrefix = /^[=+\-@\t\r]/.test(s)
+    const safe = needsPrefix ? `'${s}` : s
+    return `"${safe.replace(/"/g, '""')}"`
+  }
+
   function handleExportCSV() {
     const headers = ["Numero", "Proveedor", "Estado", "Total", "Entrega", "Fecha"]
     const rows = filtered.map((o) => [
@@ -68,7 +80,9 @@ export function OrderHistory({ orders, isLoading: _isLoading }: OrderHistoryProp
       o.expected_delivery_date ?? "",
       new Date(o.created_at).toLocaleDateString("es"),
     ])
-    const csv = [headers, ...rows].map((r) => r.join(";")).join("\n")
+    const csv = [headers, ...rows]
+      .map((r) => r.map(csvEscape).join(";"))
+      .join("\n")
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")

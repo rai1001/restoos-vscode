@@ -47,7 +47,16 @@ Deno.serve(async (req: Request) => {
   const timer = startTimer();
 
   try {
-    const hotelId = await ensureHotelId(req);
+    // RO-APPSEC-FN-001: extract hotel_id from the request body (not the
+    // Request object itself) and validate the string before use.
+    let rawHotelId: unknown = null;
+    try {
+      const body = await req.json();
+      rawHotelId = (body as { hotel_id?: unknown })?.hotel_id ?? null;
+    } catch {
+      rawHotelId = null;
+    }
+    const hotelId = ensureHotelId(rawHotelId);
     const supabase = getSupabaseClient();
     await verifyCallerHotelAccess(req, hotelId, supabase);
 
@@ -228,6 +237,6 @@ Deno.serve(async (req: Request) => {
     });
 
   } catch (err) {
-    return errorResponse(err as Error);
+    return errorResponse((err as Error).message ?? "Unknown error");
   }
 });

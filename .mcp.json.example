@@ -1,0 +1,20 @@
+{
+  "_comment": "Copy this file to .mcp.json and fill in your own credentials. .mcp.json is gitignored.",
+  "mcpServers": {
+    "stitch": {
+      "command": "npx",
+      "args": ["@_davideast/stitch-mcp", "proxy"],
+      "env": {
+        "STITCH_PROJECT_ID": "YOUR_PROJECT_ID",
+        "GOOGLE_APPLICATION_CREDENTIALS": "PATH_TO_YOUR_CREDENTIALS_JSON"
+      }
+    },
+    "magic": {
+      "command": "npx",
+      "args": ["-y", "@21st-dev/magic@latest"],
+      "env": {
+        "API_KEY": "YOUR_21ST_MAGIC_API_KEY"
+      }
+    }
+  }
+}

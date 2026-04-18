@@ -47,3 +47,6 @@ next-env.d.ts
 
 # Local Claude Code settings may contain credentials or tokens
 .claude/settings.local.json
+
+# MCP configuration may contain embedded API keys — never commit
+.mcp.json

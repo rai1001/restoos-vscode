@@ -184,6 +184,15 @@ export function InvoiceUploader() {
   );
 }
 
+// RO-APPSEC-OCR-001: OCR-derived values may arrive as strings, null, or
+// NaN when Mistral Vision can't parse a line. Coerce defensively before
+// rendering — `.toFixed()` crashes on non-numbers and takes the whole UI
+// with it (React error boundary bubbles up).
+function formatPrice(value: unknown): string {
+  const n = typeof value === "number" ? value : parseFloat(String(value ?? ""));
+  return Number.isFinite(n) ? n.toFixed(2) : "—";
+}
+
 function InvoiceLine({
   line,
 }: {
@@ -199,7 +208,7 @@ function InvoiceLine({
         {line.quantity} {line.unit}
       </td>
       <td className="px-3 py-2 text-right text-foreground font-medium">
-        {line.unit_price?.toFixed(2)}\u20ac
+        {formatPrice(line.unit_price)}€
       </td>
       <td className="px-3 py-2">
         {hasMatch ? (

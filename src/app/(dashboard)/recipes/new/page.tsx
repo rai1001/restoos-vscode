@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCreateRecipe } from "@/features/recipes/hooks/use-recipes";
 import { recipeService } from "@/features/recipes/services/recipe.service";
@@ -59,14 +59,22 @@ export default function NewRecipePage() {
     return preferred?.price ?? productOffers[0]?.price ?? null;
   };
 
-  // Preselect sub-recipe if coming from ?sub=1
-  const isSubFromUrl = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("sub") === "1";
-
+  // RO-APPSEC-HYD-001: read ?sub=1 *after* hydration to avoid a server/
+  // client render mismatch. Using `typeof window !== "undefined"` during
+  // render makes the initial form state differ between SSR (window
+  // undefined → false) and the client hydration pass (window defined →
+  // true), which React flags as a hydration error.
   const form = useForm<CreateRecipeInput>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(CreateRecipeSchema) as any,
-    defaultValues: { servings: 4, is_sub_recipe: isSubFromUrl },
+    defaultValues: { servings: 4, is_sub_recipe: false },
   });
+
+  useEffect(() => {
+    const isSubFromUrl =
+      new URLSearchParams(window.location.search).get("sub") === "1";
+    if (isSubFromUrl) form.setValue("is_sub_recipe", true);
+  }, [form]);
 
   // -- Local state for ingredients, steps, photo --
   const [ingredients, setIngredients] = useState<LocalIngredient[]>([]);
@@ -259,7 +267,7 @@ export default function NewRecipePage() {
           <p className="text-xs font-semibold uppercase tracking-widest text-primary mb-0.5">
             RECETARIO
           </p>
-          <h1 className="text-2xl font-bold text-foreground">{isSubFromUrl ? "Nueva sub-receta" : "Nueva receta"}</h1>
+          <h1 className="text-2xl font-bold text-foreground">{form.watch("is_sub_recipe") ? "Nueva sub-receta" : "Nueva receta"}</h1>
         </div>
       </div>
 

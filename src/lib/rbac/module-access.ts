@@ -54,10 +54,33 @@ export const MODULE_ACCESS: ModuleAccess[] = [
 ]
 
 /**
+ * Find the most specific module whose href is a path-segment prefix of the
+ * input. RO-APPSEC-RBAC-001: the previous implementation used plain
+ * `href.startsWith(m.href)`, which matched the root rule `{ href: "/" }` for
+ * every URL (including `/admin/*`) and let any role listed under "/" reach
+ * admin-only modules. We now:
+ *   1. Match only at path-segment boundaries ("/admin" matches "/admin/x"
+ *      but not "/administration").
+ *   2. Pick the longest matching prefix (most specific module).
+ */
+function matchModule(href: string): ModuleAccess | undefined {
+  let best: ModuleAccess | undefined
+  for (const m of MODULE_ACCESS) {
+    const prefix = m.href
+    const matches =
+      href === prefix ||
+      (prefix === "/" ? true : href.startsWith(prefix + "/"))
+    if (!matches) continue
+    if (!best || prefix.length > best.href.length) best = m
+  }
+  return best
+}
+
+/**
  * Check if a role can access a given module/path.
  */
 export function canAccessModule(role: Role, href: string): boolean {
-  const matchedModule = MODULE_ACCESS.find(m => href.startsWith(m.href))
+  const matchedModule = matchModule(href)
   if (!matchedModule) return true // if not in the list, allow by default
   return matchedModule.roles.includes(role)
 }
@@ -66,7 +89,7 @@ export function canAccessModule(role: Role, href: string): boolean {
  * Check if a role can edit (vs view-only) in a module.
  */
 export function canEditModule(role: Role, href: string): boolean {
-  const matchedModule = MODULE_ACCESS.find(m => href.startsWith(m.href))
+  const matchedModule = matchModule(href)
   if (!matchedModule) return true
   if (!matchedModule.canEdit) return matchedModule.roles.includes(role) // if no canEdit, all viewers can edit
   return matchedModule.canEdit.includes(role)

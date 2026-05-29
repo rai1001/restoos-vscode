@@ -31,7 +31,12 @@ import {
 import { cn } from "@/lib/utils"
 import { DemoBanner } from "@/components/demo-banner"
 
-// ── Mock pilot restaurants ──────────────────────────────────────────────────
+// ── Demo pilot restaurants ──────────────────────────────────────────────────
+// RO-APPSEC-PII-001: this page is a client component, so anything here is
+// shipped in the public JS bundle. DO NOT put real owner names, phone
+// numbers, emails, or internal notes in this file — use fictional
+// placeholders (555-xxx phones, generic names). Real pilot data must be
+// fetched from the server with RBAC gating, never hardcoded.
 interface PilotRestaurant {
   id: string
   name: string
@@ -53,58 +58,58 @@ interface PilotRestaurant {
 const MOCK_PILOTS: PilotRestaurant[] = [
   {
     id: "p1",
-    name: "Culuca Cociña-Bar",
-    owner: "Chisco Jiménez",
-    phone: "+34 600 123 456",
+    name: "Restaurante Demo 1",
+    owner: "Propietario Ejemplo",
+    phone: "+34 900 000 001",
     status: "active",
     startDate: "2026-04-01",
     completionPct: 85,
     steps: { restaurant: true, menu: true, suppliers: true, appcc: true, firstOrder: false },
-    notes: "Contacto directo. 3 restaurantes en el grupo. Potencial upsell AutoChef.",
+    notes: "Datos ficticios de demostración.",
   },
   {
     id: "p2",
-    name: "O Filandón",
-    owner: "Marcos Rodríguez",
-    phone: "+34 600 234 567",
+    name: "Restaurante Demo 2",
+    owner: "Propietario Ejemplo",
+    phone: "+34 900 000 002",
     status: "onboarding",
     startDate: "2026-04-05",
     completionPct: 40,
     steps: { restaurant: true, menu: "pending_review", suppliers: false, appcc: false, firstOrder: false },
-    notes: "Carta subida por foto, pendiente validar platos. Cocina gallega tradicional.",
+    notes: "Datos ficticios de demostración.",
   },
   {
     id: "p3",
-    name: "La Penela",
-    owner: "Sandra Costa",
-    phone: "+34 600 345 678",
+    name: "Restaurante Demo 3",
+    owner: "Propietario Ejemplo",
+    phone: "+34 900 000 003",
     status: "onboarding",
     startDate: "2026-04-08",
     completionPct: 20,
     steps: { restaurant: true, menu: false, suppliers: false, appcc: false, firstOrder: false },
-    notes: "Solo completó datos básicos. Llamar para seguimiento.",
+    notes: "Datos ficticios de demostración.",
   },
   {
     id: "p4",
-    name: "Taberna do Ensanche",
-    owner: "Pablo Vázquez",
-    phone: "+34 600 456 789",
+    name: "Restaurante Demo 4",
+    owner: "Propietario Ejemplo",
+    phone: "+34 900 000 004",
     status: "active",
     startDate: "2026-04-03",
     completionPct: 95,
     steps: { restaurant: true, menu: true, suppliers: true, appcc: true, firstOrder: true },
-    notes: "Primer restaurante con pedido real enviado. Todo OK.",
+    notes: "Datos ficticios de demostración.",
   },
   {
     id: "p5",
-    name: "Mesón do Porto",
-    owner: "Ana Rivas",
-    phone: "+34 600 567 890",
+    name: "Restaurante Demo 5",
+    owner: "Propietario Ejemplo",
+    phone: "+34 900 000 005",
     status: "onboarding",
     startDate: "2026-04-10",
     completionPct: 55,
     steps: { restaurant: true, menu: true, suppliers: "pending_review", appcc: false, firstOrder: false },
-    notes: "Albaranes subidos, pendiente revisar productos y precios duplicados.",
+    notes: "Datos ficticios de demostración.",
   },
 ]
 

@@ -57,12 +57,29 @@ export function getAllPosts(): PostMeta[] {
   );
 }
 
+// RO-APPSEC-BLOG-001: Only accept slugs matching a safe pattern. Any slug
+// containing path separators, traversal sequences, or unexpected characters
+// is rejected before touching the filesystem. Additionally, the resolved
+// path is verified to stay inside POSTS_DIR (containment check).
+const SAFE_SLUG = /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i;
+
 export function getPostBySlug(slug: string): Post | null {
   ensurePostsDir();
-  const filePath = path.join(POSTS_DIR, `${slug}.mdx`);
-  if (!fs.existsSync(filePath)) return null;
 
-  const raw = fs.readFileSync(filePath, "utf-8");
+  if (typeof slug !== "string" || !SAFE_SLUG.test(slug) || slug.length > 100) {
+    return null;
+  }
+
+  const filePath = path.join(POSTS_DIR, `${slug}.mdx`);
+  const resolved = path.resolve(filePath);
+  const baseResolved = path.resolve(POSTS_DIR);
+  if (!resolved.startsWith(baseResolved + path.sep)) {
+    return null;
+  }
+
+  if (!fs.existsSync(resolved)) return null;
+
+  const raw = fs.readFileSync(resolved, "utf-8");
   const { data, content } = matter(raw);
   const stats = readingTime(content);
 
